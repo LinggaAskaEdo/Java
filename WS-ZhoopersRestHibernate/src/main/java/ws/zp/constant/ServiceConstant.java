@@ -22,4 +22,6 @@ public class ServiceConstant
 	
 	//Zhoopers Service
 	public static final String LOAD_PROVINCE = "loadProvince.do";
+	public static final String LOAD_CITY = "loadCity.do";
+	public static final String LOAD_DISTRICT = "loadDistrict.do";
 }

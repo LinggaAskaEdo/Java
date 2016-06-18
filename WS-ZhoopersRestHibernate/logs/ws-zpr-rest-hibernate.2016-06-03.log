@@ -1,0 +1,18 @@
+18:48:09.250 [main] INFO  ws.zp.Application:48 - Starting Application on edo-Java with PID 18976 (/home/edo/Documents/Exercise2/WS-ZhoopersRestHibernate/build/classes/main started by edo in /home/edo/Documents/Exercise2/WS-ZhoopersRestHibernate)
+18:48:09.253 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+18:48:09.253 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+18:48:15.731 [main] INFO  ws.zp.Application:57 - Started Application in 6.888 seconds (JVM running for 7.301)
+18:49:12.032 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:72 - checkLogin()
+18:49:12.207 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:87 - user: [User [users_id=1, username=aska, password=z+H3QX2tvh2k5WZRSfMYRw==]]
+18:49:12.249 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:97 - User Still Login !!!
+18:49:27.231 [http-nio-8080-exec-2] INFO  w.z.c.ZhoopersRestController:72 - checkLogin()
+18:49:27.243 [http-nio-8080-exec-2] INFO  w.z.c.ZhoopersRestController:87 - user: [User [users_id=1, username=aska, password=z+H3QX2tvh2k5WZRSfMYRw==]]
+18:50:26.042 [http-nio-8080-exec-3] INFO  w.z.c.ZhoopersRestController:72 - checkLogin()
+18:50:26.052 [http-nio-8080-exec-3] INFO  w.z.c.ZhoopersRestController:87 - user: [User [users_id=1, username=aska, password=z+H3QX2tvh2k5WZRSfMYRw==]]
+18:51:28.787 [main] INFO  ws.zp.Application:48 - Starting Application on edo-Java with PID 19141 (/home/edo/Documents/Exercise2/WS-ZhoopersRestHibernate/build/classes/main started by edo in /home/edo/Documents/Exercise2/WS-ZhoopersRestHibernate)
+18:51:28.791 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+18:51:28.792 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+18:51:34.650 [main] INFO  ws.zp.Application:57 - Started Application in 6.164 seconds (JVM running for 6.592)
+18:51:48.363 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:72 - checkLogin()
+18:51:48.567 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:87 - user: [User [users_id=1, username=aska, password=z+H3QX2tvh2k5WZRSfMYRw==]]
+18:51:48.597 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:119 - userResult.size: 1

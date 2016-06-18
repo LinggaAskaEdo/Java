@@ -1,0 +1,162 @@
+06:39:45.726 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 7748 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+06:39:45.728 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+06:39:45.729 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+06:41:20.680 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 6636 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+06:41:20.683 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+06:41:20.683 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+06:42:22.701 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 8012 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+06:42:22.704 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+06:42:22.704 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+06:42:27.947 [main] INFO  ws.zp.Application:57 - Started Application in 5.473 seconds (JVM running for 5.928)
+06:43:02.557 [http-nio-8080-exec-2] INFO  w.z.c.ZhoopersRestController:72 - checkLogin()
+06:43:02.772 [http-nio-8080-exec-2] ERROR w.z.c.ZhoopersRestController:132 - Error checkLogin(): org.springframework.dao.InvalidDataAccessResourceUsageException: could not extract ResultSet; SQL [n/a]; nested exception is org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+06:46:13.504 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 7864 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+06:46:13.507 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+06:46:13.508 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+06:46:18.809 [main] INFO  ws.zp.Application:57 - Started Application in 5.622 seconds (JVM running for 6.233)
+06:46:23.981 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:72 - checkLogin()
+06:46:24.185 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:88 - user: [User [users_id=1, username=Aska, password=cool]]
+06:46:24.196 [http-nio-8080-exec-1] ERROR w.z.c.ZhoopersRestController:132 - Error checkLogin(): org.jasypt.exceptions.EncryptionOperationNotPossibleException
+06:53:15.280 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 4216 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+06:53:15.283 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+06:53:15.283 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+06:53:19.894 [main] INFO  ws.zp.Application:57 - Started Application in 4.845 seconds (JVM running for 5.322)
+06:53:27.349 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:72 - checkLogin()
+06:53:27.541 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:88 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==]]
+06:53:27.589 [http-nio-8080-exec-1] ERROR w.z.c.ZhoopersRestController:132 - Error checkLogin(): org.springframework.dao.InvalidDataAccessResourceUsageException: could not extract ResultSet; SQL [n/a]; nested exception is org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+06:55:11.142 [http-nio-8080-exec-2] INFO  w.z.c.ZhoopersRestController:72 - checkLogin()
+06:55:11.154 [http-nio-8080-exec-2] INFO  w.z.c.ZhoopersRestController:88 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==]]
+06:55:11.229 [http-nio-8080-exec-2] ERROR w.z.c.ZhoopersRestController:132 - Error checkLogin(): org.springframework.orm.hibernate4.HibernateJdbcException: JDBC exception on Hibernate data access: SQLException for SQL [n/a]; SQL state [HY000]; error code [1364]; could not execute statement; nested exception is org.hibernate.exception.GenericJDBCException: could not execute statement
+06:56:55.622 [http-nio-8080-exec-3] INFO  w.z.c.ZhoopersRestController:72 - checkLogin()
+06:56:55.636 [http-nio-8080-exec-3] INFO  w.z.c.ZhoopersRestController:88 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==]]
+06:56:55.812 [http-nio-8080-exec-3] INFO  w.z.c.ZhoopersRestController:112 - userLog: UserLog [users_log_id=1, users_id=1, token=4cd9-48c, expired=false]
+07:01:15.385 [http-nio-8080-exec-4] INFO  w.z.c.ZhoopersRestController:72 - checkLogin()
+07:01:15.400 [http-nio-8080-exec-4] INFO  w.z.c.ZhoopersRestController:88 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==]]
+07:01:15.418 [http-nio-8080-exec-4] INFO  w.z.c.ZhoopersRestController:98 - User Still Login !!!
+07:01:23.917 [http-nio-8080-exec-5] INFO  w.z.c.ZhoopersRestController:72 - checkLogin()
+07:01:23.925 [http-nio-8080-exec-5] INFO  w.z.c.ZhoopersRestController:88 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==]]
+07:01:23.931 [http-nio-8080-exec-5] INFO  w.z.c.ZhoopersRestController:124 - userResult.size: 1
+08:25:20.693 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 4104 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+08:25:20.749 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+08:25:20.749 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+08:25:26.846 [main] INFO  ws.zp.Application:57 - Started Application in 6.46 seconds (JVM running for 7.093)
+08:26:15.858 [http-nio-8080-exec-2] INFO  w.z.c.ZhoopersRestController:73 - checkLogin()
+08:26:16.088 [http-nio-8080-exec-2] INFO  w.z.c.ZhoopersRestController:89 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==]]
+08:26:16.144 [http-nio-8080-exec-2] ERROR w.z.c.ZhoopersRestController:134 - Error checkLogin(): org.springframework.dao.InvalidDataAccessResourceUsageException: could not extract ResultSet; SQL [n/a]; nested exception is org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+08:28:20.394 [http-nio-8080-exec-3] INFO  w.z.c.ZhoopersRestController:73 - checkLogin()
+08:28:20.408 [http-nio-8080-exec-3] INFO  w.z.c.ZhoopersRestController:89 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==]]
+08:28:20.705 [http-nio-8080-exec-3] INFO  w.z.c.ZhoopersRestController:114 - userLog: UserLog [users_log_id=1, users_id=1, token=96c2-4dd, expired=false, last_attempt=Sat Jun 04 08:28:20 ICT 2016]
+08:28:36.456 [http-nio-8080-exec-4] INFO  w.z.c.ZhoopersRestController:73 - checkLogin()
+08:28:36.468 [http-nio-8080-exec-4] INFO  w.z.c.ZhoopersRestController:89 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==]]
+08:28:36.492 [http-nio-8080-exec-4] INFO  w.z.c.ZhoopersRestController:99 - User Still Login !!!
+08:28:37.889 [http-nio-8080-exec-5] INFO  w.z.c.ZhoopersRestController:73 - checkLogin()
+08:28:37.898 [http-nio-8080-exec-5] INFO  w.z.c.ZhoopersRestController:89 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==]]
+08:28:37.913 [http-nio-8080-exec-5] INFO  w.z.c.ZhoopersRestController:99 - User Still Login !!!
+08:28:38.714 [http-nio-8080-exec-6] INFO  w.z.c.ZhoopersRestController:73 - checkLogin()
+08:28:38.725 [http-nio-8080-exec-6] INFO  w.z.c.ZhoopersRestController:89 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==]]
+08:28:38.741 [http-nio-8080-exec-6] INFO  w.z.c.ZhoopersRestController:99 - User Still Login !!!
+08:31:47.336 [http-nio-8080-exec-7] INFO  w.z.c.ZhoopersRestController:73 - checkLogin()
+08:31:47.346 [http-nio-8080-exec-7] INFO  w.z.c.ZhoopersRestController:89 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==]]
+08:31:47.497 [http-nio-8080-exec-7] INFO  w.z.c.ZhoopersRestController:114 - userLog: UserLog [users_log_id=2, users_id=1, token=c7c1-45d, expired=false, last_attempt=Sat Jun 04 08:31:47 ICT 2016]
+09:43:04.024 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 10840 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+09:43:04.028 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+09:43:04.028 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+09:43:09.256 [main] INFO  ws.zp.Application:57 - Started Application in 5.476 seconds (JVM running for 5.97)
+09:43:41.345 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:73 - checkLogin()
+09:43:41.613 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:89 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==]]
+09:43:41.768 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:114 - userLog: UserLog [users_log_id=1, users_id=1, token=fce5-41c, expired=false, last_attempt=Sat Jun 04 09:43:41 ICT 2016]
+09:44:15.739 [http-nio-8080-exec-2] INFO  w.z.c.ZhoopersRestController:73 - checkLogin()
+09:44:15.751 [http-nio-8080-exec-2] INFO  w.z.c.ZhoopersRestController:89 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==]]
+09:44:15.769 [http-nio-8080-exec-2] INFO  w.z.c.ZhoopersRestController:99 - User Still Login !!!
+09:44:51.042 [http-nio-8080-exec-3] INFO  w.z.c.ZhoopersRestController:73 - checkLogin()
+09:44:51.051 [http-nio-8080-exec-3] INFO  w.z.c.ZhoopersRestController:89 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==]]
+09:44:51.058 [http-nio-8080-exec-3] INFO  w.z.c.ZhoopersRestController:126 - userResult.size: 1
+09:46:17.915 [http-nio-8080-exec-4] INFO  w.z.c.ZhoopersRestController:73 - checkLogin()
+09:46:17.929 [http-nio-8080-exec-4] INFO  w.z.c.ZhoopersRestController:89 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==]]
+09:46:17.951 [http-nio-8080-exec-4] INFO  w.z.c.ZhoopersRestController:99 - User Still Login !!!
+09:47:06.461 [http-nio-8080-exec-5] INFO  w.z.c.ZhoopersRestController:73 - checkLogin()
+09:47:06.470 [http-nio-8080-exec-5] INFO  w.z.c.ZhoopersRestController:89 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==]]
+09:47:06.605 [http-nio-8080-exec-5] INFO  w.z.c.ZhoopersRestController:114 - userLog: UserLog [users_log_id=2, users_id=1, token=fa57-473, expired=false, last_attempt=Sat Jun 04 09:47:06 ICT 2016]
+16:15:12.784 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 10908 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+16:15:12.786 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+16:15:12.787 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+16:15:18.665 [main] INFO  ws.zp.Application:57 - Started Application in 6.195 seconds (JVM running for 6.908)
+16:20:01.925 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 424 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+16:20:01.928 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+16:20:01.928 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+16:20:06.787 [main] INFO  ws.zp.Application:57 - Started Application in 5.104 seconds (JVM running for 5.622)
+16:23:28.831 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 11924 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+16:23:28.834 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+16:23:28.834 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+16:23:33.694 [main] INFO  ws.zp.Application:57 - Started Application in 5.113 seconds (JVM running for 5.647)
+16:32:11.218 [http-nio-8080-exec-7] INFO  w.z.c.ZhoopersRestController:45 - listAllUser()
+16:32:11.405 [http-nio-8080-exec-7] ERROR w.z.c.ZhoopersRestController:62 - Error allUser(): org.springframework.dao.InvalidDataAccessResourceUsageException: could not extract ResultSet; SQL [n/a]; nested exception is org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+16:35:15.266 [http-nio-8080-exec-8] INFO  w.z.c.ZhoopersRestController:45 - listAllUser()
+16:35:15.305 [http-nio-8080-exec-8] DEBUG w.z.c.ZhoopersRestController:52 - userList size: 2
+16:38:11.458 [http-nio-8080-exec-10] INFO  w.z.c.ZhoopersRestController:45 - listAllUser()
+16:38:11.471 [http-nio-8080-exec-10] DEBUG w.z.c.ZhoopersRestController:52 - userList size: 2
+16:39:17.818 [http-nio-8080-exec-2] INFO  w.z.c.ZhoopersRestController:74 - checkLogin()
+16:39:17.839 [http-nio-8080-exec-2] INFO  w.z.c.ZhoopersRestController:90 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==, full_name=aska pratama, phone_number=085715025257]]
+16:39:17.911 [http-nio-8080-exec-2] INFO  w.z.c.ZhoopersRestController:100 - User Still Login !!!
+16:44:27.153 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 4928 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+16:44:27.156 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+16:44:27.156 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+16:44:31.829 [main] INFO  ws.zp.Application:57 - Started Application in 4.913 seconds (JVM running for 5.381)
+16:48:47.908 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 7864 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+16:48:47.910 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+16:48:47.911 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+16:48:52.751 [main] INFO  ws.zp.Application:57 - Started Application in 5.079 seconds (JVM running for 5.549)
+16:49:08.992 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:148 - checkLogout()
+16:49:09.206 [http-nio-8080-exec-1] ERROR w.z.c.ZhoopersRestController:199 - Error checkLogin(): java.lang.NullPointerException
+16:51:45.928 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 11448 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+16:51:45.931 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+16:51:45.931 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+16:51:50.831 [main] INFO  ws.zp.Application:57 - Started Application in 5.142 seconds (JVM running for 5.607)
+16:51:56.936 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:148 - checkLogout()
+16:51:57.135 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:165 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==, full_name=aska pratama, phone_number=085715025257]]
+16:51:57.177 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:170 - userLog: [UserLog [users_log_id=3, users_id=1, token=6e88-4da, expired=false, last_attempt=2016-06-04 11:10:54.0]]
+16:51:57.275 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:183 - Logout success !!!
+19:59:18.485 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 10620 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+19:59:18.489 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+19:59:18.489 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+19:59:25.151 [main] INFO  ws.zp.Application:57 - Started Application in 7.008 seconds (JVM running for 8.015)
+19:59:41.747 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:150 - checkLogout()
+19:59:41.986 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:167 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==, full_name=aska pratama, phone_number=085715025257, company_name=Maju Mundur, company_address=Bandung, company_phone_number=085715025257, billing_address=Bandung, shipping_address=Bandung]]
+19:59:42.001 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:172 - userLog: []
+19:59:42.002 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:197 - userResult.size: 1
+20:03:40.693 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 2712 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+20:03:40.696 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+20:03:40.696 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+20:03:45.660 [main] INFO  ws.zp.Application:57 - Started Application in 5.197 seconds (JVM running for 5.726)
+20:03:55.854 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:150 - checkLogout()
+20:03:56.101 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:166 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==, full_name=aska pratama, phone_number=085715025257, company_name=Maju Mundur, company_address=Bandung, company_phone_number=085715025257, billing_address=Bandung, shipping_address=Bandung]]
+20:03:56.120 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:171 - userLog: []
+20:03:56.121 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:196 - userResult.size: 1
+20:08:36.310 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 7556 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+20:08:36.313 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+20:08:36.313 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+20:08:41.227 [main] INFO  ws.zp.Application:57 - Started Application in 5.147 seconds (JVM running for 5.634)
+20:08:46.575 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:150 - checkLogout()
+20:08:46.808 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:166 - user: [User [users_id=1, username=aska, password=yMaDY+y1pBjUQWLVdFomFw==, full_name=aska pratama, phone_number=085715025257, company_name=Maju Mundur, company_address=Bandung, company_phone_number=085715025257, billing_address=Bandung, shipping_address=Bandung]]
+20:08:46.823 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:171 - userLog: []
+20:08:46.824 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:204 - userResult.size: 1
+20:09:07.733 [http-nio-8080-exec-2] INFO  w.z.c.ZhoopersRestController:150 - checkLogout()
+20:09:07.733 [http-nio-8080-exec-2] INFO  w.z.c.ZhoopersRestController:194 - Invalid format request !!!
+20:54:56.951 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 8944 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+20:54:56.954 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+20:54:56.954 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+20:55:01.912 [main] INFO  ws.zp.Application:57 - Started Application in 5.202 seconds (JVM running for 5.659)
+20:55:06.816 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:228 - register()
+20:55:07.047 [http-nio-8080-exec-1] ERROR w.z.c.ZhoopersRestController:253 - Error checkLogin(): java.lang.ClassCastException: java.lang.Long cannot be cast to java.lang.Integer
+20:59:21.150 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 5436 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+20:59:21.152 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+20:59:21.153 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+20:59:26.069 [main] INFO  ws.zp.Application:57 - Started Application in 5.171 seconds (JVM running for 5.654)
+20:59:29.672 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:228 - register()
+20:59:29.899 [http-nio-8080-exec-1] ERROR w.z.c.ZhoopersRestController:262 - Error checkLogin(): java.lang.ClassCastException: java.lang.Long cannot be cast to java.lang.Integer
+21:03:27.026 [main] INFO  ws.zp.Application:48 - Starting Application on Lingga with PID 8916 (started by Lingga Aska Edo in D:\Documents\Lingga\Exercise\Eclipse Mars\WS-ZhoopersRestHibernate)
+21:03:27.029 [main] DEBUG ws.zp.Application:51 - Running with Spring Boot v1.3.5.RELEASE, Spring v4.2.6.RELEASE
+21:03:27.030 [main] INFO  ws.zp.Application:666 - No active profile set, falling back to default profiles: default
+21:03:31.920 [main] INFO  ws.zp.Application:57 - Started Application in 5.132 seconds (JVM running for 5.686)
+21:03:36.055 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:219 - register()
+21:03:36.218 [http-nio-8080-exec-1] INFO  w.z.c.ZhoopersRestController:237 - Register Success, user: User [users_id=null, username=reno, password=password, full_name=reno, phone_number=reno, company_name=reno, company_address=reno, company_phone_number=reno, billing_address=reno, shipping_address=reno]

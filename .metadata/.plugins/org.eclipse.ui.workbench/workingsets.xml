@@ -3,8 +3,6 @@
 <workingSet editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1466283884408_2" label="SampleJava" name="SampleJava">
 <item elementID="=HelloWorld" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 </workingSet>
-<workingSet editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1466283901246_3" label="ProjectJava" name="ProjectJava">
-<item elementID="=WS-ZhoopersRestHibernate" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
-</workingSet>
+<workingSet editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1466283901246_3" label="ProjectJava" name="ProjectJava"/>
 <workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1466282811763_0" label="Window Working Set" name="Aggregate for window 1466282811762"/>
 </workingSetManager>

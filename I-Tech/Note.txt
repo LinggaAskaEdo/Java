@@ -1,0 +1,5 @@
+jarak soal jika 2 paragraf = 21
+jarak soal dengan jawaban = 21
+jarak antar soal (dari jawaban paling bawah ke soal baru) = 41
+jarak kiri kanan jawaban = 253
+jarak atas bawah jawaban = 21

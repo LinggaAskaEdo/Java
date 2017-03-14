@@ -1,0 +1,22 @@
+program studi
+foto
+nama lengkap
+nama panggilan
+tempat lahir
+tanggal lahir
+agama
+jenis kelamin
+alamat tinggal
+nomor telepon
+nomor handphone
+email
+status pernikahan
+pekerjaan
+nama bapak
+pekerjaan bapak
+nama ibu
+pekerjaan ibu
+penghasilan
+sumberbiaya
+
+Rekomendasi dari teman/keluarga/seseorang yang berkecimpung dibidang komputer

@@ -1,0 +1,10 @@
+http://www.codeexperts.com/showthread.php?1039-Encrypting-files-using-4-different-encryption-methods
+https://www.schneier.com/code/blowfish.cs
+http://converter.telerik.com/
+
+http://www.java4s.com/struts-tutorials/struts2-insertupdatedeleteoperations-through-jdbc-real-time-application/
+http://tutorials4u.net/struts2-tutorial/struts2_crud_example.html
+http://stackoverflow.com/questions/3024186/java-how-for-loop-work-in-the-case-of-biginteger
+
+http://www.javaworld.com/article/2074594/java-security/reports-made-easy-with-jasperreports.html
+http://www.plaatsoft.nl/jasperreports-basic-example/

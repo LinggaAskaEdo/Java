@@ -13,6 +13,10 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 
 public class DetailProduksi extends JInternalFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField textField;
 	private JTextField textField_1;
@@ -148,6 +152,7 @@ public class DetailProduksi extends JInternalFrame {
 		desktopPane.add(textField_4);
 		textField_4.setColumns(10);
 		
+		@SuppressWarnings("rawtypes")
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(194, 289, 162, 24);
 		desktopPane.add(comboBox);

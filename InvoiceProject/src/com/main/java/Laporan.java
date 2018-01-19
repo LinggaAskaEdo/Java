@@ -11,6 +11,10 @@ import javax.swing.JButton;
 import javax.swing.JRadioButton;
 
 public class Laporan extends JInternalFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 
 	/**
@@ -46,6 +50,7 @@ public class Laporan extends JInternalFrame {
 		lblPoNomor.setBounds(45, 28, 91, 15);
 		desktopPane.add(lblPoNomor);
 		
+		@SuppressWarnings("rawtypes")
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(130, 23, 370, 24);
 		desktopPane.add(comboBox);

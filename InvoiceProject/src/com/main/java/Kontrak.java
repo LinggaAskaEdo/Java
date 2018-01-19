@@ -15,15 +15,29 @@ import javax.swing.JTextField;
 import de.wannawork.jcalendar.JCalendarComboBox;
 
 public class Kontrak extends JInternalFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_NamaPerusahaan;
+	
+	@SuppressWarnings("unused")
 	private JTextField TF_AlamatPerusahaan;
 	private JTextField textField_2;
 	private JTextField TF_Project;
 	private JTextField TF_NilaiKontrak;
+	
+	@SuppressWarnings("unused")
 	private JTextField TF_BayarMedia;
+	
+	@SuppressWarnings("unused")
 	private JTextField TF_Cashback;
+	
+	@SuppressWarnings("unused")
 	private JTextField TF_Entertain;
+	
+	@SuppressWarnings("unused")
 	private JTextField TF_Margin;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -189,6 +203,7 @@ public class Kontrak extends JInternalFrame {
 		label_8.setBounds(365, 403, 19, 15);
 		desktopPane.add(label_8);*/
 		
+		@SuppressWarnings("rawtypes")
 		JComboBox CB_KodePerusahaan = new JComboBox();
 		CB_KodePerusahaan.setBounds(194, 55, 212, 24);
 		desktopPane.add(CB_KodePerusahaan);
@@ -217,6 +232,7 @@ public class Kontrak extends JInternalFrame {
 		desktopPane.add(TF_Project);
 		TF_Project.setColumns(10);
 		
+		@SuppressWarnings("rawtypes")
 		JComboBox CB_Pekerjaan = new JComboBox();
 		CB_Pekerjaan.setBounds(194, 218, 212, 24);
 		desktopPane.add(CB_Pekerjaan);

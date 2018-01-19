@@ -1,24 +1,28 @@
 package com.main.java;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextArea;
-import javax.swing.BorderFactory;
-import java.awt.Color;
+import javax.swing.JTextField;
+
 import de.wannawork.jcalendar.JCalendarComboBox;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 
 public class CostOperasional extends JInternalFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
+	
+	@SuppressWarnings("unused")
 	private JTable table;
 	private JTextField textField_1;
 
@@ -26,22 +30,20 @@ public class CostOperasional extends JInternalFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CostOperasional frame = new CostOperasional();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		EventQueue.invokeLater(() -> {
+            try {
+                CostOperasional frame = new CostOperasional();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public CostOperasional() {
+	CostOperasional() {
 		setClosable(true);
 		setTitle("Cost Operasional");
 		//setBounds(100, 100, 630, 428);
@@ -114,6 +116,7 @@ public class CostOperasional extends JInternalFrame {
 		button_2.setBounds(383, 190, 117, 25);
 		desktopPane.add(button_2);
 		
+		@SuppressWarnings("rawtypes")
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(216, 23, 205, 24);
 		desktopPane.add(comboBox);

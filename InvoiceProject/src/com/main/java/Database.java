@@ -3,8 +3,6 @@ package com.main.java;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-import javax.swing.JOptionPane;
-
 public class Database {
 
 	public Properties myPanel;

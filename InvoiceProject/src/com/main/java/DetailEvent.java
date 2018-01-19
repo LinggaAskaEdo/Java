@@ -2,17 +2,20 @@ package com.main.java;
 
 import java.awt.EventQueue;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
 import javax.swing.JRadioButton;
-import javax.swing.JButton;
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
 
 public class DetailEvent extends JInternalFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField textField;
 	private JTextField textField_1;
@@ -69,6 +72,7 @@ public class DetailEvent extends JInternalFrame {
 		lblTotal.setBounds(45, 186, 110, 15);
 		desktopPane.add(lblTotal);
 		
+		@SuppressWarnings("rawtypes")
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(164, 23, 221, 24);
 		desktopPane.add(comboBox);

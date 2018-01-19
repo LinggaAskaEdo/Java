@@ -1,19 +1,20 @@
 package com.main.java;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JDesktopPane;
-import javax.swing.JLabel;
 
 public class ConnectionCheck extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	public Database Dbsetting;
 	public String Driver;

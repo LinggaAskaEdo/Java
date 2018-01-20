@@ -22,6 +22,7 @@ public class TagihanMedia extends JInternalFrame {
 	private JTextField textField_1;
 	private JTable table;
 	private JTextField textField_2;
+	private JTextField textField_3;
 
 	/**
 	 * Launch the application.
@@ -46,7 +47,7 @@ public class TagihanMedia extends JInternalFrame {
 		setClosable(true);
 		setTitle("Tagihan Media");
 		//setBounds(100, 100, 630, 428);
-		setBounds(100, 100, 509, 288);
+		setBounds(100, 100, 560, 289);
 		getContentPane().setLayout(null);
 		
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -112,7 +113,7 @@ public class TagihanMedia extends JInternalFrame {
 		desktopPane.add(scrollPane);*/
 		
 		JButton button = new JButton("Simpan");
-		button.setBounds(208, 199, 117, 25);
+		button.setBounds(272, 199, 117, 25);
 		desktopPane.add(button);
 		
 		/*JButton button_1 = new JButton("Hapus");
@@ -120,13 +121,22 @@ public class TagihanMedia extends JInternalFrame {
 		desktopPane.add(button_1);*/
 		
 		JButton button_2 = new JButton("Batal");
-		button_2.setBounds(337, 199, 117, 25);
+		button_2.setBounds(401, 199, 117, 25);
 		desktopPane.add(button_2);
 		
 		textField_2 = new JTextField();
 		textField_2.setBounds(216, 26, 238, 19);
 		desktopPane.add(textField_2);
 		textField_2.setColumns(10);
+		
+		JButton button_1 = new JButton("Upload");
+		button_1.setBounds(135, 199, 84, 25);
+		desktopPane.add(button_1);
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		textField_3.setBounds(45, 202, 90, 19);
+		desktopPane.add(textField_3);
 
 	}
 }

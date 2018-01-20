@@ -1,24 +1,26 @@
 package com.main.java;
 
-import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.JCheckBox;
 
 public class Akun extends JInternalFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField textField;
@@ -93,12 +95,12 @@ public class Akun extends JInternalFrame {
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}},
 			new String[] {
-				"Nama", "Nama Pengguna", "Password"
+				"Nama", "Nama Pengguna", "Password", "Role"
 			}
 		));
 		table.setBounds(46, 154, 532, 150);
@@ -120,6 +122,10 @@ public class Akun extends JInternalFrame {
 		JButton btnHapus = new JButton("Hapus");
 		btnHapus.setBounds(172, 266, 117, 25);
 		desktopPane.add(btnHapus);
+		
+		JCheckBox chckbxAdmin = new JCheckBox("Admin");
+		chckbxAdmin.setBounds(451, 39, 129, 23);
+		desktopPane.add(chckbxAdmin);
 
 	}
 }

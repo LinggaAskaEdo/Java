@@ -27,6 +27,7 @@ public class POProduksi extends JInternalFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
+private JTextField textField_3;
 	
 	/**
 	 * Launch the application.
@@ -155,8 +156,13 @@ public class POProduksi extends JInternalFrame {
 		textArea.setBounds(197, 311, 284, 53);
 		desktopPane.add(textArea);
 		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		textField_3.setBounds(45, 389, 90, 19);
+		desktopPane.add(textField_3);
+		
 		JButton button_2 = new JButton("Upload");
-		button_2.setBounds(45, 386, 117, 25);
+		button_2.setBounds(135, 386, 84, 25);
 		desktopPane.add(button_2);
 		
 		/*table = new JTable();

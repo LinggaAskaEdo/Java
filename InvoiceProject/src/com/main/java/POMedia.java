@@ -32,6 +32,7 @@ public class POMedia extends JInternalFrame {
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private JTextField textField_6;
+	private JTextField textField_7;
 
 	/**
 	 * Launch the application.
@@ -55,8 +56,8 @@ public class POMedia extends JInternalFrame {
 	public POMedia() {
 		setClosable(true);
 		setTitle("PO. Media");
-		//setBounds(100, 100, 630, 551);
-		setBounds(100, 100, 580, 463);
+		setBounds(100, 100, 630, 551);
+		//setBounds(100, 100, 580, 463);
 		getContentPane().setLayout(null);
 		
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -67,11 +68,11 @@ public class POMedia extends JInternalFrame {
 		desktopPane.add(lblPoNomor);
 		
 		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.setBounds(277, 386, 117, 25);
+		btnSimpan.setBounds(333, 482, 117, 25);
 		desktopPane.add(btnSimpan);
 		
 		JButton btnBatal = new JButton("Batal");
-		btnBatal.setBounds(406, 386, 117, 25);
+		btnBatal.setBounds(462, 482, 117, 25);
 		desktopPane.add(btnBatal);
 		
 		/*JButton btnHapus = new JButton("Hapus");
@@ -153,26 +154,27 @@ public class POMedia extends JInternalFrame {
 		desktopPane.add(textField_5);
 		textField_5.setColumns(10);
 		
-		/*table = new JTable();
+		table = new JTable();
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
 			},
 			new String[] {
-				"PO. Nomor", "Reff Kontrak", "Pekerjaan Kementerian", "Nama Media", "Tayang", "Ukuran", "Harga", "PPN", "Keterangan"
+				//"PO. Nomor", "Reff Kontrak", "Pekerjaan Kementerian", "Nama Media", "Tayang", "Ukuran", "Harga", "PPN", "Keterangan"
+				"Reff PO", "Invoice Media", "Tanggal", "Nilai Tagihan", "Reff Sumber Dana"
 			}
 		));
 		table.setBounds(46, 214, 532, 90);
 		//desktopPane.add(table);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(45, 373, 534, 90);
+		scrollPane.setBounds(45, 373, 495, 90);
 		scrollPane.setViewportView(table);
-		desktopPane.add(scrollPane);*/
+		desktopPane.add(scrollPane);
 		
 		JLabel lblReffKontrak = new JLabel("Reff Kontrak");
 		lblReffKontrak.setBounds(45, 59, 176, 15);
@@ -186,6 +188,23 @@ public class POMedia extends JInternalFrame {
 		JButton btnUpload = new JButton("Upload");
 		btnUpload.setBounds(45, 386, 117, 25);
 		desktopPane.add(btnUpload);
+		
+		textField_7 = new JTextField();
+		textField_7.setColumns(10);
+		textField_7.setBounds(47, 485, 90, 19);
+		desktopPane.add(textField_7);
+		
+		JButton button = new JButton("Upload");
+		button.setBounds(137, 482, 84, 25);
+		desktopPane.add(button);
+		
+		JButton button_1 = new JButton("+");
+		button_1.setBounds(552, 373, 49, 25);
+		desktopPane.add(button_1);
+		
+		JButton button_2 = new JButton("-");
+		button_2.setBounds(552, 406, 49, 25);
+		desktopPane.add(button_2);
 
 	}
 }

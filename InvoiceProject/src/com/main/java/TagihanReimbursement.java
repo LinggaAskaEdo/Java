@@ -21,6 +21,7 @@ public class TagihanReimbursement extends JInternalFrame {
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTable table;
 	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -126,6 +127,15 @@ public class TagihanReimbursement extends JInternalFrame {
 		textField.setBounds(246, 26, 202, 19);
 		desktopPane.add(textField);
 		textField.setColumns(10);
+		
+		JButton button_1 = new JButton("Upload");
+		button_1.setBounds(135, 262, 84, 25);
+		desktopPane.add(button_1);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(45, 265, 90, 19);
+		desktopPane.add(textField_1);
 
 	}
 }

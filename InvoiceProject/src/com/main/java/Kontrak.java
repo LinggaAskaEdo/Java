@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
@@ -308,5 +309,9 @@ public class Kontrak extends JInternalFrame {
 		textField_7.setBounds(438, 404, 148, 19);
 		desktopPane.add(textField_7);
 		textField_7.setColumns(10);
+		
+		JCheckBox chckbxPaid = new JCheckBox("Paid");
+		chckbxPaid.setBounds(485, 22, 101, 23);
+		desktopPane.add(chckbxPaid);
 	}
 }

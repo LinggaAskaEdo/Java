@@ -27,6 +27,7 @@ public class POEvent extends JInternalFrame {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
+	private JTextField textField_4;
 	
 	/**
 	 * Launch the application.
@@ -50,8 +51,8 @@ public class POEvent extends JInternalFrame {
 	public POEvent() {
 		setClosable(true);
 		setTitle("PO. Event");
-		//setBounds(100, 100, 630, 680);
-		setBounds(100, 100, 630, 588);
+		setBounds(100, 100, 630, 680);
+		//setBounds(100, 100, 630, 588);
 		getContentPane().setLayout(null);
 		
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -62,11 +63,11 @@ public class POEvent extends JInternalFrame {
 		desktopPane.add(lblPoNomor);
 		
 		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.setBounds(333, 506, 117, 25);
+		btnSimpan.setBounds(333, 611, 117, 25);
 		desktopPane.add(btnSimpan);
 		
 		JButton btnBatal = new JButton("Batal");
-		btnBatal.setBounds(462, 506, 117, 25);
+		btnBatal.setBounds(462, 611, 117, 25);
 		desktopPane.add(btnBatal);
 		
 		/*JButton btnHapus = new JButton("Hapus");
@@ -189,28 +190,42 @@ public class POEvent extends JInternalFrame {
 		desktopPane.add(textArea);
 		
 		JButton button_4 = new JButton("Upload");
-		button_4.setBounds(45, 506, 117, 25);
+		button_4.setBounds(135, 611, 84, 25);
 		desktopPane.add(button_4);
 		
-		/*table = new JTable();
+		table = new JTable();
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
 			},
 			new String[] {
-				"PO. Nomor", "REFF Kontrak", "Kegiatan", "Tanggal", "Jumlah", "Keterangan"
+				//"PO. Nomor", "REFF Kontrak", "Kegiatan", "Tanggal", "Jumlah", "Keterangan"
+				"Reff PO", "Catatan Reimburse", "Tanggal", "Reff Sumber Dana", "Keterangan"
 			}
 		));
 		table.setBounds(46, 214, 532, 90);
 		//desktopPane.add(table);
 
 		JScrollPane scrollPane2 = new JScrollPane();
-		scrollPane2.setBounds(45, 502, 532, 90);
+		scrollPane2.setBounds(45, 502, 495, 90);
 		scrollPane2.setViewportView(table);
-		desktopPane.add(scrollPane2);*/
+		desktopPane.add(scrollPane2);
+		
+		textField_4 = new JTextField();
+		textField_4.setBounds(45, 614, 90, 19);
+		desktopPane.add(textField_4);
+		textField_4.setColumns(10);
+		
+		JButton btnNewButton = new JButton("+");
+		btnNewButton.setBounds(549, 502, 49, 25);
+		desktopPane.add(btnNewButton);
+		
+		JButton button_5 = new JButton("-");
+		button_5.setBounds(549, 535, 49, 25);
+		desktopPane.add(button_5);
 	}
 }

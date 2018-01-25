@@ -1,0 +1,20 @@
+group 'Invoice'
+version '1.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-milestone" }
+}
+
+dependencies {
+    //MySql
+    compile("mysql:mysql-connector-java:5.1.40")
+
+    //JSch
+    compile("com.jcraft:jsch:0.1.54")
+}

@@ -17,11 +17,11 @@ public class DetailEventForm extends JInternalFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField TB_Detail;
+	private JTextField TF_Vol_1;
+	private JTextField TF_Vol_2;
+	private JTextField TF_HargaSatuan;
+	private JTextField TB_Total;
 
 	/**
 	 * Launch the application.
@@ -73,19 +73,19 @@ public class DetailEventForm extends JInternalFrame {
 		desktopPane.add(lblTotal);
 		
 		@SuppressWarnings("rawtypes")
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(164, 23, 221, 24);
-		desktopPane.add(comboBox);
+		JComboBox CB_Uraian = new JComboBox();
+		CB_Uraian.setBounds(164, 23, 221, 24);
+		desktopPane.add(CB_Uraian);
 		
-		textField = new JTextField();
-		textField.setBounds(164, 59, 221, 19);
-		desktopPane.add(textField);
-		textField.setColumns(10);
+		TB_Detail = new JTextField();
+		TB_Detail.setBounds(164, 59, 221, 19);
+		desktopPane.add(TB_Detail);
+		TB_Detail.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(164, 91, 57, 19);
-		desktopPane.add(textField_1);
-		textField_1.setColumns(10);
+		TF_Vol_1 = new JTextField();
+		TF_Vol_1.setBounds(164, 91, 57, 19);
+		desktopPane.add(TF_Vol_1);
+		TF_Vol_1.setColumns(10);
 		
 		JRadioButton rdbtnOrg = new JRadioButton("org");
 		rdbtnOrg.setBounds(229, 89, 49, 23);
@@ -111,10 +111,10 @@ public class DetailEventForm extends JInternalFrame {
 		rdbtnPkt.setBounds(510, 89, 57, 23);
 		desktopPane.add(rdbtnPkt);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(164, 122, 57, 19);
-		desktopPane.add(textField_2);
-		textField_2.setColumns(10);
+		TF_Vol_2 = new JTextField();
+		TF_Vol_2.setBounds(164, 122, 57, 19);
+		desktopPane.add(TF_Vol_2);
+		TF_Vol_2.setColumns(10);
 		
 		JRadioButton rdbtnOj = new JRadioButton("OJ");
 		rdbtnOj.setBounds(229, 120, 49, 23);
@@ -128,23 +128,19 @@ public class DetailEventForm extends JInternalFrame {
 		rdbtnKl_1.setBounds(335, 120, 43, 23);
 		desktopPane.add(rdbtnKl_1);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(164, 153, 221, 19);
-		desktopPane.add(textField_3);
-		textField_3.setColumns(10);
+		TF_HargaSatuan = new JTextField();
+		TF_HargaSatuan.setBounds(164, 153, 221, 19);
+		desktopPane.add(TF_HargaSatuan);
+		TF_HargaSatuan.setColumns(10);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(164, 184, 221, 19);
-		desktopPane.add(textField_4);
-		textField_4.setColumns(10);
+		TB_Total = new JTextField();
+		TB_Total.setBounds(164, 184, 221, 19);
+		desktopPane.add(TB_Total);
+		TB_Total.setColumns(10);
 		
-		JButton btnTambah = new JButton("Tambah");
-		btnTambah.setBounds(321, 219, 117, 25);
-		desktopPane.add(btnTambah);
-		
-		JButton btnBatal = new JButton("Batal");
-		btnBatal.setBounds(450, 219, 117, 25);
-		desktopPane.add(btnBatal);
+		JButton BT_Tambah = new JButton("Tambah");
+		BT_Tambah.setBounds(450, 220, 117, 25);
+		desktopPane.add(BT_Tambah);
 
 	}
 }

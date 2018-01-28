@@ -5,9 +5,11 @@ import java.awt.EventQueue;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -21,9 +23,9 @@ public class FundingForm extends JInternalFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField TF_Nama;
+	private JTextField TF_Nilai;
+	private JTextField TF_Unggah;
 	
 	@SuppressWarnings("unused")
 	private JTable table;
@@ -51,88 +53,79 @@ public class FundingForm extends JInternalFrame {
 		setClosable(true);
 		setTitle("FUNDING");
 		//setBounds(100, 100, 630, 428);
-		setBounds(100, 100, 530, 296);
+		setBounds(100, 100, 530, 353);
 		getContentPane().setLayout(null);
 		
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 		getContentPane().add(desktopPane);
 		
 		JLabel lblNamaPerusahaan = new JLabel("Nama/kontak");
-		lblNamaPerusahaan.setBounds(45, 28, 110, 15);
+		lblNamaPerusahaan.setBounds(39, 26, 110, 15);
 		desktopPane.add(lblNamaPerusahaan);
 		
-		JLabel lblTanggal = new JLabel("Reff Kontrak");
-		lblTanggal.setBounds(45, 55, 110, 15);
+		JLabel lblReff = new JLabel("Reff");
+		lblReff.setBounds(39, 53, 110, 15);
+		desktopPane.add(lblReff);
+		
+		JLabel lblTanggal = new JLabel("Tanggal");
+		lblTanggal.setBounds(39, 116, 70, 15);
 		desktopPane.add(lblTanggal);
 		
-		JLabel lblTanggal_1 = new JLabel("Tanggal");
-		lblTanggal_1.setBounds(45, 82, 70, 15);
-		desktopPane.add(lblTanggal_1);
-		
 		JLabel lblNilai = new JLabel("Nilai");
-		lblNilai.setBounds(45, 116, 70, 15);
+		lblNilai.setBounds(39, 150, 70, 15);
 		desktopPane.add(lblNilai);
 		
 		JLabel lblKeterangan = new JLabel("Keterangan");
-		lblKeterangan.setBounds(45, 143, 110, 15);
+		lblKeterangan.setBounds(39, 177, 110, 15);
 		desktopPane.add(lblKeterangan);
 		
-		textField = new JTextField();
-		textField.setBounds(173, 26, 294, 19);
-		desktopPane.add(textField);
-		textField.setColumns(10);
+		TF_Nama = new JTextField();
+		TF_Nama.setBounds(173, 26, 294, 19);
+		desktopPane.add(TF_Nama);
+		TF_Nama.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(173, 53, 294, 19);
-		desktopPane.add(textField_1);
-		textField_1.setColumns(10);
+		JCalendarComboBox CL_Tanggal = new JCalendarComboBox();
+		CL_Tanggal.setBounds(173, 118, 184, 20);
+		desktopPane.add(CL_Tanggal);
 		
-		JCalendarComboBox calendarComboBox = new JCalendarComboBox();
-		calendarComboBox.setBounds(173, 82, 184, 20);
-		desktopPane.add(calendarComboBox);
+		TF_Nilai = new JTextField();
+		TF_Nilai.setBounds(173, 150, 184, 19);
+		desktopPane.add(TF_Nilai);
+		TF_Nilai.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(173, 114, 184, 19);
-		desktopPane.add(textField_2);
-		textField_2.setColumns(10);
+		JTextArea TA_Keterangan = new JTextArea();
+		TA_Keterangan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		TA_Keterangan.setBounds(173, 178, 294, 53);
+		desktopPane.add(TA_Keterangan);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-		textArea.setBounds(173, 142, 294, 53);
-		desktopPane.add(textArea);
+		JButton btnSimpan = new JButton("Simpan");
+		btnSimpan.setBounds(350, 277, 117, 25);
+		desktopPane.add(btnSimpan);
 		
-		/*table = new JTable();
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"Nama/kontak", "Reff Kontrak", "Tanggal", "Nilai", "Keterangan"
-			}
-		));
-		table.setBounds(46, 214, 532, 90);
-		//desktopPane.add(table);
+		JRadioButton rdbtnKontrak = new JRadioButton("Kontrak");
+		rdbtnKontrak.setBounds(173, 51, 93, 23);
+		desktopPane.add(rdbtnKontrak);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(45, 207, 534, 90);
-		scrollPane.setViewportView(table);
-		desktopPane.add(scrollPane);*/
+		JRadioButton rdbtnMasterDana = new JRadioButton("Master Dana");
+		rdbtnMasterDana.setBounds(280, 51, 128, 23);
+		desktopPane.add(rdbtnMasterDana);
 		
-		JButton button = new JButton("Simpan");
-		button.setBounds(221, 217, 117, 25);
-		desktopPane.add(button);
+		JComboBox CB_Reff = new JComboBox();
+		CB_Reff.setBounds(173, 82, 235, 24);
+		desktopPane.add(CB_Reff);
 		
-		/*JButton button_1 = new JButton("Hapus");
-		button_1.setBounds(171, 217, 117, 25);
-		desktopPane.add(button_1);*/
+		JLabel lblUnggahDokumen = new JLabel("Unggah Dokumen");
+		lblUnggahDokumen.setBounds(39, 246, 128, 15);
+		desktopPane.add(lblUnggahDokumen);
 		
-		JButton button_2 = new JButton("Batal");
-		button_2.setBounds(350, 217, 117, 25);
-		desktopPane.add(button_2);
+		TF_Unggah = new JTextField();
+		TF_Unggah.setBounds(173, 246, 184, 19);
+		desktopPane.add(TF_Unggah);
+		TF_Unggah.setColumns(10);
+		
+		JButton BT_Unggah = new JButton("Browse");
+		BT_Unggah.setBounds(361, 243, 93, 25);
+		desktopPane.add(BT_Unggah);
 
 	}
 }

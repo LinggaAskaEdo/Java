@@ -18,17 +18,17 @@ public class DetailProduksiForm extends JInternalFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
+	private JTextField TF_Media;
+	private JTextField TF_Durasi;
+	private JTextField TF_Hari;
+	private JTextField TF_Uraian;
+	private JTextField TF_Jenis;
+	private JTextField TF_Jumlah;
+	private JTextField TF_Barang_1;
 	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
-	private JTextField textField_10;
+	private JTextField TF_TotHarga_1;
+	private JTextField TF_Barang_2;
+	private JTextField TF_TotHarga_2;
 
 	/**
 	 * Launch the application.
@@ -122,78 +122,74 @@ public class DetailProduksiForm extends JInternalFrame {
 		lblTotalHarga_1.setBounds(66, 505, 96, 15);
 		desktopPane.add(lblTotalHarga_1);
 		
-		textField = new JTextField();
-		textField.setBounds(194, 26, 231, 19);
-		desktopPane.add(textField);
-		textField.setColumns(10);
+		TF_Media = new JTextField();
+		TF_Media.setBounds(194, 26, 231, 19);
+		desktopPane.add(TF_Media);
+		TF_Media.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(194, 57, 114, 19);
-		desktopPane.add(textField_1);
-		textField_1.setColumns(10);
+		TF_Durasi = new JTextField();
+		TF_Durasi.setBounds(194, 57, 114, 19);
+		desktopPane.add(TF_Durasi);
+		TF_Durasi.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(194, 88, 114, 19);
-		desktopPane.add(textField_2);
-		textField_2.setColumns(10);
+		TF_Hari = new JTextField();
+		TF_Hari.setBounds(194, 88, 114, 19);
+		desktopPane.add(TF_Hari);
+		TF_Hari.setColumns(10);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-		textArea.setBounds(194, 119, 284, 53);
-		desktopPane.add(textArea);
+		JTextArea TA_Lokasi = new JTextArea();
+		TA_Lokasi.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		TA_Lokasi.setBounds(194, 119, 284, 53);
+		desktopPane.add(TA_Lokasi);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(194, 207, 162, 19);
-		desktopPane.add(textField_3);
-		textField_3.setColumns(10);
+		TF_Uraian = new JTextField();
+		TF_Uraian.setBounds(194, 207, 162, 19);
+		desktopPane.add(TF_Uraian);
+		TF_Uraian.setColumns(10);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(194, 238, 162, 19);
-		desktopPane.add(textField_4);
-		textField_4.setColumns(10);
+		TF_Jenis = new JTextField();
+		TF_Jenis.setBounds(194, 238, 162, 19);
+		desktopPane.add(TF_Jenis);
+		TF_Jenis.setColumns(10);
 		
 		@SuppressWarnings("rawtypes")
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(194, 289, 162, 24);
-		desktopPane.add(comboBox);
+		JComboBox CB_Jenis = new JComboBox();
+		CB_Jenis.setBounds(194, 289, 162, 24);
+		desktopPane.add(CB_Jenis);
 		
-		textField_5 = new JTextField();
-		textField_5.setBounds(194, 325, 49, 19);
-		desktopPane.add(textField_5);
-		textField_5.setColumns(10);
+		TF_Jumlah = new JTextField();
+		TF_Jumlah.setBounds(194, 325, 49, 19);
+		desktopPane.add(TF_Jumlah);
+		TF_Jumlah.setColumns(10);
 		
-		textField_6 = new JTextField();
-		textField_6.setBounds(194, 356, 162, 19);
-		desktopPane.add(textField_6);
-		textField_6.setColumns(10);
+		TF_Barang_1 = new JTextField();
+		TF_Barang_1.setBounds(194, 356, 162, 19);
+		desktopPane.add(TF_Barang_1);
+		TF_Barang_1.setColumns(10);
 		
 		textField_7 = new JTextField();
 		textField_7.setBounds(194, 387, 114, 19);
 		desktopPane.add(textField_7);
 		textField_7.setColumns(10);
 		
-		textField_8 = new JTextField();
-		textField_8.setBounds(194, 418, 114, 19);
-		desktopPane.add(textField_8);
-		textField_8.setColumns(10);
+		TF_TotHarga_1 = new JTextField();
+		TF_TotHarga_1.setBounds(194, 418, 114, 19);
+		desktopPane.add(TF_TotHarga_1);
+		TF_TotHarga_1.setColumns(10);
 		
-		textField_9 = new JTextField();
-		textField_9.setBounds(194, 472, 162, 19);
-		desktopPane.add(textField_9);
-		textField_9.setColumns(10);
+		TF_Barang_2 = new JTextField();
+		TF_Barang_2.setBounds(194, 472, 162, 19);
+		desktopPane.add(TF_Barang_2);
+		TF_Barang_2.setColumns(10);
 		
-		textField_10 = new JTextField();
-		textField_10.setBounds(194, 503, 162, 19);
-		desktopPane.add(textField_10);
-		textField_10.setColumns(10);
+		TF_TotHarga_2 = new JTextField();
+		TF_TotHarga_2.setBounds(194, 503, 162, 19);
+		desktopPane.add(TF_TotHarga_2);
+		TF_TotHarga_2.setColumns(10);
 		
 		JButton btnTambah = new JButton("Tambah");
-		btnTambah.setBounds(335, 548, 117, 25);
+		btnTambah.setBounds(450, 547, 117, 25);
 		desktopPane.add(btnTambah);
-		
-		JButton btnNewButton = new JButton("Batal");
-		btnNewButton.setBounds(464, 548, 117, 25);
-		desktopPane.add(btnNewButton);
 
 	}
 }

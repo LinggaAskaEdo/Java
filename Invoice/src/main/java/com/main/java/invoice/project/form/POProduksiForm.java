@@ -23,10 +23,10 @@ public class POProduksiForm extends JInternalFrame {
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_Produksi;
 	private JTable table;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-private JTextField textField_3;
+	private JTextField TF_PONomor;
+	private JTextField TF_ReffKontrak;
+	private JTextField TF_NilaiProduksi;
+	private JTextField TF_Unggah;
 	
 	/**
 	 * Launch the application.
@@ -51,7 +51,7 @@ private JTextField textField_3;
 		setClosable(true);
 		setTitle("PO. Produksi");
 		//setBounds(100, 100, 630, 573);
-		setBounds(100, 100, 630, 462);
+		setBounds(100, 100, 630, 487);
 		getContentPane().setLayout(null);
 		
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -79,20 +79,12 @@ private JTextField textField_3;
 		TF_Produksi.setColumns(10);
 		
 		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.setBounds(334, 386, 117, 25);
+		btnSimpan.setBounds(418, 413, 117, 25);
 		desktopPane.add(btnSimpan);
 		
-		JButton btnBatal = new JButton("Batal");
-		btnBatal.setBounds(462, 386, 117, 25);
-		desktopPane.add(btnBatal);
-		
-		/*JButton btnHapus = new JButton("Hapus");
-		btnHapus.setBounds(171, 386, 117, 25);
-		desktopPane.add(btnHapus);*/
-		
-		JCalendarComboBox calendarComboBox = new JCalendarComboBox();
-		calendarComboBox.setBounds(197, 117, 157, 20);
-		desktopPane.add(calendarComboBox);
+		JCalendarComboBox CL_Tanggal = new JCalendarComboBox();
+		CL_Tanggal.setBounds(197, 117, 157, 20);
+		desktopPane.add(CL_Tanggal);
 		
 		table = new JTable();
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -115,27 +107,27 @@ private JTextField textField_3;
 		scrollPane.setViewportView(table);
 		desktopPane.add(scrollPane);
 		
-		textField = new JTextField();
-		textField.setBounds(197, 26, 254, 19);
-		desktopPane.add(textField);
-		textField.setColumns(10);
+		TF_PONomor = new JTextField();
+		TF_PONomor.setBounds(197, 26, 254, 19);
+		desktopPane.add(TF_PONomor);
+		TF_PONomor.setColumns(10);
 		
 		JLabel lblReffKontrak = new JLabel("Reff Kontrak");
 		lblReffKontrak.setBounds(45, 57, 110, 15);
 		desktopPane.add(lblReffKontrak);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(197, 55, 254, 19);
-		desktopPane.add(textField_1);
-		textField_1.setColumns(10);
+		TF_ReffKontrak = new JTextField();
+		TF_ReffKontrak.setBounds(197, 55, 254, 19);
+		desktopPane.add(TF_ReffKontrak);
+		TF_ReffKontrak.setColumns(10);
 		
-		JButton button = new JButton("+");
-		button.setBounds(547, 178, 44, 25);
-		desktopPane.add(button);
+		JButton btnPlus = new JButton("+");
+		btnPlus.setBounds(547, 178, 44, 25);
+		desktopPane.add(btnPlus);
 		
-		JButton button_1 = new JButton("-");
-		button_1.setBounds(547, 209, 44, 25);
-		desktopPane.add(button_1);
+		JButton btnMinus = new JButton("-");
+		btnMinus.setBounds(547, 209, 44, 25);
+		desktopPane.add(btnMinus);
 		
 		JLabel lblNilaiProduksi = new JLabel("Nilai Produksi");
 		lblNilaiProduksi.setBounds(45, 280, 118, 15);
@@ -145,44 +137,28 @@ private JTextField textField_3;
 		lblKeterangan.setBounds(45, 312, 107, 15);
 		desktopPane.add(lblKeterangan);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(197, 280, 254, 19);
-		desktopPane.add(textField_2);
-		textField_2.setColumns(10);
+		TF_NilaiProduksi = new JTextField();
+		TF_NilaiProduksi.setBounds(197, 280, 254, 19);
+		desktopPane.add(TF_NilaiProduksi);
+		TF_NilaiProduksi.setColumns(10);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-		textArea.setBounds(197, 311, 284, 53);
-		desktopPane.add(textArea);
+		JTextArea TA_Keterangan = new JTextArea();
+		TA_Keterangan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		TA_Keterangan.setBounds(197, 311, 284, 53);
+		desktopPane.add(TA_Keterangan);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(45, 389, 90, 19);
-		desktopPane.add(textField_3);
+		TF_Unggah = new JTextField();
+		TF_Unggah.setColumns(10);
+		TF_Unggah.setBounds(197, 379, 198, 19);
+		desktopPane.add(TF_Unggah);
 		
-		JButton button_2 = new JButton("Upload");
-		button_2.setBounds(135, 386, 84, 25);
-		desktopPane.add(button_2);
+		JButton btnUnggah = new JButton("Browse");
+		btnUnggah.setBounds(397, 376, 110, 25);
+		desktopPane.add(btnUnggah);
 		
-		/*table = new JTable();
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"PO. Number", "Reff Kontrak", "Produksi", "Tanggal", "Nilai Produksi", "Keterangan"
-			}
-		));
-		table.setBounds(46, 214, 532, 90);
-		//desktopPane.add(table);
-
-		JScrollPane scrollPane1 = new JScrollPane();
-		scrollPane1.setBounds(45, 376, 534, 90);
-		scrollPane1.setViewportView(table);
-		desktopPane.add(scrollPane1);*/
+		JLabel lblUnggahDokumen = new JLabel("Unggah Dokumen");
+		lblUnggahDokumen.setBounds(45, 381, 133, 15);
+		desktopPane.add(lblUnggahDokumen);
+		
 	}
 }

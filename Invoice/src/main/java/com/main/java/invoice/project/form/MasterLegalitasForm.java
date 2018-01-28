@@ -20,12 +20,13 @@ public class MasterLegalitasForm extends JInternalFrame {
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_KodePerusahaan;
 	private JTextField TF_NamaPerusahaan;
-	private JTextField TF_NPWP;
-	private JTextField TF_PIC;
+	private JTextField TF_Npwp;
+	private JTextField TF_Pic;
 	private JTextField TF_FeeAgency;
 	private JLabel label;
-	private JTextField textField;
+	private JTextField TF_NoRek;
 	private JTable table;
+	private JTextField TF_Unggah;
 
 	/**
 	 * Launch the application.
@@ -49,7 +50,7 @@ public class MasterLegalitasForm extends JInternalFrame {
 	public MasterLegalitasForm() {
 		setClosable(true);
 		setTitle("Master Legalitas Perusahaan");
-		setBounds(100, 100, 630, 456);
+		setBounds(100, 100, 630, 488);
 		getContentPane().setLayout(null);
 		
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -64,19 +65,19 @@ public class MasterLegalitasForm extends JInternalFrame {
 		desktopPane.add(lblNamaPerusahaan);
 		
 		JLabel lblAlamat = new JLabel("Alamat");
-		lblAlamat.setBounds(45, 86, 133, 15);
+		lblAlamat.setBounds(45, 117, 133, 15);
 		desktopPane.add(lblAlamat);
 		
 		JLabel lblNpwp = new JLabel("NPWP");
-		lblNpwp.setBounds(45, 155, 133, 15);
+		lblNpwp.setBounds(45, 186, 133, 15);
 		desktopPane.add(lblNpwp);
 		
 		JLabel lblPicnoRek = new JLabel("PIC/Kontak");
-		lblPicnoRek.setBounds(45, 186, 133, 15);
+		lblPicnoRek.setBounds(45, 217, 133, 15);
 		desktopPane.add(lblPicnoRek);
 		
 		JLabel lblFeeAgency = new JLabel("Fee Agency");
-		lblFeeAgency.setBounds(45, 248, 133, 15);
+		lblFeeAgency.setBounds(45, 279, 133, 15);
 		desktopPane.add(lblFeeAgency);
 		
 		TF_KodePerusahaan = new JTextField();
@@ -89,38 +90,38 @@ public class MasterLegalitasForm extends JInternalFrame {
 		desktopPane.add(TF_NamaPerusahaan);
 		TF_NamaPerusahaan.setColumns(10);
 		
-		TF_NPWP = new JTextField();
-		TF_NPWP.setBounds(196, 153, 254, 19);
-		desktopPane.add(TF_NPWP);
-		TF_NPWP.setColumns(10);
+		TF_Npwp = new JTextField();
+		TF_Npwp.setBounds(196, 184, 254, 19);
+		desktopPane.add(TF_Npwp);
+		TF_Npwp.setColumns(10);
 		
-		TF_PIC = new JTextField();
-		TF_PIC.setBounds(196, 184, 254, 19);
-		desktopPane.add(TF_PIC);
-		TF_PIC.setColumns(10);
+		TF_Pic = new JTextField();
+		TF_Pic.setBounds(196, 215, 254, 19);
+		desktopPane.add(TF_Pic);
+		TF_Pic.setColumns(10);
 		
 		TF_FeeAgency = new JTextField();
-		TF_FeeAgency.setBounds(196, 246, 76, 19);
+		TF_FeeAgency.setBounds(196, 277, 76, 19);
 		desktopPane.add(TF_FeeAgency);
 		TF_FeeAgency.setColumns(10);
 		
 		label = new JLabel("%");
-		label.setBounds(271, 248, 70, 15);
+		label.setBounds(271, 279, 70, 15);
 		desktopPane.add(label);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-		textArea.setBounds(196, 88, 284, 53);
-		desktopPane.add(textArea);
+		JTextArea TA_Alamat = new JTextArea();
+		TA_Alamat.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		TA_Alamat.setBounds(196, 119, 284, 53);
+		desktopPane.add(TA_Alamat);
 		
 		JLabel lblNoRek = new JLabel("No. Rek");
-		lblNoRek.setBounds(45, 217, 70, 15);
+		lblNoRek.setBounds(45, 248, 70, 15);
 		desktopPane.add(lblNoRek);
 		
-		textField = new JTextField();
-		textField.setBounds(196, 215, 254, 19);
-		desktopPane.add(textField);
-		textField.setColumns(10);
+		TF_NoRek = new JTextField();
+		TF_NoRek.setBounds(196, 246, 254, 19);
+		desktopPane.add(TF_NoRek);
+		TF_NoRek.setColumns(10);
 		
 		table = new JTable();
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -139,21 +140,30 @@ public class MasterLegalitasForm extends JInternalFrame {
 		//desktopPane.add(table);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(45, 275, 534, 90);
+		scrollPane.setBounds(45, 306, 534, 90);
 		scrollPane.setViewportView(table);
 		desktopPane.add(scrollPane);
 
-		JButton button = new JButton("Simpan");
-		button.setBounds(45, 377, 117, 25);
-		desktopPane.add(button);
+		JButton btnSimpan = new JButton("Simpan");
+		btnSimpan.setBounds(336, 408, 117, 25);
+		desktopPane.add(btnSimpan);
 		
-		JButton button_1 = new JButton("Hapus");
-		button_1.setBounds(171, 377, 117, 25);
-		desktopPane.add(button_1);
+		JButton btnHapus = new JButton("Hapus");
+		btnHapus.setBounds(462, 408, 117, 25);
+		desktopPane.add(btnHapus);
 		
-		JButton button_2 = new JButton("Batal");
-		button_2.setBounds(462, 377, 117, 25);
-		desktopPane.add(button_2);
+		JLabel lblUnggahLogo = new JLabel("Unggah Logo");
+		lblUnggahLogo.setBounds(45, 90, 105, 15);
+		desktopPane.add(lblUnggahLogo);
+		
+		TF_Unggah = new JTextField();
+		TF_Unggah.setBounds(196, 88, 155, 19);
+		desktopPane.add(TF_Unggah);
+		TF_Unggah.setColumns(10);
+		
+		JButton btnBrowse = new JButton("Browse");
+		btnBrowse.setBounds(351, 85, 87, 25);
+		desktopPane.add(btnBrowse);
 
 	}
 }

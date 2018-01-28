@@ -51,21 +51,21 @@ public class LaporanForm extends JInternalFrame {
 		desktopPane.add(lblPoNomor);
 		
 		@SuppressWarnings("rawtypes")
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(130, 23, 370, 24);
-		desktopPane.add(comboBox);
+		JComboBox CB_Laporan = new JComboBox();
+		CB_Laporan.setBounds(130, 23, 370, 24);
+		desktopPane.add(CB_Laporan);
 		
-		JCalendarComboBox calendarComboBox = new JCalendarComboBox();
-		calendarComboBox.setBounds(45, 125, 142, 20);
-		desktopPane.add(calendarComboBox);
+		JCalendarComboBox CL_Harian = new JCalendarComboBox();
+		CL_Harian.setBounds(45, 125, 142, 20);
+		desktopPane.add(CL_Harian);
 		
-		JCalendarComboBox calendarComboBox_1 = new JCalendarComboBox();
-		calendarComboBox_1.setBounds(228, 125, 142, 20);
-		desktopPane.add(calendarComboBox_1);
+		JCalendarComboBox CL_Bulanan_1 = new JCalendarComboBox();
+		CL_Bulanan_1.setBounds(228, 125, 142, 20);
+		desktopPane.add(CL_Bulanan_1);
 		
-		JCalendarComboBox calendarComboBox_2 = new JCalendarComboBox();
-		calendarComboBox_2.setBounds(382, 125, 142, 20);
-		desktopPane.add(calendarComboBox_2);
+		JCalendarComboBox CL_Bulanan_2 = new JCalendarComboBox();
+		CL_Bulanan_2.setBounds(382, 125, 142, 20);
+		desktopPane.add(CL_Bulanan_2);
 		
 		JButton btnCetak = new JButton("Cetak");
 		btnCetak.setBounds(217, 181, 117, 25);

@@ -16,8 +16,8 @@ public class DetailReimbursementForm extends JInternalFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField TF_Detail;
+	private JTextField TF_Harga;
 
 	/**
 	 * Launch the application.
@@ -61,27 +61,23 @@ public class DetailReimbursementForm extends JInternalFrame {
 		desktopPane.add(lblHarga);
 		
 		@SuppressWarnings("rawtypes")
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(149, 23, 233, 24);
-		desktopPane.add(comboBox);
+		JComboBox CB_Uraian = new JComboBox();
+		CB_Uraian.setBounds(149, 23, 233, 24);
+		desktopPane.add(CB_Uraian);
 		
-		textField = new JTextField();
-		textField.setBounds(149, 55, 233, 19);
-		desktopPane.add(textField);
-		textField.setColumns(10);
+		TF_Detail = new JTextField();
+		TF_Detail.setBounds(149, 55, 233, 19);
+		desktopPane.add(TF_Detail);
+		TF_Detail.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(149, 82, 233, 19);
-		desktopPane.add(textField_1);
-		textField_1.setColumns(10);
+		TF_Harga = new JTextField();
+		TF_Harga.setBounds(149, 82, 233, 19);
+		desktopPane.add(TF_Harga);
+		TF_Harga.setColumns(10);
 		
-		JButton button = new JButton("Tambah");
-		button.setBounds(136, 113, 117, 25);
-		desktopPane.add(button);
-		
-		JButton button_1 = new JButton("Batal");
-		button_1.setBounds(265, 113, 117, 25);
-		desktopPane.add(button_1);
+		JButton btnTambah = new JButton("Tambah");
+		btnTambah.setBounds(265, 113, 117, 25);
+		desktopPane.add(btnTambah);
 
 	}
 

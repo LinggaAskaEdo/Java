@@ -19,7 +19,7 @@ public class LoginForm extends JFrame {
 	private final JTextField TF_Pengguna = new JTextField();
 	private final JButton btnMasuk = new JButton("Masuk");
 	private final JButton btnBatal = new JButton("Batal");
-	private final JPasswordField passwordField = new JPasswordField();
+	private final JPasswordField PF_KataSandi = new JPasswordField();
 
 	/**
 	 * Launch the application.
@@ -59,9 +59,8 @@ public class LoginForm extends JFrame {
 		JLabel lblPengguna = new JLabel("Pengguna");
 		lblPengguna.setBounds(66, 67, 97, 15);
 		
-
-		passwordField.setBounds(181, 92, 191, 19);
-		desktopPane.add(passwordField);
+		PF_KataSandi.setBounds(181, 92, 191, 19);
+		desktopPane.add(PF_KataSandi);
 		
 		desktopPane.add(lblPengguna);
 		lblKataSandi.setBounds(66, 94, 97, 15);

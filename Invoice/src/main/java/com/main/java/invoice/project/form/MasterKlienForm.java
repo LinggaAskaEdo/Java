@@ -16,12 +16,12 @@ import javax.swing.JTextArea;
 import javax.swing.JButton;
 
 public class MasterKlienForm extends JInternalFrame {
-	private JTextField TF_NamaKantor;
-	private JTextField TF_NPWP;
+	private JTextField TF_Nama;
+	private JTextField TF_Npwp;
 	private JTable table;
 	
 	JDesktopPane desktopPane = new JDesktopPane();
-	private JTextField textField;
+	private JTextField TF_Satker;
 
 	/**
 	 * Launch the application.
@@ -67,15 +67,15 @@ public class MasterKlienForm extends JInternalFrame {
 		lblKeterangan.setBounds(45, 185, 133, 15);
 		desktopPane.add(lblKeterangan);
 		
-		TF_NamaKantor = new JTextField();
-		TF_NamaKantor.setBounds(196, 26, 254, 19);
-		desktopPane.add(TF_NamaKantor);
-		TF_NamaKantor.setColumns(10);
+		TF_Nama = new JTextField();
+		TF_Nama.setBounds(196, 26, 254, 19);
+		desktopPane.add(TF_Nama);
+		TF_Nama.setColumns(10);
 		
-		TF_NPWP = new JTextField();
-		TF_NPWP.setBounds(197, 122, 254, 19);
-		desktopPane.add(TF_NPWP);
-		TF_NPWP.setColumns(10);
+		TF_Npwp = new JTextField();
+		TF_Npwp.setBounds(197, 122, 254, 19);
+		desktopPane.add(TF_Npwp);
+		TF_Npwp.setColumns(10);
 		
 		JTextArea TA_Keterangan = new JTextArea();
 		TA_Keterangan.setLineWrap(true);
@@ -83,15 +83,15 @@ public class MasterKlienForm extends JInternalFrame {
 		TA_Keterangan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		desktopPane.add(TA_Keterangan);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-		textArea.setBounds(197, 57, 284, 53);
-		desktopPane.add(textArea);
+		JTextArea TA_Alamat = new JTextArea();
+		TA_Alamat.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		TA_Alamat.setBounds(197, 57, 284, 53);
+		desktopPane.add(TA_Alamat);
 		
-		textField = new JTextField();
-		textField.setBounds(196, 153, 254, 19);
-		desktopPane.add(textField);
-		textField.setColumns(10);
+		TF_Satker = new JTextField();
+		TF_Satker.setBounds(196, 153, 254, 19);
+		desktopPane.add(TF_Satker);
+		TF_Satker.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Satker PPK");
 		lblNewLabel.setBounds(45, 155, 133, 15);
@@ -118,17 +118,13 @@ public class MasterKlienForm extends JInternalFrame {
 		scrollPane.setViewportView(table);
 		desktopPane.add(scrollPane);
 		
-		JButton button = new JButton("Simpan");
-		button.setBounds(45, 351, 117, 25);
-		desktopPane.add(button);
+		JButton btnSimpan = new JButton("Simpan");
+		btnSimpan.setBounds(336, 351, 117, 25);
+		desktopPane.add(btnSimpan);
 		
-		JButton button_1 = new JButton("Hapus");
-		button_1.setBounds(171, 351, 117, 25);
-		desktopPane.add(button_1);
-		
-		JButton button_2 = new JButton("Batal");
-		button_2.setBounds(462, 351, 117, 25);
-		desktopPane.add(button_2);
+		JButton btnHapus = new JButton("Hapus");
+		btnHapus.setBounds(462, 351, 117, 25);
+		desktopPane.add(btnHapus);
 
 	}
 }

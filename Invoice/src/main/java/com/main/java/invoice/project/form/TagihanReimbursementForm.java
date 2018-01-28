@@ -18,8 +18,8 @@ import javax.swing.JButton;
 public class TagihanReimbursementForm extends JInternalFrame {
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTable table;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField TF_ReffPO;
+	private JTextField TF_Unggah;
 
 	/**
 	 * Launch the application.
@@ -44,7 +44,7 @@ public class TagihanReimbursementForm extends JInternalFrame {
 		setClosable(true);
 		setTitle("Tagihan Biaya Reimbursement");
 		//setBounds(100, 100, 630, 433);
-		setBounds(100, 100, 583, 349);
+		setBounds(100, 100, 583, 369);
 		getContentPane().setLayout(null);
 		
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -70,70 +70,45 @@ public class TagihanReimbursementForm extends JInternalFrame {
 		lblKeterangan.setBounds(45, 193, 124, 15);
 		desktopPane.add(lblKeterangan);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-		textArea.setBounds(246, 59, 284, 53);
-		desktopPane.add(textArea);
+		JTextArea TA_Catatan = new JTextArea();
+		TA_Catatan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		TA_Catatan.setBounds(246, 59, 284, 53);
+		desktopPane.add(TA_Catatan);
 		
-		JCalendarComboBox calendarComboBox = new JCalendarComboBox();
-		calendarComboBox.setBounds(246, 124, 175, 20);
-		desktopPane.add(calendarComboBox);
+		JCalendarComboBox CL_Tanggal = new JCalendarComboBox();
+		CL_Tanggal.setBounds(246, 124, 175, 20);
+		desktopPane.add(CL_Tanggal);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(246, 156, 202, 24);
-		desktopPane.add(comboBox_1);
+		JComboBox btnSumberDana = new JComboBox();
+		btnSumberDana.setBounds(246, 156, 202, 24);
+		desktopPane.add(btnSumberDana);
 		
-		JTextArea textArea_1 = new JTextArea();
-		textArea_1.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-		textArea_1.setBounds(246, 192, 284, 53);
-		desktopPane.add(textArea_1);
+		JTextArea TA_Keterangan = new JTextArea();
+		TA_Keterangan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		TA_Keterangan.setBounds(246, 192, 284, 53);
+		desktopPane.add(TA_Keterangan);
 		
-		/*table = new JTable();
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"Reff PO. Event/Produksi", "Catatan", "Tanggal", "Reff Sumber Dana", "Keterangan"
-			}
-		));
-		table.setBounds(46, 214, 532, 90);
-		//desktopPane.add(table);
+		JButton btnSimpan = new JButton("Simpan");
+		btnSimpan.setBounds(413, 294, 117, 25);
+		desktopPane.add(btnSimpan);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(45, 255, 534, 90);
-		scrollPane.setViewportView(table);
-		desktopPane.add(scrollPane);*/
+		TF_ReffPO = new JTextField();
+		TF_ReffPO.setBounds(246, 26, 202, 19);
+		desktopPane.add(TF_ReffPO);
+		TF_ReffPO.setColumns(10);
 		
-		JButton button = new JButton("Simpan");
-		button.setBounds(284, 262, 117, 25);
-		desktopPane.add(button);
+		JButton btnUnggah = new JButton("Upload");
+		btnUnggah.setBounds(420, 257, 84, 25);
+		desktopPane.add(btnUnggah);
 		
-		/*JButton button_1 = new JButton("Hapus");
-		button_1.setBounds(171, 262, 117, 25);
-		desktopPane.add(button_1);*/
+		TF_Unggah = new JTextField();
+		TF_Unggah.setColumns(10);
+		TF_Unggah.setBounds(247, 260, 174, 19);
+		desktopPane.add(TF_Unggah);
 		
-		JButton button_2 = new JButton("Batal");
-		button_2.setBounds(413, 262, 117, 25);
-		desktopPane.add(button_2);
-		
-		textField = new JTextField();
-		textField.setBounds(246, 26, 202, 19);
-		desktopPane.add(textField);
-		textField.setColumns(10);
-		
-		JButton button_1 = new JButton("Upload");
-		button_1.setBounds(135, 262, 84, 25);
-		desktopPane.add(button_1);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(45, 265, 90, 19);
-		desktopPane.add(textField_1);
+		JLabel lblUnggahDokument = new JLabel("Unggah Dokument");
+		lblUnggahDokument.setBounds(45, 262, 149, 15);
+		desktopPane.add(lblUnggahDokument);
 
 	}
 }

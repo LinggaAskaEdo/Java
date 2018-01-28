@@ -16,10 +16,10 @@ import javax.swing.JButton;
 public class MasterDanaForm extends JInternalFrame {
 	
 	JDesktopPane desktopPane = new JDesktopPane();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField TF_Nama;
+	private JTextField TF_noRek;
+	private JTextField TF_AtasNama;
+	private JTextField TF_Tunai;
 	private JTable table; 
 
 	/**
@@ -45,7 +45,7 @@ public class MasterDanaForm extends JInternalFrame {
 		setClosable(true);
 		setTitle("Master Dana");
 		//setBounds(100, 100, 630, 428);
-		setBounds(100, 100, 630, 326);
+		setBounds(100, 100, 630, 339);
 		getContentPane().setLayout(null);
 		
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -67,25 +67,25 @@ public class MasterDanaForm extends JInternalFrame {
 		lblCashtunai.setBounds(45, 119, 103, 15);
 		desktopPane.add(lblCashtunai);
 		
-		textField = new JTextField();
-		textField.setBounds(163, 26, 281, 19);
-		desktopPane.add(textField);
-		textField.setColumns(10);
+		TF_Nama = new JTextField();
+		TF_Nama.setBounds(163, 26, 281, 19);
+		desktopPane.add(TF_Nama);
+		TF_Nama.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(163, 55, 281, 19);
-		desktopPane.add(textField_1);
-		textField_1.setColumns(10);
+		TF_noRek = new JTextField();
+		TF_noRek.setBounds(163, 55, 281, 19);
+		desktopPane.add(TF_noRek);
+		TF_noRek.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(163, 86, 281, 19);
-		desktopPane.add(textField_2);
-		textField_2.setColumns(10);
+		TF_AtasNama = new JTextField();
+		TF_AtasNama.setBounds(163, 86, 281, 19);
+		desktopPane.add(TF_AtasNama);
+		TF_AtasNama.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(163, 117, 281, 19);
-		desktopPane.add(textField_3);
-		textField_3.setColumns(10);
+		TF_Tunai = new JTextField();
+		TF_Tunai.setBounds(163, 117, 281, 19);
+		desktopPane.add(TF_Tunai);
+		TF_Tunai.setColumns(10);
 		
 		table = new JTable();
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -104,21 +104,17 @@ public class MasterDanaForm extends JInternalFrame {
 		//desktopPane.add(table);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(45, 146, 534, 90);
+		scrollPane.setBounds(45, 157, 534, 90);
 		scrollPane.setViewportView(table);
 		desktopPane.add(scrollPane);
 		
-		JButton button = new JButton("Simpan");
-		button.setBounds(45, 248, 117, 25);
-		desktopPane.add(button);
+		JButton btnSimpan = new JButton("Simpan");
+		btnSimpan.setBounds(336, 259, 117, 25);
+		desktopPane.add(btnSimpan);
 		
-		JButton button_1 = new JButton("Hapus");
-		button_1.setBounds(171, 248, 117, 25);
-		desktopPane.add(button_1);
-		
-		JButton button_2 = new JButton("Batal");
-		button_2.setBounds(462, 248, 117, 25);
-		desktopPane.add(button_2);
+		JButton btnHapus = new JButton("Hapus");
+		btnHapus.setBounds(462, 259, 117, 25);
+		desktopPane.add(btnHapus);
 	}
 
 }

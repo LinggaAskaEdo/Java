@@ -18,9 +18,9 @@ import javax.swing.JButton;
 public class MasterProduksiForm extends JInternalFrame {
 	
 	JDesktopPane desktopPane = new JDesktopPane();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField TF_Agent;
+	private JTextField TF_DOP;
+	private JTextField TF_Npwp;
 	private JTable table;
 
 	/**
@@ -71,30 +71,30 @@ public class MasterProduksiForm extends JInternalFrame {
 		lblKeterangan.setBounds(45, 178, 133, 15);
 		desktopPane.add(lblKeterangan);
 		
-		textField = new JTextField();
-		textField.setBounds(196, 26, 254, 19);
-		desktopPane.add(textField);
-		textField.setColumns(10);
+		TF_Agent = new JTextField();
+		TF_Agent.setBounds(196, 26, 254, 19);
+		desktopPane.add(TF_Agent);
+		TF_Agent.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(196, 53, 254, 19);
-		desktopPane.add(textField_1);
-		textField_1.setColumns(10);
+		TF_DOP = new JTextField();
+		TF_DOP.setBounds(196, 53, 254, 19);
+		desktopPane.add(TF_DOP);
+		TF_DOP.setColumns(10);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(196, 81, 284, 53);
-		textArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-		desktopPane.add(textArea);
+		JTextArea TA_Alamat = new JTextArea();
+		TA_Alamat.setBounds(196, 81, 284, 53);
+		TA_Alamat.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		desktopPane.add(TA_Alamat);
 		
 		JTextArea TA_Keterangan = new JTextArea();
 		TA_Keterangan.setBounds(196, 177, 284, 53);
 		TA_Keterangan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		desktopPane.add(TA_Keterangan);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(196, 146, 254, 19);
-		desktopPane.add(textField_2);
-		textField_2.setColumns(10);
+		TF_Npwp = new JTextField();
+		TF_Npwp.setBounds(196, 146, 254, 19);
+		desktopPane.add(TF_Npwp);
+		TF_Npwp.setColumns(10);
 		
 		table = new JTable();
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -117,17 +117,13 @@ public class MasterProduksiForm extends JInternalFrame {
 		scrollPane.setViewportView(table);
 		desktopPane.add(scrollPane);
 		
-		JButton button = new JButton("Simpan");
-		button.setBounds(45, 344, 117, 25);
-		desktopPane.add(button);
+		JButton btnSimpan = new JButton("Simpan");
+		btnSimpan.setBounds(336, 344, 117, 25);
+		desktopPane.add(btnSimpan);
 		
-		JButton button_1 = new JButton("Hapus");
-		button_1.setBounds(171, 344, 117, 25);
-		desktopPane.add(button_1);
-		
-		JButton button_2 = new JButton("Batal");
-		button_2.setBounds(462, 344, 117, 25);
-		desktopPane.add(button_2);
+		JButton btnHapus = new JButton("Hapus");
+		btnHapus.setBounds(462, 344, 117, 25);
+		desktopPane.add(btnHapus);
 	}
 
 }

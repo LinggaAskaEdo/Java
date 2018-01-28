@@ -23,11 +23,11 @@ public class POEventForm extends JInternalFrame {
 	private JTextField TF_Event;
 	private JTextField TF_Value;
 	private JTable table;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField TF_PONomor;
+	private JTextField TF_ReffKontrak;
+	private JTextField TF_Kegiatan;
+	private JTextField TF_Jumlah;
+	private JTextField TF_Unggah;
 	
 	/**
 	 * Launch the application.
@@ -51,8 +51,7 @@ public class POEventForm extends JInternalFrame {
 	public POEventForm() {
 		setClosable(true);
 		setTitle("PO. Event");
-		setBounds(100, 100, 630, 680);
-		//setBounds(100, 100, 630, 588);
+		setBounds(100, 100, 630, 693);
 		getContentPane().setLayout(null);
 		
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -63,16 +62,8 @@ public class POEventForm extends JInternalFrame {
 		desktopPane.add(lblPoNomor);
 		
 		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.setBounds(333, 611, 117, 25);
+		btnSimpan.setBounds(480, 628, 117, 25);
 		desktopPane.add(btnSimpan);
-		
-		JButton btnBatal = new JButton("Batal");
-		btnBatal.setBounds(462, 611, 117, 25);
-		desktopPane.add(btnBatal);
-		
-		/*JButton btnHapus = new JButton("Hapus");
-		btnHapus.setBounds(171, 506, 117, 25);
-		desktopPane.add(btnHapus);*/
 		
 		JLabel lblReffKontrak = new JLabel("Reff Kontrak");
 		lblReffKontrak.setBounds(45, 59, 118, 15);
@@ -102,24 +93,24 @@ public class POEventForm extends JInternalFrame {
 		lblKeterangan.setBounds(45, 431, 118, 15);
 		desktopPane.add(lblKeterangan);
 		
-		textField = new JTextField();
-		textField.setBounds(227, 26, 252, 19);
-		desktopPane.add(textField);
-		textField.setColumns(10);
+		TF_PONomor = new JTextField();
+		TF_PONomor.setBounds(227, 26, 252, 19);
+		desktopPane.add(TF_PONomor);
+		TF_PONomor.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(227, 57, 252, 19);
-		desktopPane.add(textField_1);
-		textField_1.setColumns(10);
+		TF_ReffKontrak = new JTextField();
+		TF_ReffKontrak.setBounds(227, 57, 252, 19);
+		desktopPane.add(TF_ReffKontrak);
+		TF_ReffKontrak.setColumns(10);
 		
-		JCalendarComboBox calendarComboBox = new JCalendarComboBox();
-		calendarComboBox.setBounds(227, 119, 158, 20);
-		desktopPane.add(calendarComboBox);
+		JCalendarComboBox CL_Tanggal = new JCalendarComboBox();
+		CL_Tanggal.setBounds(227, 119, 158, 20);
+		desktopPane.add(CL_Tanggal);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(227, 88, 252, 19);
-		desktopPane.add(textField_2);
-		textField_2.setColumns(10);
+		TF_Kegiatan = new JTextField();
+		TF_Kegiatan.setBounds(227, 88, 252, 19);
+		desktopPane.add(TF_Kegiatan);
+		TF_Kegiatan.setColumns(10);
 		
 		table = new JTable();
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -142,13 +133,13 @@ public class POEventForm extends JInternalFrame {
 		scrollPane.setViewportView(table);
 		desktopPane.add(scrollPane);
 		
-		JButton button = new JButton("+");
-		button.setBounds(549, 173, 49, 25);
-		desktopPane.add(button);
+		JButton btnPlus_1 = new JButton("+");
+		btnPlus_1.setBounds(549, 173, 49, 25);
+		desktopPane.add(btnPlus_1);
 		
-		JButton button_1 = new JButton("-");
-		button_1.setBounds(548, 207, 49, 25);
-		desktopPane.add(button_1);
+		JButton btnMinus_1 = new JButton("-");
+		btnMinus_1.setBounds(548, 207, 49, 25);
+		desktopPane.add(btnMinus_1);
 		
 		table = new JTable();
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -171,27 +162,27 @@ public class POEventForm extends JInternalFrame {
 		scrollPane1.setViewportView(table);
 		desktopPane.add(scrollPane1);
 		
-		JButton button_2 = new JButton("+");
-		button_2.setBounds(548, 302, 49, 25);
-		desktopPane.add(button_2);
+		JButton btnPlus_2 = new JButton("+");
+		btnPlus_2.setBounds(548, 302, 49, 25);
+		desktopPane.add(btnPlus_2);
 		
-		JButton button_3 = new JButton("-");
-		button_3.setBounds(547, 336, 49, 25);
-		desktopPane.add(button_3);
+		JButton btnMinus_2 = new JButton("-");
+		btnMinus_2.setBounds(547, 336, 49, 25);
+		desktopPane.add(btnMinus_2);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(227, 402, 186, 19);
-		desktopPane.add(textField_3);
-		textField_3.setColumns(10);
+		TF_Jumlah = new JTextField();
+		TF_Jumlah.setBounds(227, 402, 186, 19);
+		desktopPane.add(TF_Jumlah);
+		TF_Jumlah.setColumns(10);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-		textArea.setBounds(227, 430, 284, 53);
-		desktopPane.add(textArea);
+		JTextArea TA_Keterangan = new JTextArea();
+		TA_Keterangan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		TA_Keterangan.setBounds(227, 430, 284, 53);
+		desktopPane.add(TA_Keterangan);
 		
-		JButton button_4 = new JButton("Upload");
-		button_4.setBounds(135, 611, 84, 25);
-		desktopPane.add(button_4);
+		JButton btnUnggah = new JButton("Upload");
+		btnUnggah.setBounds(386, 597, 84, 25);
+		desktopPane.add(btnUnggah);
 		
 		table = new JTable();
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -203,29 +194,31 @@ public class POEventForm extends JInternalFrame {
 				{null, null, null, null, null},
 			},
 			new String[] {
-				//"PO. Nomor", "REFF Kontrak", "Kegiatan", "Tanggal", "Jumlah", "Keterangan"
 				"Reff PO", "Catatan Reimburse", "Tanggal", "Reff Sumber Dana", "Keterangan"
 			}
 		));
 		table.setBounds(46, 214, 532, 90);
-		//desktopPane.add(table);
 
 		JScrollPane scrollPane2 = new JScrollPane();
-		scrollPane2.setBounds(45, 502, 495, 90);
+		scrollPane2.setBounds(45, 495, 495, 90);
 		scrollPane2.setViewportView(table);
 		desktopPane.add(scrollPane2);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(45, 614, 90, 19);
-		desktopPane.add(textField_4);
-		textField_4.setColumns(10);
+		TF_Unggah = new JTextField();
+		TF_Unggah.setBounds(227, 601, 158, 19);
+		desktopPane.add(TF_Unggah);
+		TF_Unggah.setColumns(10);
 		
-		JButton btnNewButton = new JButton("+");
-		btnNewButton.setBounds(549, 502, 49, 25);
-		desktopPane.add(btnNewButton);
+		JButton btnPlus_3 = new JButton("+");
+		btnPlus_3.setBounds(549, 495, 49, 25);
+		desktopPane.add(btnPlus_3);
 		
-		JButton button_5 = new JButton("-");
-		button_5.setBounds(549, 535, 49, 25);
-		desktopPane.add(button_5);
+		JButton btnMinus_3 = new JButton("-");
+		btnMinus_3.setBounds(549, 528, 49, 25);
+		desktopPane.add(btnMinus_3);
+		
+		JLabel lblUnggahDokumen = new JLabel("Unggah Dokumen");
+		lblUnggahDokumen.setBounds(45, 603, 139, 15);
+		desktopPane.add(lblUnggahDokumen);
 	}
 }

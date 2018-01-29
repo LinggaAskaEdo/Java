@@ -1,5 +1,5 @@
-group 'Invoice'
-version '1.0'
+group 'invoice'
+//version '1.0'
 
 apply plugin: 'java'
 
@@ -9,6 +9,20 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven { url "http://repo.spring.io/libs-milestone" }
+}
+
+/*jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '), 'Main-Class': 'com.main.java.invoice.project.form.Main'
+        )
+    }
+}*/
+
+jar {
+    manifest {
+        attributes 'Main-Class' : 'com.main.java.invoice.project.form.Main'
+    }
 }
 
 dependencies {

@@ -2,49 +2,50 @@ package com.main.java.invoice.project.form;
 
 import java.awt.EventQueue;
 
-import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.util.Arrays;
 
-public class LoginForm extends JFrame {
-
+public class LoginForm extends JFrame
+{
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JPanel contentPane;
 	private final JLabel lblKataSandi = new JLabel("Kata Sandi");
 	private final JTextField TF_Pengguna = new JTextField();
+	private final JPasswordField PF_KataSandi = new JPasswordField();
 	private final JButton btnMasuk = new JButton("Masuk");
 	private final JButton btnBatal = new JButton("Batal");
-	private final JPasswordField PF_KataSandi = new JPasswordField();
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginForm frame = new LoginForm();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(() ->
+		{
+            try
+            {
+                LoginForm frame = new LoginForm();
+                frame.setVisible(true);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        });
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public LoginForm() {
+	LoginForm()
+	{
 		setTitle("Login");
 		setResizable(false);	
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(450, 250, 450, 300);		
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setBounds(450, 250, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
@@ -68,13 +69,18 @@ public class LoginForm extends JFrame {
 		desktopPane.add(lblKataSandi);
 		
 		desktopPane.add(TF_Pengguna);
+		btnMasuk.addActionListener(e ->
+		{
+            String user = TF_Pengguna.getText();
+            String pass = Arrays.toString(PF_KataSandi.getPassword());
+
+			System.out.println(user + " - " + pass);
+		});
 		
 		btnMasuk.setBounds(66, 201, 117, 25);
 		desktopPane.add(btnMasuk);
 		
 		btnBatal.setBounds(255, 201, 117, 25);
 		desktopPane.add(btnBatal);
-		
 	}
-
 }

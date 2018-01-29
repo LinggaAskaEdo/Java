@@ -2,8 +2,7 @@ package com.main.java.invoice.project.form;
 
 import com.main.java.invoice.project.function.SshFunction;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import javax.swing.*;
 
 public class Main
 {
@@ -25,11 +24,17 @@ public class Main
 
 		if (sshFunction.getConfigBySsh())
 		{
-
+			LoginForm loginForm = new LoginForm();
+			loginForm.setVisible(true);
 		}
 		else
 		{
+			// create a jframe
+			JFrame frame = new JFrame("");
 
+			// show a joptionpane dialog using showMessageDialog
+			JOptionPane.showMessageDialog(frame, "Can't read configuration file", "Program Error", JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
 		}
 	}
 }

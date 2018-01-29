@@ -70,6 +70,11 @@ public class SshFunction
             channelExec.disconnect();
             session.disconnect();
 
+            if (StaticPreference.getURL() == null || StaticPreference.getUSERNAME() == null || StaticPreference.getPASSWORD() == null)
+            {
+                return false;
+            }
+
             System.out.println("URL: " + StaticPreference.getURL());
             System.out.println("USERNAME: " + StaticPreference.getUSERNAME());
             System.out.println("PASSWORD: " + StaticPreference.getPASSWORD());

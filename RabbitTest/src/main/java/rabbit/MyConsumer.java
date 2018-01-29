@@ -6,6 +6,7 @@ import com.rabbitmq.client.DefaultConsumer;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by adi on 1/23/18.

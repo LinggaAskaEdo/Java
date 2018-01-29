@@ -38,7 +38,7 @@ public class MyProcessor implements Processor {
     public String process(String msg, ChannelHandlerContext ctx) {
         String response = MSG_RESPONSE_ERROR;
 
-        System.out.println("In MyProcessor GOT:"+msg);
+//        System.out.println("In MyProcessor GOT:"+msg);
 
         if(msg == null){
             return response;
@@ -126,6 +126,8 @@ public class MyProcessor implements Processor {
                 response = MSG_RESPONSE_CANCEL_REBUILD_OK;
             }
         }
+
+        System.out.println("Socket IN<<:"+msg+"||Socket OUT>>:"+response);
 
 //        try {
 //            Thread.sleep(10000);

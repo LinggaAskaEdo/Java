@@ -37,9 +37,7 @@ public class FixedProducer {
     }
 
     public void publishZeroToNine(String topic, String routingKey, long iteration, long interval) throws IOException {
-
         Channel channel = conn.createChannel();
-
         for (int i = 0 ; i < iteration ; i++){
             for (int j = 0 ; j < 10 ; j++){
                 String msg = String.valueOf(j);
@@ -52,9 +50,28 @@ public class FixedProducer {
                 }
             }
         }
-
-
     }
+
+    public void publishPyramid(String topic, String routingKey, long iteration, long interval) throws IOException {
+        Channel channel = conn.createChannel();
+        for (int i = 0 ; i < iteration ; i++){
+            for (int j = 0 ; j < 11 ; j++){
+                String msg = "";
+                int stars = j>5?(5-(j-5)):j;
+                for (int k = 0 ; k <= stars ; k++){
+                    msg += "*";
+                }
+                System.out.println("Sending["+msg+"]");
+                channel.basicPublish(topic, routingKey, null, msg.getBytes());
+                try {
+                    Thread.sleep(interval);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
     public static void main(String[] args) throws IOException, TimeoutException {
 
@@ -67,7 +84,8 @@ public class FixedProducer {
 
         FixedProducer fixedProducer = new FixedProducer(host, port, userName, password, virtualHost);
 
-        fixedProducer.publishZeroToNine(topic, "queueA", 2, 300);
+//        fixedProducer.publishZeroToNine(topic, "queueA", 1000, 300);
+        fixedProducer.publishPyramid(topic, "queueA", 1000, 100);
 
 
     }

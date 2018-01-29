@@ -3,8 +3,6 @@ package rabbit;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,18 +10,21 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by adi on 1/22/18.
  */
 public class ConsumerManager {
-
-    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     private static ConsumerManager instance;
 
@@ -111,6 +112,7 @@ public class ConsumerManager {
 
             for (int i = 0; i < consumerTobeCreated; i++) {
                 try {
+                    //TODO what if consumer creation failed??
                     if(createConsumer()) {
                         rebuildedConsumer++;
                         MyConsumer firstUncancelledConsumer = MyConsumer.findFirstUncancelled(thisConsumers);
@@ -130,6 +132,8 @@ public class ConsumerManager {
         return rebuildedConsumer;
     }
 
+    public static AtomicInteger priority = new AtomicInteger(1);
+
     public boolean createConsumer() throws IOException, TimeoutException {
         boolean isSuccess = false;
 
@@ -148,21 +152,30 @@ public class ConsumerManager {
                                        AMQP.BasicProperties properties,
                                        byte[] body)
                     throws IOException {
+
+
+
                 String routingKey = envelope.getRoutingKey();
                 String contentType = properties.getContentType();
                 long deliveryTag = envelope.getDeliveryTag();
 
-                System.out.println(consumerTag + ":Got:" + new String(body));
-                log.info("Got:{}", new String(body));
+//                System.out.println(consumerTag + ":Got:" + new String(body));
+
                 try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Files.write(Paths.get("/app/logs/racingConsumerTest/racingConsumer.log"), (mgmtPort + "-" + consumerTag+ ":Got:" + new String(body) + "\n").getBytes(), StandardOpenOption.APPEND);
+                }catch (NoSuchFileException e) {
+                    Files.write(Paths.get("/app/logs/racingConsumerTest/racingConsumer.log"), (mgmtPort + "-" + consumerTag+ ":Got:" + new String(body) + "\n").getBytes(), StandardOpenOption.CREATE);
                 }
+
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
                 if(!autoAck) {
                     channel.basicAck(deliveryTag, false);
                 }
-                System.out.println("acked");
+//                System.out.println("acked");
             }
 
             @Override
@@ -211,6 +224,7 @@ public class ConsumerManager {
         Map<String, Object> args = new HashMap<String, Object>();
         args.put("v3ConsumerMgmtPort", mgmtPort);
         args.put("v3ConsumerId", consumerId);
+//        args.put("x-priority", priority.get());
         String consumerTagReturn = channel.basicConsume(queueName, autoAck, consumerTag, false, false, args, defaultConsumer);
 
         try {
@@ -314,8 +328,6 @@ public class ConsumerManager {
 
             for (Map.Entry<String, String> entry : otherConsumers.entrySet()) {
 
-                System.out.println(entry.getKey());
-
                 boolean isNewOtherConsumer = false;
 
                 if (!this.otherConsumers.containsKey(entry.getKey())) {
@@ -356,7 +368,6 @@ public class ConsumerManager {
     }
 
     public synchronized boolean otherCustomerJoin(String hostAndPort){
-//          this.otherConsumers.putIfAbsent(hostAndPort, "TODO");
         String[] hostAndPortArr = hostAndPort.split(":");
         if (hostAndPortArr.length >= 2) {
             this.otherConsumers.put(hostAndPort, "TODO");

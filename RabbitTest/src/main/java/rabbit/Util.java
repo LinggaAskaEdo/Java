@@ -25,7 +25,7 @@ public class Util{
 
         out.println(msg);
         response = in.readLine();
-        System.out.println("Socket Response:"+response);
+        System.out.println("Socket OUT>>:"+msg+"||Socket IN<<:"+response);
         out.close();
         in.close();
         socket.close();

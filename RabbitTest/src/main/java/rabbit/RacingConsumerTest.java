@@ -4,11 +4,10 @@ import com.rabbitmq.client.*;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.URLEncoder;
-import java.net.UnknownHostException;
+import java.io.*;
+import java.net.*;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -153,12 +152,6 @@ public class RacingConsumerTest {
 
     public static void main(String[] args) throws UnknownHostException {
 
-        CountDownLatch a = new CountDownLatch(1);
-        try {
-            a.await(1, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         String userName = "app";
         String password = "1rstwap";
         String host = "10.32.6.20";

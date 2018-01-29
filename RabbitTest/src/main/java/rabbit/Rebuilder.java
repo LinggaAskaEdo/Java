@@ -30,7 +30,6 @@ public class Rebuilder {
     private Date executionDate = new Date();
     private final long default_refresh_ms = 5000;
     private final long default_wait_interval_ms = 1000;
-//    private final long default_rebuild_continue_wait_interval_ms = 100;
     private final long default_rebuild_continue_max_wait_ms = 15000;
 
     public static final String STATUS_REBUILD_OK = "OK";
@@ -39,6 +38,7 @@ public class Rebuilder {
     public static final String STATUS_REBUILD_ALREADY_CANCELLED = "ALREADY_CANCELLED";
 
     private Rebuilder(String ownHost, int ownPort){
+        ConsumerManager.priority.set(ConsumerManager.priority.get() * -1);
         this.ownHost = ownHost;
         this.ownPort = ownPort;
         this.executionDate = new Date(new Date().getTime() + default_refresh_ms);
@@ -122,7 +122,6 @@ public class Rebuilder {
 
     private void updateListA() {
         Map<String, String> otherConsumers = new HashMap<>(consumerManager.getOtherConsumers());
-
         synchronized (consumerCheckA) {
             consumerCheckA.retainAll(otherConsumers.keySet());
             String ownHostAndPort = ownHost + ":" + ownPort;
@@ -143,8 +142,10 @@ public class Rebuilder {
                             break;
                         }
                     } catch (Exception e) {
+                        cancel();
                         System.out.println("error when triger rebuild:" + entry.getKey());
                         e.printStackTrace();
+                        break;
                     }
                 }
             }
@@ -209,7 +210,6 @@ public class Rebuilder {
 
                         List<String> consumerCheckTemp = getConsumerCheck();
                         currPosition = consumerCheckTemp.indexOf(ownHostAndPort);
-                        System.out.println("####>>>>>>currPosition:"+currPosition);
                         System.out.println("list to check:" + consumerCheckTemp);
 
                         for (String hostAndPort : consumerCheckTemp) {
@@ -218,11 +218,8 @@ public class Rebuilder {
                                 try {
                                     String response = util.socketCall(hostAndPortArr[0], Integer.parseInt(hostAndPortArr[1])
                                             , MyProcessor.MSG_PREFIX_START_REBUILD + consumerCheckTemp.toString(), Util.SOCKET_DEFAULT_TIMEOUT_MS);
-                                    if (MyProcessor.MSG_RESPONSE_START_REBUILD_OK.equals(response)) {
-
-                                        //continue
-                                    } else {
-                                        //cancel/retry?
+                                    if (!MyProcessor.MSG_RESPONSE_START_REBUILD_OK.equals(response)) {
+                                        cancel();
                                         return;
                                     }
                                 } catch (IOException e) {
@@ -235,7 +232,6 @@ public class Rebuilder {
 
 
                         String nextConsumerHostAndPort = ownHostAndPort;
-
 
                         if(currPosition == 0){
                             continueRebuild();
@@ -317,8 +313,6 @@ public class Rebuilder {
                             if(nextConsumerHostAndPort.equals(ownHostAndPort)){
                                 continueRebuild();
                             }
-
-
                         }
                     }
                 } catch (Exception e){

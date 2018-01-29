@@ -24,7 +24,7 @@ public class RacingConsumerJob implements Job {
             System.out.println("isrebuildcancelled after cancel:"+consumerManager.isRebuildOnJoinCancelled());
         }
 
-        System.out.println("lastRebuildList:"+ Rebuilder.lastRebuildList.get());
+        System.out.println("lastRebuildList:"+Rebuilder.lastRebuildList.get());
 
         Map<String, String> currentConsumerDetails = consumerManager.getCurrentConsumerDetails();
 //        consumerManager.updateConsumerDetails(currentConsumerDetails, true, !rebuildOnJoinCancelled);

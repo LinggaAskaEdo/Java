@@ -1,0 +1,123 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'jacoco'
+
+sourceCompatibility = 1.8
+
+def jarBaseName = 'ams-mls-lookup'
+def distributionFolder = 'ams-mls-lookup'
+def configFiles = ['application.properties', 'database.properties', 'messages.properties', 'logback.xml', 'ams-mls-lookup.sh', 'run-backup.sh'] as Set
+def libFiles = ['mls/lookupservice/dao/*.elsql'] as Set
+
+jacoco {
+    toolVersion = "0.7.5+"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+    }
+}
+
+test {
+    // enable TestNG support (default is JUnit)
+    useTestNG()
+    include '**/*Test.class'
+    exclude '**/*IntegrationTest.class'
+}
+
+test.finalizedBy jacocoTestReport
+
+jar {
+    baseName = jarBaseName
+    exclude configFiles
+    exclude libFiles
+}
+
+buildscript {
+    ext {
+        springBootVersion = '1.5.6.RELEASE'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.spring.io/libs-milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-milestone" }
+}
+
+dependencies {
+    //Spring Boot
+    compile("org.springframework.boot:spring-boot-starter-jdbc")
+    compile("org.springframework.boot:spring-boot-starter-logging")
+    compile("org.springframework.boot:spring-boot-starter-web")
+
+    //JSON
+    compile("com.google.code.gson:gson")
+
+    //MySQL Connector
+    compile("mysql:mysql-connector-java")
+
+    //Sql2o
+    compile("org.sql2o:sql2o:1.5.4")
+
+    //Http Client
+    compile("org.apache.httpcomponents:httpclient:4.5.3")
+
+    //ElSql
+    compile("com.opengamma:elsql:1.2")
+
+    //Guava
+    compile("com.google.guava:guava:21.0")
+
+    //Web Server
+    compile("org.apache.tomcat.embed:tomcat-embed-jasper")
+
+    //Apache
+    compile("commons-io:commons-io:2.5")
+
+    //Joda Time
+    compile("joda-time:joda-time:2.9.9")
+
+    //test
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.mockito:mockito-all:1.9.5")
+    testCompile("org.testng:testng:6.10")
+    testCompile("org.assertj:assertj-core:3.6.2")
+}
+
+task copyFilesToPackage << {
+    copy {
+        from('src/main/resources') {
+            include libFiles
+        }
+        from 'build/libs/' + jarBaseName + '.jar'
+        into 'build/' + distributionFolder + '/lib'
+    }
+
+    copy {
+        from('src/main/resources') {
+            include configFiles
+        }
+        into 'build/' + distributionFolder
+    }
+}
+
+task zipPackage(type: Zip, dependsOn: 'copyFilesToPackage') {
+    from 'build/' + distributionFolder
+    baseName distributionFolder
+}
+
+build.dependsOn zipPackage
+zipPackage.mustRunAfter check

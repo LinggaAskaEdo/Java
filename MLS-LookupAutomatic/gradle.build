@@ -1,0 +1,2 @@
+compileJava.options.fork=true
+compileJava.options.forkOptions.executable=/usr/lib/jvm/jdk1.8.0

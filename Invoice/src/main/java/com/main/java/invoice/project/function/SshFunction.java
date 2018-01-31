@@ -55,31 +55,35 @@ public class SshFunction
 
                 if (index == 1)
                 {
-                    StaticPreference.setURL(line);
+                    //StaticPreference.setURL(line);
+                    StaticPreference.URL = line;
                 }
                 else if (index == 2)
                 {
-                    StaticPreference.setUSERNAME(line);
+                    //StaticPreference.setUSERNAME(line);
+                    StaticPreference.USERNAME = line;
                 }
                 else if (index == 3)
                 {
-                    StaticPreference.setPASSWORD(line);
+                    //StaticPreference.setPASSWORD(line);
+                    StaticPreference.PASSWORD = line;
                 }
             }
 
             channelExec.disconnect();
             session.disconnect();
 
-            if (StaticPreference.getURL() == null || StaticPreference.getUSERNAME() == null || StaticPreference.getPASSWORD() == null)
+            //if (StaticPreference.getURL() == null || StaticPreference.getUSERNAME() == null || StaticPreference.getPASSWORD() == null)
+            if (StaticPreference.URL == null || StaticPreference.USERNAME == null || StaticPreference.PASSWORD == null)
             {
                 return false;
             }
 
-            System.out.println("URL: " + StaticPreference.getURL());
-            System.out.println("USERNAME: " + StaticPreference.getUSERNAME());
-            System.out.println("PASSWORD: " + StaticPreference.getPASSWORD());
+            System.out.println("URL: " + StaticPreference.URL);
+            System.out.println("USERNAME: " + StaticPreference.USERNAME);
+            System.out.println("PASSWORD: " + StaticPreference.PASSWORD);
 
-            ConnectTest connectTest = new ConnectTest(StaticPreference.getURL(), StaticPreference.getUSERNAME(), StaticPreference.getPASSWORD());
+            ConnectTest connectTest = new ConnectTest(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
             connectTest.connect();
             connectTest.disconnect();
 

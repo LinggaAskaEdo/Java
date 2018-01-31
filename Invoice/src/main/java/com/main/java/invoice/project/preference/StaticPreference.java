@@ -2,11 +2,11 @@ package com.main.java.invoice.project.preference;
 
 public class StaticPreference
 {
-	private static String URL;
-	private static String USERNAME;
-	private static String PASSWORD;
+	public static String URL;
+	public static String USERNAME;
+	public static String PASSWORD;
 	
-	public static String getURL() 
+	/*public static String getURL()
 	{
 		return URL;
 	}
@@ -34,5 +34,5 @@ public class StaticPreference
 	public static void setPASSWORD(String pASSWORD) 
 	{
 		PASSWORD = pASSWORD;
-	}
+	}*/
 }

@@ -1,9 +1,11 @@
 package com.main.java.invoice.project.form;
 
+import com.main.java.invoice.project.dao.UserDAO;
+import com.main.java.invoice.project.preference.StaticPreference;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.Arrays;
 
 public class LoginForm extends JFrame
 {
@@ -80,8 +82,22 @@ public class LoginForm extends JFrame
 			String pass = String.valueOf(PF_KataSandi.getPassword());
 
 			System.out.println(user + " - " + pass);
+			System.out.println("URL: " + StaticPreference.URL);
+			System.out.println("USERNAME: " + StaticPreference.USERNAME);
+			System.out.println("PASSWORD: " + StaticPreference.PASSWORD);
 
 			//TODO Login Check
+			UserDAO userDAO = new UserDAO();
+
+			if (userDAO.checkUser(user, pass))
+			{
+				MenuForm menuForm = new MenuForm();
+				menuForm.setVisible(true);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Login Gagal", "", JOptionPane.ERROR_MESSAGE);
+			}
 		});
 
 		btnBatal.setBounds(255, 201, 117, 25);

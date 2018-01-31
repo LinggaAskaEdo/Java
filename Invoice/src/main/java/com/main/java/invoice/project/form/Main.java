@@ -30,10 +30,10 @@ public class Main
 		else
 		{
 			// create a jframe
-			JFrame frame = new JFrame("");
+			//JFrame frame = new JFrame("");
 
 			// show a joptionpane dialog using showMessageDialog
-			JOptionPane.showMessageDialog(frame, "Can't read configuration file", "Program Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Can't read configuration file", "Program Error", JOptionPane.ERROR_MESSAGE);
 			System.exit(0);
 		}
 	}

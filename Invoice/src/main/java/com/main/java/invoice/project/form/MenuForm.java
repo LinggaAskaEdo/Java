@@ -22,9 +22,10 @@ public class MenuForm extends JFrame
 				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
                 MenuForm frame = new MenuForm();
-				frame.setExtendedState(MAXIMIZED_BOTH);
+				//frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+				//frame.setExtendedState(MAXIMIZED_BOTH);
 				frame.setSize(screenSize);
-				frame.setResizable(false);
+				frame.setResizable(true);
 				frame.setVisible(true);
             }
             catch (Exception e)
@@ -34,12 +35,13 @@ public class MenuForm extends JFrame
         });
 	}
 
-	private MenuForm()
+	MenuForm()
 	{
-		setResizable(false);
+		setResizable(true);
 		setTitle("Menu");
 		initializeForm();
 		centerForm();
+		//this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 	}
 
 	private void centerForm()

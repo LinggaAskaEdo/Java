@@ -1,24 +1,15 @@
 package com.main.java.invoice.project.dao;
 
+import com.main.java.invoice.project.preference.StaticPreference;
+
 import java.sql.*;
 
 public class UserDAO
 {
-    private String url;
-    private String username;
-    private String password;
-
     private Connection connect = null;
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
-
-    public UserDAO(String url, String username, String password)
-    {
-        this.url = url;
-        this.username = username;
-        this.password = password;
-    }
 
     public boolean checkUser(String user, String pass)
     {
@@ -27,10 +18,11 @@ public class UserDAO
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
-            connect = DriverManager.getConnection(url + "user=" + username + "&password=" + password);
+            connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
-            preparedStatement = connect.prepareStatement("SELECT USER_NAME, USER_PASSWORD, IS_ADMIN FROM INVOICE_PROJECT.USER WHERE USER_NAME = '" + user + "' and USER_PASSWORD = '" + pass +"'");
-            resultSet = preparedStatement.executeQuery();
+            String query = "SELECT USER_NAME, USER_PASSWORD, IS_ADMIN FROM INVOICE_PROJECT.USER WHERE USER_NAME = '" + user + "' and USER_PASSWORD = '" + pass +"'";
+            statement = connect.createStatement();
+            resultSet = statement.executeQuery(query);
 
             while (resultSet.next())
             {

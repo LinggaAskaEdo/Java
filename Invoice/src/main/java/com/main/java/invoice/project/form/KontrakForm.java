@@ -15,10 +15,8 @@ import javax.swing.JTextField;
 
 import de.wannawork.jcalendar.JCalendarComboBox;
 
-public class KontrakForm extends JInternalFrame {
-	/**
-	 * 
-	 */
+public class KontrakForm extends JInternalFrame 
+{
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_NamaPerusahaan;
@@ -48,28 +46,35 @@ public class KontrakForm extends JInternalFrame {
 	private JTextField TF_ResultPph_23;
 	private JTextField TF_ResultSP_2D;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args) 
+	{
+		EventQueue.invokeLater(new Runnable() 
+		{
+			public void run() 
+			{
+				try 
+				{
 					KontrakForm frame = new KontrakForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e) 
+				{
 					e.printStackTrace();
 				}
 			}
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public KontrakForm() {
-		setClosable(true);
+	KontrakForm()
+	{
+		setResizable(false);
 		setTitle("Kontrak");
+		initializeForm();
+	}
+
+	private void initializeForm()
+	{
+		setClosable(true);
 		setBounds(100, 100, 630, 534);
 		getContentPane().setLayout(null);
 		

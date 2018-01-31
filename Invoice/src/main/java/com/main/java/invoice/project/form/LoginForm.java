@@ -93,6 +93,7 @@ public class LoginForm extends JFrame
 			{
 				MenuForm menuForm = new MenuForm();
 				menuForm.setVisible(true);
+				this.setVisible(false);
 			}
 			else
 			{

@@ -14,6 +14,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import de.wannawork.jcalendar.JCalendarComboBox;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+
+import com.main.java.invoice.project.function.GeneralFunction;
 
 public class KontrakForm extends JInternalFrame 
 {
@@ -67,6 +71,17 @@ public class KontrakForm extends JInternalFrame
 
 	KontrakForm()
 	{
+		addInternalFrameListener(new InternalFrameAdapter()
+		{
+			@Override
+			public void internalFrameOpened(InternalFrameEvent e) 
+			{
+				GeneralFunction generalFunction = new GeneralFunction();
+				String newCode = generalFunction.generateCodeName();
+				System.out.println("newCode: " + newCode);
+				TF_NoKontrak.setText(newCode);
+			}
+		});
 		setResizable(false);
 		setTitle("Kontrak");
 		initializeForm();

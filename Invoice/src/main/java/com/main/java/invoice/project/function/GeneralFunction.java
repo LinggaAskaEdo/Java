@@ -17,7 +17,7 @@ public class GeneralFunction
 
 	private String generateCode1()
 	{
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 		Date currentTime = new Date();
 
@@ -36,7 +36,9 @@ public class GeneralFunction
 		KontrakDAO kontrakDAO = new KontrakDAO();
 		String result =  kontrakDAO.getLastId();
 
-		return result.equalsIgnoreCase("") ? generateCodeNamex("1") :  generateCodeNamex(result);
+		System.out.println("result: " + result);
+		
+		return result.equalsIgnoreCase("") || result.equalsIgnoreCase("0") ? generateCodeNamex("1") :  generateCodeNamex(result);
 	}
 
 	private String generateCodeNamex(String counterValue)
@@ -45,16 +47,18 @@ public class GeneralFunction
 
 		int lengthCounter = counterValue.length();
 
-		if (lengthCounter == 1)
+		/*if (lengthCounter == 1)
 		{
 			counterValue = "0" + counterValue;
-		}
+			System.out.println("AAA");
+		}*/
 
 		for (int x = 0; x < (StaticPreference.COUNTER_FILE_LENGTH - lengthCounter); x++)
 		{
+			System.out.println("BBB");
 			extendName.append("0");
 		}
 
-		return String.valueOf(extendName);
+		return String.valueOf(extendName) + counterValue;
 	}
 }

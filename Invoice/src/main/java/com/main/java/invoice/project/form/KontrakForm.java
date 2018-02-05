@@ -274,6 +274,7 @@ public class KontrakForm extends JInternalFrame
 		lblListKontrak.setBounds(46, 26, 126, 15);
 		desktopPane.add(lblListKontrak);
 		
+		@SuppressWarnings("rawtypes")
 		JComboBox CB_ListKontrak = new JComboBox();
 		CB_ListKontrak.setBounds(194, 21, 212, 24);
 		desktopPane.add(CB_ListKontrak);

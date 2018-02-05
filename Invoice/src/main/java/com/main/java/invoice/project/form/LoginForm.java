@@ -9,6 +9,8 @@ import java.awt.*;
 
 public class LoginForm extends JFrame
 {
+	private static final long serialVersionUID = 3330971717219231685L;
+
 	JDesktopPane desktopPane = new JDesktopPane();
 
 	private final JTextField TF_Pengguna = new JTextField();

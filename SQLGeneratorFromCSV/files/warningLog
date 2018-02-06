@@ -1,0 +1,2 @@
+ERROR: 98 - 'ROUTER' - /app/servers/router/application.properties - router.spring.rabbitmq.usernamex
+MANUAL: 100 - 'DB' - /app/servers/dbservice/application.properties - db.service.queue.source

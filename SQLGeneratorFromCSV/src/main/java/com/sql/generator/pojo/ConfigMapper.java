@@ -2,6 +2,9 @@ package com.sql.generator.pojo;
 
 public class ConfigMapper
 {
+    public static final String BASE_CONFIG_PATH = "/home/lingga/git/altamides/altamides-config/src/data/";
+    public static final String MANUAL_TYPE = "MANUAL";
+
     private String configKeyId;
     private String module;
     private String key;

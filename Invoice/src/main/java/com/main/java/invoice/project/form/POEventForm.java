@@ -16,13 +16,16 @@ import javax.swing.table.DefaultTableModel;
 import de.wannawork.jcalendar.JCalendarComboBox;
 import javax.swing.JTextArea;
 import javax.swing.BorderFactory;
+import javax.swing.table.TableColumn;
 
 public class POEventForm extends JInternalFrame {
 	
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_Event;
 	private JTextField TF_Value;
-	private JTable table;
+	private JTable table1;
+	private JTable table2;
+	private JTable table3;
 	private JTextField TF_PONomor;
 	private JTextField TF_ReffKontrak;
 	private JTextField TF_Kegiatan;
@@ -45,12 +48,21 @@ public class POEventForm extends JInternalFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public POEventForm() {
-		setClosable(true);
+	POEventForm()
+	{
 		setTitle("PO. Event");
+		initializeForm();
+		table1.setModel(tabelModel1);
+		Tabel(table1, new int[]{120, 120, 120, 120, 120, 120});
+		table2.setModel(tabelModel2);
+		Tabel(table2, new int[]{120, 120, 120});
+		table3.setModel(tabelModel3);
+		Tabel(table3, new int[]{120, 120, 120, 120, 120});
+	}
+
+	public void initializeForm() {
+
+		setClosable(true);
 		setBounds(100, 100, 630, 693);
 		getContentPane().setLayout(null);
 		
@@ -112,25 +124,11 @@ public class POEventForm extends JInternalFrame {
 		desktopPane.add(TF_Kegiatan);
 		TF_Kegiatan.setColumns(10);
 		
-		table = new JTable();
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"Uraian", "Detail", "Jumlah 1", "Jumlah 2", "Harga Satuan", "Total"
-			}
-		));
-		table.setBounds(46, 214, 532, 90);
-		//desktopPane.add(table);
+		table1 = new JTable();
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(45, 173, 495, 90);
-		scrollPane.setViewportView(table);
+		scrollPane.setViewportView(table1);
 		desktopPane.add(scrollPane);
 		
 		JButton btnPlus_1 = new JButton("+");
@@ -141,25 +139,11 @@ public class POEventForm extends JInternalFrame {
 		btnMinus_1.setBounds(548, 207, 49, 25);
 		desktopPane.add(btnMinus_1);
 		
-		table = new JTable();
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-			},
-			new String[] {
-				"Uraian", "Detail", "Harga"
-			}
-		));
-		table.setBounds(46, 214, 532, 90);
-		//desktopPane.add(table);
+		table2 = new JTable();
 
 		JScrollPane scrollPane1 = new JScrollPane();
 		scrollPane1.setBounds(45, 302, 495, 90);
-		scrollPane1.setViewportView(table);
+		scrollPane1.setViewportView(table2);
 		desktopPane.add(scrollPane1);
 		
 		JButton btnPlus_2 = new JButton("+");
@@ -184,24 +168,11 @@ public class POEventForm extends JInternalFrame {
 		btnUnggah.setBounds(386, 597, 84, 25);
 		desktopPane.add(btnUnggah);
 		
-		table = new JTable();
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"Reff PO", "Catatan Reimburse", "Tanggal", "Reff Sumber Dana", "Keterangan"
-			}
-		));
-		table.setBounds(46, 214, 532, 90);
+		table3 = new JTable();
 
 		JScrollPane scrollPane2 = new JScrollPane();
 		scrollPane2.setBounds(45, 495, 495, 90);
-		scrollPane2.setViewportView(table);
+		scrollPane2.setViewportView(table3);
 		desktopPane.add(scrollPane2);
 		
 		TF_Unggah = new JTextField();
@@ -220,5 +191,76 @@ public class POEventForm extends JInternalFrame {
 		JLabel lblUnggahDokumen = new JLabel("Unggah Dokumen");
 		lblUnggahDokumen.setBounds(45, 603, 139, 15);
 		desktopPane.add(lblUnggahDokumen);
+	}
+
+	private DefaultTableModel tabelModel1 = getDefaultTabelModel1();
+	private DefaultTableModel tabelModel2 = getDefaultTabelModel2();
+	private DefaultTableModel tabelModel3 = getDefaultTabelModel3();
+
+	private void Tabel(JTable tb, int lebar[]){
+		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		int kolom = tb.getColumnCount();
+		for (int i=0; i<kolom; i++){
+			TableColumn tbc= tb.getColumnModel().getColumn(i);
+			tbc.setPreferredWidth(lebar[i]);
+			tb.setRowHeight(18);
+		}
+	}
+
+	private DefaultTableModel getDefaultTabelModel1(){
+		return new DefaultTableModel(
+				new Object [][] {
+						{null, null, null, null, null, null},
+						{null, null, null, null, null, null},
+						{null, null, null, null, null, null},
+						{null, null, null, null, null, null}
+				},
+				new String [] {"Uraian", "Detail", "Jumlah 1", "Jumlah 2", "Harga Satuan", "Total"}
+		){
+			boolean [] canEdit = new boolean[]{
+					false,false
+			};
+			public boolean isCellEditable(int rowIndex, int columnIndex){
+				return canEdit[columnIndex];
+			}
+		};
+	}
+
+	private DefaultTableModel getDefaultTabelModel2(){
+		return new DefaultTableModel(
+				new Object [][] {
+						{null, null, null},
+						{null, null, null},
+						{null, null, null},
+						{null, null, null}
+				},
+				new String [] {"Uraian", "Detail", "Harga"}
+		){
+			boolean [] canEdit = new boolean[]{
+					false,false
+			};
+			public boolean isCellEditable(int rowIndex, int columnIndex){
+				return canEdit[columnIndex];
+			}
+		};
+	}
+
+	private DefaultTableModel getDefaultTabelModel3(){
+		return new DefaultTableModel(
+				new Object [][] {
+						{null, null, null, null, null},
+						{null, null, null, null, null},
+						{null, null, null, null, null},
+						{null, null, null, null, null}
+				},
+				new String [] {"Reff PO", "Catatan Reimburse", "Tanggal", "Reff Sumber Dana", "Keterangan"}
+		){
+			boolean [] canEdit = new boolean[]{
+					false,false
+			};
+			public boolean isCellEditable(int rowIndex, int columnIndex){
+				return canEdit[columnIndex];
+			}
+		};
 	}
 }

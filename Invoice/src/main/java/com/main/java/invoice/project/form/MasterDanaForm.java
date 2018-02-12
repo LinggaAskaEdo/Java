@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
+import javax.swing.table.TableColumn;
 
 public class MasterDanaForm extends JInternalFrame {
 	
@@ -20,7 +21,7 @@ public class MasterDanaForm extends JInternalFrame {
 	private JTextField TF_noRek;
 	private JTextField TF_AtasNama;
 	private JTextField TF_Tunai;
-	private JTable table; 
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -38,13 +39,17 @@ public class MasterDanaForm extends JInternalFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public MasterDanaForm() {
-		setClosable(true);
+	MasterDanaForm()
+	{
 		setTitle("Master Dana");
-		//setBounds(100, 100, 630, 428);
+		initializeForm();
+		table.setModel(tabelModel);
+		Tabel(table, new int[]{120, 120, 120, 120});
+	}
+
+	public void initializeForm() {
+
+		setClosable(true);
 		setBounds(100, 100, 630, 339);
 		getContentPane().setLayout(null);
 		
@@ -88,21 +93,7 @@ public class MasterDanaForm extends JInternalFrame {
 		TF_Tunai.setColumns(10);
 		
 		table = new JTable();
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-			},
-			new String[] {
-				"Nama Bank", "No. Rek", "Atas Nama", "Cash/Tunai"
-			}
-		));
-		table.setBounds(46, 214, 532, 90);
-		//desktopPane.add(table);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(45, 157, 534, 90);
 		scrollPane.setViewportView(table);
@@ -117,4 +108,33 @@ public class MasterDanaForm extends JInternalFrame {
 		desktopPane.add(btnHapus);
 	}
 
+	private DefaultTableModel tabelModel = getDefaultTabelModel();
+	private void Tabel(JTable tb, int lebar[]){
+		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		int kolom = tb.getColumnCount();
+		for (int i=0; i<kolom; i++){
+			TableColumn tbc= tb.getColumnModel().getColumn(i);
+			tbc.setPreferredWidth(lebar[i]);
+			tb.setRowHeight(18);
+		}
+	}
+
+	private DefaultTableModel getDefaultTabelModel(){
+		return new DefaultTableModel(
+				new Object [][] {
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null}
+				},
+				new String [] {"Nama Bank", "No. Rek", "Atas Nama", "Cash/Tunai"}
+		){
+			boolean [] canEdit = new boolean[]{
+					false,false
+			};
+			public boolean isCellEditable(int rowIndex, int columnIndex){
+				return canEdit[columnIndex];
+			}
+		};
+	}
 }

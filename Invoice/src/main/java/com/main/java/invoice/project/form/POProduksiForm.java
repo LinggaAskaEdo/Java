@@ -17,6 +17,7 @@ import de.wannawork.jcalendar.JCalendarComboBox;
 
 import javax.swing.JTextArea;
 import javax.swing.BorderFactory;
+import javax.swing.table.TableColumn;
 
 public class POProduksiForm extends JInternalFrame {
 
@@ -44,13 +45,17 @@ public class POProduksiForm extends JInternalFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public POProduksiForm() {
-		setClosable(true);
+	POProduksiForm()
+	{
 		setTitle("PO. Produksi");
-		//setBounds(100, 100, 630, 573);
+		initializeForm();
+		table.setModel(tabelModel);
+		Tabel(table, new int[]{120, 120, 120, 120, 120, 120, 120, 120, 120, 120});
+	}
+
+	public void initializeForm() {
+
+		setClosable(true);
 		setBounds(100, 100, 630, 487);
 		getContentPane().setLayout(null);
 		
@@ -87,20 +92,6 @@ public class POProduksiForm extends JInternalFrame {
 		desktopPane.add(CL_Tanggal);
 		
 		table = new JTable();
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"Media", "Durasi", "Hari", "Lokasi", "Uraian", "Jenis", "Jumlah", "Barang" ,"Harga Satuan", "Total Harga"
-			}
-		));
-		table.setBounds(46, 214, 532, 90);
-		//desktopPane.add(table);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(45, 178, 490, 90);
@@ -159,6 +150,35 @@ public class POProduksiForm extends JInternalFrame {
 		JLabel lblUnggahDokumen = new JLabel("Unggah Dokumen");
 		lblUnggahDokumen.setBounds(45, 381, 133, 15);
 		desktopPane.add(lblUnggahDokumen);
-		
+	}
+
+	private DefaultTableModel tabelModel = getDefaultTabelModel();
+	private void Tabel(JTable tb, int lebar[]){
+		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		int kolom = tb.getColumnCount();
+		for (int i=0; i<kolom; i++){
+			TableColumn tbc= tb.getColumnModel().getColumn(i);
+			tbc.setPreferredWidth(lebar[i]);
+			tb.setRowHeight(18);
+		}
+	}
+
+	private DefaultTableModel getDefaultTabelModel(){
+		return new DefaultTableModel(
+				new Object [][] {
+						{null, null, null, null, null, null, null, null, null, null},
+						{null, null, null, null, null, null, null, null, null, null},
+						{null, null, null, null, null, null, null, null, null, null},
+						{null, null, null, null, null, null, null, null, null, null}
+				},
+				new String [] {"Media", "Durasi", "Hari", "Lokasi", "Uraian", "Jenis", "Jumlah", "Barang" ,"Harga Satuan", "Total Harga"}
+		){
+			boolean [] canEdit = new boolean[]{
+					false,false
+			};
+			public boolean isCellEditable(int rowIndex, int columnIndex){
+				return canEdit[columnIndex];
+			}
+		};
 	}
 }

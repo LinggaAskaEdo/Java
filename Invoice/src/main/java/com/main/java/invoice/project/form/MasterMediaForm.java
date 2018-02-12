@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
+import javax.swing.table.TableColumn;
 
 public class MasterMediaForm extends JInternalFrame {
 	
@@ -40,13 +41,17 @@ public class MasterMediaForm extends JInternalFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public MasterMediaForm() {
-		setClosable(true);
+	MasterMediaForm()
+	{
 		setTitle("Master Media");
-		//setBounds(100, 100, 630, 513);
+		initializeForm();
+		table.setModel(tabelModel);
+		Tabel(table, new int[]{120, 120, 120, 120, 120, 120});
+	}
+
+	public void initializeForm() {
+
+		setClosable(true);
 		setBounds(100, 100, 630, 450);
 		getContentPane().setLayout(null);
 		
@@ -108,20 +113,6 @@ public class MasterMediaForm extends JInternalFrame {
 		desktopPane.add(TA_Keterangan);
 		
 		table = new JTable();
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"Nama Perusahaan", "Nama Media", "Alamat", "NPWP", "Bill Commitment", "Keterangan"
-			}
-		));
-		table.setBounds(46, 214, 532, 90);
-		//desktopPane.add(table);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(45, 269, 534, 90);
@@ -136,5 +127,35 @@ public class MasterMediaForm extends JInternalFrame {
 		btnHapus.setBounds(462, 371, 117, 25);
 		desktopPane.add(btnHapus);
 
+	}
+
+	private DefaultTableModel tabelModel = getDefaultTabelModel();
+	private void Tabel(JTable tb, int lebar[]){
+		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		int kolom = tb.getColumnCount();
+		for (int i=0; i<kolom; i++){
+			TableColumn tbc= tb.getColumnModel().getColumn(i);
+			tbc.setPreferredWidth(lebar[i]);
+			tb.setRowHeight(18);
+		}
+	}
+
+	private DefaultTableModel getDefaultTabelModel(){
+		return new DefaultTableModel(
+				new Object [][] {
+						{null, null, null, null, null, null},
+						{null, null, null, null, null, null},
+						{null, null, null, null, null, null},
+						{null, null, null, null, null, null}
+				},
+				new String [] {"Nama Perusahaan", "Nama Media", "Alamat", "NPWP", "Bill Commitment", "Keterangan"}
+		){
+			boolean [] canEdit = new boolean[]{
+					false,false
+			};
+			public boolean isCellEditable(int rowIndex, int columnIndex){
+				return canEdit[columnIndex];
+			}
+		};
 	}
 }

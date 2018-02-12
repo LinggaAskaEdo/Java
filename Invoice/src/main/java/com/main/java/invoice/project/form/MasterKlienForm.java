@@ -14,6 +14,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+import javax.swing.table.TableColumn;
 
 public class MasterKlienForm extends JInternalFrame {
 	private JTextField TF_Nama;
@@ -39,12 +40,17 @@ public class MasterKlienForm extends JInternalFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public MasterKlienForm() {
-		setClosable(true);
+	MasterKlienForm()
+	{
 		setTitle("Master Klien");
+		initializeForm();
+		table.setModel(tabelModel);
+		Tabel(table, new int[]{120, 120, 120, 120, 120});
+	}
+
+	public void initializeForm() {
+
+		setClosable(true);
 		setBounds(100, 100, 630, 428);
 		getContentPane().setLayout(null);
 		
@@ -98,21 +104,7 @@ public class MasterKlienForm extends JInternalFrame {
 		desktopPane.add(lblNewLabel);
 		
 		table = new JTable();
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"Nama Kementerian", "Alamat", "NPWP", "Satker PKK", "Keterangan"
-			}
-		));
-		table.setBounds(46, 214, 532, 90);
-		//desktopPane.add(table);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(45, 249, 534, 90);
 		scrollPane.setViewportView(table);
@@ -126,5 +118,35 @@ public class MasterKlienForm extends JInternalFrame {
 		btnHapus.setBounds(462, 351, 117, 25);
 		desktopPane.add(btnHapus);
 
+	}
+
+	private DefaultTableModel tabelModel = getDefaultTabelModel();
+	private void Tabel(JTable tb, int lebar[]){
+		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		int kolom = tb.getColumnCount();
+		for (int i=0; i<kolom; i++){
+			TableColumn tbc= tb.getColumnModel().getColumn(i);
+			tbc.setPreferredWidth(lebar[i]);
+			tb.setRowHeight(18);
+		}
+	}
+
+	private DefaultTableModel getDefaultTabelModel(){
+		return new DefaultTableModel(
+				new Object [][] {
+						{null, null, null, null, null},
+						{null, null, null, null, null},
+						{null, null, null, null, null},
+						{null, null, null, null, null}
+				},
+				new String [] {"Nama Kementerian", "Alamat", "NPWP", "Satker PKK", "Keterangan"}
+		){
+			boolean [] canEdit = new boolean[]{
+					false,false
+			};
+			public boolean isCellEditable(int rowIndex, int columnIndex){
+				return canEdit[columnIndex];
+			}
+		};
 	}
 }

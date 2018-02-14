@@ -37,7 +37,7 @@ public class MenuForm extends JFrame
 
 	MenuForm()
 	{
-		setResizable(true);
+		//setResizable(true);
 		setTitle("Menu");
 		initializeForm();
 		centerForm();

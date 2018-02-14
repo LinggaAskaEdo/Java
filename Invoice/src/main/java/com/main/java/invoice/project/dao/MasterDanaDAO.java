@@ -1,9 +1,13 @@
 package com.main.java.invoice.project.dao;
 
-import com.main.java.invoice.project.pojo.MasterDana;
-import com.main.java.invoice.project.preference.StaticPreference;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-import java.sql.*;
+import com.main.java.invoice.project.preference.StaticPreference;
 
 /**
  * Created by dery on 2/11/18.

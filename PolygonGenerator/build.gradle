@@ -1,0 +1,16 @@
+group 'PolygonGenerator'
+version '1.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-milestone" }
+}
+
+dependencies {
+    compile 'org.locationtech.jts:jts-core:1.15.0'
+}

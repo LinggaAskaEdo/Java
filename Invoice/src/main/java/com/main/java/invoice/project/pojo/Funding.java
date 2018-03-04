@@ -6,70 +6,80 @@ import java.util.Date;
 public class Funding
 {
     private Integer fundingId;
+    private String kontakName;
     private Integer kontrakId;
     private Date tanggal;
     private BigDecimal nilai;
     private String keterangan;
+    private String image;
 
-    public Integer getFundingId()
-    {
+    public Integer getFundingId() {
         return fundingId;
     }
 
-    public void setFundingId(Integer fundingId)
-    {
+    public void setFundingId(Integer fundingId) {
         this.fundingId = fundingId;
     }
 
-    public Integer getKontrakId()
-    {
+    public String getKontakName() {
+        return kontakName;
+    }
+
+    public void setKontakName(String kontakName) {
+        this.kontakName = kontakName;
+    }
+
+    public Integer getKontrakId() {
         return kontrakId;
     }
 
-    public void setKontrakId(Integer kontrakId)
-    {
+    public void setKontrakId(Integer kontrakId) {
         this.kontrakId = kontrakId;
     }
 
-    public Date getTanggal()
-    {
+    public Date getTanggal() {
         return tanggal;
     }
 
-    public void setTanggal(Date tanggal)
-    {
+    public void setTanggal(Date tanggal) {
         this.tanggal = tanggal;
     }
 
-    public BigDecimal getNilai()
-    {
+    public BigDecimal getNilai() {
         return nilai;
     }
 
-    public void setNilai(BigDecimal nilai)
-    {
+    public void setNilai(BigDecimal nilai) {
         this.nilai = nilai;
     }
 
-    public String getKeterangan()
-    {
+    public String getKeterangan() {
         return keterangan;
     }
 
-    public void setKeterangan(String keterangan)
-    {
+    public void setKeterangan(String keterangan) {
         this.keterangan = keterangan;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
-    public String toString()
-    {
-        return "Funding{" +
-                "fundingId=" + fundingId +
-                ", kontrakId=" + kontrakId +
-                ", tanggal=" + tanggal +
-                ", nilai=" + nilai +
-                ", keterangan='" + keterangan + '\'' +
-                '}';
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Funding{");
+        sb.append("fundingId=").append(fundingId);
+        sb.append(", kontakName='").append(kontakName).append('\'');
+        sb.append(", kontrakId=").append(kontrakId);
+        sb.append(", tanggal=").append(tanggal);
+        sb.append(", nilai=").append(nilai);
+        sb.append(", keterangan='").append(keterangan).append('\'');
+        sb.append(", image='").append(image).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

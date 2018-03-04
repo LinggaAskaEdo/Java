@@ -2,6 +2,8 @@ package com.main.java.invoice.project.form;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
@@ -13,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import com.main.java.invoice.project.pojo.DetailProduksi;
 import de.wannawork.jcalendar.JCalendarComboBox;
 
 import javax.swing.JTextArea;
@@ -113,10 +116,23 @@ public class POProduksiForm extends JInternalFrame {
 		TF_ReffKontrak.setColumns(10);
 		
 		JButton btnPlus = new JButton("+");
+		btnPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				DetailProduksiForm produksi = new DetailProduksiForm();
+				desktopPane.add(produksi);
+				produksi.setVisible(true);
+			}
+		});
 		btnPlus.setBounds(547, 178, 44, 25);
 		desktopPane.add(btnPlus);
 		
 		JButton btnMinus = new JButton("-");
+		btnMinus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
 		btnMinus.setBounds(547, 209, 44, 25);
 		desktopPane.add(btnMinus);
 		

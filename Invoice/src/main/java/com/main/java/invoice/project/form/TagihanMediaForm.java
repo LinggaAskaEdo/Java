@@ -36,12 +36,14 @@ public class TagihanMediaForm extends JInternalFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public TagihanMediaForm() {
-		setClosable(true);
+	TagihanMediaForm()
+	{
 		setTitle("Tagihan Media");
+		initializeForm();
+	}
+
+	public void initializeForm() {
+		setClosable(true);
 		//setBounds(100, 100, 630, 428);
 		setBounds(100, 100, 560, 303);
 		getContentPane().setLayout(null);

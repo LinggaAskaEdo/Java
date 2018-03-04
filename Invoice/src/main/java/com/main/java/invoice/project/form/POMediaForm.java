@@ -2,6 +2,10 @@ package com.main.java.invoice.project.form;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
@@ -11,11 +15,14 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
+
+import com.main.java.invoice.project.pojo.TagihanMedia;
 import de.wannawork.jcalendar.JCalendarComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.BorderFactory;
+import javax.swing.table.TableColumn;
 
 public class POMediaForm extends JInternalFrame {
 	
@@ -47,14 +54,20 @@ public class POMediaForm extends JInternalFrame {
 		});
 	}
 
+	POMediaForm()
+	{
+		setTitle("PO. Media");
+		initializeForm();
+		table.setModel(tabelModel);
+		Tabel(table, new int[]{120, 120, 120, 120});
+	}
+
 	/**
 	 * Create the frame.
 	 */
-	public POMediaForm() {
+	public void initializeForm() {
 		setClosable(true);
-		setTitle("PO. Media");
 		setBounds(100, 100, 630, 551);
-		//setBounds(100, 100, 580, 463);
 		getContentPane().setLayout(null);
 		
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -144,20 +157,7 @@ public class POMediaForm extends JInternalFrame {
 		TF_unggah.setColumns(10);
 		
 		table = new JTable();
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"Reff PO", "Invoice Media", "Tanggal", "Nilai Tagihan", "Reff Sumber Dana"
-			}
-		));
-		table.setBounds(46, 214, 532, 90);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(45, 373, 495, 90);
 		scrollPane.setViewportView(table);
@@ -177,10 +177,23 @@ public class POMediaForm extends JInternalFrame {
 		desktopPane.add(btnUpload);
 		
 		JButton btnPlus = new JButton("+");
+		btnPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				TagihanMediaForm media = new TagihanMediaForm();
+				desktopPane.add(media);
+				media.setVisible(true);
+			}
+		});
 		btnPlus.setBounds(552, 373, 49, 25);
 		desktopPane.add(btnPlus);
 		
 		JButton btnMinus = new JButton("-");
+		btnMinus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
 		btnMinus.setBounds(552, 406, 49, 25);
 		desktopPane.add(btnMinus);
 		
@@ -188,5 +201,35 @@ public class POMediaForm extends JInternalFrame {
 		btn_Unggah.setBounds(410, 341, 96, 25);
 		desktopPane.add(btn_Unggah);
 
+	}
+
+	private DefaultTableModel tabelModel = getDefaultTabelModel();
+	private void Tabel(JTable tb, int lebar[]){
+		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		int kolom = tb.getColumnCount();
+		for (int i=0; i<kolom; i++){
+			TableColumn tbc= tb.getColumnModel().getColumn(i);
+			tbc.setPreferredWidth(lebar[i]);
+			tb.setRowHeight(18);
+		}
+	}
+
+	private DefaultTableModel getDefaultTabelModel(){
+		return new DefaultTableModel(
+				new Object [][] {
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null}
+				},
+				new String [] {"Invoice Media", "Tanggal", "Nilai Tagihan", "Reff Sumber Dana"}
+		){
+			boolean [] canEdit = new boolean[]{
+					false,false
+			};
+			public boolean isCellEditable(int rowIndex, int columnIndex){
+				return canEdit[columnIndex];
+			}
+		};
 	}
 }

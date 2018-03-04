@@ -44,7 +44,7 @@ public class MasterDanaForm extends JInternalFrame {
 		setTitle("Master Dana");
 		initializeForm();
 		table.setModel(tabelModel);
-		Tabel(table, new int[]{120, 120, 120, 120});
+		Tabel(table, new int[]{120, 120, 200, 120});
 	}
 
 	public void initializeForm() {

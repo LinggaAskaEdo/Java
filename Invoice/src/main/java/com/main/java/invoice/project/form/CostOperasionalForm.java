@@ -41,13 +41,15 @@ public class CostOperasionalForm extends JInternalFrame {
         });
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	CostOperasionalForm() {
-		setClosable(true);
+	CostOperasionalForm()
+	{
 		setTitle("Cost Operasional");
-		//setBounds(100, 100, 630, 428);
+		initializeForm();
+	}
+
+	public void initializeForm() {
+
+		setClosable(true);
 		setBounds(100, 100, 552, 300);
 		getContentPane().setLayout(null);
 		

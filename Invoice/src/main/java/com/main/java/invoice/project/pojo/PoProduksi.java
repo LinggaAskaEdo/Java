@@ -12,88 +12,84 @@ public class PoProduksi
     private Date tanggal;
     private BigDecimal nilaiProduksi;
     private String keterangan;
+    private String image;
 
-    public Integer getPoProduksiId()
-    {
+    public Integer getPoProduksiId() {
         return poProduksiId;
     }
 
-    public void setPoProduksiId(Integer poProduksiId)
-    {
+    public void setPoProduksiId(Integer poProduksiId) {
         this.poProduksiId = poProduksiId;
     }
 
-    public String getPoProduksiNo()
-    {
+    public String getPoProduksiNo() {
         return poProduksiNo;
     }
 
-    public void setPoProduksiNo(String poProduksiNo)
-    {
+    public void setPoProduksiNo(String poProduksiNo) {
         this.poProduksiNo = poProduksiNo;
     }
 
-    public Integer getKontrakId()
-    {
+    public Integer getKontrakId() {
         return kontrakId;
     }
 
-    public void setKontrakId(Integer kontrakId)
-    {
+    public void setKontrakId(Integer kontrakId) {
         this.kontrakId = kontrakId;
     }
 
-    public String getProduksi()
-    {
+    public String getProduksi() {
         return produksi;
     }
 
-    public void setProduksi(String produksi)
-    {
+    public void setProduksi(String produksi) {
         this.produksi = produksi;
     }
 
-    public Date getTanggal()
-    {
+    public Date getTanggal() {
         return tanggal;
     }
 
-    public void setTanggal(Date tanggal)
-    {
+    public void setTanggal(Date tanggal) {
         this.tanggal = tanggal;
     }
 
-    public BigDecimal getNilaiProduksi()
-    {
+    public BigDecimal getNilaiProduksi() {
         return nilaiProduksi;
     }
 
-    public void setNilaiProduksi(BigDecimal nilaiProduksi)
-    {
+    public void setNilaiProduksi(BigDecimal nilaiProduksi) {
         this.nilaiProduksi = nilaiProduksi;
     }
 
-    public String getKeterangan()
-    {
+    public String getKeterangan() {
         return keterangan;
     }
 
-    public void setKeterangan(String keterangan)
-    {
+    public void setKeterangan(String keterangan) {
         this.keterangan = keterangan;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
-    public String toString()
-    {
-        return "PoProduksi{" +
-                "poProduksiId=" + poProduksiId +
-                ", poProduksiNo='" + poProduksiNo + '\'' +
-                ", kontrakId=" + kontrakId +
-                ", produksi='" + produksi + '\'' +
-                ", tanggal=" + tanggal +
-                ", nilaiProduksi=" + nilaiProduksi +
-                ", keterangan='" + keterangan + '\'' +
-                '}';
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("PoProduksi{");
+        sb.append("poProduksiId=").append(poProduksiId);
+        sb.append(", poProduksiNo='").append(poProduksiNo).append('\'');
+        sb.append(", kontrakId=").append(kontrakId);
+        sb.append(", produksi='").append(produksi).append('\'');
+        sb.append(", tanggal=").append(tanggal);
+        sb.append(", nilaiProduksi=").append(nilaiProduksi);
+        sb.append(", keterangan='").append(keterangan).append('\'');
+        sb.append(", image='").append(image).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

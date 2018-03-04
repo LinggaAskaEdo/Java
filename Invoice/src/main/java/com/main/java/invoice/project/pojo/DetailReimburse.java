@@ -5,70 +5,60 @@ import java.math.BigDecimal;
 public class DetailReimburse
 {
     private Integer detailReimburseId;
-    private Integer poEventId;
+    private String poEventNo;
     private String uraian;
     private String detail;
     private BigDecimal harga;
 
-    public Integer getDetailReimburseId()
-    {
+    public Integer getDetailReimburseId() {
         return detailReimburseId;
     }
 
-    public void setDetailReimburseId(Integer detailReimburseId)
-    {
+    public void setDetailReimburseId(Integer detailReimburseId) {
         this.detailReimburseId = detailReimburseId;
     }
 
-    public Integer getPoEventId()
-    {
-        return poEventId;
+    public String getPoEventNo() {
+        return poEventNo;
     }
 
-    public void setPoEventId(Integer poEventId)
-    {
-        this.poEventId = poEventId;
+    public void setPoEventNo(String poEventNo) {
+        this.poEventNo = poEventNo;
     }
 
-    public String getUraian()
-    {
+    public String getUraian() {
         return uraian;
     }
 
-    public void setUraian(String uraian)
-    {
+    public void setUraian(String uraian) {
         this.uraian = uraian;
     }
 
-    public String getDetail()
-    {
+    public String getDetail() {
         return detail;
     }
 
-    public void setDetail(String detail)
-    {
+    public void setDetail(String detail) {
         this.detail = detail;
     }
 
-    public BigDecimal getHarga()
-    {
+    public BigDecimal getHarga() {
         return harga;
     }
 
-    public void setHarga(BigDecimal harga)
-    {
+    public void setHarga(BigDecimal harga) {
         this.harga = harga;
     }
 
     @Override
-    public String toString()
-    {
-        return "DetailReimburse{" +
-                "detailReimburseId=" + detailReimburseId +
-                ", poEventId=" + poEventId +
-                ", uraian='" + uraian + '\'' +
-                ", detail='" + detail + '\'' +
-                ", harga=" + harga +
-                '}';
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("DetailReimburse{");
+        sb.append("detailReimburseId=").append(detailReimburseId);
+        sb.append(", poEventNo='").append(poEventNo).append('\'');
+        sb.append(", uraian='").append(uraian).append('\'');
+        sb.append(", detail='").append(detail).append('\'');
+        sb.append(", harga=").append(harga);
+        sb.append('}');
+        return sb.toString();
     }
 }

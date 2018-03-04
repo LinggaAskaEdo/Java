@@ -33,10 +33,13 @@ public class LaporanForm extends JInternalFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public LaporanForm() {
+	LaporanForm()
+	{
+		setTitle("FUNDING");
+		initializeForm();
+	}
+
+	public void initializeForm() {
 		setClosable(true);
 		setTitle("Laporan");
 		//setBounds(100, 100, 630, 428);

@@ -46,12 +46,15 @@ public class DetailProduksiForm extends JInternalFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public DetailProduksiForm() {
-		setClosable(true);
+	DetailProduksiForm()
+	{
 		setTitle("Detail Produksi");
+		initializeForm();
+	}
+
+	public void initializeForm() {
+
+		setClosable(true);
 		setBounds(100, 100, 630, 630);
 		getContentPane().setLayout(null);
 		

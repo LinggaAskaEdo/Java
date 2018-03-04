@@ -46,13 +46,15 @@ public class FundingForm extends JInternalFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public FundingForm() {
-		setClosable(true);
+	FundingForm()
+	{
 		setTitle("FUNDING");
-		//setBounds(100, 100, 630, 428);
+		initializeForm();
+	}
+
+	public void initializeForm() {
+
+		setClosable(true);
 		setBounds(100, 100, 530, 353);
 		getContentPane().setLayout(null);
 		

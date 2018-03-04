@@ -35,12 +35,15 @@ public class DetailReimbursementForm extends JInternalFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public DetailReimbursementForm() {
-		setClosable(true);
+	DetailReimbursementForm()
+	{
 		setTitle("Detail Reimbursement");
+		initializeForm();
+	}
+
+	public void initializeForm() {
+
+		setClosable(true);
 		//setBounds(100, 100, 630, 428);
 		setBounds(100, 100, 445, 202);
 		getContentPane().setLayout(null);

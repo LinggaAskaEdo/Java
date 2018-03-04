@@ -37,12 +37,14 @@ public class TagihanReimbursementForm extends JInternalFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public TagihanReimbursementForm() {
-		setClosable(true);
+	TagihanReimbursementForm()
+	{
 		setTitle("Tagihan Biaya Reimbursement");
+		initializeForm();
+	}
+
+	public void initializeForm() {
+		setClosable(true);
 		//setBounds(100, 100, 630, 433);
 		setBounds(100, 100, 583, 369);
 		getContentPane().setLayout(null);

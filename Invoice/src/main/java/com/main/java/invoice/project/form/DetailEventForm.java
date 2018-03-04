@@ -39,13 +39,15 @@ public class DetailEventForm extends JInternalFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public DetailEventForm() {
-		setClosable(true);
+	DetailEventForm()
+	{
 		setTitle("Detail Event");
-		//setBounds(100, 100, 630, 428);
+		initializeForm();
+	}
+
+	public void initializeForm() {
+
+		setClosable(true);
 		setBounds(100, 100, 630, 301);
 		getContentPane().setLayout(null);
 		

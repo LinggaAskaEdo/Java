@@ -2,6 +2,8 @@ package com.main.java.invoice.project.form;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
@@ -53,9 +55,9 @@ public class POEventForm extends JInternalFrame {
 		setTitle("PO. Event");
 		initializeForm();
 		table1.setModel(tabelModel1);
-		Tabel(table1, new int[]{120, 120, 120, 120, 120, 120});
+		Tabel(table1, new int[]{120, 120, 120, 120, 120, 120, 120, 120});
 		table2.setModel(tabelModel2);
-		Tabel(table2, new int[]{120, 120, 120});
+		Tabel(table2, new int[]{120, 300, 120});
 		table3.setModel(tabelModel3);
 		Tabel(table3, new int[]{120, 120, 120, 120, 120});
 	}
@@ -132,10 +134,23 @@ public class POEventForm extends JInternalFrame {
 		desktopPane.add(scrollPane);
 		
 		JButton btnPlus_1 = new JButton("+");
+		btnPlus_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				DetailEventForm detailEvent = new DetailEventForm();
+				desktopPane.add(detailEvent);
+				detailEvent.setVisible(true);
+			}
+		});
 		btnPlus_1.setBounds(549, 173, 49, 25);
 		desktopPane.add(btnPlus_1);
 		
 		JButton btnMinus_1 = new JButton("-");
+		btnMinus_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
 		btnMinus_1.setBounds(548, 207, 49, 25);
 		desktopPane.add(btnMinus_1);
 		
@@ -147,10 +162,23 @@ public class POEventForm extends JInternalFrame {
 		desktopPane.add(scrollPane1);
 		
 		JButton btnPlus_2 = new JButton("+");
+		btnPlus_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				DetailReimbursementForm detailReimbursement = new DetailReimbursementForm();
+				desktopPane.add(detailReimbursement);
+				detailReimbursement.setVisible(true);
+			}
+		});
 		btnPlus_2.setBounds(548, 302, 49, 25);
 		desktopPane.add(btnPlus_2);
 		
 		JButton btnMinus_2 = new JButton("-");
+		btnMinus_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
 		btnMinus_2.setBounds(547, 336, 49, 25);
 		desktopPane.add(btnMinus_2);
 		
@@ -181,11 +209,24 @@ public class POEventForm extends JInternalFrame {
 		TF_Unggah.setColumns(10);
 		
 		JButton btnPlus_3 = new JButton("+");
+		btnPlus_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				TagihanReimbursementForm tagihanReimbursement = new TagihanReimbursementForm();
+				desktopPane.add(tagihanReimbursement);
+				tagihanReimbursement.setVisible(true);
+			}
+		});
 		btnPlus_3.setBounds(549, 495, 49, 25);
 		desktopPane.add(btnPlus_3);
 		
 		JButton btnMinus_3 = new JButton("-");
 		btnMinus_3.setBounds(549, 528, 49, 25);
+		btnMinus_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
 		desktopPane.add(btnMinus_3);
 		
 		JLabel lblUnggahDokumen = new JLabel("Unggah Dokumen");
@@ -210,12 +251,12 @@ public class POEventForm extends JInternalFrame {
 	private DefaultTableModel getDefaultTabelModel1(){
 		return new DefaultTableModel(
 				new Object [][] {
-						{null, null, null, null, null, null},
-						{null, null, null, null, null, null},
-						{null, null, null, null, null, null},
-						{null, null, null, null, null, null}
+						{null, null, null, null, null, null, null, null},
+						{null, null, null, null, null, null, null, null},
+						{null, null, null, null, null, null, null, null},
+						{null, null, null, null, null, null, null, null}
 				},
-				new String [] {"Uraian", "Detail", "Jumlah 1", "Jumlah 2", "Harga Satuan", "Total"}
+				new String [] {"Uraian", "Detail", "Jumlah 1", "Jenis 1", "Jumlah 2", "Jenis 2","Harga Satuan", "Total"}
 		){
 			boolean [] canEdit = new boolean[]{
 					false,false

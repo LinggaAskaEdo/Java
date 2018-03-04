@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class DetailProduksi
 {
     private Integer detailProduksiId;
-    private Integer poProduksiId;
+    private String poProduksiNo;
     private String media;
     private String durasi;
     private String hari;
@@ -20,175 +20,145 @@ public class DetailProduksi
     private String postProduksiBarang;
     private BigDecimal postProduksiTotalHarga;
 
-    public Integer getDetailProduksiId()
-    {
+    public Integer getDetailProduksiId() {
         return detailProduksiId;
     }
 
-    public void setDetailProduksiId(Integer detailProduksiId)
-    {
+    public void setDetailProduksiId(Integer detailProduksiId) {
         this.detailProduksiId = detailProduksiId;
     }
 
-    public Integer getPoProduksiId()
-    {
-        return poProduksiId;
+    public String getPoProduksiNo() {
+        return poProduksiNo;
     }
 
-    public void setPoProduksiId(Integer poProduksiId)
-    {
-        this.poProduksiId = poProduksiId;
+    public void setPoProduksiNo(String poProduksiNo) {
+        this.poProduksiNo = poProduksiNo;
     }
 
-    public String getMedia()
-    {
+    public String getMedia() {
         return media;
     }
 
-    public void setMedia(String media)
-    {
+    public void setMedia(String media) {
         this.media = media;
     }
 
-    public String getDurasi()
-    {
+    public String getDurasi() {
         return durasi;
     }
 
-    public void setDurasi(String durasi)
-    {
+    public void setDurasi(String durasi) {
         this.durasi = durasi;
     }
 
-    public String getHari()
-    {
+    public String getHari() {
         return hari;
     }
 
-    public void setHari(String hari)
-    {
+    public void setHari(String hari) {
         this.hari = hari;
     }
 
-    public String getLokasi()
-    {
+    public String getLokasi() {
         return lokasi;
     }
 
-    public void setLokasi(String lokasi)
-    {
+    public void setLokasi(String lokasi) {
         this.lokasi = lokasi;
     }
 
-    public String getPreProduksiUraian()
-    {
+    public String getPreProduksiUraian() {
         return preProduksiUraian;
     }
 
-    public void setPreProduksiUraian(String preProduksiUraian)
-    {
+    public void setPreProduksiUraian(String preProduksiUraian) {
         this.preProduksiUraian = preProduksiUraian;
     }
 
-    public String getPreProduksiJenis()
-    {
+    public String getPreProduksiJenis() {
         return preProduksiJenis;
     }
 
-    public void setPreProduksiJenis(String preProduksiJenis)
-    {
+    public void setPreProduksiJenis(String preProduksiJenis) {
         this.preProduksiJenis = preProduksiJenis;
     }
 
-    public String getProduksiJenis()
-    {
+    public String getProduksiJenis() {
         return produksiJenis;
     }
 
-    public void setProduksiJenis(String produksiJenis)
-    {
+    public void setProduksiJenis(String produksiJenis) {
         this.produksiJenis = produksiJenis;
     }
 
-    public String getProduksiJumlah()
-    {
+    public String getProduksiJumlah() {
         return produksiJumlah;
     }
 
-    public void setProduksiJumlah(String produksiJumlah)
-    {
+    public void setProduksiJumlah(String produksiJumlah) {
         this.produksiJumlah = produksiJumlah;
     }
 
-    public String getProduksiBarang()
-    {
+    public String getProduksiBarang() {
         return produksiBarang;
     }
 
-    public void setProduksiBarang(String produksiBarang)
-    {
+    public void setProduksiBarang(String produksiBarang) {
         this.produksiBarang = produksiBarang;
     }
 
-    public BigDecimal getProduksiHargaSatuan()
-    {
+    public BigDecimal getProduksiHargaSatuan() {
         return produksiHargaSatuan;
     }
 
-    public void setProduksiHargaSatuan(BigDecimal produksiHargaSatuan)
-    {
+    public void setProduksiHargaSatuan(BigDecimal produksiHargaSatuan) {
         this.produksiHargaSatuan = produksiHargaSatuan;
     }
 
-    public BigDecimal getProduksiTotalHarga()
-    {
+    public BigDecimal getProduksiTotalHarga() {
         return produksiTotalHarga;
     }
 
-    public void setProduksiTotalHarga(BigDecimal produksiTotalHarga)
-    {
+    public void setProduksiTotalHarga(BigDecimal produksiTotalHarga) {
         this.produksiTotalHarga = produksiTotalHarga;
     }
 
-    public String getPostProduksiBarang()
-    {
+    public String getPostProduksiBarang() {
         return postProduksiBarang;
     }
 
-    public void setPostProduksiBarang(String postProduksiBarang)
-    {
+    public void setPostProduksiBarang(String postProduksiBarang) {
         this.postProduksiBarang = postProduksiBarang;
     }
 
-    public BigDecimal getPostProduksiTotalHarga()
-    {
+    public BigDecimal getPostProduksiTotalHarga() {
         return postProduksiTotalHarga;
     }
 
-    public void setPostProduksiTotalHarga(BigDecimal postProduksiTotalHarga)
-    {
+    public void setPostProduksiTotalHarga(BigDecimal postProduksiTotalHarga) {
         this.postProduksiTotalHarga = postProduksiTotalHarga;
     }
 
     @Override
-    public String toString()
-    {
-        return "DetailProduksi{" +
-                "detailProduksiId=" + detailProduksiId +
-                ", poProduksiId=" + poProduksiId +
-                ", media='" + media + '\'' +
-                ", durasi='" + durasi + '\'' +
-                ", hari='" + hari + '\'' +
-                ", lokasi='" + lokasi + '\'' +
-                ", preProduksiUraian='" + preProduksiUraian + '\'' +
-                ", preProduksiJenis='" + preProduksiJenis + '\'' +
-                ", produksiJenis='" + produksiJenis + '\'' +
-                ", produksiJumlah='" + produksiJumlah + '\'' +
-                ", produksiBarang='" + produksiBarang + '\'' +
-                ", produksiHargaSatuan=" + produksiHargaSatuan +
-                ", produksiTotalHarga=" + produksiTotalHarga +
-                ", postProduksiBarang='" + postProduksiBarang + '\'' +
-                ", postProduksiTotalHarga=" + postProduksiTotalHarga +
-                '}';
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("DetailProduksi{");
+        sb.append("detailProduksiId=").append(detailProduksiId);
+        sb.append(", poProduksiNo='").append(poProduksiNo).append('\'');
+        sb.append(", media='").append(media).append('\'');
+        sb.append(", durasi='").append(durasi).append('\'');
+        sb.append(", hari='").append(hari).append('\'');
+        sb.append(", lokasi='").append(lokasi).append('\'');
+        sb.append(", preProduksiUraian='").append(preProduksiUraian).append('\'');
+        sb.append(", preProduksiJenis='").append(preProduksiJenis).append('\'');
+        sb.append(", produksiJenis='").append(produksiJenis).append('\'');
+        sb.append(", produksiJumlah='").append(produksiJumlah).append('\'');
+        sb.append(", produksiBarang='").append(produksiBarang).append('\'');
+        sb.append(", produksiHargaSatuan=").append(produksiHargaSatuan);
+        sb.append(", produksiTotalHarga=").append(produksiTotalHarga);
+        sb.append(", postProduksiBarang='").append(postProduksiBarang).append('\'');
+        sb.append(", postProduksiTotalHarga=").append(postProduksiTotalHarga);
+        sb.append('}');
+        return sb.toString();
     }
 }

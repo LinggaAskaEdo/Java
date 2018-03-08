@@ -1,81 +1,111 @@
 package com.sql.generator.function;
 
+import com.opencsv.CSVReader;
 import com.sql.generator.pojo.ConfigMapper;
 import org.apache.commons.io.FileUtils;
-import sun.nio.cs.UTF_32;
 
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.regex.Pattern;
+
+/**
+ * Created by Lingga on 02/02/18.
+ */
 
 public class SQLGeneratorFunction
 {
-    private static final String CSV_SEPARATOR = ",";
+    public Properties getPropertiesValues()
+    {
+        Properties prop = new Properties();
 
+        try
+        {
+            //load property
+            String propFileName = "./application.properties";
+            FileInputStream inputStream = new FileInputStream(propFileName);
+            prop.load(inputStream);
+            inputStream.close();
+
+            //set the property value
+            ConfigMapper.CLIENT_NAME = prop.getProperty("client.name");
+            ConfigMapper.CSV_FILE_PATH = prop.getProperty("csv.file.path");
+            ConfigMapper.CSV_START_READ_LINE = Integer.parseInt(prop.getProperty("csv.start.read.line"));
+            ConfigMapper.BASE_CONFIG_PATH = prop.getProperty("base.config.path");
+            ConfigMapper.GET_CONFIG_URL = prop.getProperty("get.config.url");
+            ConfigMapper.TARGET_WEB_PATH = prop.getProperty("target.web.path");
+            ConfigMapper.TARGET_VDIR_PATH = prop.getProperty("target.vdir.path");
+            ConfigMapper.SRC_WEB_PATH = prop.getProperty("src.web.path");
+            ConfigMapper.SRC_VDIR_PATH = prop.getProperty("src.vdir.path");
+            ConfigMapper.FILE_PATH_RESULT_SCRIPT = prop.getProperty("file.path.result.script");
+            ConfigMapper.FILE_PATH_WARNING_LOG = prop.getProperty("file.path.warning.log");
+        }
+        catch (Exception e)
+        {
+            System.out.println("ERROR getPropertiesValues: " + e.getMessage());
+        }
+
+        return prop;
+    }
+
+    @SuppressWarnings("deprecation")
     public List<ConfigMapper> processInputFile(String inputFilePath, int skipNumber)
     {
         List<ConfigMapper> inputList = new ArrayList<>();
 
         try
         {
-            File file = new File(inputFilePath);
-            InputStream inputStream = new FileInputStream(file);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            inputList = bufferedReader.lines().skip(skipNumber).map(mapToItem).collect(Collectors.toList());
-            bufferedReader.close();
+            // Start with openCSV
+            CSVReader reader = new CSVReader(new FileReader(inputFilePath), ',', '\"', '`', skipNumber);
+            String[] line;
+
+            while ((line = reader.readNext()) != null)
+            {
+                inputList.add(setConfigMapperList(line));
+            }
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            System.out.println("ERROR processInputFile: " + e.getMessage());
         }
 
         return inputList;
     }
 
-    private Function<String, ConfigMapper> mapToItem = (line) ->
+    private ConfigMapper setConfigMapperList(String[] line)
     {
-        String[] strings = line.split(CSV_SEPARATOR);
-        ConfigMapper mapper = new ConfigMapper();
+        ConfigMapper configMapper = new ConfigMapper();
+        configMapper.setConfigKeyId(line[0] != null && line[0].trim().length() > 0 ? line[0] : "");
+        configMapper.setModule(line[1] != null && line[1].trim().length() > 0 ? line[1] : "");
+        configMapper.setKey(line[2] != null && line[2].trim().length() > 0 ? line[2] : "");
+        configMapper.setDescription(line[3] != null && line[3].trim().length() > 0 ? line[3] : "");
+        configMapper.setDataType(line[4] != null && line[4].trim().length() > 0 ? line[4] : "");
+        configMapper.setConfigPath(line[5] != null && line[5].trim().length() > 0 ? line[5] : "");
+        configMapper.setConfigKey(line[6] != null && line[6].trim().length() > 0 ? line[6] : "");
+        configMapper.setType(line[7] != null && line[7].trim().length() > 0 ? line[7] : "");
+        configMapper.setContent(line[8] != null && line[8].trim().length() > 0 ? line[8] : "");
 
-        //System.out.println("length of p: " + strings.length);
-        //System.out.println("p: " + Arrays.toString(strings));
+        return configMapper;
+    }
 
-        mapper.setConfigKeyId(strings[0] != null && strings[0].trim().length() > 0 ? strings[0] : "");
-        mapper.setModule(strings[1] != null && strings[1].trim().length() > 0 ? strings[1] : "");
-        mapper.setKey(strings[2] != null && strings[2].trim().length() > 0 ? strings[2] : "");
-        mapper.setDescription(strings[3] != null && strings[3].trim().length() > 0 ? strings[3] : "");
-        mapper.setDataType(strings[4] != null && strings[4].trim().length() > 0 ? strings[4] : "");
-        mapper.setConfigPath(strings[5] != null && strings[5].trim().length() > 0 ? strings[5] : "");
-        mapper.setConfigKey(strings[6] != null && strings[6].trim().length() > 0 ? strings[6] : "");
-        mapper.setConfigValueId(strings[7] != null && strings[7].trim().length() > 0 ? strings[7] : "");
-        mapper.setContent(strings[8] != null && strings[8].trim().length() > 0 ? strings[8] : "");
-        mapper.setType(strings[9] != null && strings[9].trim().length() > 0 ? strings[9] : "");
-
-        return mapper;
-    };
-
-    public String generatePathOri(String clientName, String baseConfigUri)
+    public String generatePathOri(Map<String, Map<String, String>> clientMapper, String clientName, String baseConfigUri)
     {
         String replaceString = null;
         String[] parts = baseConfigUri.split("/");
 
-        //System.out.println(baseConfigUri + " - " + parts[1]);
+        Map<String, String> client = clientMapper.get(clientName);
 
-        if (parts[1].equalsIgnoreCase("app"))
+        if (!baseConfigUri.equalsIgnoreCase(""))
         {
-            if (clientName.equalsIgnoreCase("KSA-SAU"))
+            if (client != null && client.get(parts[1]) != null)
             {
-                replaceString = baseConfigUri.replace("/app/", "app.ksa.ams/");
-            }
-        }
-        else if (parts[1].equalsIgnoreCase("web"))
-        {
-            if (clientName.equalsIgnoreCase("KSA-SAU"))
-            {
-                replaceString = baseConfigUri.replace("/web/", "web.ksa.ams/");
+                String rootDirectory = client.get(parts[1]);
+                replaceString = baseConfigUri.replaceFirst("/" + parts[1] + "/", rootDirectory + "/");
             }
         }
 
@@ -88,8 +118,8 @@ public class SQLGeneratorFunction
         Properties prop = new Properties();
         InputStream input = null;
 
-        try {
-
+        try
+        {
             input = new FileInputStream(pathOri);
 
             // load a properties file
@@ -99,13 +129,11 @@ public class SQLGeneratorFunction
             result = prop.getProperty(key);
 
             if (result != null)
-                result = "'" + prop.getProperty(key) + "'";
-            else
-                result = "";
+                result = prop.getProperty(key);
         }
         catch (IOException ex)
         {
-            ex.printStackTrace();
+            System.out.println("ERROR getKeyOri: " + ex.getMessage());
         }
         finally
         {
@@ -132,21 +160,26 @@ public class SQLGeneratorFunction
 
     public String generateConfigValueText(String configKeyId, String content)
     {
+        final String textDelimiter = "\"";
+
         if (content == null)
             content = "";
 
-        return "(" + configKeyId + "," + configKeyId + "," + content + ",0,NOW()),";
+        content = content.replaceAll(Pattern.quote(textDelimiter), "\\\\" + textDelimiter);
+
+        return "(" + configKeyId + "," + configKeyId + "," + textDelimiter + content + textDelimiter + ",0,NOW()),";
     }
 
     public void clearFiles(String filePath)
     {
         try
         {
-            BufferedWriter out = new BufferedWriter(new FileWriter(filePath,false));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filePath,false));
+            writer.close();
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            System.out.println("ERROR clearFiles: " + e.getMessage());
         }
     }
 
@@ -161,8 +194,57 @@ public class SQLGeneratorFunction
         }
         catch (IOException e)
         {
-            System.out.println("Problem occurs when writeToFiles: " + filePath);
-            e.printStackTrace();
+            System.out.println("ERROR writeToFiles: " + e.getMessage());
         }
+    }
+
+    public String sendGet(String pathPHP) throws Exception
+    {
+        URL obj = new URL(pathPHP);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        //optional default is GET
+        con.setRequestMethod("GET");
+
+        //add request header
+        String USER_AGENT = "Mozilla/5.0";
+        con.setRequestProperty("User-Agent", USER_AGENT);
+
+        //check response code
+        int responseCode = con.getResponseCode();
+
+        //if response code 500 return null
+        if (responseCode == 500)
+        {
+            return null;
+        }
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+
+        while ((inputLine = in.readLine()) != null)
+        {
+            response.append(inputLine);
+        }
+        in.close();
+
+        //result
+        String result = response.toString();
+
+        if ("[[CONFIG_NOT_FOUND/IS_ARRAY]]".equals(result))
+        {
+            result = null;
+        }
+
+        return result;
+    }
+
+    @SuppressWarnings("deprecation")
+    public String generateUrlPHP(String configKey)
+    {
+        configKey = URLEncoder.encode(configKey);
+
+        return ConfigMapper.GET_CONFIG_URL + configKey;
     }
 }

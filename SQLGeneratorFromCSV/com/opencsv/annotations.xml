@@ -1,0 +1,5 @@
+<root>
+    <item name='com.opencsv.CSVReader'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>

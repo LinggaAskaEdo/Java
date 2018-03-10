@@ -146,8 +146,12 @@ public class CostOperasionalForm extends JInternalFrame {
 		BT_Simpan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CostOperasional costOperasional = null;
+				MasterDana masterDana;
 
-				costOperasional.setMasterDana(String.valueOf(CB_ReffSumbDana.getSelectedItem()));
+				String splitData = String.valueOf(CB_ReffSumbDana.getSelectedItem());
+				masterDana = masterDanaDAO.GetMasterDanaById(splitData);
+				costOperasional.setMasterDanaId(masterDana.getMasterDanaId());
+
 				costOperasional.setPic(TB_Kontrak.getText());
 				costOperasional.setKeperluan(TA_Keperluan.getText());
 				costOperasional.setTanggalPemebelian(CL_Tanggal.getDate());

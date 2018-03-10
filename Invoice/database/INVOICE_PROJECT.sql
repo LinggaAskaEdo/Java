@@ -150,6 +150,7 @@ CREATE TABLE `FUNDING` (
   `NILAI` decimal(17,4) DEFAULT NULL,
   `KETERANGAN` varchar(150) DEFAULT NULL,
   `PPN_IMAGE` blob,
+  `CHECK_REFF` tinyint(1) NOT NULL,
   PRIMARY KEY (`FUNDING_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;

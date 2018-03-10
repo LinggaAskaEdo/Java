@@ -7,11 +7,12 @@ public class Funding
 {
     private Integer fundingId;
     private String kontakName;
-    private String reff;
+    private Integer reff;
     private Date tanggal;
     private BigDecimal nilai;
     private String keterangan;
     private String image;
+    private Integer checkReff;
 
     public Integer getFundingId() {
         return fundingId;
@@ -29,11 +30,11 @@ public class Funding
         this.kontakName = kontakName;
     }
 
-    public String getReff() {
+    public Integer getReff() {
         return reff;
     }
 
-    public void setReff(String reff) {
+    public void setReff(Integer reff) {
         this.reff = reff;
     }
 
@@ -69,16 +70,25 @@ public class Funding
         this.image = image;
     }
 
+    public Integer getCheckReff() {
+        return checkReff;
+    }
+
+    public void setCheckReff(Integer checkReff) {
+        this.checkReff = checkReff;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Funding{");
         sb.append("fundingId=").append(fundingId);
         sb.append(", kontakName='").append(kontakName).append('\'');
-        sb.append(", reff='").append(reff).append('\'');
+        sb.append(", reff=").append(reff);
         sb.append(", tanggal=").append(tanggal);
         sb.append(", nilai=").append(nilai);
         sb.append(", keterangan='").append(keterangan).append('\'');
         sb.append(", image='").append(image).append('\'');
+        sb.append(", checkReff=").append(checkReff);
         sb.append('}');
         return sb.toString();
     }

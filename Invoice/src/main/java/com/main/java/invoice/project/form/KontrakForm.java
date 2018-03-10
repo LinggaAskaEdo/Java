@@ -66,7 +66,6 @@ public class KontrakForm extends JInternalFrame
 	private JComboBox CB_KodePerusahaan;
 	KontrakDAO dao;
 	MasterLegalitasDAO masterLegalitasDAO;
-	KontrakDAO kontrakDAO;
 
 	public static void main(String[] args) 
 	{
@@ -359,7 +358,7 @@ public class KontrakForm extends JInternalFrame
 				MasterPerusahaan perusahaan;
 
 				kontrak.setNoKontrak(String.valueOf(CB_ListKontrak.getSelectedItem()));
-				kontrak = kontrakDAO.GetKontrakById(kontrak);
+				kontrak = dao.GetKontrakById(kontrak);
 
 				listId.setText(String.valueOf(kontrak.getKontrakId()));
 
@@ -450,7 +449,7 @@ public class KontrakForm extends JInternalFrame
 	public void ShowComboBoxKontrak()
 	{
 		List<Kontrak> allKontrak;
-		allKontrak = kontrakDAO.GetAllKontrakComboBox();
+		allKontrak = dao.GetAllKontrakComboBox();
 
 		for (int i = 0; i < allKontrak.size(); i++) {
 

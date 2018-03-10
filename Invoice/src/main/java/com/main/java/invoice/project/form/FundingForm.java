@@ -4,14 +4,18 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.swing.*;
 
 import com.main.java.invoice.project.dao.FundingDAO;
-import com.main.java.invoice.project.pojo.CostOperasional;
-import com.main.java.invoice.project.pojo.Funding;
+import com.main.java.invoice.project.dao.KontrakDAO;
+import com.main.java.invoice.project.dao.MasterDanaDAO;
+import com.main.java.invoice.project.pojo.*;
 import com.toedter.calendar.JDateChooser;
 import de.wannawork.jcalendar.JCalendarComboBox;
 
@@ -25,12 +29,13 @@ public class FundingForm extends JInternalFrame {
 	private JTextField TF_Nama;
 	private JTextField TF_Nilai;
 	private JTextField TF_Unggah;
+	private JTextField reffId;
 	private ButtonGroup buttonGroup;
 	private JTextArea TA_Keterangan;
+	private JComboBox CB_Reff;
 	FundingDAO dao;
-	
-	@SuppressWarnings("unused")
-	private JTable table;
+	MasterDanaDAO masterDanaDAO;
+	KontrakDAO kontrakDAO;
 
 	/**
 	 * Launch the application.
@@ -88,7 +93,6 @@ public class FundingForm extends JInternalFrame {
 		desktopPane.add(TF_Nama);
 		TF_Nama.setColumns(10);
 		
-		//JCalendarComboBox CL_Tanggal = new JCalendarComboBox();
 		JDateChooser CL_Tanggal = new JDateChooser();
 		CL_Tanggal.setBounds(173, 118, 184, 20);
 		CL_Tanggal.setDateFormatString("yyyy-MM-dd");
@@ -110,7 +114,7 @@ public class FundingForm extends JInternalFrame {
 		desktopPane.add(rdbtnKontrak);
 		
 		JRadioButton rdbtnMasterDana = new JRadioButton("Master Dana");
-		rdbtnMasterDana.setActionCommand("kl");
+		rdbtnMasterDana.setActionCommand("2");
 		rdbtnMasterDana.setBounds(280, 51, 128, 23);
 		desktopPane.add(rdbtnMasterDana);
 
@@ -118,9 +122,40 @@ public class FundingForm extends JInternalFrame {
 		buttonGroup.add(rdbtnKontrak);
 		buttonGroup.add(rdbtnMasterDana);
 		
-		JComboBox CB_Reff = new JComboBox();
+		CB_Reff = new JComboBox();
+		CB_Reff.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+
+				if(buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1")){
+					ShowComboBoxKontrakFunding();
+				} else {
+					ShowComboBoxDanaFunding();
+				}
+
+				if(buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1")){
+					Kontrak kontrak = new Kontrak();
+
+					kontrak.setNoKontrak(String.valueOf(CB_Reff.getSelectedItem()));
+					kontrak = kontrakDAO.GetKontrakById(kontrak);
+
+					reffId.setText(String.valueOf(kontrak.getKontrakId()));
+				} else {
+					MasterDana masterDana;
+
+					String splitData = String.valueOf(CB_Reff.getSelectedItem());
+					masterDana = masterDanaDAO.GetMasterDanaById(splitData);
+					reffId.setText(String.valueOf(masterDana.getMasterDanaId()));
+				}
+			}
+		});
 		CB_Reff.setBounds(173, 82, 235, 24);
 		desktopPane.add(CB_Reff);
+
+		reffId = new JTextField();
+		reffId.setBounds(420, 85, 42, 19);
+		desktopPane.add(reffId);
+		reffId.setColumns(10);
+		reffId.setVisible(false);
 		
 		JLabel lblUnggahDokumen = new JLabel("Unggah Dokumen");
 		lblUnggahDokumen.setBounds(39, 246, 128, 15);
@@ -153,7 +188,12 @@ public class FundingForm extends JInternalFrame {
 				Funding funding = null;
 
 				funding.setKontakName(TF_Nama.getText());
-				funding.setReff(String.valueOf(CB_Reff.getSelectedItem()));
+				if (buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1")){
+					funding.setCheckReff(1);
+				} else {
+					funding.setCheckReff(0);
+				}
+				funding.setReff(Integer.valueOf(reffId.getText()));
 				funding.setTanggal(CL_Tanggal.getDate());
 				funding.setNilai(new BigDecimal(TF_Nilai.getText()));
 				funding.setKeterangan(TA_Keterangan.getText());
@@ -173,5 +213,27 @@ public class FundingForm extends JInternalFrame {
 		TF_Nilai.setText("");
 		TA_Keterangan.setText("");
 		TF_Unggah.setText("");
+	}
+
+	public void ShowComboBoxDanaFunding()
+	{
+		List<MasterDana> allMasterDana;
+		allMasterDana = masterDanaDAO.GetAllMasterDanaComboBox();
+
+		for (int i = 0; i < allMasterDana.size(); i++) {
+
+			CB_Reff.addItem(allMasterDana.get(i).getNameBankAccount()+"-"+allMasterDana.get(i).getNoBankAccount());
+		}
+	}
+
+	public void ShowComboBoxKontrakFunding()
+	{
+		List<Kontrak> allKontrak;
+		allKontrak = kontrakDAO.GetAllKontrakComboBox();
+
+		for (int i = 0; i < allKontrak.size(); i++) {
+
+			CB_Reff.addItem(allKontrak.get(i).getNoKontrak());
+		}
 	}
 }

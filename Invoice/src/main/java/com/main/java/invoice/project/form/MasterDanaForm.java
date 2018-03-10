@@ -1,7 +1,17 @@
 package com.main.java.invoice.project.form;
 
+import com.main.java.invoice.project.dao.MasterDanaDAO;
+import com.main.java.invoice.project.pojo.MasterDana;
+
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
@@ -22,6 +32,7 @@ public class MasterDanaForm extends JInternalFrame {
 	private JTextField TF_AtasNama;
 	private JTextField TF_Tunai;
 	private JTable table;
+	MasterDanaDAO dao;
 
 	/**
 	 * Launch the application.
@@ -45,7 +56,11 @@ public class MasterDanaForm extends JInternalFrame {
 		initializeForm();
 		table.setModel(tabelModel);
 		Tabel(table, new int[]{120, 120, 200, 120});
+		setDefaultTable();
 	}
+
+	int row = 0;
+	String data[]=new String[4];
 
 	public void initializeForm() {
 
@@ -91,21 +106,77 @@ public class MasterDanaForm extends JInternalFrame {
 		TF_Tunai.setBounds(163, 117, 281, 19);
 		desktopPane.add(TF_Tunai);
 		TF_Tunai.setColumns(10);
-		
+
+		JButton btnHapus = new JButton("Hapus");
+		btnHapus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MasterDana masterDana = null;
+				masterDana.setNameBankAccount(TF_Nama.getText());
+				masterDana.setNoBankAccount(TF_noRek.getText());
+				masterDana.setNameAccount(TF_AtasNama.getText());
+				masterDana.setTotalCash(new BigDecimal(TF_Tunai.getText()));
+
+				dao.DeleteMasterDanaById(masterDana);
+				tabelModel.removeRow(row);
+				clearDana();
+				TF_Nama.setEnabled(true);
+			}
+		});
+		btnHapus.setBounds(462, 259, 117, 25);
+		desktopPane.add(btnHapus);
+
+		btnHapus.setEnabled(false);
+
+		JButton btnSimpan = new JButton("Simpan");
+		btnSimpan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MasterDana masterDana = null;
+				masterDana.setNameBankAccount(TF_Nama.getText());
+				masterDana.setNoBankAccount(TF_noRek.getText());
+				masterDana.setNameAccount(TF_AtasNama.getText());
+				masterDana.setTotalCash(new BigDecimal(TF_Tunai.getText()));
+
+				if(btnHapus.isEnabled() == false){
+					dao.addUpdate(masterDana, 0);
+					data[0] = TF_Nama.getText();
+					data[1] = TF_noRek.getText();
+					data[2] = TF_AtasNama.getText();
+					data[3] = TF_Tunai.getText();
+					tabelModel.insertRow(0, data);
+					clearDana();
+					TF_Nama.setEnabled(true);
+				} else {
+					dao.addUpdate(masterDana, 1);
+					data[0] = TF_Nama.getText();
+					data[1] = TF_noRek.getText();
+					data[2] = TF_AtasNama.getText();
+					data[3] = TF_Tunai.getText();
+					tabelModel.removeRow(row);
+					tabelModel.insertRow(row, data);
+					clearDana();
+					TF_Nama.setEnabled(true);
+				}
+			}
+		});
+		btnSimpan.setBounds(336, 259, 117, 25);
+		desktopPane.add(btnSimpan);
+
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount()==1) {
+					showDana();
+					btnHapus.setEnabled(true);
+					TF_Nama.setEnabled(false);
+				}
+			}
+		});
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(45, 157, 534, 90);
 		scrollPane.setViewportView(table);
 		desktopPane.add(scrollPane);
-		
-		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.setBounds(336, 259, 117, 25);
-		desktopPane.add(btnSimpan);
-		
-		JButton btnHapus = new JButton("Hapus");
-		btnHapus.setBounds(462, 259, 117, 25);
-		desktopPane.add(btnHapus);
 	}
 
 	private DefaultTableModel tabelModel = getDefaultTabelModel();
@@ -136,5 +207,37 @@ public class MasterDanaForm extends JInternalFrame {
 				return canEdit[columnIndex];
 			}
 		};
+	}
+
+	public void setDefaultTable()
+	{
+		List<MasterDana> masterDanaList;
+		masterDanaList = dao.GetAllMasterDana();
+
+		for(int i = 0; i < masterDanaList.size(); i++) {
+			data[0] = masterDanaList.get(i).getNameBankAccount();
+			data[1] = masterDanaList.get(i).getNoBankAccount();
+			data[2] = masterDanaList.get(i).getNameAccount();
+			data[3] = String.valueOf(masterDanaList.get(i).getTotalCash());
+
+			tabelModel.addRow(data);
+		}
+	}
+
+	public void showDana()
+	{
+		row = table.getSelectedRow();
+		TF_Nama.setText(tabelModel.getValueAt(row, 0).toString());
+		TF_AtasNama.setText(tabelModel.getValueAt(row, 1).toString());
+		TF_AtasNama.setText(tabelModel.getValueAt(row, 2).toString());
+		TF_Tunai.setText(tabelModel.getValueAt(row, 3).toString());
+	}
+
+	public void clearDana()
+	{
+		TF_Nama.setText("");
+		TF_noRek.setText("");
+		TF_Nama.setText("");
+		TF_Tunai.setText("");
 	}
 }

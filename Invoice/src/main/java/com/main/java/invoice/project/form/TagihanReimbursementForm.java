@@ -2,24 +2,28 @@ package com.main.java.invoice.project.form;
 
 import java.awt.EventQueue;
 
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
-import javax.swing.BorderFactory;
+import javax.swing.*;
 import java.awt.Color;
-import de.wannawork.jcalendar.JCalendarComboBox;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.List;
 
-import javax.swing.JButton;
+import com.main.java.invoice.project.dao.MasterDanaDAO;
+import com.main.java.invoice.project.pojo.MasterDana;
+import com.toedter.calendar.JDateChooser;
+import de.wannawork.jcalendar.JCalendarComboBox;
 
 public class TagihanReimbursementForm extends JInternalFrame {
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTable table;
 	private JTextField TF_ReffPO;
 	private JTextField TF_Unggah;
+	private JTextArea TA_Catatan;
+	private JTextArea TA_Keterangan;
+	private JComboBox CB_SumberDana;
+	MasterDanaDAO masterDanaDAO;
+	POEventForm eventForm;
 
 	/**
 	 * Launch the application.
@@ -41,11 +45,14 @@ public class TagihanReimbursementForm extends JInternalFrame {
 	{
 		setTitle("Tagihan Biaya Reimbursement");
 		initializeForm();
+		ShowComboBoxTagihan();
 	}
 
+	String data[] = new String[6];
+
 	public void initializeForm() {
+
 		setClosable(true);
-		//setBounds(100, 100, 630, 433);
 		setBounds(100, 100, 583, 369);
 		getContentPane().setLayout(null);
 		
@@ -72,45 +79,82 @@ public class TagihanReimbursementForm extends JInternalFrame {
 		lblKeterangan.setBounds(45, 193, 124, 15);
 		desktopPane.add(lblKeterangan);
 		
-		JTextArea TA_Catatan = new JTextArea();
+		TA_Catatan = new JTextArea();
 		TA_Catatan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		TA_Catatan.setBounds(246, 59, 284, 53);
 		desktopPane.add(TA_Catatan);
-		
-		JCalendarComboBox CL_Tanggal = new JCalendarComboBox();
+
+		JDateChooser CL_Tanggal = new JDateChooser();
 		CL_Tanggal.setBounds(246, 124, 175, 20);
+		CL_Tanggal.setDateFormatString("yyyy-MM-dd");
 		desktopPane.add(CL_Tanggal);
 		
-		JComboBox btnSumberDana = new JComboBox();
-		btnSumberDana.setBounds(246, 156, 202, 24);
-		desktopPane.add(btnSumberDana);
+		CB_SumberDana = new JComboBox();
+		CB_SumberDana.setBounds(246, 156, 202, 24);
+		desktopPane.add(CB_SumberDana);
 		
-		JTextArea TA_Keterangan = new JTextArea();
+		TA_Keterangan = new JTextArea();
 		TA_Keterangan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		TA_Keterangan.setBounds(246, 192, 284, 53);
 		desktopPane.add(TA_Keterangan);
-		
-		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.setBounds(413, 294, 117, 25);
-		desktopPane.add(btnSimpan);
 		
 		TF_ReffPO = new JTextField();
 		TF_ReffPO.setBounds(246, 26, 202, 19);
 		desktopPane.add(TF_ReffPO);
 		TF_ReffPO.setColumns(10);
-		
-		JButton btnUnggah = new JButton("Upload");
-		btnUnggah.setBounds(420, 257, 84, 25);
-		desktopPane.add(btnUnggah);
-		
+
 		TF_Unggah = new JTextField();
 		TF_Unggah.setColumns(10);
 		TF_Unggah.setBounds(247, 260, 174, 19);
 		desktopPane.add(TF_Unggah);
+
+		JButton btnUnggah = new JButton("Browse");
+		btnUnggah.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				JFileChooser jfc = new JFileChooser();
+
+				int returnValue = jfc.showOpenDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = jfc.getSelectedFile();
+					TF_Unggah.setText(selectedFile.getAbsolutePath());
+				}
+			}
+		});
+		btnUnggah.setBounds(420, 257, 84, 25);
+		desktopPane.add(btnUnggah);
 		
-		JLabel lblUnggahDokument = new JLabel("Unggah Dokument");
+		JLabel lblUnggahDokument = new JLabel("Unggah Dokumen");
 		lblUnggahDokument.setBounds(45, 262, 149, 15);
 		desktopPane.add(lblUnggahDokument);
 
+		JButton btnTambah = new JButton("Tambah");
+		btnTambah.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				data[0] = TF_ReffPO.getText();
+				data[1] = TA_Catatan.getText();
+				data[2] = String.valueOf(CL_Tanggal.getDate());
+				data[3] = String.valueOf(CB_SumberDana.getSelectedItem());
+				data[4] = TA_Keterangan.getText();
+				data[5] = TF_Unggah.getText();
+
+				eventForm.tabelModel3.insertRow(0, data);
+				dispose();
+			}
+		});
+		btnTambah.setBounds(413, 294, 117, 25);
+		desktopPane.add(btnTambah);
+	}
+
+	public void ShowComboBoxTagihan()
+	{
+		List<MasterDana> allMasterDana;
+		allMasterDana = masterDanaDAO.GetAllMasterDanaComboBox();
+
+		for (int i = 0; i < allMasterDana.size(); i++) {
+
+			CB_SumberDana.addItem(allMasterDana.get(i).getNameBankAccount()+"-"+allMasterDana.get(i).getNoBankAccount());
+		}
 	}
 }

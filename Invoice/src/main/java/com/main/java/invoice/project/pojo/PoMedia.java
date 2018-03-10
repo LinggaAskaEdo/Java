@@ -8,9 +8,9 @@ public class PoMedia
 {
     private Integer poMediaId;
     private String poMediaNo;
-    private Integer kontrakId;
+    private Integer kontrakId; //kurangtepat
     private String pekerjaanKementerian;
-    private Integer masterMediaId;
+    private Integer masterMediaId; //kurangtepat
     private Date tanggalTayang;
     private String ukuran;
     private BigDecimal harga;

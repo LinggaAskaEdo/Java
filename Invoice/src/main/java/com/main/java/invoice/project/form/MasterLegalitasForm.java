@@ -1,20 +1,22 @@
 package com.main.java.invoice.project.form;
 
+import com.main.java.invoice.project.dao.MasterLegalitasDAO;
+import com.main.java.invoice.project.pojo.MasterDana;
+import com.main.java.invoice.project.pojo.MasterPerusahaan;
+
 import java.awt.EventQueue;
 
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JButton;
-import javax.swing.JTextArea;
-import javax.swing.BorderFactory;
 import javax.swing.table.TableColumn;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.util.List;
 
 public class MasterLegalitasForm extends JInternalFrame {
 	
@@ -28,6 +30,8 @@ public class MasterLegalitasForm extends JInternalFrame {
 	private JTextField TF_NoRek;
 	private JTable table;
 	private JTextField TF_Unggah;
+	private JTextArea TA_Alamat;
+	MasterLegalitasDAO dao;
 
 	/**
 	 * Launch the application.
@@ -51,7 +55,11 @@ public class MasterLegalitasForm extends JInternalFrame {
 		initializeForm();
 		table.setModel(tabelModel);
 		Tabel(table, new int[]{120, 120, 120, 120, 120, 120, 120});
+		setDefaultTable();
 	}
+
+	int row = 0;
+	String data[]=new String[7];
 
 	public void initializeForm() {
 
@@ -115,7 +123,7 @@ public class MasterLegalitasForm extends JInternalFrame {
 		label.setBounds(271, 279, 70, 15);
 		desktopPane.add(label);
 		
-		JTextArea TA_Alamat = new JTextArea();
+		TA_Alamat = new JTextArea();
 		TA_Alamat.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		TA_Alamat.setBounds(196, 119, 284, 53);
 		desktopPane.add(TA_Alamat);
@@ -129,21 +137,6 @@ public class MasterLegalitasForm extends JInternalFrame {
 		desktopPane.add(TF_NoRek);
 		TF_NoRek.setColumns(10);
 		
-		table = new JTable();
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(45, 306, 534, 90);
-		scrollPane.setViewportView(table);
-		desktopPane.add(scrollPane);
-
-		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.setBounds(336, 408, 117, 25);
-		desktopPane.add(btnSimpan);
-		
-		JButton btnHapus = new JButton("Hapus");
-		btnHapus.setBounds(462, 408, 117, 25);
-		desktopPane.add(btnHapus);
-		
 		JLabel lblUnggahLogo = new JLabel("Unggah Logo");
 		lblUnggahLogo.setBounds(45, 90, 105, 15);
 		desktopPane.add(lblUnggahLogo);
@@ -154,9 +147,105 @@ public class MasterLegalitasForm extends JInternalFrame {
 		TF_Unggah.setColumns(10);
 		
 		JButton btnBrowse = new JButton("Browse");
+		btnBrowse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				JFileChooser jfc = new JFileChooser();
+
+				int returnValue = jfc.showOpenDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = jfc.getSelectedFile();
+					TF_Unggah.setText(selectedFile.getAbsolutePath());
+				}
+			}
+		});
 		btnBrowse.setBounds(351, 85, 87, 25);
 		desktopPane.add(btnBrowse);
 
+		JButton btnHapus = new JButton("Hapus");
+		btnHapus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MasterPerusahaan masterPerusahaan = null;
+				masterPerusahaan.setCode(TF_KodePerusahaan.getText());
+				masterPerusahaan.setName(TF_NamaPerusahaan.getText());
+				masterPerusahaan.setImage(TF_Unggah.getText());
+				masterPerusahaan.setAddress(TA_Alamat.getText());
+				masterPerusahaan.setNoNpwp(TF_Npwp.getText());
+				masterPerusahaan.setContactNumber(TF_Pic.getText());
+				masterPerusahaan.setNoBankAccount(TF_NoRek.getText());
+				masterPerusahaan.setFeeAgency(TF_FeeAgency.getText());
+
+				dao.DeleteMasterPerusahaanById(masterPerusahaan);
+				tabelModel.removeRow(row);
+				clearLegalitas();
+				TF_KodePerusahaan.setEnabled(true);
+			}
+		});
+		btnHapus.setBounds(462, 408, 117, 25);
+		desktopPane.add(btnHapus);
+
+		btnHapus.setEnabled(false);
+
+		JButton btnSimpan = new JButton("Simpan");
+		btnSimpan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MasterPerusahaan masterPerusahaan = null;
+				masterPerusahaan.setCode(TF_KodePerusahaan.getText());
+				masterPerusahaan.setName(TF_NamaPerusahaan.getText());
+				masterPerusahaan.setImage(TF_Unggah.getText());
+				masterPerusahaan.setAddress(TA_Alamat.getText());
+				masterPerusahaan.setNoNpwp(TF_Npwp.getText());
+				masterPerusahaan.setContactNumber(TF_Pic.getText());
+				masterPerusahaan.setNoBankAccount(TF_NoRek.getText());
+				masterPerusahaan.setFeeAgency(TF_FeeAgency.getText());
+
+				if(btnHapus.isEnabled() == false){
+					dao.addUpdate(masterPerusahaan, 0);
+					data[0] = TF_KodePerusahaan.getText();
+					data[1] = TF_NamaPerusahaan.getText();
+					data[2] = TA_Alamat.getText();
+					data[3] = TF_Npwp.getText();
+					data[4] = TF_Pic.getText();
+					data[5] = TF_NoRek.getText();
+					data[6] = TF_FeeAgency.getText();
+					tabelModel.insertRow(0, data);
+					clearLegalitas();
+					TF_KodePerusahaan.setEnabled(true);
+				} else {
+					dao.addUpdate(masterPerusahaan, 1);
+					data[0] = TF_KodePerusahaan.getText();
+					data[1] = TF_NamaPerusahaan.getText();
+					data[2] = TA_Alamat.getText();
+					data[3] = TF_Npwp.getText();
+					data[4] = TF_Pic.getText();
+					data[5] = TF_NoRek.getText();
+					data[6] = TF_FeeAgency.getText();
+					tabelModel.removeRow(row);
+					tabelModel.insertRow(row, data);
+					clearLegalitas();
+					TF_KodePerusahaan.setEnabled(true);
+				}
+			}
+		});
+		btnSimpan.setBounds(336, 408, 117, 25);
+		desktopPane.add(btnSimpan);
+
+		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount()==1) {
+					showLegalitas();
+					btnHapus.setEnabled(true);
+					TF_KodePerusahaan.setEnabled(false);
+				}
+			}
+		});
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(45, 306, 534, 90);
+		scrollPane.setViewportView(table);
+		desktopPane.add(scrollPane);
 	}
 
 	private DefaultTableModel tabelModel = getDefaultTabelModel();
@@ -187,5 +276,47 @@ public class MasterLegalitasForm extends JInternalFrame {
 				return canEdit[columnIndex];
 			}
 		};
+	}
+
+	public void setDefaultTable()
+	{
+		List<MasterPerusahaan> masterPerusahaanList;
+		masterPerusahaanList = dao.GetAllMasterPerusahaan();
+
+		for(int i = 0; i < masterPerusahaanList.size(); i++) {
+			data[0] = masterPerusahaanList.get(i).getCode();
+			data[1] = masterPerusahaanList.get(i).getName();
+			data[2] = masterPerusahaanList.get(i).getAddress();
+			data[3] = masterPerusahaanList.get(i).getNoNpwp();
+			data[4] = masterPerusahaanList.get(i).getContactNumber();
+			data[5] = masterPerusahaanList.get(i).getNoBankAccount();
+			data[6] = masterPerusahaanList.get(i).getFeeAgency();
+
+			tabelModel.addRow(data);
+		}
+	}
+
+	public void showLegalitas()
+	{
+		row = table.getSelectedRow();
+		TF_KodePerusahaan.setText(tabelModel.getValueAt(row, 0).toString());
+		TF_NamaPerusahaan.setText(tabelModel.getValueAt(row, 1).toString());
+		TA_Alamat.setText(tabelModel.getValueAt(row, 2).toString());
+		TF_Npwp.setText(tabelModel.getValueAt(row, 3).toString());
+		TF_Pic.setText(tabelModel.getValueAt(row, 4).toString());
+		TF_NoRek.setText(tabelModel.getValueAt(row, 5).toString());
+		TF_FeeAgency.setText(tabelModel.getValueAt(row, 6).toString());
+	}
+
+	public void clearLegalitas()
+	{
+		TF_KodePerusahaan.setText("");
+		TF_NamaPerusahaan.setText("");
+		TF_Unggah.setText("");
+		TA_Alamat.setText("");
+		TF_Npwp.setText("");
+		TF_Pic.setText("");
+		TF_NoRek.setText("");
+		TF_FeeAgency.setText("");
 	}
 }

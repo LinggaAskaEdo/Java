@@ -2,18 +2,17 @@ package com.main.java.invoice.project.form;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.math.BigDecimal;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JRadioButton;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 
+import com.main.java.invoice.project.dao.FundingDAO;
+import com.main.java.invoice.project.pojo.CostOperasional;
+import com.main.java.invoice.project.pojo.Funding;
+import com.toedter.calendar.JDateChooser;
 import de.wannawork.jcalendar.JCalendarComboBox;
 
 public class FundingForm extends JInternalFrame {
@@ -26,6 +25,9 @@ public class FundingForm extends JInternalFrame {
 	private JTextField TF_Nama;
 	private JTextField TF_Nilai;
 	private JTextField TF_Unggah;
+	private ButtonGroup buttonGroup;
+	private JTextArea TA_Keterangan;
+	FundingDAO dao;
 	
 	@SuppressWarnings("unused")
 	private JTable table;
@@ -86,8 +88,10 @@ public class FundingForm extends JInternalFrame {
 		desktopPane.add(TF_Nama);
 		TF_Nama.setColumns(10);
 		
-		JCalendarComboBox CL_Tanggal = new JCalendarComboBox();
+		//JCalendarComboBox CL_Tanggal = new JCalendarComboBox();
+		JDateChooser CL_Tanggal = new JDateChooser();
 		CL_Tanggal.setBounds(173, 118, 184, 20);
+		CL_Tanggal.setDateFormatString("yyyy-MM-dd");
 		desktopPane.add(CL_Tanggal);
 		
 		TF_Nilai = new JTextField();
@@ -95,22 +99,24 @@ public class FundingForm extends JInternalFrame {
 		desktopPane.add(TF_Nilai);
 		TF_Nilai.setColumns(10);
 		
-		JTextArea TA_Keterangan = new JTextArea();
+		TA_Keterangan = new JTextArea();
 		TA_Keterangan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		TA_Keterangan.setBounds(173, 178, 294, 53);
 		desktopPane.add(TA_Keterangan);
 		
-		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.setBounds(350, 277, 117, 25);
-		desktopPane.add(btnSimpan);
-		
 		JRadioButton rdbtnKontrak = new JRadioButton("Kontrak");
+		rdbtnKontrak.setActionCommand("1");
 		rdbtnKontrak.setBounds(173, 51, 93, 23);
 		desktopPane.add(rdbtnKontrak);
 		
 		JRadioButton rdbtnMasterDana = new JRadioButton("Master Dana");
+		rdbtnMasterDana.setActionCommand("kl");
 		rdbtnMasterDana.setBounds(280, 51, 128, 23);
 		desktopPane.add(rdbtnMasterDana);
+
+		buttonGroup=new ButtonGroup();
+		buttonGroup.add(rdbtnKontrak);
+		buttonGroup.add(rdbtnMasterDana);
 		
 		JComboBox CB_Reff = new JComboBox();
 		CB_Reff.setBounds(173, 82, 235, 24);
@@ -126,8 +132,46 @@ public class FundingForm extends JInternalFrame {
 		TF_Unggah.setColumns(10);
 		
 		JButton BT_Unggah = new JButton("Browse");
+		BT_Unggah.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				JFileChooser jfc = new JFileChooser();
+
+				int returnValue = jfc.showOpenDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = jfc.getSelectedFile();
+					TF_Unggah.setText(selectedFile.getAbsolutePath());
+				}
+			}
+		});
 		BT_Unggah.setBounds(361, 243, 93, 25);
 		desktopPane.add(BT_Unggah);
 
+		JButton btnSimpan = new JButton("Simpan");
+		btnSimpan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Funding funding = null;
+
+				funding.setKontakName(TF_Nama.getText());
+				funding.setReff(String.valueOf(CB_Reff.getSelectedItem()));
+				funding.setTanggal(CL_Tanggal.getDate());
+				funding.setNilai(new BigDecimal(TF_Nilai.getText()));
+				funding.setKeterangan(TA_Keterangan.getText());
+				funding.setImage(TF_Unggah.getText());
+
+				dao.addFunding(funding);
+				ClearFunding();
+			}
+		});
+		btnSimpan.setBounds(350, 277, 117, 25);
+		desktopPane.add(btnSimpan);
+	}
+
+	public void ClearFunding()
+	{
+		TF_Nama.setText("");
+		TF_Nilai.setText("");
+		TA_Keterangan.setText("");
+		TF_Unggah.setText("");
 	}
 }

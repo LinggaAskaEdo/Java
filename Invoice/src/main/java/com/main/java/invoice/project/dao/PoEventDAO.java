@@ -36,7 +36,7 @@ public class PoEventDAO
 
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, poEvent.getPoEventNo());
-            preparedStatement.setInt(2, poEvent.getKontrakId());
+            preparedStatement.setString(2, poEvent.getKontrakId());
             preparedStatement.setString(3, poEvent.getKegiatan());
             preparedStatement.setString(4, currentDate);
             preparedStatement.setBigDecimal(5, poEvent.getJumlah());

@@ -36,7 +36,7 @@ public class PoProduksiDAO
 
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, poProduksi.getPoProduksiNo());
-            preparedStatement.setInt(2, poProduksi.getKontrakId());
+            preparedStatement.setString(2, poProduksi.getKontrakId());
             preparedStatement.setString(3, poProduksi.getProduksi());
             preparedStatement.setString(4, currentDate);
             preparedStatement.setBigDecimal(5, poProduksi.getNilaiProduksi());

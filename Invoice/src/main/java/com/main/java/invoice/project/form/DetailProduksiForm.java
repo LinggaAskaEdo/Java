@@ -9,6 +9,8 @@ import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.BorderFactory;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
@@ -29,6 +31,8 @@ public class DetailProduksiForm extends JInternalFrame {
 	private JTextField TF_TotHarga_1;
 	private JTextField TF_Barang_2;
 	private JTextField TF_TotHarga_2;
+	private JTextArea TA_Lokasi;
+	POProduksiForm produksiForm;
 
 	/**
 	 * Launch the application.
@@ -51,6 +55,8 @@ public class DetailProduksiForm extends JInternalFrame {
 		setTitle("Detail Produksi");
 		initializeForm();
 	}
+
+	String data[] = new String[13];
 
 	public void initializeForm() {
 
@@ -140,7 +146,7 @@ public class DetailProduksiForm extends JInternalFrame {
 		desktopPane.add(TF_Hari);
 		TF_Hari.setColumns(10);
 		
-		JTextArea TA_Lokasi = new JTextArea();
+		TA_Lokasi = new JTextArea();
 		TA_Lokasi.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		TA_Lokasi.setBounds(194, 119, 284, 53);
 		desktopPane.add(TA_Lokasi);
@@ -191,6 +197,27 @@ public class DetailProduksiForm extends JInternalFrame {
 		TF_TotHarga_2.setColumns(10);
 		
 		JButton btnTambah = new JButton("Tambah");
+		btnTambah.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				data[0] = TF_Media.getText();
+				data[1] = TF_Durasi.getText();
+				data[2] = TF_Hari.getText();
+				data[3] = TA_Lokasi.getText();
+				data[4] = TF_Uraian.getText();
+				data[5] = TF_Jenis.getText();
+				data[6] = String.valueOf(CB_Jenis.getSelectedItem());
+				data[7] = TF_Jumlah.getText();
+				data[8] = TF_Barang_1.getText();
+				data[9] = textField_7.getText();
+				data[10] = TF_TotHarga_1.getText();
+				data[11] = TF_Barang_2.getText();
+				data[12] = TF_TotHarga_2.getText();
+
+				produksiForm.tabelModel.insertRow(0, data);
+				dispose();
+			}
+		});
 		btnTambah.setBounds(450, 547, 117, 25);
 		desktopPane.add(btnTambah);
 

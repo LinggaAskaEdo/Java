@@ -7,7 +7,7 @@ public class Funding
 {
     private Integer fundingId;
     private String kontakName;
-    private Integer kontrakId;
+    private String reff;
     private Date tanggal;
     private BigDecimal nilai;
     private String keterangan;
@@ -29,12 +29,12 @@ public class Funding
         this.kontakName = kontakName;
     }
 
-    public Integer getKontrakId() {
-        return kontrakId;
+    public String getReff() {
+        return reff;
     }
 
-    public void setKontrakId(Integer kontrakId) {
-        this.kontrakId = kontrakId;
+    public void setReff(String reff) {
+        this.reff = reff;
     }
 
     public Date getTanggal() {
@@ -74,7 +74,7 @@ public class Funding
         final StringBuffer sb = new StringBuffer("Funding{");
         sb.append("fundingId=").append(fundingId);
         sb.append(", kontakName='").append(kontakName).append('\'');
-        sb.append(", kontrakId=").append(kontrakId);
+        sb.append(", reff='").append(reff).append('\'');
         sb.append(", tanggal=").append(tanggal);
         sb.append(", nilai=").append(nilai);
         sb.append(", keterangan='").append(keterangan).append('\'');

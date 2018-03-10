@@ -1,7 +1,16 @@
 package com.main.java.invoice.project.form;
 
+import com.main.java.invoice.project.dao.MasterClientDAO;
+import com.main.java.invoice.project.pojo.MasterClient;
+import com.main.java.invoice.project.pojo.MasterDana;
+
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -17,12 +26,15 @@ import javax.swing.JButton;
 import javax.swing.table.TableColumn;
 
 public class MasterKlienForm extends JInternalFrame {
+
+	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_Nama;
 	private JTextField TF_Npwp;
+	private JTextArea TA_Keterangan;
+	private JTextArea TA_Alamat;
 	private JTable table;
-	
-	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_Satker;
+	MasterClientDAO dao;
 
 	/**
 	 * Launch the application.
@@ -46,7 +58,11 @@ public class MasterKlienForm extends JInternalFrame {
 		initializeForm();
 		table.setModel(tabelModel);
 		Tabel(table, new int[]{120, 120, 120, 120, 120});
+		setDefaultTable();
 	}
+
+	int row = 0;
+	String data[]=new String[5];
 
 	public void initializeForm() {
 
@@ -83,13 +99,13 @@ public class MasterKlienForm extends JInternalFrame {
 		desktopPane.add(TF_Npwp);
 		TF_Npwp.setColumns(10);
 		
-		JTextArea TA_Keterangan = new JTextArea();
+		TA_Keterangan = new JTextArea();
 		TA_Keterangan.setLineWrap(true);
 		TA_Keterangan.setBounds(196, 184, 284, 53);
 		TA_Keterangan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		desktopPane.add(TA_Keterangan);
 		
-		JTextArea TA_Alamat = new JTextArea();
+		TA_Alamat = new JTextArea();
 		TA_Alamat.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		TA_Alamat.setBounds(197, 57, 284, 53);
 		desktopPane.add(TA_Alamat);
@@ -103,20 +119,80 @@ public class MasterKlienForm extends JInternalFrame {
 		lblNewLabel.setBounds(45, 155, 133, 15);
 		desktopPane.add(lblNewLabel);
 		
+		JButton btnHapus = new JButton("Hapus");
+		btnHapus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MasterClient masterClient = null;
+				masterClient.setName(TF_Nama.getText());
+				masterClient.setAddress(TA_Alamat.getText());
+				masterClient.setNoNpwp(TF_Npwp.getText());
+				masterClient.setSatkerPpk(TF_Satker.getText());
+				masterClient.setInformation(TA_Keterangan.getText());
+
+				dao.DeleteMasterClientById(masterClient);
+				tabelModel.removeRow(row);
+				clearKlien();
+				TF_Nama.setEnabled(true);
+			}
+		});
+		btnHapus.setBounds(462, 351, 117, 25);
+		desktopPane.add(btnHapus);
+
+		btnHapus.setEnabled(false);
+
+		JButton btnSimpan = new JButton("Simpan");
+		btnSimpan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MasterClient masterClient = null;
+				masterClient.setName(TF_Nama.getText());
+				masterClient.setAddress(TA_Alamat.getText());
+				masterClient.setNoNpwp(TF_Npwp.getText());
+				masterClient.setSatkerPpk(TF_Satker.getText());
+				masterClient.setInformation(TA_Keterangan.getText());
+
+				if(btnHapus.isEnabled() == false){
+					dao.addUpdate(masterClient, 0);
+					data[0] = TF_Nama.getText();
+					data[1] = TA_Alamat.getText();
+					data[2] = TF_Npwp.getText();
+					data[3] = TF_Satker.getText();
+					data[4] = TF_Satker.getText();
+					tabelModel.insertRow(0, data);
+					clearKlien();
+					TF_Nama.setEnabled(true);
+				} else {
+					dao.addUpdate(masterClient, 1);
+					data[0] = TF_Nama.getText();
+					data[1] = TA_Alamat.getText();
+					data[2] = TF_Npwp.getText();
+					data[3] = TF_Satker.getText();
+					data[4] = TF_Satker.getText();
+					tabelModel.removeRow(row);
+					tabelModel.insertRow(row, data);
+					clearKlien();
+					TF_Nama.setEnabled(true);
+				}
+			}
+		});
+		btnSimpan.setBounds(336, 351, 117, 25);
+		desktopPane.add(btnSimpan);
+
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount()==1) {
+					showKlien();
+					btnHapus.setEnabled(true);
+					TF_Nama.setEnabled(false);
+				}
+			}
+		});
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(45, 249, 534, 90);
 		scrollPane.setViewportView(table);
 		desktopPane.add(scrollPane);
-		
-		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.setBounds(336, 351, 117, 25);
-		desktopPane.add(btnSimpan);
-		
-		JButton btnHapus = new JButton("Hapus");
-		btnHapus.setBounds(462, 351, 117, 25);
-		desktopPane.add(btnHapus);
 
 	}
 
@@ -148,5 +224,39 @@ public class MasterKlienForm extends JInternalFrame {
 				return canEdit[columnIndex];
 			}
 		};
+	}
+
+	public void setDefaultTable()
+	{
+		List<MasterClient> masterClientList;
+		masterClientList = dao.GetAllMasterClient();
+
+		for(int i = 0; i < masterClientList.size(); i++) {
+			data[0] = masterClientList.get(i).getName();
+			data[1] = masterClientList.get(i).getAddress();
+			data[2] = masterClientList.get(i).getNoNpwp();
+			data[3] = masterClientList.get(i).getSatkerPpk();
+			data[4] = masterClientList.get(i).getInformation();
+
+			tabelModel.addRow(data);
+		}
+	}
+
+	public void showKlien(){
+		row = table.getSelectedRow();
+		TF_Nama.setText(tabelModel.getValueAt(row, 0).toString());
+		TA_Alamat.setText(tabelModel.getValueAt(row, 1).toString());
+		TF_Npwp.setText(tabelModel.getValueAt(row, 2).toString());
+		TF_Satker.setText(tabelModel.getValueAt(row, 3).toString());
+		TA_Keterangan.setText(tabelModel.getValueAt(row, 4).toString());
+	}
+
+	public void clearKlien()
+	{
+		TF_Nama.setText("");
+		TA_Alamat.setText("");
+		TF_Npwp.setText("");
+		TF_Satker.setText("");
+		TA_Keterangan.setText("");
 	}
 }

@@ -36,7 +36,7 @@ public class FundingDAO
 
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, funding.getKontakName());
-            preparedStatement.setInt(2, funding.getKontrakId());
+            preparedStatement.setString(2, funding.getReff());
             preparedStatement.setString(3, currentDate);
             preparedStatement.setBigDecimal(4, funding.getNilai());
             preparedStatement.setString(5, funding.getKeterangan());

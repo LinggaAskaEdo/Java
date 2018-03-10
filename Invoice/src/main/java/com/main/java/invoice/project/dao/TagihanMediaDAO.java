@@ -20,7 +20,7 @@ public class TagihanMediaDAO
     private ResultSet resultSet = null;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public void add(String poMediaNo, TagihanMedia tagihanMediaList)
+    public void add(TagihanMedia tagihanMediaList)
     {
         try {
 
@@ -36,7 +36,7 @@ public class TagihanMediaDAO
             FileInputStream inputStream = new FileInputStream(file);
 
             preparedStatement = connect.prepareStatement(query);
-            preparedStatement.setString(1, poMediaNo);
+            preparedStatement.setString(1, tagihanMediaList.getPoMediaNo());
             preparedStatement.setString(2, tagihanMediaList.getInvoiceMedia());
             preparedStatement.setString(3, currentDate);
             preparedStatement.setBigDecimal(4, tagihanMediaList.getNilaiTagihan());

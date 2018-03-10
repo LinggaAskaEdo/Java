@@ -5,7 +5,7 @@ import java.util.Date;
 public class CostOperasional
 {
     private Integer costOperasionalId;
-    private Integer masterDanaId;
+    private String masterDana; //kurangtepat
     private String pic;
     private String keperluan;
     private Date tanggalPemebelian;
@@ -19,12 +19,12 @@ public class CostOperasional
         this.costOperasionalId = costOperasionalId;
     }
 
-    public Integer getMasterDanaId() {
-        return masterDanaId;
+    public String getMasterDana() {
+        return masterDana;
     }
 
-    public void setMasterDanaId(Integer masterDanaId) {
-        this.masterDanaId = masterDanaId;
+    public void setMasterDana(String masterDana) {
+        this.masterDana = masterDana;
     }
 
     public String getPic() {
@@ -63,7 +63,7 @@ public class CostOperasional
     public String toString() {
         final StringBuffer sb = new StringBuffer("CostOperasional{");
         sb.append("costOperasionalId=").append(costOperasionalId);
-        sb.append(", masterDanaId=").append(masterDanaId);
+        sb.append(", masterDana='").append(masterDana).append('\'');
         sb.append(", pic='").append(pic).append('\'');
         sb.append(", keperluan='").append(keperluan).append('\'');
         sb.append(", tanggalPemebelian=").append(tanggalPemebelian);

@@ -1,7 +1,16 @@
 package com.main.java.invoice.project.form;
 
+import com.main.java.invoice.project.dao.MasterProduksiDAO;
+import com.main.java.invoice.project.pojo.MasterDana;
+import com.main.java.invoice.project.pojo.MasterProduksi;
+
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDesktopPane;
@@ -22,7 +31,10 @@ public class MasterProduksiForm extends JInternalFrame {
 	private JTextField TF_Agent;
 	private JTextField TF_DOP;
 	private JTextField TF_Npwp;
+	private JTextArea TA_Alamat;
+	private JTextArea TA_Keterangan;
 	private JTable table;
+	MasterProduksiDAO dao;
 
 	/**
 	 * Launch the application.
@@ -47,6 +59,9 @@ public class MasterProduksiForm extends JInternalFrame {
 		table.setModel(tabelModel);
 		Tabel(table, new int[]{120, 120, 120, 120, 120});
 	}
+
+	int row = 0;
+	String data[]=new String[5];
 
 	public void initializeForm() {
 
@@ -87,12 +102,12 @@ public class MasterProduksiForm extends JInternalFrame {
 		desktopPane.add(TF_DOP);
 		TF_DOP.setColumns(10);
 		
-		JTextArea TA_Alamat = new JTextArea();
+		TA_Alamat = new JTextArea();
 		TA_Alamat.setBounds(196, 81, 284, 53);
 		TA_Alamat.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		desktopPane.add(TA_Alamat);
 		
-		JTextArea TA_Keterangan = new JTextArea();
+		TA_Keterangan = new JTextArea();
 		TA_Keterangan.setBounds(196, 177, 284, 53);
 		TA_Keterangan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		desktopPane.add(TA_Keterangan);
@@ -102,20 +117,80 @@ public class MasterProduksiForm extends JInternalFrame {
 		desktopPane.add(TF_Npwp);
 		TF_Npwp.setColumns(10);
 		
+		JButton btnHapus = new JButton("Hapus");
+		btnHapus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MasterProduksi masterProduksi = null;
+				masterProduksi.setAgentProduksi(TF_Agent.getText());
+				masterProduksi.setName(TF_DOP.getText());
+				masterProduksi.setAddress(TA_Alamat.getText());
+				masterProduksi.setNoNpwp(TF_Npwp.getText());
+				masterProduksi.setInformation(TA_Keterangan.getText());
+
+				dao.DeleteMasterProduksiById(masterProduksi);
+				tabelModel.removeRow(row);
+				clearProduksi();
+				TF_Agent.setEnabled(true);
+			}
+		});
+		btnHapus.setBounds(462, 344, 117, 25);
+		desktopPane.add(btnHapus);
+
+		btnHapus.setEnabled(false);
+
+		JButton btnSimpan = new JButton("Simpan");
+		btnSimpan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MasterProduksi masterProduksi = null;
+				masterProduksi.setAgentProduksi(TF_Agent.getText());
+				masterProduksi.setName(TF_DOP.getText());
+				masterProduksi.setAddress(TA_Alamat.getText());
+				masterProduksi.setNoNpwp(TF_Npwp.getText());
+				masterProduksi.setInformation(TA_Keterangan.getText());
+
+				if(btnHapus.isEnabled() == false) {
+					dao.addUpdate(masterProduksi, 0);
+					data[0] = TF_Agent.getText();
+					data[1] = TF_DOP.getText();
+					data[2] = TA_Alamat.getText();
+					data[3] = TF_Npwp.getText();
+					data[4] = TA_Keterangan.getText();
+					tabelModel.insertRow(0, data);
+					clearProduksi();
+					TF_Agent.setEnabled(true);
+				} else {
+					dao.addUpdate(masterProduksi, 1);
+					data[0] = TF_Agent.getText();
+					data[1] = TF_DOP.getText();
+					data[2] = TA_Alamat.getText();
+					data[3] = TF_Npwp.getText();
+					data[4] = TA_Keterangan.getText();
+					tabelModel.removeRow(row);
+					tabelModel.insertRow(row, data);
+					clearProduksi();
+					TF_Agent.setEnabled(true);
+				}
+			}
+		});
+		btnSimpan.setBounds(336, 344, 117, 25);
+		desktopPane.add(btnSimpan);
+
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount()==1) {
+					showProduksi();
+					btnHapus.setEnabled(true);
+					TF_Agent.setEnabled(false);
+				}
+			}
+		});
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(45, 242, 534, 90);
 		scrollPane.setViewportView(table);
 		desktopPane.add(scrollPane);
-		
-		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.setBounds(336, 344, 117, 25);
-		desktopPane.add(btnSimpan);
-		
-		JButton btnHapus = new JButton("Hapus");
-		btnHapus.setBounds(462, 344, 117, 25);
-		desktopPane.add(btnHapus);
 	}
 
 	private DefaultTableModel tabelModel = getDefaultTabelModel();
@@ -146,5 +221,40 @@ public class MasterProduksiForm extends JInternalFrame {
 				return canEdit[columnIndex];
 			}
 		};
+	}
+
+	public void setDefaultTable()
+	{
+		List<MasterProduksi> masterProduksiList;
+		masterProduksiList = dao.GetAllMasterProduksi();
+
+		for(int i = 0; i < masterProduksiList.size(); i++) {
+			data[0] = masterProduksiList.get(i).getAgentProduksi();
+			data[1] = masterProduksiList.get(i).getName();
+			data[2] = masterProduksiList.get(i).getAddress();
+			data[3] = masterProduksiList.get(i).getNoNpwp();
+			data[4] = masterProduksiList.get(i).getInformation();
+
+			tabelModel.addRow(data);
+		}
+	}
+
+	public void showProduksi()
+	{
+		row = table.getSelectedRow();
+		TF_Agent.setText(tabelModel.getValueAt(row, 0).toString());
+		TF_DOP.setText(tabelModel.getValueAt(row, 1).toString());
+		TA_Alamat.setText(tabelModel.getValueAt(row, 2).toString());
+		TF_Npwp.setText(tabelModel.getValueAt(row, 3).toString());
+		TA_Keterangan.setText(tabelModel.getValueAt(row, 4).toString());
+	}
+
+	public void clearProduksi()
+	{
+		TF_Agent.setText("");
+		TF_DOP.setText("");
+		TA_Alamat.setText("");
+		TF_Npwp.setText("");
+		TA_Keterangan.setText("");
 	}
 }

@@ -8,7 +8,7 @@ public class PoEvent
 {
     private Integer poEventId;
     private String poEventNo;
-    private Integer kontrakId;
+    private String kontrakId; //kurangtepat
     private String kegiatan;
     private Date tanggal;
     private BigDecimal jumlah;
@@ -31,11 +31,11 @@ public class PoEvent
         this.poEventNo = poEventNo;
     }
 
-    public Integer getKontrakId() {
+    public String getKontrakId() {
         return kontrakId;
     }
 
-    public void setKontrakId(Integer kontrakId) {
+    public void setKontrakId(String kontrakId) {
         this.kontrakId = kontrakId;
     }
 
@@ -84,7 +84,7 @@ public class PoEvent
         final StringBuffer sb = new StringBuffer("PoEvent{");
         sb.append("poEventId=").append(poEventId);
         sb.append(", poEventNo='").append(poEventNo).append('\'');
-        sb.append(", kontrakId=").append(kontrakId);
+        sb.append(", kontrakId='").append(kontrakId).append('\'');
         sb.append(", kegiatan='").append(kegiatan).append('\'');
         sb.append(", tanggal=").append(tanggal);
         sb.append(", jumlah=").append(jumlah);

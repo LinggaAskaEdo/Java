@@ -35,7 +35,7 @@ public class CostOperasionalDAO
             FileInputStream inputStream = new FileInputStream(file);
 
         preparedStatement = connect.prepareStatement(query);
-        preparedStatement.setInt(1, costOperasional.getMasterDanaId());
+        preparedStatement.setString(1, costOperasional.getMasterDana());
         preparedStatement.setString(2, costOperasional.getPic());
         preparedStatement.setString(3, costOperasional.getKeperluan());
         preparedStatement.setString(4, currentDate);

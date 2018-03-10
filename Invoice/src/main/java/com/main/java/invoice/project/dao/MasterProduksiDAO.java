@@ -40,16 +40,15 @@ public class MasterProduksiDAO
             }
             else
             {
-                query = "UPDATE MASTER_PRODUKSI set AGENT_PRODUKSI = ?, NAME = ?, ADDRESS = ?, NO_NPWP = ?, INFORMATION = ?" +
-                        "WHERE MASTER_PRODUKSI_ID = ?";
+                query = "UPDATE MASTER_PRODUKSI set NAME = ?, ADDRESS = ?, NO_NPWP = ?, INFORMATION = ?" +
+                        "WHERE AGENT_PRODUKSI = ?";
 
                 preparedStatement = connect.prepareStatement(query);
-                preparedStatement.setString(1, masterProduksi.getAgentProduksi());
-                preparedStatement.setString(2, masterProduksi.getName());
-                preparedStatement.setString(3, masterProduksi.getAddress());
-                preparedStatement.setString(4, masterProduksi.getNoNpwp());
-                preparedStatement.setString(5, masterProduksi.getInformation());
-                preparedStatement.setInt(6, masterProduksi.getMasterProduksiId());
+                preparedStatement.setString(1, masterProduksi.getName());
+                preparedStatement.setString(2, masterProduksi.getAddress());
+                preparedStatement.setString(3, masterProduksi.getNoNpwp());
+                preparedStatement.setString(4, masterProduksi.getInformation());
+                preparedStatement.setString(5, masterProduksi.getAgentProduksi());
             }
 
             preparedStatement.executeUpdate();
@@ -137,10 +136,10 @@ public class MasterProduksiDAO
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
-            String query = "DELETE FROM MASTER_PRODUKSI WHERE MASTER_PRODUKSI_ID = ?";
+            String query = "DELETE FROM MASTER_PRODUKSI WHERE AGENT_PRODUKSI = ?";
 
             preparedStatement = connect.prepareStatement(query);
-            preparedStatement.setInt(1, masterProduksi.getMasterProduksiId());
+            preparedStatement.setString(1, masterProduksi.getAgentProduksi());
 
             preparedStatement.executeUpdate();
 

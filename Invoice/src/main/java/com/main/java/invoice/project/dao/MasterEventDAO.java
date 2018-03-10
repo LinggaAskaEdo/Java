@@ -41,16 +41,15 @@ public class MasterEventDAO
             }
             else
             {
-                query = "UPDATE MASTER_EVENT set AGENT_EVENT = ?, NAME = ?, ADDRESS = ?, NO_NPWP = ?, INFORMATION = ?" +
-                        "WHERE MASTER_EVENT_ID = ?";
+                query = "UPDATE MASTER_EVENT set NAME = ?, ADDRESS = ?, NO_NPWP = ?, INFORMATION = ?" +
+                        "WHERE AGENT_EVENT = ?";
 
                 preparedStatement = connect.prepareStatement(query);
-                preparedStatement.setString(1, masterEvent.getAgentEvent());
-                preparedStatement.setString(2, masterEvent.getName());
-                preparedStatement.setString(3, masterEvent.getAddress());
-                preparedStatement.setString(4, masterEvent.getNoNpwp());
-                preparedStatement.setString(5, masterEvent.getInformation());
-                preparedStatement.setInt(6, masterEvent.getMasterEventId());
+                preparedStatement.setString(1, masterEvent.getName());
+                preparedStatement.setString(2, masterEvent.getAddress());
+                preparedStatement.setString(3, masterEvent.getNoNpwp());
+                preparedStatement.setString(4, masterEvent.getInformation());
+                preparedStatement.setString(5, masterEvent.getAgentEvent());
             }
 
             preparedStatement.executeUpdate();
@@ -139,10 +138,10 @@ public class MasterEventDAO
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
-            String query = "DELETE FROM MASTER_EVENT WHERE MASTER_EVENT_ID = ?";
+            String query = "DELETE FROM MASTER_EVENT WHERE AGENT_EVENT = ?";
 
             preparedStatement = connect.prepareStatement(query);
-            preparedStatement.setInt(1, masterEvent.getMasterEventId());
+            preparedStatement.setString(1, masterEvent.getAgentEvent());
 
             preparedStatement.executeUpdate();
 

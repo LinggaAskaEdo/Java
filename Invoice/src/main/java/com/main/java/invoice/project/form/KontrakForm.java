@@ -2,6 +2,9 @@ package com.main.java.invoice.project.form;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.*;
+import java.math.BigDecimal;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -13,20 +16,31 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.main.java.invoice.project.dao.KontrakDAO;
+import com.main.java.invoice.project.dao.MasterLegalitasDAO;
+import com.main.java.invoice.project.pojo.*;
+import com.toedter.calendar.JDateChooser;
 import de.wannawork.jcalendar.JCalendarComboBox;
+
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
 import com.main.java.invoice.project.function.GeneralFunction;
+
+import static com.lowagie.text.pdf.PdfName.TA;
 
 public class KontrakForm extends JInternalFrame 
 {
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_NamaPerusahaan;
-	
-	@SuppressWarnings("unused")
-	private JTextField TF_AlamatPerusahaan;
+	private JTextField codeId;
+	private JTextField listId;
+	private JTextField projectId;
+
+	private JTextArea TA_AlamatPerusahaan;
 	private JTextField TF_Npwp;
 	private JTextField TF_NoKontrak;
 	private JTextField TF_NilaiKontrak;
@@ -49,6 +63,10 @@ public class KontrakForm extends JInternalFrame
 	private JTextField TF_ResultPpn;
 	private JTextField TF_ResultPph_23;
 	private JTextField TF_ResultSP_2D;
+	private JComboBox CB_KodePerusahaan;
+	KontrakDAO dao;
+	MasterLegalitasDAO masterLegalitasDAO;
+	KontrakDAO kontrakDAO;
 
 	public static void main(String[] args) 
 	{
@@ -85,6 +103,8 @@ public class KontrakForm extends JInternalFrame
 		setResizable(false);
 		setTitle("Kontrak");
 		initializeForm();
+		ShowComboBoxPerusahaan();
+		ShowComboBoxKontrak();
 	}
 
 	private void initializeForm()
@@ -187,18 +207,36 @@ public class KontrakForm extends JInternalFrame
 		JLabel label_6 = new JLabel("=");
 		label_6.setBounds(399, 431, 19, 15);
 		desktopPane.add(label_6);
-		
-		@SuppressWarnings("rawtypes")
-		JComboBox CB_KodePerusahaan = new JComboBox();
+
+		CB_KodePerusahaan = new JComboBox();
+		CB_KodePerusahaan.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				MasterPerusahaan masterPerusahaan = new MasterPerusahaan();
+
+				masterPerusahaan.setCode(String.valueOf(CB_KodePerusahaan.getSelectedItem()));
+				masterPerusahaan = masterLegalitasDAO.GetMasterPerusahaanById(masterPerusahaan);
+
+				codeId.setText(String.valueOf(masterPerusahaan.getMasterPerusahaanId()));
+				TF_NamaPerusahaan.setText(masterPerusahaan.getName());
+				TA_AlamatPerusahaan.setText(masterPerusahaan.getAddress());
+				TF_Npwp.setText(masterPerusahaan.getNoNpwp());
+			}
+		});
 		CB_KodePerusahaan.setBounds(194, 88, 212, 24);
 		desktopPane.add(CB_KodePerusahaan);
+
+		codeId = new JTextField();
+		codeId.setBounds(418, 91, 44, 19);
+		desktopPane.add(codeId);
+		codeId.setColumns(10);
+		codeId.setVisible(false);
 		
 		TF_NamaPerusahaan = new JTextField();
 		TF_NamaPerusahaan.setBounds(194, 124, 212, 19);
 		desktopPane.add(TF_NamaPerusahaan);
 		TF_NamaPerusahaan.setColumns(10);
 		
-		JTextArea TA_AlamatPerusahaan = new JTextArea();
+		TA_AlamatPerusahaan = new JTextArea();
 		TA_AlamatPerusahaan.setBounds(194, 155, 284, 53);
 		TA_AlamatPerusahaan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		desktopPane.add(TA_AlamatPerusahaan);
@@ -212,44 +250,84 @@ public class KontrakForm extends JInternalFrame
 		TF_NoKontrak.setBounds(194, 57, 212, 19);
 		desktopPane.add(TF_NoKontrak);
 		TF_NoKontrak.setColumns(10);
-		
-		@SuppressWarnings("rawtypes")
+
 		JComboBox CB_Project = new JComboBox();
 		CB_Project.setBounds(194, 251, 212, 24);
 		desktopPane.add(CB_Project);
+
+		projectId = new JTextField();
+		projectId.setBounds(418, 254, 44, 19);
+		desktopPane.add(projectId);
+		projectId.setColumns(10);
+		projectId.setVisible(false);
 		
 		TF_NilaiKontrak = new JTextField();
+		TF_NilaiKontrak.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				TF_Dpp.setText(TF_NilaiKontrak.getText());
+			}
+		});
 		TF_NilaiKontrak.setBounds(194, 319, 158, 19);
 		desktopPane.add(TF_NilaiKontrak);
 		TF_NilaiKontrak.setColumns(10);
-		
-		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.setBounds(453, 460, 117, 25);
-		desktopPane.add(btnSimpan);
-		
-		JCalendarComboBox CL_tanggal = new JCalendarComboBox();
+
+		JDateChooser CL_tanggal = new JDateChooser();
 		CL_tanggal.setBounds(193, 287, 157, 20);
+		CL_tanggal.setDateFormatString("d MMM yyyy");
 		desktopPane.add(CL_tanggal);
 		
 		TF_Dpp = new JTextField();
+		TF_Dpp.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent arg0) {
+				String getDpp = TF_Dpp.getText();
+				int grdpp = Integer.parseInt(getDpp);
+				int redpp = (grdpp * 110)/100;
+				TF_ResultDpp.setText(String.valueOf(redpp));
+				TF_Ppn.setText(String.valueOf(redpp));
+			}
+		});
 		TF_Dpp.setBounds(228, 348, 153, 19);
 		desktopPane.add(TF_Dpp);
 		TF_Dpp.setColumns(10);
+
+		TF_ResultDpp = new JTextField();
+		TF_ResultDpp.setBounds(422, 348, 148, 19);
+		desktopPane.add(TF_ResultDpp);
+		TF_ResultDpp.setColumns(10);
 		
 		TF_Ppn = new JTextField();
+		TF_Ppn.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent arg0) {
+				String getPpn = TF_Ppn.getText();
+				int grPpn = Integer.parseInt(getPpn);
+				int rePpn = (grPpn * 10)/100;
+				TF_ResultPpn.setText(String.valueOf(rePpn));
+				TF_Pph_23.setText(String.valueOf(rePpn));
+			}
+		});
 		TF_Ppn.setBounds(228, 375, 153, 19);
 		desktopPane.add(TF_Ppn);
 		TF_Ppn.setColumns(10);
 		
 		TF_Pph_23 = new JTextField();
+		TF_Pph_23.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent arg0) {
+				String getPph23 = TF_Pph_23.getText();
+				int grPph23 = Integer.parseInt(getPph23);
+				int rePph23 = (grPph23 * 2)/100;
+				TF_ResultPph_23.setText(String.valueOf(rePph23));
+
+				String getDpp = TF_Dpp.getText();
+				int dpp = Integer.parseInt(getDpp);
+
+				int resultSp2D = dpp - rePph23;
+				TF_ResultSP_2D.setText(String.valueOf(resultSp2D));
+			}
+		});
 		TF_Pph_23.setBounds(228, 402, 153, 19);
 		desktopPane.add(TF_Pph_23);
 		TF_Pph_23.setColumns(10);
-		
-		TF_ResultDpp = new JTextField();
-		TF_ResultDpp.setBounds(422, 348, 148, 19);
-		desktopPane.add(TF_ResultDpp);
-		TF_ResultDpp.setColumns(10);
 		
 		TF_ResultPpn = new JTextField();
 		TF_ResultPpn.setBounds(422, 375, 148, 19);
@@ -273,14 +351,110 @@ public class KontrakForm extends JInternalFrame
 		JLabel lblListKontrak = new JLabel("List Kontrak");
 		lblListKontrak.setBounds(46, 26, 126, 15);
 		desktopPane.add(lblListKontrak);
-		
-		@SuppressWarnings("rawtypes")
+
 		JComboBox CB_ListKontrak = new JComboBox();
+		CB_ListKontrak.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				Kontrak kontrak = new Kontrak();
+				MasterPerusahaan perusahaan;
+
+				kontrak.setNoKontrak(String.valueOf(CB_ListKontrak.getSelectedItem()));
+				kontrak = kontrakDAO.GetKontrakById(kontrak);
+
+				listId.setText(String.valueOf(kontrak.getKontrakId()));
+
+				perusahaan = masterLegalitasDAO.GetMasterPerusahaanById(kontrak.getMasterPerusahaanId());
+				CB_KodePerusahaan.setActionCommand(perusahaan.getCode());
+
+				CB_Project.setActionCommand(kontrak.getProject());
+				CL_tanggal.setDate(kontrak.getDate());
+				TF_NilaiKontrak.setText(String.valueOf(kontrak.getNilaiKontrak()));
+			}
+		});
 		CB_ListKontrak.setBounds(194, 21, 212, 24);
 		desktopPane.add(CB_ListKontrak);
+		CB_ListKontrak.setEnabled(false);
+
+		listId = new JTextField();
+		listId.setBounds(418, 24, 44, 19);
+		desktopPane.add(listId);
+		listId.setColumns(10);
+		listId.setVisible(false);
+
+		JButton btnSimpan = new JButton("Simpan");
+		btnSimpan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Kontrak kontrak = new Kontrak();
+				kontrak.setListKontrakId(Integer.valueOf(listId.getText()));
+				kontrak.setNoKontrak(TF_NoKontrak.getText());
+				kontrak.setMasterPerusahaanId(Integer.valueOf(codeId.getText()));
+				kontrak.setProject(String.valueOf(CB_Project.getSelectedItem()));
+				kontrak.setDate(CL_tanggal.getDate());
+				kontrak.setNilaiKontrak(new BigDecimal(TF_NilaiKontrak.getText()));
+				kontrak.setDpp(new BigDecimal(TF_Dpp.getText()));
+				kontrak.setPpn(new BigDecimal(TF_ResultDpp.getText()));
+				kontrak.setPph23(new BigDecimal(TF_ResultPph_23.getText()));
+				kontrak.setSp2d(new BigDecimal(TF_ResultSP_2D.getText()));
+				if (chckbxPaid.isSelected()){
+					kontrak.setPaid(1);
+				} else {
+					kontrak.setPaid(0);
+				}
+
+				if(TF_NoKontrak.isEnabled()){
+					dao.addUpdate(kontrak, 0);
+					clearkontrak();
+					TF_NoKontrak.setEnabled(true);
+				} else {
+					dao.addUpdate(kontrak, 1);
+					clearkontrak();
+					TF_NoKontrak.setEnabled(true);
+				}
+			}
+		});
+		btnSimpan.setBounds(453, 460, 117, 25);
+		desktopPane.add(btnSimpan);
 		
 		JButton btnEdit = new JButton("Edit");
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CB_ListKontrak.setEnabled(true);
+				TF_NoKontrak.setEnabled(false);
+				TF_NoKontrak.setText("");
+			}
+		});
 		btnEdit.setBounds(46, 460, 117, 25);
 		desktopPane.add(btnEdit);
+	}
+
+	public void clearkontrak()
+	{
+		listId.setText("");
+		TF_NoKontrak.setText("");
+		codeId.setText("");
+		TF_NilaiKontrak.setText("");
+
+	}
+
+	public void ShowComboBoxPerusahaan()
+	{
+		List<MasterPerusahaan> allMasterPerusahaan;
+		allMasterPerusahaan = masterLegalitasDAO.GetAllMasterPerusahaanComboBox();
+
+		for (int i = 0; i < allMasterPerusahaan.size(); i++) {
+
+			CB_KodePerusahaan.addItem(allMasterPerusahaan.get(i).getCode());
+		}
+	}
+
+	public void ShowComboBoxKontrak()
+	{
+		List<Kontrak> allKontrak;
+		allKontrak = kontrakDAO.GetAllKontrakComboBox();
+
+		for (int i = 0; i < allKontrak.size(); i++) {
+
+			CB_KodePerusahaan.addItem(allKontrak.get(i).getNoKontrak());
+		}
 	}
 }

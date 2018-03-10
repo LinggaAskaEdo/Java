@@ -1,9 +1,27 @@
 package com.sql.generator.pojo;
 
+/**
+ * Created by Lingga on 02/02/18.
+ */
+
 public class ConfigMapper
 {
-    public static final String BASE_CONFIG_PATH = "/home/lingga/git/altamides/altamides-config/src/data/";
+    public static final String JAVA_TYPE = "JAVA";
+    public static final String PHP_TYPE = "PHP";
     public static final String MANUAL_TYPE = "MANUAL";
+    public static final String DEFAULT_TYPE = "DEFAULT";
+
+    public static String CLIENT_NAME;
+    public static String CSV_FILE_PATH;
+    public static int CSV_START_READ_LINE;
+    public static String BASE_CONFIG_PATH;
+    public static String GET_CONFIG_URL;
+    public static String TARGET_WEB_PATH;
+    public static String TARGET_VDIR_PATH;
+    public static String SRC_WEB_PATH;
+    public static String SRC_VDIR_PATH;
+    public static String FILE_PATH_RESULT_SCRIPT;
+    public static String FILE_PATH_WARNING_LOG;
 
     private String configKeyId;
     private String module;
@@ -12,7 +30,6 @@ public class ConfigMapper
     private String dataType;
     private String configPath;
     private String configKey;
-    private String configValueId;
     private String content;
     private String type;
 
@@ -86,16 +103,6 @@ public class ConfigMapper
         this.configKey = configKey;
     }
 
-    public String getConfigValueId()
-    {
-        return configValueId;
-    }
-
-    public void setConfigValueId(String configValueId)
-    {
-        this.configValueId = configValueId;
-    }
-
     public String getContent()
     {
         return content;
@@ -127,7 +134,6 @@ public class ConfigMapper
                 ", dataType='" + dataType + '\'' +
                 ", configPath='" + configPath + '\'' +
                 ", configKey='" + configKey + '\'' +
-                ", configValueId='" + configValueId + '\'' +
                 ", content='" + content + '\'' +
                 ", type='" + type + '\'' +
                 '}';

@@ -1,6 +1,6 @@
 package middleware.request.handler.pojo;
 
-public class RequestResponseMiddleware
+public class Middleware
 {
     private String uuid;
     private String role;
@@ -39,7 +39,7 @@ public class RequestResponseMiddleware
     @Override
     public String toString()
     {
-        return "RequestResponseMiddleware{" +
+        return "Middleware{" +
                 "uuid='" + uuid + '\'' +
                 ", role='" + role + '\'' +
                 ", message='" + message + '\'' +

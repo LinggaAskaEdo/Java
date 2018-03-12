@@ -9,29 +9,9 @@
         </encoder>
     </appender>
 
-    <appender name="dataservice" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="CONTROLLER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/app/logs/mls-lookupservice/mls-dataservice.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <appender name="webservice" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/app/logs/mls-lookupservice/mls-webservice.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <appender name="sql" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/app/logs/mls-lookupservice/mls-sql.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>/app/logs/middleware-request-handler/middleware-request-handler.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -43,36 +23,8 @@
         <appender-ref ref="STDOUT"/>
     </root>
 
-    <logger name="mls.lookupservice.task.DataService" level="DEBUG" additivity="false">
-        <appender-ref ref="dataservice"/>
-    </logger>
-
-    <logger name="mls.lookupservice.mode.MlsOnline" level="DEBUG" additivity="false">
-        <appender-ref ref="dataservice"/>
-    </logger>
-
-    <logger name="mls.lookupservice.mode.MlsOffline" level="DEBUG" additivity="false">
-        <appender-ref ref="dataservice"/>
-    </logger>
-
-    <logger name="mls.lookupservice.mode.MlsClean" level="DEBUG" additivity="false">
-        <appender-ref ref="dataservice"/>
-    </logger>
-
-    <logger name="mls.lookupservice.function.DataFunction" level="DEBUG" additivity="false">
-        <appender-ref ref="dataservice"/>
-    </logger>
-
-    <logger name="mls.lookupservice.task.WebService" level="INFO" additivity="false">
-        <appender-ref ref="webservice"/>
-    </logger>
-
-    <logger name="mls.lookupservice.function.WebFunction" level="INFO" additivity="false">
-        <appender-ref ref="webservice"/>
-    </logger>
-
-    <logger name="mls.lookupservice.dao" level="INFO" additivity="false">
-        <appender-ref ref="sql"/>
+    <logger name=" middleware.request.handler.controller.APIController" level="DEBUG" additivity="false">
+        <appender-ref ref="CONTROLLER"/>
     </logger>
 
 </configuration>

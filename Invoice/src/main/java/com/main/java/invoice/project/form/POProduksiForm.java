@@ -4,22 +4,25 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.math.BigDecimal;
+import java.util.Date;
 
-import javax.swing.JButton;
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import com.main.java.invoice.project.dao.DetailProduksiDAO;
+import com.main.java.invoice.project.dao.PoProduksiDAO;
 import com.main.java.invoice.project.pojo.DetailProduksi;
+import com.main.java.invoice.project.pojo.PoMedia;
+import com.main.java.invoice.project.pojo.PoProduksi;
+import com.main.java.invoice.project.pojo.TagihanMedia;
+import com.toedter.calendar.JDateChooser;
 import de.wannawork.jcalendar.JCalendarComboBox;
 
-import javax.swing.JTextArea;
-import javax.swing.BorderFactory;
 import javax.swing.table.TableColumn;
 
 public class POProduksiForm extends JInternalFrame {
@@ -31,7 +34,10 @@ public class POProduksiForm extends JInternalFrame {
 	private JTextField TF_ReffKontrak;
 	private JTextField TF_NilaiProduksi;
 	private JTextField TF_Unggah;
-	
+	private JTextArea TA_Keterangan;
+	PoProduksiDAO dao;
+	DetailProduksiDAO detailProduksiDAO;
+
 	/**
 	 * Launch the application.
 	 */
@@ -53,15 +59,15 @@ public class POProduksiForm extends JInternalFrame {
 		setTitle("PO. Produksi");
 		initializeForm();
 		table.setModel(tabelModel);
-		Tabel(table, new int[]{120, 120, 120, 120, 120, 120, 120, 120, 120, 120});
+		Tabel(table, new int[]{120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120});
 	}
+
+	int row = 0;
 
 	public void initializeForm() {
 
 		setClosable(true);
 		setBounds(100, 100, 630, 487);
-		getContentPane().setLayout(null);
-		
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 		getContentPane().add(desktopPane);
 		
@@ -85,21 +91,11 @@ public class POProduksiForm extends JInternalFrame {
 		TF_Produksi.setBounds(197, 86, 254, 19);
 		desktopPane.add(TF_Produksi);
 		TF_Produksi.setColumns(10);
-		
-		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.setBounds(418, 413, 117, 25);
-		desktopPane.add(btnSimpan);
-		
-		JCalendarComboBox CL_Tanggal = new JCalendarComboBox();
-		CL_Tanggal.setBounds(197, 117, 157, 20);
-		desktopPane.add(CL_Tanggal);
-		
-		table = new JTable();
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(45, 178, 490, 90);
-		scrollPane.setViewportView(table);
-		desktopPane.add(scrollPane);
+		JDateChooser CL_Tanggal = new JDateChooser();
+		CL_Tanggal.setBounds(197, 117, 157, 20);
+		CL_Tanggal.setDateFormatString("yyyy-MM-dd");
+		desktopPane.add(CL_Tanggal);
 		
 		TF_PONomor = new JTextField();
 		TF_PONomor.setBounds(197, 26, 254, 19);
@@ -120,7 +116,7 @@ public class POProduksiForm extends JInternalFrame {
 			public void actionPerformed(ActionEvent arg0) {
 
 				DetailProduksiForm produksi = new DetailProduksiForm();
-				desktopPane.add(produksi);
+				getParent().add(produksi);
 				produksi.setVisible(true);
 			}
 		});
@@ -130,11 +126,29 @@ public class POProduksiForm extends JInternalFrame {
 		JButton btnMinus = new JButton("-");
 		btnMinus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				tabelModel.removeRow(row);
+				btnMinus.setEnabled(false);
 			}
 		});
 		btnMinus.setBounds(547, 209, 44, 25);
 		desktopPane.add(btnMinus);
+
+		btnMinus.setEnabled(false);
+
+		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount()==1) {
+					btnMinus.setEnabled(true);
+				}
+			}
+		});
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(45, 178, 490, 90);
+		scrollPane.setViewportView(table);
+		desktopPane.add(scrollPane);
 		
 		JLabel lblNilaiProduksi = new JLabel("Nilai Produksi");
 		lblNilaiProduksi.setBounds(45, 280, 118, 15);
@@ -149,7 +163,7 @@ public class POProduksiForm extends JInternalFrame {
 		desktopPane.add(TF_NilaiProduksi);
 		TF_NilaiProduksi.setColumns(10);
 		
-		JTextArea TA_Keterangan = new JTextArea();
+		TA_Keterangan = new JTextArea();
 		TA_Keterangan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		TA_Keterangan.setBounds(197, 311, 284, 53);
 		desktopPane.add(TA_Keterangan);
@@ -160,15 +174,49 @@ public class POProduksiForm extends JInternalFrame {
 		desktopPane.add(TF_Unggah);
 		
 		JButton btnUnggah = new JButton("Browse");
+		btnUnggah.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				JFileChooser jfc = new JFileChooser();
+
+				int returnValue = jfc.showOpenDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = jfc.getSelectedFile();
+					TF_Unggah.setText(selectedFile.getAbsolutePath());
+				}
+			}
+		});
 		btnUnggah.setBounds(397, 376, 110, 25);
 		desktopPane.add(btnUnggah);
 		
 		JLabel lblUnggahDokumen = new JLabel("Unggah Dokumen");
 		lblUnggahDokumen.setBounds(45, 381, 133, 15);
 		desktopPane.add(lblUnggahDokumen);
+
+		JButton btnSimpan = new JButton("Simpan");
+		btnSimpan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PoProduksi poProduksi = null;
+
+				poProduksi.setPoProduksiNo(TF_PONomor.getText());
+				poProduksi.setKontrakId(TF_ReffKontrak.getText());
+				poProduksi.setProduksi(TF_Produksi.getText());
+				poProduksi.setTanggal(CL_Tanggal.getDate());
+				poProduksi.setNilaiProduksi(new BigDecimal(TF_NilaiProduksi.getText()));
+				poProduksi.setKeterangan(TA_Keterangan.getText());
+				poProduksi.setImage(TF_Unggah.getText());
+
+				dao.add(poProduksi);
+				GetTableList();
+				RemoveRowPoProduksi();
+				ClearPoProduksi();
+			}
+		});
+		btnSimpan.setBounds(418, 413, 117, 25);
+		desktopPane.add(btnSimpan);
 	}
 
-	private DefaultTableModel tabelModel = getDefaultTabelModel();
+	public DefaultTableModel tabelModel = getDefaultTabelModel();
 	private void Tabel(JTable tb, int lebar[]){
 		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		int kolom = tb.getColumnCount();
@@ -182,12 +230,12 @@ public class POProduksiForm extends JInternalFrame {
 	private DefaultTableModel getDefaultTabelModel(){
 		return new DefaultTableModel(
 				new Object [][] {
-						{null, null, null, null, null, null, null, null, null, null},
-						{null, null, null, null, null, null, null, null, null, null},
-						{null, null, null, null, null, null, null, null, null, null},
-						{null, null, null, null, null, null, null, null, null, null}
+						{null, null, null, null, null, null, null, null, null, null, null, null, null},
+						{null, null, null, null, null, null, null, null, null, null, null, null, null},
+						{null, null, null, null, null, null, null, null, null, null, null, null, null},
+						{null, null, null, null, null, null, null, null, null, null, null, null, null}
 				},
-				new String [] {"Media", "Durasi", "Hari", "Lokasi", "Uraian", "Jenis", "Jumlah", "Barang" ,"Harga Satuan", "Total Harga"}
+				new String [] {"Media", "Durasi", "Hari", "Lokasi", "Pre-Uraian", "Pre-Jenis", "Pro-Jenis", "Pro-Jumlah", "Pro-Barang", "Pro-Harga Satuan", "Pro-Total Harga", "Post-Barang", "Post-Total Harga"}
 		){
 			boolean [] canEdit = new boolean[]{
 					false,false
@@ -196,5 +244,47 @@ public class POProduksiForm extends JInternalFrame {
 				return canEdit[columnIndex];
 			}
 		};
+	}
+
+	public void GetTableList()
+	{
+		DetailProduksi detailProduksi = null;
+
+		for(int i = 0; i < tabelModel.getRowCount(); i++) {
+
+			detailProduksi.setPoProduksiNo(TF_PONomor.getText());
+			detailProduksi.setMedia(String.valueOf(tabelModel.getValueAt(i, 0)));
+			detailProduksi.setDurasi(String.valueOf(tabelModel.getValueAt(i,1)));
+			detailProduksi.setHari(String.valueOf(tabelModel.getValueAt(i,2)));
+			detailProduksi.setLokasi(String.valueOf(tabelModel.getValueAt(i,3)));
+			detailProduksi.setPreProduksiUraian(String.valueOf(tabelModel.getValueAt(i, 4)));
+			detailProduksi.setPreProduksiJenis(String.valueOf(tabelModel.getValueAt(i,5)));
+			detailProduksi.setProduksiJenis(String.valueOf(tabelModel.getValueAt(i,6)));
+			detailProduksi.setProduksiJumlah(String.valueOf(tabelModel.getValueAt(i, 7)));
+			detailProduksi.setProduksiBarang(String.valueOf(tabelModel.getValueAt(i,8)));
+			detailProduksi.setProduksiHargaSatuan((BigDecimal) tabelModel.getValueAt(i, 9));
+			detailProduksi.setProduksiTotalHarga((BigDecimal) table.getValueAt(i, 10));
+			detailProduksi.setPostProduksiBarang(String.valueOf(tabelModel.getValueAt(i, 11)));
+			detailProduksi.setPostProduksiTotalHarga((BigDecimal) tabelModel.getValueAt(i, 12));
+
+			detailProduksiDAO.add(detailProduksi);
+		}
+	}
+
+	public void RemoveRowPoProduksi()
+	{
+		for(int i = 0; i < tabelModel.getRowCount(); i++)
+		{
+			tabelModel.removeRow(i);
+		}
+	}
+
+	public void ClearPoProduksi(){
+		TF_PONomor.setText("");
+		TF_ReffKontrak.setText("");
+		TF_Produksi.setText("");
+		TF_NilaiProduksi.setText("");
+		TA_Keterangan.setText("");
+		TF_Unggah.setText("");
 	}
 }

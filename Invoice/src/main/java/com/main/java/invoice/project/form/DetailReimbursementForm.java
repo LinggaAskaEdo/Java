@@ -1,6 +1,8 @@
 package com.main.java.invoice.project.form;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,14 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class DetailReimbursementForm extends JInternalFrame {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_Detail;
 	private JTextField TF_Harga;
+	POEventForm eventForm;
 
 	/**
 	 * Launch the application.
@@ -41,10 +41,11 @@ public class DetailReimbursementForm extends JInternalFrame {
 		initializeForm();
 	}
 
+	String data[] = new String[3];
+
 	public void initializeForm() {
 
 		setClosable(true);
-		//setBounds(100, 100, 630, 428);
 		setBounds(100, 100, 445, 202);
 		getContentPane().setLayout(null);
 		
@@ -62,9 +63,11 @@ public class DetailReimbursementForm extends JInternalFrame {
 		JLabel lblHarga = new JLabel("Harga");
 		lblHarga.setBounds(45, 84, 70, 15);
 		desktopPane.add(lblHarga);
-		
-		@SuppressWarnings("rawtypes")
+
 		JComboBox CB_Uraian = new JComboBox();
+		CB_Uraian.addItem("Perjadin");
+		CB_Uraian.addItem("Hotel Penginapan");
+		CB_Uraian.addItem("Tiket Pesawat");
 		CB_Uraian.setBounds(149, 23, 233, 24);
 		desktopPane.add(CB_Uraian);
 		
@@ -79,6 +82,17 @@ public class DetailReimbursementForm extends JInternalFrame {
 		TF_Harga.setColumns(10);
 		
 		JButton btnTambah = new JButton("Tambah");
+		btnTambah.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				data[0] = String.valueOf(CB_Uraian.getSelectedItem());
+				data[1] = TF_Detail.getText();
+				data[2] = TF_Harga.getText();
+
+				eventForm.tabelModel2.insertRow(0, data);
+				dispose();
+			}
+		});
 		btnTambah.setBounds(265, 113, 117, 25);
 		desktopPane.add(btnTambah);
 

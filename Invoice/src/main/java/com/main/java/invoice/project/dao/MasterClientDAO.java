@@ -41,16 +41,15 @@ public class MasterClientDAO
             }
             else
             {
-                query = "UPDATE MASTER_CLIENT set NAME = ?, ADDRESS = ?, NO_NPWP = ?, SATKER_PPK = ?, INFORMATION = ?" +
-                        "WHERE MASTER_CLIENT_ID = ?";
+                query = "UPDATE MASTER_CLIENT set ADDRESS = ?, NO_NPWP = ?, SATKER_PPK = ?, INFORMATION = ?" +
+                        "WHERE NAME = ?";
 
                 preparedStatement = connect.prepareStatement(query);
-                preparedStatement.setString(1, masterClient.getName());
-                preparedStatement.setString(2, masterClient.getAddress());
-                preparedStatement.setString(3, masterClient.getNoNpwp());
-                preparedStatement.setString(4, masterClient.getSatkerPpk());
-                preparedStatement.setString(5, masterClient.getInformation());
-                preparedStatement.setInt(6, masterClient.getMasterClientId());
+                preparedStatement.setString(1, masterClient.getAddress());
+                preparedStatement.setString(2, masterClient.getNoNpwp());
+                preparedStatement.setString(3, masterClient.getSatkerPpk());
+                preparedStatement.setString(4, masterClient.getInformation());
+                preparedStatement.setString(5, masterClient.getName());
             }
 
             preparedStatement.executeUpdate();
@@ -138,10 +137,10 @@ public class MasterClientDAO
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
-            String query = "DELETE FROM MASTER_CLIENT WHERE MASTER_CLIENT_ID = ?";
+            String query = "DELETE FROM MASTER_CLIENT WHERE NAME = ?";
 
             preparedStatement = connect.prepareStatement(query);
-            preparedStatement.setInt(1, masterClient.getMasterClientId());
+            preparedStatement.setString(1, masterClient.getName());
 
             preparedStatement.executeUpdate();
 

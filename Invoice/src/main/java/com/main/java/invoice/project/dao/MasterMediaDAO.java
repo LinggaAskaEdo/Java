@@ -41,17 +41,16 @@ public class MasterMediaDAO
             }
             else
             {
-                query = "UPDATE MASTER_MEDIA set COMPANY_NAME = ?, MEDIA_NAME = ?, ADDRESS = ?, NO_NPWP = ?, BILL_COMMITMENT = ?, INFORMATION = ?" +
-                        "WHERE MASTER_MEDIA_ID = ?";
 
+                query = "UPDATE MASTER_MEDIA set MEDIA_NAME = ?, ADDRESS = ?, NO_NPWP = ?, BILL_COMMITMENT = ?, INFORMATION = ?" +
+                        "WHERE COMPANY_NAME = ?";
                 preparedStatement = connect.prepareStatement(query);
-                preparedStatement.setString(1, masterMedia.getCompanyName());
-                preparedStatement.setString(2, masterMedia.getMediaName());
-                preparedStatement.setString(3, masterMedia.getAddress());
-                preparedStatement.setString(4, masterMedia.getNoNpwp());
-                preparedStatement.setString(5, masterMedia.getBillCommitment());
-                preparedStatement.setString(6, masterMedia.getInformation());
-                preparedStatement.setInt(7, masterMedia.getMasterMediaId());
+                preparedStatement.setString(1, masterMedia.getMediaName());
+                preparedStatement.setString(2, masterMedia.getAddress());
+                preparedStatement.setString(3, masterMedia.getNoNpwp());
+                preparedStatement.setString(4, masterMedia.getBillCommitment());
+                preparedStatement.setString(5, masterMedia.getInformation());
+                preparedStatement.setString(6, masterMedia.getCompanyName());
             }
 
             preparedStatement.executeUpdate();
@@ -68,7 +67,7 @@ public class MasterMediaDAO
 
     }
     
-    public List<MasterMedia> GetAllMasterMedia ()
+    public List<MasterMedia> GetAllMasterMedia()
     {
         List<MasterMedia> allMasterMedia = new ArrayList<>();
 
@@ -103,6 +102,42 @@ public class MasterMediaDAO
 
         return allMasterMedia;
     }
+
+    public List<MasterMedia> GetAllMasterMediaComboBox()
+    {
+        List<MasterMedia> allMasterMedia = new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
+
+            String query = "SELECT MASTER_MEDIA_ID, COMPANY_NAME, MEDIA_NAME, ADDRESS, NO_NPWP, BILL_COMMITMENT, INFORMATION FROM MASTER_MEDIA";
+
+            statement = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+
+                MasterMedia masterMedia = new MasterMedia();
+                masterMedia.setMasterMediaId(resultSet.getInt(1));
+                masterMedia.setCompanyName(resultSet.getString(2));
+                masterMedia.setMediaName(resultSet.getString(3));
+                masterMedia.setAddress(resultSet.getString(4));
+                masterMedia.setNoNpwp(resultSet.getString(5));
+                masterMedia.setBillCommitment(resultSet.getString(6));
+                masterMedia.setInformation(resultSet.getString(7));
+
+                allMasterMedia.add(masterMedia);
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+
+        return allMasterMedia;
+    }
     
     public MasterMedia GetMasterMediaById(MasterMedia masterMedia)
     {
@@ -112,16 +147,16 @@ public class MasterMediaDAO
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
-            String query = "SELECT COMPANY_NAME, MEDIA_NAME, ADDRESS, NO_NPWP, BILL_COMMITMENT, INFORMATION FROM MASTER_MEDIA WHERE MASTER_MEDIA_ID = ?" ;
+            String query = "SELECT MASTER_MEDIA_ID, MEDIA_NAME, ADDRESS, NO_NPWP, BILL_COMMITMENT, INFORMATION FROM MASTER_MEDIA WHERE COMPANY_NAME = ? LIMIT 1" ;
 
             preparedStatement = connect.prepareStatement(query);
-            preparedStatement.setInt(1, masterMedia.getMasterMediaId());
+            preparedStatement.setString(1, masterMedia.getCompanyName());
 
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
 
-                getMasterMedia.setCompanyName(resultSet.getString(1));
+                getMasterMedia.setMasterMediaId(resultSet.getInt(1));
                 getMasterMedia.setMediaName(resultSet.getString(2));
                 getMasterMedia.setAddress(resultSet.getString(3));
                 getMasterMedia.setNoNpwp(resultSet.getString(4));
@@ -143,10 +178,10 @@ public class MasterMediaDAO
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
-            String query = "DELETE FROM MASTER_MEDIA WHERE MASTER_MEDIA_ID = ?";
+            String query = "DELETE FROM MASTER_MEDIA WHERE COMPANY_NAME = ?";
 
             preparedStatement = connect.prepareStatement(query);
-            preparedStatement.setInt(1, masterMedia.getMasterMediaId());
+            preparedStatement.setString(1, masterMedia.getCompanyName());
 
             preparedStatement.executeUpdate();
 

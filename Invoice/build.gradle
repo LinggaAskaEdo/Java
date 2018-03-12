@@ -34,4 +34,7 @@ dependencies {
 
     //Jcalendar
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    //JasperReport
+    compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '4.5.0'
 }

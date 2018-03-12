@@ -4,27 +4,26 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.math.BigDecimal;
+import java.util.Date;
 
-import javax.swing.JButton;
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import com.main.java.invoice.project.dao.*;
+import com.main.java.invoice.project.pojo.*;
+import com.toedter.calendar.JDateChooser;
 import de.wannawork.jcalendar.JCalendarComboBox;
-import javax.swing.JTextArea;
-import javax.swing.BorderFactory;
+
 import javax.swing.table.TableColumn;
 
 public class POEventForm extends JInternalFrame {
 	
 	JDesktopPane desktopPane = new JDesktopPane();
-	private JTextField TF_Event;
-	private JTextField TF_Value;
 	private JTable table1;
 	private JTable table2;
 	private JTable table3;
@@ -33,7 +32,13 @@ public class POEventForm extends JInternalFrame {
 	private JTextField TF_Kegiatan;
 	private JTextField TF_Jumlah;
 	private JTextField TF_Unggah;
-	
+	private JTextArea TA_Keterangan;
+	PoEventDAO dao;
+	MasterDanaDAO masterDanaDAO;
+	DetailEventDAO detailEventDAO;
+	DetailReimbursementDAO detailReimbursementDAO;
+	TagihanReimbursementDAO tagihanReimbursementDAO;
+
 	/**
 	 * Launch the application.
 	 */
@@ -59,8 +64,10 @@ public class POEventForm extends JInternalFrame {
 		table2.setModel(tabelModel2);
 		Tabel(table2, new int[]{120, 300, 120});
 		table3.setModel(tabelModel3);
-		Tabel(table3, new int[]{120, 120, 120, 120, 120});
+		Tabel(table3, new int[]{120, 120, 120, 120, 120, 120});
 	}
+
+	int row = 0;
 
 	public void initializeForm() {
 
@@ -74,10 +81,6 @@ public class POEventForm extends JInternalFrame {
 		JLabel lblPoNomor = new JLabel("PO. Nomor");
 		lblPoNomor.setBounds(45, 28, 164, 15);
 		desktopPane.add(lblPoNomor);
-		
-		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.setBounds(480, 628, 117, 25);
-		desktopPane.add(btnSimpan);
 		
 		JLabel lblReffKontrak = new JLabel("Reff Kontrak");
 		lblReffKontrak.setBounds(45, 59, 118, 15);
@@ -116,9 +119,10 @@ public class POEventForm extends JInternalFrame {
 		TF_ReffKontrak.setBounds(227, 57, 252, 19);
 		desktopPane.add(TF_ReffKontrak);
 		TF_ReffKontrak.setColumns(10);
-		
-		JCalendarComboBox CL_Tanggal = new JCalendarComboBox();
+
+		JDateChooser CL_Tanggal = new JDateChooser();
 		CL_Tanggal.setBounds(227, 119, 158, 20);
+		CL_Tanggal.setDateFormatString("yyyy-MM-dd");
 		desktopPane.add(CL_Tanggal);
 		
 		TF_Kegiatan = new JTextField();
@@ -126,19 +130,12 @@ public class POEventForm extends JInternalFrame {
 		desktopPane.add(TF_Kegiatan);
 		TF_Kegiatan.setColumns(10);
 		
-		table1 = new JTable();
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(45, 173, 495, 90);
-		scrollPane.setViewportView(table1);
-		desktopPane.add(scrollPane);
-		
 		JButton btnPlus_1 = new JButton("+");
 		btnPlus_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
 				DetailEventForm detailEvent = new DetailEventForm();
-				desktopPane.add(detailEvent);
+				getParent().add(detailEvent);
 				detailEvent.setVisible(true);
 			}
 		});
@@ -148,25 +145,36 @@ public class POEventForm extends JInternalFrame {
 		JButton btnMinus_1 = new JButton("-");
 		btnMinus_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				tabelModel1.removeRow(row);
+				btnMinus_1.setEnabled(false);
 			}
 		});
 		btnMinus_1.setBounds(548, 207, 49, 25);
 		desktopPane.add(btnMinus_1);
-		
-		table2 = new JTable();
 
-		JScrollPane scrollPane1 = new JScrollPane();
-		scrollPane1.setBounds(45, 302, 495, 90);
-		scrollPane1.setViewportView(table2);
-		desktopPane.add(scrollPane1);
+		btnMinus_1.setEnabled(false);
+
+		table1 = new JTable();
+		table1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount()==1) {
+					btnMinus_1.setEnabled(true);
+				}
+			}
+		});
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(45, 173, 495, 90);
+		scrollPane.setViewportView(table1);
+		desktopPane.add(scrollPane);
 		
 		JButton btnPlus_2 = new JButton("+");
 		btnPlus_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
 				DetailReimbursementForm detailReimbursement = new DetailReimbursementForm();
-				desktopPane.add(detailReimbursement);
+				getParent().add(detailReimbursement);
 				detailReimbursement.setVisible(true);
 			}
 		});
@@ -176,44 +184,67 @@ public class POEventForm extends JInternalFrame {
 		JButton btnMinus_2 = new JButton("-");
 		btnMinus_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				tabelModel2.removeRow(row);
+				btnMinus_2.setEnabled(false);
 			}
 		});
 		btnMinus_2.setBounds(547, 336, 49, 25);
 		desktopPane.add(btnMinus_2);
-		
+
+		btnMinus_2.setEnabled(false);
+
+		table2 = new JTable();
+		table2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount()==1) {
+					btnMinus_2.setEnabled(true);
+				}
+			}
+		});
+
+		JScrollPane scrollPane1 = new JScrollPane();
+		scrollPane1.setBounds(45, 302, 495, 90);
+		scrollPane1.setViewportView(table2);
+		desktopPane.add(scrollPane1);
+
 		TF_Jumlah = new JTextField();
 		TF_Jumlah.setBounds(227, 402, 186, 19);
 		desktopPane.add(TF_Jumlah);
 		TF_Jumlah.setColumns(10);
 		
-		JTextArea TA_Keterangan = new JTextArea();
+		TA_Keterangan = new JTextArea();
 		TA_Keterangan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		TA_Keterangan.setBounds(227, 430, 284, 53);
 		desktopPane.add(TA_Keterangan);
-		
-		JButton btnUnggah = new JButton("Upload");
-		btnUnggah.setBounds(386, 597, 84, 25);
-		desktopPane.add(btnUnggah);
-		
-		table3 = new JTable();
-
-		JScrollPane scrollPane2 = new JScrollPane();
-		scrollPane2.setBounds(45, 495, 495, 90);
-		scrollPane2.setViewportView(table3);
-		desktopPane.add(scrollPane2);
 		
 		TF_Unggah = new JTextField();
 		TF_Unggah.setBounds(227, 601, 158, 19);
 		desktopPane.add(TF_Unggah);
 		TF_Unggah.setColumns(10);
+
+		JButton btnUnggah = new JButton("Browse");
+		btnUnggah.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				JFileChooser jfc = new JFileChooser();
+
+				int returnValue = jfc.showOpenDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = jfc.getSelectedFile();
+					TF_Unggah.setText(selectedFile.getAbsolutePath());
+				}
+			}
+		});
+		btnUnggah.setBounds(386, 597, 84, 25);
+		desktopPane.add(btnUnggah);
 		
 		JButton btnPlus_3 = new JButton("+");
 		btnPlus_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
 				TagihanReimbursementForm tagihanReimbursement = new TagihanReimbursementForm();
-				desktopPane.add(tagihanReimbursement);
+				getParent().add(tagihanReimbursement);
 				tagihanReimbursement.setVisible(true);
 			}
 		});
@@ -224,19 +255,64 @@ public class POEventForm extends JInternalFrame {
 		btnMinus_3.setBounds(549, 528, 49, 25);
 		btnMinus_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				tabelModel3.removeRow(row);
+				btnMinus_3.setEnabled(false);
 			}
 		});
 		desktopPane.add(btnMinus_3);
-		
+
+		btnMinus_3.setEnabled(false);
+
+		table3 = new JTable();
+		table3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount()==1) {
+					btnMinus_3.setEnabled(true);
+				}
+			}
+		});
+
+		JScrollPane scrollPane2 = new JScrollPane();
+		scrollPane2.setBounds(45, 495, 495, 90);
+		scrollPane2.setViewportView(table3);
+		desktopPane.add(scrollPane2);
+
 		JLabel lblUnggahDokumen = new JLabel("Unggah Dokumen");
 		lblUnggahDokumen.setBounds(45, 603, 139, 15);
 		desktopPane.add(lblUnggahDokumen);
+
+		JButton btnSimpan = new JButton("Simpan");
+		btnSimpan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PoEvent poEvent = null;
+
+				poEvent.setPoEventNo(TF_PONomor.getText());
+				poEvent.setKontrakId(TF_ReffKontrak.getText());
+				poEvent.setKegiatan(TF_Kegiatan.getText());
+				poEvent.setTanggal(CL_Tanggal.getDate());
+				poEvent.setJumlah(new BigDecimal(TF_Jumlah.getText()));
+				poEvent.setKeterangan(TA_Keterangan.getText());
+				poEvent.setImage(TF_Unggah.getText());
+
+				dao.add(poEvent);
+
+				GetTableList_1();
+				RemoveRow_1();
+				GetTableList_2();
+				RemoveRow_2();
+				GetTableList_3();
+				RemoveRow_3();
+				ClearPoEvent();
+			}
+		});
+		btnSimpan.setBounds(480, 628, 117, 25);
+		desktopPane.add(btnSimpan);
 	}
 
-	private DefaultTableModel tabelModel1 = getDefaultTabelModel1();
-	private DefaultTableModel tabelModel2 = getDefaultTabelModel2();
-	private DefaultTableModel tabelModel3 = getDefaultTabelModel3();
+	public DefaultTableModel tabelModel1 = getDefaultTabelModel1();
+	public DefaultTableModel tabelModel2 = getDefaultTabelModel2();
+	public DefaultTableModel tabelModel3 = getDefaultTabelModel3();
 
 	private void Tabel(JTable tb, int lebar[]){
 		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -289,12 +365,12 @@ public class POEventForm extends JInternalFrame {
 	private DefaultTableModel getDefaultTabelModel3(){
 		return new DefaultTableModel(
 				new Object [][] {
-						{null, null, null, null, null},
-						{null, null, null, null, null},
-						{null, null, null, null, null},
-						{null, null, null, null, null}
+						{null, null, null, null, null, null},
+						{null, null, null, null, null, null},
+						{null, null, null, null, null, null},
+						{null, null, null, null, null, null}
 				},
-				new String [] {"Reff PO", "Catatan Reimburse", "Tanggal", "Reff Sumber Dana", "Keterangan"}
+				new String [] {"Reff PO", "Catatan Reimburse", "Tanggal", "Reff Sumber Dana", "Keterangan", "File"}
 		){
 			boolean [] canEdit = new boolean[]{
 					false,false
@@ -303,5 +379,98 @@ public class POEventForm extends JInternalFrame {
 				return canEdit[columnIndex];
 			}
 		};
+	}
+
+	public void GetTableList_1()
+	{
+		DetailEvent detailEvent = null;
+
+		for(int i = 0; i < tabelModel1.getRowCount(); i++) {
+
+			detailEvent.setPoEventNo(TF_PONomor.getText());
+			detailEvent.setUraian(String.valueOf(tabelModel1.getValueAt(i, 0)));
+			detailEvent.setDetail(String.valueOf(tabelModel1.getValueAt(i, 1)));
+			detailEvent.setVol1((Integer) tabelModel1.getValueAt(i, 2));
+			detailEvent.setJenis1(String.valueOf(tabelModel1.getValueAt(i, 3)));
+			detailEvent.setVol2((Integer) tabelModel1.getValueAt(i, 4));
+			detailEvent.setJenis2(String.valueOf(tabelModel1.getValueAt(i, 5)));
+			detailEvent.setHargaSatuan((BigDecimal) tabelModel1.getValueAt(i, 6));
+			detailEvent.setTotal((BigDecimal) tabelModel1.getValueAt(i, 7));
+
+			detailEventDAO.add(detailEvent);
+
+		}
+	}
+
+	public void RemoveRow_1()
+	{
+		for(int i = 0; i < tabelModel1.getRowCount(); i++)
+		{
+			tabelModel1.removeRow(i);
+		}
+	}
+
+	public void GetTableList_2()
+	{
+		DetailReimburse detailReimburse = null;
+
+		for(int i = 0; i < tabelModel2.getRowCount(); i++) {
+
+			detailReimburse.setPoEventNo(TF_PONomor.getText());
+			detailReimburse.setUraian(String.valueOf(tabelModel2.getValueAt(i, 0)));
+			detailReimburse.setDetail(String.valueOf(tabelModel2.getValueAt(i, 1)));
+			detailReimburse.setHarga((BigDecimal) tabelModel2.getValueAt(i, 2));
+
+			detailReimbursementDAO.add(detailReimburse);
+		}
+	}
+
+	public void RemoveRow_2()
+	{
+		for(int i = 0; i < tabelModel2.getRowCount(); i++)
+		{
+			tabelModel2.removeRow(i);
+		}
+	}
+
+	public void GetTableList_3()
+	{
+		TagihanReimburse tagihanReimburse = null;
+		MasterDana masterDana;
+
+		for(int i = 0; i < tabelModel3.getRowCount(); i++) {
+
+			tagihanReimburse.setPoEventNo(TF_PONomor.getText());
+			tagihanReimburse.setPoNomor(String.valueOf(tabelModel3.getValueAt(i, 0)));
+			tagihanReimburse.setCatatan(String.valueOf(tabelModel3.getValueAt(i,1)));
+			tagihanReimburse.setTanggal((Date) tabelModel3.getValueAt(i, 2));
+
+			String splitData = String.valueOf(tabelModel3.getValueAt(i,3));
+			masterDana = masterDanaDAO.GetMasterDanaById(splitData);
+			tagihanReimburse.setMasterDanaId(masterDana.getMasterDanaId());
+
+			tagihanReimburse.setKeterangan(String.valueOf(tabelModel3.getValueAt(i, 4)));
+			tagihanReimburse.setImage(String.valueOf(tabelModel3.getValueAt(i, 5)));
+
+			tagihanReimbursementDAO.add(tagihanReimburse);
+		}
+	}
+
+	public void RemoveRow_3()
+	{
+		for(int i = 0; i < tabelModel3.getRowCount(); i++)
+		{
+			tabelModel3.removeRow(i);
+		}
+	}
+
+	public void ClearPoEvent()
+	{
+		TF_PONomor.setText("");
+		TF_ReffKontrak.setText("");
+		TF_Kegiatan.setText("");
+		TF_Jumlah.setText("");
+		TA_Keterangan.setText("");
+		TF_Unggah.setText("");
 	}
 }

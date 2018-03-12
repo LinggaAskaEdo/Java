@@ -2,33 +2,30 @@ package com.main.java.invoice.project.form;
 
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.io.File;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JButton;
 
-import com.main.java.invoice.project.pojo.TagihanMedia;
+import com.main.java.invoice.project.dao.MasterDanaDAO;
+import com.main.java.invoice.project.dao.MasterMediaDAO;
+import com.main.java.invoice.project.dao.PoMediaDAO;
+import com.main.java.invoice.project.dao.TagihanMediaDAO;
+import com.main.java.invoice.project.pojo.*;
+import com.toedter.calendar.JDateChooser;
 import de.wannawork.jcalendar.JCalendarComboBox;
-import javax.swing.JScrollPane;
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
-import javax.swing.BorderFactory;
+
 import javax.swing.table.TableColumn;
 
 public class POMediaForm extends JInternalFrame {
 	
 	JDesktopPane desktopPane = new JDesktopPane();
-	private JTextField TF_Media;
-	private JTextField TF_Value;
 	private JTable table;
 	private JTextField TF_PONomor;
 	private JTextField TF_Klien;
@@ -37,6 +34,13 @@ public class POMediaForm extends JInternalFrame {
 	private JTextField TF_Ppn;
 	private JTextField TF_unggah;
 	private JTextField TF_ReffKontrak;
+	private JTextArea TA_Keterangan;
+	private JComboBox CB_NamaMedia;
+	private JTextField cbId;
+	PoMediaDAO poMediaDAO;
+	MasterDanaDAO masterDanaDAO;
+	MasterMediaDAO masterMediaDAO;
+	TagihanMediaDAO tagihanMediaDAO;
 
 	/**
 	 * Launch the application.
@@ -59,12 +63,12 @@ public class POMediaForm extends JInternalFrame {
 		setTitle("PO. Media");
 		initializeForm();
 		table.setModel(tabelModel);
-		Tabel(table, new int[]{120, 120, 120, 120});
+		Tabel(table, new int[]{120, 120, 120, 120, 120});
+		ShowComboBoxPoMedia();
 	}
 
-	/**
-	 * Create the frame.
-	 */
+	int row = 0;
+
 	public void initializeForm() {
 		setClosable(true);
 		setBounds(100, 100, 630, 551);
@@ -76,10 +80,6 @@ public class POMediaForm extends JInternalFrame {
 		JLabel lblPoNomor = new JLabel("PO. Nomor");
 		lblPoNomor.setBounds(45, 28, 176, 15);
 		desktopPane.add(lblPoNomor);
-		
-		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.setBounds(423, 475, 117, 25);
-		desktopPane.add(btnSimpan);
 		
 		JLabel lblPekerjaanKementerian = new JLabel("Klien");
 		lblPekerjaanKementerian.setBounds(45, 90, 176, 15);
@@ -122,13 +122,30 @@ public class POMediaForm extends JInternalFrame {
 		TF_Klien.setBounds(239, 88, 239, 19);
 		desktopPane.add(TF_Klien);
 		TF_Klien.setColumns(10);
-		
-		JComboBox CB_NamaMedia = new JComboBox();
+
+		CB_NamaMedia = new JComboBox();
+		CB_NamaMedia.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				MasterMedia masterMedia = null;
+				masterMedia.setCompanyName(String.valueOf(CB_NamaMedia.getSelectedItem()));
+
+				masterMedia = masterMediaDAO.GetMasterMediaById(masterMedia);
+
+				cbId.setText(String.valueOf(masterMedia.getMasterMediaId()));
+			}
+		});
 		CB_NamaMedia.setBounds(239, 119, 206, 24);
 		desktopPane.add(CB_NamaMedia);
-		
-		JCalendarComboBox CL_Tanggal = new JCalendarComboBox();
+
+		cbId = new JTextField();
+		cbId.setBounds(457, 122, 42, 19);
+		desktopPane.add(cbId);
+		cbId.setColumns(10);
+		cbId.setVisible(false);
+
+		JDateChooser CL_Tanggal = new JDateChooser();
 		CL_Tanggal.setBounds(239, 155, 170, 20);
+		CL_Tanggal.setDateFormatString("yyyy-MM-dd");
 		desktopPane.add(CL_Tanggal);
 		
 		TF_volume = new JTextField();
@@ -146,7 +163,7 @@ public class POMediaForm extends JInternalFrame {
 		desktopPane.add(TF_Ppn);
 		TF_Ppn.setColumns(10);
 		
-		JTextArea TA_Keterangan = new JTextArea();
+		TA_Keterangan = new JTextArea();
 		TA_Keterangan.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		TA_Keterangan.setBounds(239, 279, 284, 53);
 		desktopPane.add(TA_Keterangan);
@@ -155,13 +172,6 @@ public class POMediaForm extends JInternalFrame {
 		TF_unggah.setBounds(239, 344, 170, 19);
 		desktopPane.add(TF_unggah);
 		TF_unggah.setColumns(10);
-		
-		table = new JTable();
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(45, 373, 495, 90);
-		scrollPane.setViewportView(table);
-		desktopPane.add(scrollPane);
 		
 		JLabel lblReffKontrak = new JLabel("Reff Kontrak");
 		lblReffKontrak.setBounds(45, 59, 176, 15);
@@ -172,16 +182,12 @@ public class POMediaForm extends JInternalFrame {
 		desktopPane.add(TF_ReffKontrak);
 		TF_ReffKontrak.setColumns(10);
 		
-		JButton btnUpload = new JButton("Upload");
-		btnUpload.setBounds(45, 386, 117, 25);
-		desktopPane.add(btnUpload);
-		
 		JButton btnPlus = new JButton("+");
 		btnPlus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
 				TagihanMediaForm media = new TagihanMediaForm();
-				desktopPane.add(media);
+				getParent().add(media);
 				media.setVisible(true);
 			}
 		});
@@ -191,19 +197,73 @@ public class POMediaForm extends JInternalFrame {
 		JButton btnMinus = new JButton("-");
 		btnMinus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				tabelModel.removeRow(row);
+				btnMinus.setEnabled(false);
 			}
 		});
 		btnMinus.setBounds(552, 406, 49, 25);
 		desktopPane.add(btnMinus);
+
+		btnMinus.setEnabled(false);
+
+		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount()==1) {
+					btnMinus.setEnabled(true);
+				}
+			}
+		});
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(45, 373, 495, 90);
+		scrollPane.setViewportView(table);
+		desktopPane.add(scrollPane);
 		
 		JButton btn_Unggah = new JButton("Browse");
+		btn_Unggah.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				JFileChooser jfc = new JFileChooser();
+
+				int returnValue = jfc.showOpenDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = jfc.getSelectedFile();
+					TF_unggah.setText(selectedFile.getAbsolutePath());
+				}
+			}
+		});
 		btn_Unggah.setBounds(410, 341, 96, 25);
 		desktopPane.add(btn_Unggah);
 
+		JButton btnSimpan = new JButton("Simpan");
+		btnSimpan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PoMedia poMedia = null;
+				poMedia.setPoMediaNo(TF_PONomor.getText());
+				poMedia.setKontrakId(Integer.valueOf(TF_ReffKontrak.getText()));
+				poMedia.setPekerjaanKementerian(TF_Klien.getText());
+				poMedia.setMasterMediaId(Integer.valueOf(cbId.getText()));
+				poMedia.setTanggalTayang(CL_Tanggal.getDate());
+				poMedia.setUkuran(TF_volume.getText());
+				poMedia.setHarga(new BigDecimal(TF_Harga.getText()));
+				poMedia.setPpn(new BigDecimal(TF_Ppn.getText()));
+				poMedia.setKeterangan(TA_Keterangan.getText());
+				poMedia.setImage(TF_unggah.getText());
+
+				poMediaDAO.add(poMedia);
+				GetTableList();
+				RemoveRowPoMedia();
+				ClearPoMedia();
+			}
+		});
+		btnSimpan.setBounds(423, 475, 117, 25);
+		desktopPane.add(btnSimpan);
+
 	}
 
-	private DefaultTableModel tabelModel = getDefaultTabelModel();
+	public DefaultTableModel tabelModel = getDefaultTabelModel();
 	private void Tabel(JTable tb, int lebar[]){
 		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		int kolom = tb.getColumnCount();
@@ -217,12 +277,12 @@ public class POMediaForm extends JInternalFrame {
 	private DefaultTableModel getDefaultTabelModel(){
 		return new DefaultTableModel(
 				new Object [][] {
-						{null, null, null, null},
-						{null, null, null, null},
-						{null, null, null, null},
-						{null, null, null, null}
+						{null, null, null, null, null},
+						{null, null, null, null, null},
+						{null, null, null, null, null},
+						{null, null, null, null, null}
 				},
-				new String [] {"Invoice Media", "Tanggal", "Nilai Tagihan", "Reff Sumber Dana"}
+				new String [] {"Invoice Media", "Tanggal", "Nilai Tagihan", "Reff Sumber Dana", "File"}
 		){
 			boolean [] canEdit = new boolean[]{
 					false,false
@@ -231,5 +291,58 @@ public class POMediaForm extends JInternalFrame {
 				return canEdit[columnIndex];
 			}
 		};
+	}
+
+	public void GetTableList()
+	{
+		TagihanMedia tagihanMedia = null;
+		MasterDana masterDana;
+
+		for(int i = 0; i < tabelModel.getRowCount(); i++) {
+
+			tagihanMedia.setPoMediaNo(TF_PONomor.getText());
+			tagihanMedia.setInvoiceMedia(String.valueOf(tabelModel.getValueAt(i,0)));
+			tagihanMedia.setTanggal((Date) tabelModel.getValueAt(i,1));
+			tagihanMedia.setNilaiTagihan((BigDecimal) tabelModel.getValueAt(i, 2));
+
+			String splitData = String.valueOf(tabelModel.getValueAt(i,3));
+			masterDana = masterDanaDAO.GetMasterDanaById(splitData);
+			tagihanMedia.setMasterDanaId(masterDana.getMasterDanaId());
+
+			tagihanMedia.setImage(String.valueOf(tabelModel.getValueAt(i, 4)));
+
+			tagihanMediaDAO.add(tagihanMedia);
+		}
+	}
+
+	public void RemoveRowPoMedia()
+	{
+		for(int i = 0; i < tabelModel.getRowCount(); i++)
+		{
+			tabelModel.removeRow(i);
+		}
+	}
+
+	public void ClearPoMedia()
+	{
+		TF_PONomor.setText("");
+		TF_ReffKontrak.setText("");
+		TF_Klien.setText("");
+		TF_volume.setText("");
+		TF_Harga.setText("");
+		TF_Ppn.setText("");
+		TA_Keterangan.setText("");
+		TF_unggah.setText("");
+	}
+
+	public void ShowComboBoxPoMedia()
+	{
+		List<MasterMedia> allMasterMedia;
+		allMasterMedia = masterMediaDAO.GetAllMasterMediaComboBox();
+
+		for (int i = 0; i < allMasterMedia.size(); i++) {
+
+			CB_NamaMedia.addItem(allMasterMedia.get(i).getMediaName());
+		}
 	}
 }

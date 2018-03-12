@@ -150,6 +150,7 @@ CREATE TABLE `FUNDING` (
   `NILAI` decimal(17,4) DEFAULT NULL,
   `KETERANGAN` varchar(150) DEFAULT NULL,
   `PPN_IMAGE` blob,
+  `CHECK_REFF` tinyint(1) NOT NULL,
   PRIMARY KEY (`FUNDING_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -172,10 +173,8 @@ DROP TABLE IF EXISTS `KONTRAK`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `KONTRAK` (
   `KONTRAK_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NO_KONTRAK` varchar(45) DEFAULT NULL,
   `MASTER_PERUSAHAAN_ID` int(11) NOT NULL,
-  `NAME` varchar(45) DEFAULT NULL,
-  `ADDRESS` varchar(150) DEFAULT NULL,
-  `NO_NPWP` varchar(45) DEFAULT NULL,
   `PROJECT` varchar(45) DEFAULT NULL,
   `DATE` date DEFAULT NULL,
   `NILAI_KONTRAK` decimal(17,4) DEFAULT NULL,
@@ -183,6 +182,7 @@ CREATE TABLE `KONTRAK` (
   `PPN` decimal(17,4) DEFAULT NULL,
   `PPH_23` decimal(17,4) DEFAULT NULL,
   `SP_2D` decimal(17,4) DEFAULT NULL,
+  `PAID` tinyint(1) NOT NULL,
   PRIMARY KEY (`KONTRAK_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -517,6 +517,7 @@ DROP TABLE IF EXISTS `USER`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `USER` (
   `USER_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USERS` varchar(45) NOT NULL,
   `USER_NAME` varchar(45) NOT NULL,
   `USER_PASSWORD` varchar(45) NOT NULL,
   `IS_ADMIN` tinyint(1) NOT NULL,

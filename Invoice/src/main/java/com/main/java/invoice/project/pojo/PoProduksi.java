@@ -7,7 +7,7 @@ public class PoProduksi
 {
     private Integer poProduksiId;
     private String poProduksiNo;
-    private Integer kontrakId;
+    private String kontrakId; //kurangtepat
     private String produksi;
     private Date tanggal;
     private BigDecimal nilaiProduksi;
@@ -30,11 +30,11 @@ public class PoProduksi
         this.poProduksiNo = poProduksiNo;
     }
 
-    public Integer getKontrakId() {
+    public String getKontrakId() {
         return kontrakId;
     }
 
-    public void setKontrakId(Integer kontrakId) {
+    public void setKontrakId(String kontrakId) {
         this.kontrakId = kontrakId;
     }
 
@@ -83,7 +83,7 @@ public class PoProduksi
         final StringBuffer sb = new StringBuffer("PoProduksi{");
         sb.append("poProduksiId=").append(poProduksiId);
         sb.append(", poProduksiNo='").append(poProduksiNo).append('\'');
-        sb.append(", kontrakId=").append(kontrakId);
+        sb.append(", kontrakId='").append(kontrakId).append('\'');
         sb.append(", produksi='").append(produksi).append('\'');
         sb.append(", tanggal=").append(tanggal);
         sb.append(", nilaiProduksi=").append(nilaiProduksi);

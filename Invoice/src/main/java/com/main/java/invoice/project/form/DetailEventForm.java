@@ -1,14 +1,10 @@
 package com.main.java.invoice.project.form;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class DetailEventForm extends JInternalFrame {
 	
@@ -22,6 +18,10 @@ public class DetailEventForm extends JInternalFrame {
 	private JTextField TF_Vol_2;
 	private JTextField TF_HargaSatuan;
 	private JTextField TB_Total;
+	private JComboBox CB_Uraian;
+	private ButtonGroup buttonGroupUp;
+	private ButtonGroup buttonGroupDown;
+	POEventForm eventForm;
 
 	/**
 	 * Launch the application.
@@ -44,6 +44,8 @@ public class DetailEventForm extends JInternalFrame {
 		setTitle("Detail Event");
 		initializeForm();
 	}
+
+	String data[] = new String[8];
 
 	public void initializeForm() {
 
@@ -73,9 +75,9 @@ public class DetailEventForm extends JInternalFrame {
 		JLabel lblTotal = new JLabel("Total");
 		lblTotal.setBounds(45, 186, 110, 15);
 		desktopPane.add(lblTotal);
-		
-		@SuppressWarnings("rawtypes")
-		JComboBox CB_Uraian = new JComboBox();
+
+		CB_Uraian = new JComboBox();
+		ComboBoxItem();
 		CB_Uraian.setBounds(164, 23, 221, 24);
 		desktopPane.add(CB_Uraian);
 		
@@ -90,28 +92,42 @@ public class DetailEventForm extends JInternalFrame {
 		TF_Vol_1.setColumns(10);
 		
 		JRadioButton rdbtnOrg = new JRadioButton("org");
+		rdbtnOrg.setActionCommand("org");
 		rdbtnOrg.setBounds(229, 89, 49, 23);
 		desktopPane.add(rdbtnOrg);
 		
 		JRadioButton rdbtnUnit = new JRadioButton("unit");
+		rdbtnUnit.setActionCommand("unit");
 		rdbtnUnit.setBounds(282, 89, 57, 23);
 		desktopPane.add(rdbtnUnit);
 		
 		JRadioButton rdbtnKl = new JRadioButton("kl");
+		rdbtnKl.setActionCommand("kl");
 		rdbtnKl.setBounds(343, 89, 49, 23);
 		desktopPane.add(rdbtnKl);
 		
 		JRadioButton rdbtnKmr = new JRadioButton("kmr");
+		rdbtnKmr.setActionCommand("kmr");
 		rdbtnKmr.setBounds(396, 89, 57, 23);
 		desktopPane.add(rdbtnKmr);
 		
 		JRadioButton rdbtnBh = new JRadioButton("bh");
+		rdbtnBh.setActionCommand("bh");
 		rdbtnBh.setBounds(457, 89, 49, 23);
 		desktopPane.add(rdbtnBh);
 		
 		JRadioButton rdbtnPkt = new JRadioButton("pkt");
+		rdbtnPkt.setActionCommand("pkt");
 		rdbtnPkt.setBounds(510, 89, 57, 23);
 		desktopPane.add(rdbtnPkt);
+
+		buttonGroupUp=new ButtonGroup();
+		buttonGroupUp.add(rdbtnOrg);
+		buttonGroupUp.add(rdbtnUnit);
+		buttonGroupUp.add(rdbtnKl);
+		buttonGroupUp.add(rdbtnKmr);
+		buttonGroupUp.add(rdbtnBh);
+		buttonGroupUp.add(rdbtnPkt);
 		
 		TF_Vol_2 = new JTextField();
 		TF_Vol_2.setBounds(164, 122, 57, 19);
@@ -119,16 +135,24 @@ public class DetailEventForm extends JInternalFrame {
 		TF_Vol_2.setColumns(10);
 		
 		JRadioButton rdbtnOj = new JRadioButton("OJ");
+		rdbtnOj.setActionCommand("OJ");
 		rdbtnOj.setBounds(229, 120, 49, 23);
 		desktopPane.add(rdbtnOj);
 		
 		JRadioButton rdbtnHr = new JRadioButton("hr");
+		rdbtnHr.setActionCommand("hr");
 		rdbtnHr.setBounds(282, 120, 49, 23);
 		desktopPane.add(rdbtnHr);
 		
 		JRadioButton rdbtnKl_1 = new JRadioButton("kl");
+		rdbtnKl_1.setActionCommand("kl");
 		rdbtnKl_1.setBounds(335, 120, 43, 23);
 		desktopPane.add(rdbtnKl_1);
+
+		buttonGroupDown=new ButtonGroup();
+		buttonGroupDown.add(rdbtnOj);
+		buttonGroupDown.add(rdbtnHr);
+		buttonGroupDown.add(rdbtnKl_1);
 		
 		TF_HargaSatuan = new JTextField();
 		TF_HargaSatuan.setBounds(164, 153, 221, 19);
@@ -141,8 +165,41 @@ public class DetailEventForm extends JInternalFrame {
 		TB_Total.setColumns(10);
 		
 		JButton BT_Tambah = new JButton("Tambah");
+		BT_Tambah.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				data[0] = String.valueOf(CB_Uraian.getSelectedItem());
+				data[1] = TB_Detail.getText();
+				data[2] = TF_Vol_1.getText();
+				data[3] = buttonGroupUp.getSelection().getActionCommand();
+				data[4] = TF_Vol_2.getText();
+				data[5] = buttonGroupDown.getSelection().getActionCommand();
+				data[6] = TF_HargaSatuan.getText();
+				data[7] = TB_Total.getText();
+
+				eventForm.tabelModel1.insertRow(0, data);
+				dispose();
+			}
+		});
 		BT_Tambah.setBounds(450, 220, 117, 25);
 		desktopPane.add(BT_Tambah);
+	}
 
+	public void ComboBoxItem()
+	{
+		CB_Uraian.addItem("HADIAH");
+		CB_Uraian.addItem("HONORARIUM");
+		CB_Uraian.addItem("MEETING KIT");
+		CB_Uraian.addItem("PAKET MEETING");
+		CB_Uraian.addItem("PENGISI ACARA");
+		CB_Uraian.addItem("PENGINAPAN");
+		CB_Uraian.addItem("PELAPORAN");
+		CB_Uraian.addItem("PERLENGKAPAN");
+		CB_Uraian.addItem("PESERTA");
+		CB_Uraian.addItem("PRODUKSI");
+		CB_Uraian.addItem("PERSONALIA");
+		CB_Uraian.addItem("TIKET WISATA");
+		CB_Uraian.addItem("TRANSPORT");
+		CB_Uraian.addItem("LAIN-LAIN");
 	}
 }

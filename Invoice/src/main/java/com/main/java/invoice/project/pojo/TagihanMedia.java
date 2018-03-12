@@ -11,7 +11,7 @@ public class TagihanMedia
     private String invoiceMedia;
     private Date tanggal;
     private BigDecimal nilaiTagihan;
-    private Integer masterDanaId;
+    private Integer masterDanaId; //kurangtepat
     private String image;
 
     public Integer getTagihanMediaId() {

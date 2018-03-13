@@ -1,5 +1,9 @@
 package bbw.pulsa.model;
 
+/**
+ * Created by Lingga on 12/03/18.
+ */
+
 public class Operator
 {
     private int operatorId;

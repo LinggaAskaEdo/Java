@@ -2,6 +2,10 @@ package bbw.pulsa.model;
 
 import java.util.List;
 
+/**
+ * Created by Lingga on 12/03/18.
+ */
+
 public class Response
 {
     private String status;

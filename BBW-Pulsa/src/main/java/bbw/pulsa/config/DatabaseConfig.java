@@ -9,6 +9,10 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
+/**
+ * Created by Lingga on 12/03/18.
+ */
+
 @Configuration
 public class DatabaseConfig
 {

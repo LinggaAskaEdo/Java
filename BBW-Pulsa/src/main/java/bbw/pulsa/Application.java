@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 
 /**
- * Created by Lingga on 23/03/16.
+ * Created by Lingga on 12/03/18.
  */
 
 @ComponentScan(basePackages = "bbw.pulsa")

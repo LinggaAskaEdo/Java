@@ -7,6 +7,10 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Created by Lingga on 12/03/18.
+ */
+
 @Repository
 @Qualifier("personDao")
 public class PulsaDaoImpl implements PulsaDao

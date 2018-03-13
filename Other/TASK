@@ -1,0 +1,879 @@
+========================OTHER========================
+mysql -usargeras -p -h10.32.6.33
+
+_PUSH 5GPI2013-07-12 22:06:30.403.W12li||628171100400||628171100400||2||0+0+0+0||2017-10-27 14:46:51
+
+"cellRef": "602.3.32094.36693"
+
+'10501679', NULL, NULL, '202', '1', '516', '56303', '202.1.516.56303', NULL, '-1', '', '', '', '', '', '80609305', '134847934', NULL, '25657', '1', '', 'Coll.20170428', '', '', '22.39147370', '37.45775950', '0', '2017-04-28 10:19:23', '44', '2017-06-07 07:47:05', NULL, NULL, NULL, '', NULL, '', NULL, NULL, NULL
+
+"cellRef": "510.11.9102.55122",
+
+FL"cellRef": "602.3.32094.36693",
+
+*#*#6484# *#*
+myControlRole:controlRole
+
+gradle clean build -Dorg.gradle.java.home=/home/edo/Downloads/jdk1.8.0_65/
+gradle clean build -Dorg.gradle.java.home=/usr/lib/jvm/jdk1.7.0/
+
+sudo netstat -nlp | grep 21749
+grep -rnw /home/edo/apps/jboss-as-7.1.1.Final.SP20/ -e standalone.database.hostname
+git reset --soft f0b243c
+
+- rebase
+- cherry-pick
+- undo changes
+
+extra flexi bahagia
+021 1500 786
+
+Error in executeUpdate, Can't get stat of '/home/edo/Downloads/tempLookup/MLS-diff-cell-export-2017-08-10T080000.csv' (Errcode: 13)
+
+{"header":{"destination":"AuditService","callback":",null","source":"FasttraxWeb","transactionId":"bda5c886-d684-449f-afb5-3633bf4ada72","resolvedDestination":false,"resolvedCallback":true,"callbackMsg":false},"body":{"action":"addAuditList","body":{"auditMessage":"User testing_superadmin has Recalculated 520.3.-1.-1 in Cell Computation from IP 10.32.6.20","targetNumber":"","module":"TelcoTrax","auditLevel":"1","tokenId":"5304fb60-8","timestamp":"2017-08-16T11:44:54Z"}}}
+
+cp -a logback.xml logback.xml.ori
+mv logback.xml.ori logback.xml
+
+========================REMOVE FILE BASED ON EXTENSION IN SPECIFIED FOLDER========================
+find /home/lingga/git/altamides/ -name "*.iml" -type f -delete
+
+========================SERVICE MUST BE RUNNING========================
+1. Router
+2. Logging
+3. DB
+4. Encryption
+5. Session
+6. Audit
+7. Quota
+8. Map
+
+========================GENERATE KEY ENIGMAIL========================
+https://gpgkeyserver.1rstwap.com/lingga.edo
+
+========================CASSANDRA MOI========================
+(11:33:29) Adi Satria: 10.32.6.106
+ssh app:1rstwap
+(11:33:32) Adi Satria: port 9042
+(11:33:52) Adi Satria: cqlsh 10.32.6.106
+(11:35:51) Adi Satria: 
+
+ssh app@masstrax.moi.ams
+cqlsh 10.32.6.186
+
+MASSTRAX :
+
+ssh app@cassansdra1
+1rstwap
+
+cqlsh 10.32.6.106 => connect cassandra
+
+SELECT * FROM MASS_DB.EVENTS LIMIT 10;
+
+SELECT * FROM ALTAMIDES.CELL_GEOMETRY WHERE CELL_REF='422.3.50005.50348';
+SELECT * FROM ALTAMIDES.CELL_DATA;
+
+
+
+========================REMOTE VIA INTELIJJ========================
+masstrax.ssd.ams - 5009
+
+========================Force Duplication JAR========================
+configurations.all {
+    resolutionStrategy {
+        force 'org.quartz-scheduler:quartz:1.8.6'
+        force 'com.google.guava:guava:r08'
+        force 'ch.qos.logback:logback-classic:1.1.3'
+        force 'ch.qos.logback:logback-core:1.1.3'
+    }
+}
+
+========================Create MD5 SUM========================
+find dbservice-2.24.7.8/ -type f -exec md5sum "{}" + > MD5SUM
+
+========================Test Queue Server========================
+1. Ssh ke queue server port
+   telnet localhost 3036 (queue binary)
+
+__POP 
+_EMPTY 
+_PUT2 abc
+_SUCC
+__POP 
+abc
+^]close
+
+========================Redmine========================
+1. table pada redmine tidak support tanda: {}
+
+========================Systemd shell scripts========================
+/usr/lib/systemd/system/encryption.service
+
+Xubuntu 16.04 = /lib/systemd/system/****.service
+
+========================SCP========================
+scp /app/logs/geofence/geofence.2016-11-22.log edo@10.32.6.20:/home/edo/
+scp -r fasttrax-scheduler-2.21/ sugondo@10.32.6.18:/home/sugondo/apps/
+
+========================SSHFS========================
+sshfs user@remotesystem:/remote/dir /some/local/dir
+
+Steps:
+1. sshfs dery@10.32.6.10:/home/dery/Downloads/tempLookup/ /home/edo/Downloads/tempLookup/
+2. kill process
+3. unmount
+
+sshfs -o nonempty dery@10.32.6.10:/home/dery/Downloads/tempLookup/ /home/edo/MLS/test/
+sudo sshfs -o allow_other root@1.2.3.4:/directory local_directory
+
+========================DUPLICATE CELL DB MLS========================
+select ID, RADIO, MCC, NET, AREA, CELL, LON, LAT, RANGES from CELL_DB where RADIO like '%UMTS%' AND MCC = 302 AND NET = 490 AND AREA = 20 AND CELL = 1321812 limit 13;
+
+ERROR 1062 (23000) at line 1: Duplicate entry 'UMTS-302-610-11101-72495474' for key 'UN_COL'
+
+========================SUPPORT TRD========================
+git checkout origin/issue-18550-TRD_POC 
+locatebpo
+fasstraxservicehttp
+
+========================JOSS TRD========================
+ssh root@10.32.6.52
+1rstwap
+
+/app/JOSS/apache-tomcat-8.0.14/bin
+./catalina.sh run &
+
+========================TDD = Test Driven Development========================
+Beberapa hal utk di demo in:
+- Function Add nya bisa terima input apapun (termasuk input berupa matematika)
+- Mocking object (baca input dari text file), kita mock file reader nya
+- bagaimana TDD bisa meningkatkan kualitas code dengan memisahkan code2 jadi function2 yg bsa di test masing2 (modular code)
+- Function Square (pangkat dua). Bisa juga dipakai untuk demo mocking.
+
+========================Git Lab========================
+#Bikin ticket
+1. Commits
+2. Branches
+3. New branch
+4. Branch Name (ticket yg di email)
+   Create from (parent ticket / alpha)
+
+#Merge Request
+1. Create New Merge Request
+2. Source Branch = child ticket number
+3. Target Branch = parent ticker number
+
+========================Git Command========================
+#Delete branch
+1. git push origin :issue-xxxx
+
+#Cek posisi branch dan perubahan yang terjadi
+1. git status
+
+#Update branch yang baru
+1. git fetch
+
+#Pindah ke branch lain
+1. git checkout issue-xxx-xxx
+
+jika tidak bisa, dikarenakan ada perubahan pada file
+1. git stash
+2. git checkout issue-xxx-xxx
+3. git stash apply
+
+#Push perubahan
+1. git status (melihat file apa saja yang berubah)
+2. git add (menambahkan file perubahan satu per satu ke daftar perubahan)
+   git add -i (menambahkan file perubahan secara masal ke daftar perubahan)
+3. git commit
+4. git push origin issue-xxxx
+   
+   jika ada error dikarenakan perbedaan file di local & di remote, gunakan parameter -f
+   git push -f origin issue-xxxx
+
+#Revert semua perubahan
+git checkout -B issue-11102-Implement_OSS_HA_Callback_result_new_status origin/issue-11102-Implement_OSS_HA_Callback_result_new_status^
+
+tanda ^ = balik ke sebelumnya. File sebelumnya dapat dilihat dengan command git lb
+
+#Rebase (issue parent)
+git rebase -ip --onto origin/issue-11234-wipetrax_button_cancel_wrong_url a1019c7
+
+#Fix jika banyak commit di merge request (issue parent)
+git push origin 1484e84:issue-11201-wipetrax_login_mobile_not_needed_in_deletion_tool
+
+#Reset commit
+git reset HEAD~
+
+#Lihat perubahan dari commit satu sampai commit yang lain
+git diff 44c23a3..HEAD
+
+example (git lb):
+* c9b0d26 (HEAD, origin/issue-12770-Implement_New_Ismsc_Manager, issue-12770-Implement_New_Ismsc_Manager) issue 12770 rename url callback
+* 55b5c37 issue 12770 fix set parameter nodes, method & psl
+* cb37f8f issue 12770 part 3-4 2
+* 5cc86be issue 12770 step 3 and 4
+* 029a640 issue 12770 implement ismsc manager season 1
+*   44c23a3 (tag: candidate-2.24.2.21, origin/issue-12768-Integrate_Altamides_with_New_Ismsc_Manager, 
+	origin/issue-11981-Celltrax_Incident_Incorrect_Cell_and_Wifi_Count
+
+#Mengembalikan perubahan dari commit yang sebelumnya
+git checkout 44c23a3 altamides-fasttrax-commons/src/main/java/com/firstwap/commons/dto/LocationDTO.java	
+
+===========VISUALVM===========
+on remote:
+1. cd /usr/java/default/bin
+2. run ./jstatd -J-Djava.security.policy=jstatd.all.policy -J-Djava.rmi.server.logCalls=true
+   run ./jstatd -J-Djava.security.policy=jstatd.all.policy -J-Djava.rmi.server.hostname=10.32.6.171. -J-Djava.net.preferIPv4Stack=true -J-Djava.rmi.server.logCalls=true
+
+on dev:
+1. cd ~/Download/visualvm_139
+2. ./visualvm --jdkhome "/home/edo/Downloads/jdk1.8.0_112" --userdir "/home/edo/Downloads/" (run with specific jdk)
+   ./visualvm (run with default jdk)
+
+check status on remote:
+1. ps -def | grep jstatd
+2. netstat -nlp | grep jstatd
+
+====================Setting PC Lokal====================
+#Matikan service nginx
+1. sudo /etc/init.d/nginx stop
+
+#Matikan service tomcat
+1. sudo /etc/init.d/tomcat6 stop
+
+#Menambahkan maximum connection MySQl
+1. mysql -uroot
+2. show variables like '%connection%';
+3. set global max_connections=9009; (9009 besarnya angka max. conn. dan dapat diubah sesuai kebutuhan)
+
+#Menjalankan server jboss
+LOCAL
+apps/jboss-as-7.1.1.Final.SP20/bin/./standalone.sh
+
+VM
+apps/jboss/bin/./run.sh > /dev/null
+
+====================Deploy Altamides====================
+./buildDeploy.sh {nama-folder-di-altamides}/ {nama-file-war-di-dalam-build-libs} {nama-file-war-di-jboss-standalone-deployments}
+
+gradle -xtest clean build -Dorg.gradle.java.home=/home/edo/Downloads/jdk1.8.0_65/
+
+#Admin
+./buildDeploy.sh altamides-admin/ admin admin
+
+#Admin (Update file tertentu saja) (-s untuk melewatkan gradle build) (-l untuk lihat log jboss)
+./buildDeploy.sh altamides-admin/ admin admin -sloginService.jsp -l
+
+#Audittrax
+./buildDeploy.sh altamides-audittrax/ altamides-audittrax audittrax
+
+#Fasttrax Web
+./buildDeploy.sh altamides-fasttrax-web/ altamides-fasttrax-web fasttrax
+
+#Middleware
+./buildDeploy.sh altamides-middleware/ altamides-middleware middleware
+
+#Geofence (Proximitrax)
+./buildDeploy.sh altamides-geofence/ altamides-geofence geofencing
+
+#Web Service (RapidTrax)
+./buildDeploy.sh altamides-fasttrax-ws/ altamides-fasttrax-ws fasttrax-ws
+
+#Scheduler (OmniTrax, ProfileTrax, altamides-fasttrax-server)
+./buildDeploy.sh altamides-fasttrax-scheduler/ altamides-fasttrax-scheduler-1.0.1 lib -l
+
+#Config API
+./buildDeploy.sh altamides-config-api/ config-api config-api
+./buildDeploy.sh -g -Dorg.gradle.java.home=/home/edo/Downloads/jdk1.8.0_65/ altamides-config-api/ config-api config-api
+
+#Error
+./buildDeploy.sh altamides-error/ error error
+
+#Cell Computation
+./buildDeploy.sh altamides-cell-computation/ cell-computation cell-computation
+
+#Statistic
+./buildDeploy.sh altamides-statistic/ altamides-statistic statistic
+
+#OMA
+./buildDeploy.sh altamides-oma-wrapper/ ROOT ROOT
+
+====================Log Files====================
+#Apache error log
+tail -f /var/log/apache/error.log
+
+#Altamides Admin Log
+tail -f /app/logs/admin/admin\[2016-01-27\].log 
+
+#Altamdies Scheduler
+tail -f /app/logs/fasttrax/fasttrax-schedule.2016-01-27-node1.log
+
+=====================Telnet=====================
+#Telnet cek status scheduler di lokal PC
+telnet 10.32.6.20 3334
+
+#Telnet cek redis server
+telnet db.moi.ams 6379
+telnet db.moi4.ams 6379
+
+===========Run Redis===========
+1. Jalankan redis server
+   ~/Documents/redis-stable/src/./redis-server
+
+2. Jalankan redis client
+   ~/Documents/redis-stable/src/redis-cli
+
+3. Run Query
+   select 0/1/2/3/..   
+
+====================Gradle====================
+#Deploy Project Gradle
+1. Pindahkan posisi folder ke path project
+2. gradle eclipse clean build (eclipse untuk menambahkan .jar ke proyek eclipse, build untuk kompilasi error)
+
+#Run Spring Boot
+1. gradle bootRun
+2. url apps-nya adalah localhost
+
+#Run Web Gradle with Jetty
+1. gradle jettyRun
+2. url apps-nya akan digenerate setelah selesai di compile
+
+====================Simulator====================
+#Login
+1. Path
+
+Biasa:
+sftp://devqa@10.32.6.59/www/vhosts/samoussa/public/smscJsonSimulator/lib/config.php (untuk mendaftarkan MSISDN)
+sftp://devqa@10.32.6.59/www/vhosts/samoussa/public/smscJsonSimulator/lib/result.d/ (daftar list folder hasil result)
+
+Smsc Manager:
+sftp://devqa@10.32.6.52/www/web/smscJsonSimulator/lib/
+
+List Nodes:
+sftp://devqa@10.32.6.52/www/web/smscNodeListSimulator/lib/
+
+2. Password = Marvel Agents
+
+====================SSH/FFTP====================
+1. ssh devqa@10.32.6.59
+2. ssh app@app.moi4.ams (MOI4 APP)
+   pass = 1rstwap
+3. ssh root@db.moi4.ams (MOI4 DB)
+   pass = 1rstwap
+4. ssh adi@10.32.6.22 (PC Adi)
+   pass = 1rstwap
+
+===========SSH DEV-VM===========
+ssh root@10.32.6.52
+pass = 1rstwap
+
+log mail server(roundcube) = tail -f /var/log/maillog
+log lainnya = tail -f /var/log/dovecot.log
+
+restart ldap =  /etc/init.d/slapd restart
+restart postfix = /etc/init.d/postfix restart
+restart dovecot = /etc/init.d/dovecot restart
+===========SSH DEV-DEMOX/Y===========
+AMS URL = https://dev-demox.1rstwap.com/altamides
+(15:07:55) Farianti Ika Putri: 628991001001-628991001004
+user = fariantip
+pass = test1234
+
+user = testing_superadmin
+pass = Password 123
+
+ssh app@dev-demox/y
+pass = 1rstwap
+
+===========SSH DEMOX/Y===========
+1. ssh devteam@dev-db
+2. ssh devteam@demox/y
+
+===========SSH RMP===========
+AMS URL = http://web.rmp.ams/altamides
+user = superadmin
+pass = Password 123
+
+APP = ssh app@app.rmp.ams
+DB = ssh app@db.rmp.ams
+
+user = app
+pass = rmp-malaysia
+
+#SMS Forwarder
+Agent status : app.rmp.ams /app/servers/AppStarter
+Queue status : db.rmp.ams /app/servers
+Queue unicode : db.rmp.ams /app/servers
+
+===========SSH TRD===========
+AMS URL = http://web.trd.ams/altamides
+user = superadmin
+pass = Password 123
+
+user = not_superadmin
+pass = Password 123
+
+APP = ssh app@app.trd.ams
+DB = ssh app@db.trd.ams
+username=devteam
+password=vuvaX7xA
+
+user = app
+pass = trd-egypt
+
+===========SSH MOI===========
+AMS URL = http://web.moi.ams/altamides/
+user = testing_superadmin
+pass = Password 123
+
+APP = ssh moi@app2.moi.ams / app@app3.moi.ams
+WEB = ssh app@web2.moi.ams
+DB = ssh app@db2.moi.ams
+
+user = moi
+pass = 1rstwap
+
+===========SSH MEX===========
+AMS URL = http://web.mxc.amc/altamides
+user = superadmin
+pass = Password 123
+
+APP = ssh app@app.mxc.ams
+DB = 
+
+user = app
+pass = 1rstwap
+
+====================Login====================
+1. Demo C
+user: testing_superadmin
+pass: Password 123
+
+====================JBoss====================
+1. Cara include konfigurasi lain di jboss
+include=${sys:altamides.config.dir}/altamides.properties
+sys:altamides.config.dir = file path dari folder configuration-nya jboss
+altamides.properties = file konfigurasi yg ingin di pakai
+
+=================C Languages=================
+1. Compile menggunakan Math.h header
+gcc -Wall calculateAreaOfScaleneTriangle.c -o calculateAreaOfScaleneTriangle -lm
+
+===========Science About Altamides===========
+1. LOCATION_SINGLE_USE.RUNNING_SCHEDULE
+Kolom SOURCE (0=Rapidtrax; 1=Omnitrax; 2=Proximitrax; 3=Passive jamming)
+Kolom VEHICLE_ID = terbentuk dari Profiletrax (jadi jika sourcenya 0, tidak akan memiliki vehicle_id, karna rapidtrax tidak butuh profiletrax)
+
+===========Repo Office===========
+http://build.1rstwap.com:10081/
+
+===========Hide menu items for non login user===========
+/home/edo/git/altamides/altamides-web/src/app/web/configs/config.frontpage.php
+define('ALTAMIDES_MENU_PROTECTED', true); //enable shown
+define('ALTAMIDES_MENU_PROTECTED', false); //disable shown
+
+===========Execute Jar & Create Log File===========
+java -jar ~/Documents/Exercise2/WS-Zhoopers/build/libs/zhprs.jar > /home/edo/logaja/lognih 2>&1 &
+
+===========Note Altamides===========
+1. Fasttrax Service Http = RapidTrax (selasin SOAP itu Rapidtrax)
+2. Fasttrax Service Impl = Omnitrax, JamTrax
+
+===========SMS NODE===========
+(17:11:01) Lingga Edo: mas sms node itu apa sih? dan menentukan apa dalam locate?
+(17:20:25) Adi Satria: smsnode = smscserver
+(17:20:35) Adi Satria: mo locate pake server yg mana
+(17:20:37) Adi Satria: gitu doank
+(17:21:07) Lingga Edo: smscserver punya provider?
+(17:21:15) Adi Satria: punya telco
+(17:21:22) Adi Satria: biasa diinstall nya per provider
+(17:21:58) Lingga Edo: install? dia hardware?
+(17:22:27) Adi Satria: aplikasi
+(17:22:33) Adi Satria: deploy deh
+(17:22:48) Adi Satria: dideploy untuk setiap provider
+(17:22:59) Adi Satria: karena satu smsc biasanya handle satu provider gt
+(17:25:02) Lingga Edo: tapi satu provider bisa punya banyak smsc? atau 1 smsc bisa banyak provider?
+(17:25:40) Adi Satria: 1 smsc yg gw tau sih handle 1 provider
+(17:26:00) Adi Satria: tapi 1 provider ada yg bisa locate bbrp macam nomer
+(17:26:20) Adi Satria: intinya smsc itu nanya ke provider/operator, suatu nomor itu ada dmn
+(17:26:39) Adi Satria: nah biasa yg tau suatu nomor itu ada dmn kan provider itu sendiri donk
+(17:27:16) Adi Satria: tp kadang2 karena ada roaming agreement, 1 provider itu entah gmn bisa tau nomer operator lain itu ada dmn
+
+Cara setting:
+59 (biasa)	 : http://10.32.6.59/request.php  
+52 (smsc manager): http://10.32.6.52:8080
+
+===========PSL/HA/HighAccuracy===========
+1. Ada 3 jenis HA
+   a. OSS = tgu result belakangan, ke server OSS
+   b. Etisalat = langsung ada hasil, ke server Etisalat
+   c. PSL/SAMOUSSA = langsung ada hasil, ke server Smsc
+
+===========Clean folder===========
+rm path-folder-name/*
+
+===========Clean folder with exception===========
+1. change folder
+cd folder-name
+
+2. enable extglob (Extended Pattern Matching)
+shopt -s extglob
+
+3. run command
+rm !(spottrax-job.2016-09-21.log)
+
+===========TICKET WATCHER===========
+https://project.1rstwap.com/issues/1017
+https://project.1rstwap.com/issues/835
+
+===========SETTING UP WILDFLY===========
+1. set java_home to jdk1.8
+
+2. edit standalone.conf
+    - recover java opts
+    - enable dt_socket if needed
+
+3. edit standalone.sh
+    - recover -D param of altamides
+
+4. edit standalone.xml
+    - recover 
+    - remove management realm???
+    - recover formatter and logging filter (not supported anymore?)
+    - recover log file path
+    - recover logger category (org.springframework, etc)
+    - recover datasources (need mysql modules)
+    - recover drivers
+    - change hornetq to activemq
+    - jboss bind address to 0.0.0.0
+
+5. move *.properties in jboss/standalone/configuration
+    - altamides.properties
+    - apilocation.properties
+    - smsdisp.properties
+    
+6. import modules
+    - com.mysql
+    - com.firstwap
+    -> changed provided compile to compile??
+    - org/apache/commons/configuration
+    - org/springframework
+    - javax/faces/api/1.2/
+    - com/sun/jsf-impl/1.2/
+
+7. recover https connector, credential setting
+
+===========CLEAR CACHE ISMSC LIST===========
+telnet localhost 6379
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+select 4
++OK
+keys *
+*1
+$9
+ismscList
+del ismscList
+:1
+keys *
+*0
+del ismscList   
+:1
+
+===========End-to-End Test with Samoussa===========
+1. ssh root@10.32.6.52
+2. cd /app/SmsForwarder
+3. vim config.properties
+
+./runSmsForwarder.sh
+
+===========TESTING DEV-DEMOC===========
+#AutoReconnect Jboss
+https://stackoverflow.com/questions/128527/is-there-any-way-to-have-the-jboss-connection-pool-reconnect-to-oracle-when-conn
+https://developer.jboss.org/thread/250404
+http://stackoverflow.com/questions/18957462/jboss-auto-reconnect-with-database-when-database-is-restarted-disconnect
+
+#Bugs
+09:03:03.433 [http--0.0.0.0-8080-22] DEBUG s.c.f.f.l.dao.LocResultCellDAO:60 - Location Result Cell, LocationResultId=12276305
+09:03:03.433 [http--0.0.0.0-8080-22] INFO  s.c.f.f.l.dao.LocResultCellDAO:121 - 
+	INSERT INTO LOCATION_SINGLE_USE.LOCATION_RESULT_CELL(LOCATION_RESULT_ID,CELL_REF,CELL_MCC,CELL_MNC,CELL_LAC,CELL_ID,CENTER_LATITUDE,CENTER_LONGITUDE,
+	BTS_LATITUDE,BTS_LONGITUDE,CELL_RADIUS,FORWARD_AXIS,ORTHOGONAL_AXIS,AZIMUTH,END_ANGLE,SHAPE) VALUES (12276305,'602.3.32094.36693','602','3','32094','36693',
+	null,null,null,null,null,null,null,null,60,0)
+09:03:03.443 [http--0.0.0.0-8080-22] ERROR s.c.f.f.l.dao.LocResultCellDAO:126 - Error On DAO FastTraxServer
+com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'CENTER_LATITUDE' cannot be null
+
+#Query (target=628991001001-628991001005)
+select * from LOCATION_SINGLE_USE.RUNNING_SCHEDULE where ALIAS_NAME in ('1001','1002','1003','1004','1005','1006','1007','1008','1009','1010') and SOURCE = 2;
+update LOCATION_SINGLE_USE.RUNNING_SCHEDULE SET INTERVALS = 5 WHERE ALIAS_NAME in ('1001','1002','1003','1004','1005','1006','1007','1008','1009','1010') 
+and SOURCE = 2;
+
+('62821615630','628215669699','62821668555')
+
+===========SAM===========
+Agent status : app.xxx.ams /app/servers/agentstatus/AppStarter/
+Queue status : db.xxx.ams /app/servers/
+Queue unicode : db.xxx.ams /app/servers/
+
+===========LOG DOWNLOADER===========
+./LDF.sh fasttrax/fasttrax-schedule /home/edo/Downloads/tempLogDownloader 2016-11-02 2016-11-07
+
+#Scheduler
+*fasttrax-schedule.YYYY-MM-DD-node1.log
+1. msisdn
+2. cell ref
+3. address
+fix:
+sed -r -i 's/[0-9]{9,15}/PN:HASH/g;s/[0-9]{1,5}\.[0-9]{1,5}\.[0-9]{1,5}\.[0-9]{1,5}/CGI:HASH/g' test.txt.fix
+sed -i 's/Home+Operator/\n&/g;s/\(Location+address\)[^\n]*\n/\1 AD:HASH /g' test.txt.fix
+
+*fasttrax-schedule-job.YYYY-MM-DD-node1.log = nothing to do
+*fasttrax-schedule-out.YYYY-MM-DD-node1.log = nothing to do
+*fasttrax-schedule-sql.YYYY-MM-DD-node1.log
+1. mssisdn 
+fix: sed -r 's/[0-9]{9,15}/PN:HASH/g' test-fasttrax-schedule-sql.txt
+
+2. user name
+fix username: sed -r "s/(USER_NAME=)(')(\S+)(')/\1 \2NM:HASH\4/g" test-fasttrax-schedule-sql.txt
+fix aliasname: sed -r "s/(ALIAS_NAME=)(')(\S+)(')/\1 \2NM:HASH\4/g" test-fasttrax-schedule-sql.txt
+
+3. coordinates (skip because always null)
+sed -r 's/[0-9]{9,15}/PN:HASH/g;s/USER_NAME='.*'/USER_NAME='AD:HASH'/g;s/ALIAS_NAME='.*'/ALIAS_NAME='AD:HASH'/g' test-fasttrax-schedule-sql.txt
+
+00:00:00.203 DEBUG [Thread-246][BaseDAO:31] - destHp: 6285642549907
+00:00:00.205 INFO  [Thread-246][BaseDAO:43] - SELECT USER_ID FROM LRTP_V2.USER WHERE USER_NAME='aaaaditest'
+00:00:00.213 INFO  [Thread-246][UserDAO:732] - SELECT USER_ID FROM LRTP_V2.USER WHERE USER_NAME='aaaaditest' AND DELETED<> '1'
+00:00:00.342 INFO  [Thread-246][LocRequestDAO:389] - INSERT INTO LOCATION_SINGLE_USE.LOCATION_REQUEST(DESTINATION_HP,DATE_TIME,REQUESTING_HP,REQUESTING_USER,REQUESTING_APP,LOCATION_PWORD,STATUS,IP_ADDRESS,VIRTUAL_NUMBER,QUERY_METHOD,VISITOR_TIMEZONE,SMS_NODE,NUMBERING_TYPE) VALUES ('6285642549907','2016-10-30 00:00:00.342',null,8,'FX','',1,null,'-','AUT',null,'IS',null)
+00:00:00.554 INFO  [Thread-246][ScheduleDAO:696] - UPDATE LOCATION_SINGLE_USE.RUNNING_SCHEDULE SET USER_ID='8',DESTINATION_HP='6285642549907',QUERY_METHOD='AUT',IP='10.32.16.236',PWD_SEND='',ALIAS_NAME='Adi',FLAG_STATUS=0,SERVER_NAME= '',LOCKED= 0 ,START_DATE_SERVER='2016-10-02 16:00',END_DATE_SERVER='2016-10-31 15:59',START_TIME='2016-10-02 16:00',END_TIME='2016-10-31 15:59',RUN_SCHEDULE='2016-10-30 10:28:18',FLAG_STATUS=1,SUN=1,MON=1,TUE=1,WED=1,THU=1,FRI=0,SAT=0 WHERE ID=11
+-----------------------------------------------------------------------------------------------------------------------------
+#Interrogation
+*fasttrax-ws
+1. latitude-longitude
+fix: 
+sed -r "s/(latitude:)(\d+)/\1LL:HASH/g" test-fasttrax-ws2.txt
+sed -r "s/(longitude:)(\S+)/\1LL:HASH/g" test-fasttrax-ws2.txt
+sed -r "s/(CELLDB Latitude=)(\S+)/\1LL:HASH/g" test-fasttrax-ws2.txt
+sed -r "s/(CELLDB Longitude=)(\S+)/\1LL:HASH/g" test-fasttrax-ws2.txt
+sed -r "s/(LacPoint Check 1=)(\S+)(|)/\1LL:HASH\3/g" test-fasttrax-ws2.txt
+sed -r "s/(LacPoint Check 2=)(\S+)(|)/\1LL:HASH\3/g" test-fasttrax-ws2.txt
+
+sed -r "s/(latitude:)(\S+)/\1LL:HASH/g;s/(longitude:)(\S+)/\1LL:HASH/g;s/(CELLDB Latitude=)(\S+)/\1LL:HASH/g;s/(CELLDB Longitude=)(\S+)/\1LL:HASH/g;s/(LacPoint Check 1=)(\S+)(|)/\1LL:HASH\3/g;s/(LacPoint Check 2=)(\S+)(|)/\1LL:HASH\3/g" test-fasttrax-ws2.txt
+
+2. cell reff
+fix: 
+sed -r "s/(cellRef:)(\S+)(,)/\1CGI:HASH\3/g" test-fasttrax-ws2.txt
+sed -r "s/(CELLDB CellRef=)(\S+)/\1CGI:HASH/g" test-fasttrax-ws2.txt
+sed -r "s/(LocationDTO.cellRef:)(\S+)/\1CGI:HASH/g" test-fasttrax-ws2.txt (LocationDTO.cellRef:510.11.554.12871)
+
+3. msisdn
+fix:
+sed -r "s/(roamingNumber:)(\S+)/\1PN:HASH/g" test-fasttrax-ws2.txt (roamingNumber:628562123333 ,)
+sed -r "s/(forwardToNumber:)(\S+)/\1PN:HASH/g" test-fasttrax-ws2.txt (forwardToNumber:6289652581864 ,)
+sed -r "s/(roamingNumber)(\S+)/\1PN:HASH/g" test-fasttrax-ws2.txt (roamingNumber 628562123333)
+sed -r "s/(roamingNumber=)(\S+)/\1PN:HASH/g" test-fasttrax-ws2.txt (roamingNumber=628562123333)
+sed -r "s/(forwardingNumber=)(\S+)/\1PN:HASH/g" test-fasttrax-ws2.txt
+
+sed -r "s/(roamingNumber:)(\S+)/\1PN:HASH/g;s/(roamingNumber=)(\S+)/\1PN:HASH/g;s/(roamingNumber)(\S+)/\1PN:HASH/g;s/(forwardToNumber:)(\S+)/\1PN:HASH/g;;s/(forwardingNumber=)(\S+)/\1PN:HASH/g" test-fasttrax-ws2.txt
+
+4. address
+fix:
+sed -r "s/(cellName:)(.*)( ,zip:)/\1AD:HASH\3/g" test-fasttrax-ws.txt
+cellName:City Financial, Jl. Kapten Tendean ~Kel. Mampang Prapatan, Kec. Mampang Prapatan ~Jakarta Selatan - 12790~INDONESIA ,
+
+5. visited gt
+fix: sed -r "s/(visitedMscGt=)(\S+)(,)/\1VGT:HASH\3/g" test-fasttrax-ws.txt
+
+*fasttrax-ws-sql
+1. cell reff
+case: SELECT COUNT(ID) AS TOTAL  FROM CELL_DB.CELL_DB WHERE MCC='510' AND MNC='11' AND LAC='554' AND CELL_ID='12871'
+fix: sed -r "s/(MCC=')(\S+)(')/\1CGI:HASH\3/g;s/(MNC=')(\S+)(')/\1CGI:HASH\3/g;s/(LAC=')(\S+)(')/\1CGI:HASH\3/g" test-fasttrax-ws-sql.txt
+
+case: UPDATE LOCATION_TRACKING.VEHICLE SET LAST_LOCATION_REQUEST='2016-11-16 00:00',LAST_LONG=384557760, LAST_LAT=-22466520 WHERE ID=30
+fix: sed -r "s/(LAST_LONG=)(\S+)(,)/\1CGI:HASH\3/g;s/(LAST_LAT=)(\S+)( WHERE)/\1CGI:HASH\3/g" test-fasttrax-ws-sql.txt
+
+case: cellRef:510.11.554.12871 ,
+fix: sed -r "s/(cellRef:)(\S+)( ,)/\1CGI:HASH\3/g" test-fasttrax-ws-sql.txt
+
+case: INSERT INTO LOCATION_TRACKING.LOCATION_STATUS (VEHICLE_ID, LOCATION_DATE_TIME,LONGITUDE, LATITUDE, NAME_LOCATION, MSC_NAME, CELL_ID, CLIENT_ID, COUNTRY, OPERATOR, LOCATION_CALCULATION_METHOD_ID, SMS_NODE, GLOBAL_TITLE, IMSI, IMEI, PHONE_STATUS, AGE_OF_LOCATION) VALUES (32, '2016-11-16 00:00', 384557760, -22466520, 'City Financial, Jl. Kapten Tendean  Kel. Mampang Prapatan, Kec. Mampang Prapatan  Jakarta Selatan - 12790 INDONESIA', 'Jakarta', '510.11.554.12871', 1, 'Indonesia', 'Excelcom', '3', 'IS', '628184422018', '', '01136400', '0', '0')
+fix: -
+
+case: INSERT INTO LOCATION_SINGLE_USE.LOCATION_RESULT_CELL(LOCATION_RESULT_ID,CELL_REF,CELL_MCC,CELL_MNC,CELL_LAC,CELL_ID,CENTER_LATITUDE,CENTER_LONGITUDE,BTS_LATITUDE,BTS_LONGITUDE,CELL_RADIUS,FORWARD_AXIS,ORTHOGONAL_AXIS,AZIMUTH,END_ANGLE,SHAPE) VALUES (6350,'510.11.554.12871','510','11','554','12871',-6.2407,106.8216,-6.2407,106.8216,300,600,600,-1,null,0)
+fix: -
+
+2. Coordinates (lat/lon) 
+case: latitude:-6.24070000 ,
+fix: sed -r "s/(latitude:)(\S+)( ,)/\1LL:HASH\3/g" test-fasttrax-ws.txt
+
+case: longitude:106.82160000 ,
+fix: sed -r "s/(longitude:)(\S+)( ,)/\1LL:HASH\3/g" test-fasttrax-ws.txt
+
+3. address
+case: cellName:City Financial, Jl. Kapten Tendean ~Kel. Mampang Prapatan, Kec. Mampang Prapatan ~Jakarta Selatan - 12790~INDONESIA ,zip:12790 ,
+fix: sed -r "s/(cellName:)(\S+)( ,)/\1AD:HASH\3/g" test-fasttrax-ws.txt
+
+4. msisdn
+case: globalTitle:628184422018 ,
+fix: sed -r "s/(globalTitle:)(\S+)( ,)/\1PN:HASH\3/g" test-fasttrax-ws.txt
+
+case: locNumber:8493872102 ,
+fix: sed -r "s/(locNumber:)(\S+)( ,)/\1PN:HASH\3/g" test-fasttrax-ws.txt
+
+case: roamingNumber:628562123333 ,
+fix: sed -r "s/(roamingNumber:)(\S+)( ,)/\1PN:HASH\3/g" test-fasttrax-ws.txt
+
+case: forwardToNumber:6289652581864 ,
+fix: sed -r "s/(forwardToNumber:)(\S+)( ,)/\1PN:HASH\3/g" test-fasttrax-ws.txt
+-----------------------------------------------------------------------------------------------------------------------------
+#SMS sending
+-----------------------------------------------------------------------------------------------------------------------------
+#SMS retrieval
+-----------------------------------------------------------------------------------------------------------------------------
+#General/systems
+*admin
+1. username
+case: userName: giging
+fix: sed -r "s/(userName: )(\S+)()/\1PN:HASH\3/g" test-admin.txt
+
+case: &userName=giging
+fix: sed -r "s/(&userName=)(\S+)(&clientName)/\1PN:HASH\3/g" test-admin.txt
+-----------------------------------------------------------------------------------------------------------------------------
+*audittrax
+1. msisdn
+case: targetNumber: 2017010146,
+fix: sed -r "s/(targetNumber: )(\S+)(,)/\1PN:HASH\3/g" test-audittrax.txt
+
+case: target number is 2017010146 intervals
+fix: sed -r "s/(target number is )(\S+)( intervals)/\1PN:HASH\3/g" test-audittrax.txt
+
+2. address
+case: Location address: قرية الكرمة  الكيلو133  طريق اسكندرية  مطروح ~ ~~EGYPT;
+fix: sed -r "s/(Location address: )(.*)(; Home Country)/\1AD:HASH\3/g" test-audittrax.txt
+
+3. cell reff
+case 1: Cell Ref: 602.3.32094.36698;
+case 2: Cell Ref: Not Available;
+fix: sed -r "s/(Cell Ref: )(.*)(; Calculation method)/\1CGI:HASH\3/g" test-audittrax.txt
+
+-----------------------------------------------------------------------------------------------------------------------------
+*cell-computation = nothing to do
+*cell-computation-csv
+1. cell reff
+case:
+09:33:10.239 [http-0.0.0.0-0.0.0.0-8080-33] INFO  c.com.firstwap.util.CreateCellDbCsv:197 -
+null,null,510,89,9018,21018,510.89.9018.21018,999,-1,null,null,null,null,null,-6.24089848,106.82140181,90,0,1,146.0,"COLL 20160905,"Indonesia (Republic of)","PT Hutchison CP Telecommunications (HCPT)",1,2016-09-07 08:01:29.0,0,null,0,0,-22467234,384557046,Recalculate
+
+09:33:10.251 [http-0.0.0.0-0.0.0.0-8080-33] INFO  c.com.firstwap.util.CreateCellDbCsv:197 -
+null,null,510,11,34291,0,510.11.34291.0,999,-1,null,null,null,null,null,32.06276223,65.18160313,90,0,1,0.0,"COLL 20160603,"Indonesia (Republic of)","PT Excelcomindo Pratama Tbk",1,2016-09-06 03:11:32.0,0,null,0,0,32,65,New
+
+fix: -
+
+*cell-computation-sql = nothing to do
+-----------------------------------------------------------------------------------------------------------------------------
+*geofence
+
+15:27:03.697 [New I/O  worker #11] DEBUG c.f.g.server.GeofenceServerHandler:57 - result : [<OK>COMMAND : 01, MESSAGE : 7|-99|status:0|fnumc:6289652581864|freasonc:3|fnump:6289652581864|freasonp:3|lat:-22267000|long:384608000|510.11.24157.10131|phonestatc:0|phonestatp:0|targetstatetimep:2016-11-03 14:52:03.0]
+
+1. msisdn
+case: 
+	15:11:59.985 [ServerService Thread Pool -- 129] DEBUG c.f.g.preference.GeofencePreference:142 - SOURCE_NUMBER=+628121234567
+fix: sed -r "s/(SOURCE_NUMBER=)(.*)()/\1PN:HASH\3/g" test-geofence.txt
+
+case: |fnumc:6289652581864|
+fix: sed -r "s/(fnumc:)(\S+)(freasonc:)/\1PN:HASH|\3/g" test-geofence.txt
+
+case: |fnump:6289652581864|
+fix: sed -r "s/(fnump:)(\S+)(freasonp:)/\1PN:HASH|\3/g" test-geofence.txt
+
+case: 
+	15:17:03.952 [New I/O  worker #6] INFO  c.f.g.alarm.CityfenceAlarmChecker:80 - 6287894005628 has been assigned to 0 cityfences
+	15:22:03.566 [New I/O  worker #8] INFO  c.f.g.alarm.GeofenceAlarmChecker:50 - msisdn 6285722532549 has been assigned to 0 geofences
+	15:17:04.363 [New I/O  worker #5] INFO  c.f.g.server.GeofenceProcessor:287 - 6285722532549 not assigned into any proximiset	
+fix: 
+	sed -r "s/(- )(\S+)( has been assigned to )/\1PN:HASH\3/g" test-geofence.txt
+	sed -r "s/(msisdn )(\S+)( has been assigned to )/\1PN:HASH\3/g" test-geofence.txt
+	sed -r "s/(- )(\S+)( not assigned into any proximiset)/\1PN:HASH\3/g" test-geofence.txt
+
+case: 
+	15:17:15.307 [Thread-322] DEBUG c.f.geofence.alarm.VIPAlarmChecker:194 - GPSVehicle [id=7, msisdn=6285722532549, timezone=7, smsLimit=0, deviceType=0, deviceName=6285722532549, enabled=false, trackStatus=0, shieldStatus=0, gsmModem=, lastError=7, createdBy=null, creationDate=null, vehicle=com.firstwap.geofence.entity.Vehicle@6defb742]
+fix: 
+	sed -r "s/(, msisdn=)(\S+)(, )/\1PN:HASH\3/g;s/(, deviceName=)(\S+)(, )/\1PN:HASH\3/g" test-geofence.txt
+
+2. cell ref
+case: 15:12:44.531 [default task-17] INFO  c.f.geofence.web.MapController:900 - cellRefs 510.11.24157.10131
+fix: sed -r "s/(- cellRefs )(\S+)()/\1CGI:HASH\3/g" test-geofence.txt
+
+case: 15:17:03.614 [New I/O  worker #5] DEBUG c.f.g.server.GeofenceServerHandler:53 - processing message [192|01|7|-99|status:0|fnumc:6289652581864|freasonc:3|fnump:6289652581864|freasonp:3|lat:-22267000|long:384608000|510.11.24157.10131|phonestatc:0|phonestatp:0|targetstatetimep:2016-11-03 14:52:03.0] from [/10.32.6.182:57437] using thread [New I/O  worker #5]
+fix: -
+
+case: 15:12:44.545 [default task-17] DEBUG c.f.geofence.web.MapController:949 - processing cell ref 510.11.24157.10131
+fix: sed -r "s/(- processing cell ref )(\S+)()/\1CGI:HASH\3/g" test-geofence.txt
+
+case: 15:17:16.136 [Thread-322] INFO  c.f.geofence.alarm.VIPAlarmChecker:315 - cell ref 510.11.24157.10131
+fix: sed -r "s/(- cell ref )(\S+)()/\1CGI:HASH\3/g" test-geofence.txt
+
+3. latitude, longitude
+case: |lat:-22267000|
+fix: sed -r "s/(lat:)(\S+)(long:)/\1LL:HASH|\3/g" test-geofence.txt
+
+case: |long:384608000|
+fix: sed -r "s/(long:)(\S+)(\S+|)/\1LL:HASH|\3/g" test-geofence.txt
+
+case: 
+	5:17:03.726 [New I/O  worker #6] INFO  c.f.g.server.GeofenceProcessor:223 - processing lat:-22267000 ,long:384608000
+	15:17:03.756 [New I/O  worker #5] INFO  c.f.g.server.GeofenceProcessor:223 - processing lat:-22267000 ,long:384608000
+fix: sed -r "s/(processing lat:)(\S+)( ,long:)/\1LL:HASH\3/g;s/( ,long:)(\S+)()/\1LL:HASH\3/g" test-geofence.txt
+
+*geofence-sql = nothing to do
+-----------------------------------------------------------------------------------------------------------------------------
+*geofencing
+1. latitude, longitude
+case: 
+	00:00:02.230 INFO  [default task-6][GeofenceUtil:406] - startLongRad=1.864388632248375
+	00:00:02.230 INFO  [default task-6][GeofenceUtil:407] - startLatRad=-0.10892076262921013
+	00:00:02.231 INFO  [default task-6][GeofenceUtil:409] - endLatRad=-0.10887373384183115
+	00:00:02.231 INFO  [default task-6][GeofenceUtil:410] - endLongRad=1.8643878064684847
+	00:00:02.232 INFO  [default task-6][GeofenceUtil:411] - POINT=Point Content x: 384557589 y: -22456819
+fix: 
+	sed -r "s/(startLongRad=)(\S+)()/\1LL:HASH\3/g;s/(startLatRad=)(\S+)()/\1LL:HASH\3/g;s/(endLatRad=)(\S+)()/\1LL:HASH\3/g;s/(endLongRad=)(\S+)()/\1LL:HASH\3/g;s/(POINT=Point Content x: )(\S+)( y: )/\1LL:HASH\3/g;s/( y: )(\S+)()/\1LL:HASH\3/g" test-geofencing.txt
+-----------------------------------------------------------------------------------------------------------------------------
+*middleware
+1. msisdn, msisdn with (+) sign
+case:	
+	00:00:00.048 [org.springframework.scheduling.quartz.SchedulerFactoryBean#0_Worker-4] INFO  c.f.m.e.s.DispatchSchedulingBean:104 - source +628121234567, destination 628123456789, smsdispId 17
+fix: 
+	sed -r "s/(- source )(\S+)(, )/\1PN:HASH\3/g;s/(, destination )(\S+)(, )/\1PN:HASH\3/g" test-middleware.txt
+
+case: <TERRY>6285722532544<TERRY>+628121234567<TERRY>
+fix: 
+	sed -r "s/(<TERRY>)(\S+)(<TERRY>)/\1PN:HASH\3/g" test-middleware.txt
+
+2. latitude, longitude
+case:
+	- Cell Center: -5.1384, 119.4093
+	- Cell Center: -5.1384, 119.4093
+fix: 
+	sed -r "s/(Cell Center: )(.*)/\1LL:HASH/g" test-middleware.txt
+
+case:
+	- Map: http://maps.google.com/maps?q=-5.1384,119.4093
+	- Map: http://maps.google.com/maps?q=-5.1384,119.4093
+fix:
+	sed -r "s/(q=)(\S+)()/\1LL:HASH/g" test-middleware.txt
+
+3. address
+case:
+	- Address: Latitude -5.1384, Longitude 119.4093, Jalan Sultan Hasanussin    Makassar - 90115 INDONESIA
+	- Address: Latitude -5.1384, Longitude 119.4093, Jalan Sultan Hasanussin    Makassar - 90115 INDONESIA
+fix: 
+	sed -r "s/(Address: )(.*)/\1AD:HASH/g" test-middleware.txt
+
+4. cell ref
+case:
+	- Cell Ref: 510.89.21114.50539
+	- Cell Ref: 510.89.21114.50539
+fix:
+	sed -r "s/(Cell Ref: )(.*)/\1CGI:HASH/g" test-middleware.txt
+
+

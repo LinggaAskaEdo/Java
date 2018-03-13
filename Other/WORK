@@ -1,0 +1,1185 @@
+#Task Make Message Align Center
+<h2>&nbsp;&nbsp;&nbsp;&nbsp;<fmt:message key="subtitle.logout"/></h2>
+
+#Task add map option
+EditUserFrom.java, function getUserExtendedMapPrivilege
+
+#RapidTrax - Rename privileges for page History and Sent Location Result
+1. HistoryController (package com.firstwap.fasttrax.web)
+2. SendResultHistoryController (package com.firstwap.fasttrax.web)
+
+#RapidTrax - menu 
+1. Tabber.jsp (/altamides-fasttrax-web/src/main/webapp/WEB-INF/jsp/tabber.jsp)
+
+#task 6639 (User Admin: username and Password field has filled automatically when clicks Add New User button)
+1. https://project.1rstwap.com/issues/6639
+2. https://gitlab.1rstwap.com/altamides/altamides/commit/a285371f27127b3915b6e0430e99426a5ff35012
+
+#Incident 7109 - Activating and resetting password should be much more straight forward
+Testing Local Cara 1 (reset akun sendiri):
+- ketika menekan tombol reset password, akan muncul pesan sukses
+- ketika user login menggunakan password lama, akan muncul permintaan untuk memperbaharui password
+- jika pembaharuan password diisi dengan password yang lama, akan muncul error bahwa password sama dengan yang lama
+
+Testing Local Cara 2 (reset akun orang lain):
+- ketika menekan tombol reset password, akan muncul pesan sukses
+- ketika user login menggunakan password lama, akan muncul permintaan untuk memperbaharui password
+- jika pembaharuan password diisi dengan password yang lama, akan muncul error bahwa password sama dengan yang lama
+
+??? Activation/Deactivation
+1. Apa maksud dari "and is not dormant or is dormant but has ignore flag set"?
+2. "The column must be filled with green check-mark when the associated account can login and red blocking icon otherwise" 
+   jadi checkbox dalam keadaan terisi trus (with check or block), Image saya dapat dari mana?
+
+Note:
+-and is not dormant or is dormant but has ignore flag set
+loginService.jsp --> SSOController.java (@RequestMapping("/submitLogin.do"), checkLogin) --> InactivateUser.java (getInactiveMessage)
+
+#Task 7732 Adding package demod
+login ssh devteam@dev-db
+login ssh devteam@demo-c
+
+-bandingkan dengan ssh dulu, lalu setelah itu dengan generic
+-jika di generic ada & ssh tidak ada = maka ditambahkan
+-jika di generic tidak ada & ssh ada = maka dihapus
+
+#Task #9391: Fix Arabic in tooltip and result section
+-latin
+1. jdbcCompliantTruncation=false
+	status = masuk
+'4372', '4379', '57.0512', '21.3772', NULL, '0', NULL, '1', 'Area sad asdas  ?????? ~Ghaba Qarn Alam Airport ~Ad Dakhiliyah~OMAN', '', '1', '', 'JF, Coll. 20140115', 'GSM900, 3G HSPA', '1996-11-01'
+
+2. jdbcCompliantTruncation=false&amp;characterEncoding=UTF-8
+	status = masuk
+'4371', '4378', '57.0512', '21.3772', NULL, '0', NULL, '1', 'Area sad asdas  الدولة ~Ghaba Qarn Alam Airport ~Ad Dakhiliyah~OMAN', '', '1', '', 'JF, Coll. 20140115', 'GSM900, 3G HSPA', '1996-11-01'
+
+3. jdbcCompliantTruncation=false&amp;characterEncoding=UTF-8&amp;useUnicode=yes
+	status = masuk
+'4370', '4377', '57.0512', '21.3772', NULL, '0', NULL, '1', 'Area sad asdas  الدولة ~Ghaba Qarn Alam Airport ~Ad Dakhiliyah~OMAN', '', '1', '', 'JF, Coll. 20140115', 'GSM900, 3G HSPA', '1996-11-01'
+
+-tidak latin
+1. jdbcCompliantTruncation=false
+	status = masuk
+'4367', '4374', '57.0512', '21.3772', NULL, '0', NULL, '1', 'Area sad asdas  ?????? ~Ghaba Qarn Alam Airport ~Ad Dakhiliyah~OMAN', '', '1', '', 'JF, Coll. 20140115', 'GSM900, 3G HSPA', '1996-11-01'
+
+2. jdbcCompliantTruncation=false&amp;characterEncoding=UTF-8
+	status = masuk
+'4368', '4375', '57.0512', '21.3772', NULL, '0', NULL, '1', 'Area sad asdas  ?????? ~Ghaba Qarn Alam Airport ~Ad Dakhiliyah~OMAN', '', '1', '', 'JF, Coll. 20140115', 'GSM900, 3G HSPA', '1996-11-01'
+
+
+3. jdbcCompliantTruncation=false&amp;characterEncoding=UTF-8&amp;useUnicode=yes
+	status = masuk
+'4369', '4376', '57.0512', '21.3772', NULL, '0', NULL, '1', 'Area sad asdas  ?????? ~Ghaba Qarn Alam Airport ~Ad Dakhiliyah~OMAN', '', '1', '', 'JF, Coll. 20140115', 'GSM900, 3G HSPA', '1996-11-01'
+
+#Ticket 9445
+16:45
+(16:47:03) Adi Satria: do, yg 9445 yg issue ga ke sort itu,
+sbnrny uda ada fungsi sortny,
+tp gara2 perubahan trakhir jd ga bisa,
+ke sort ny cmn pas button2 panah diklik
+(16:48:51) Adi Satria: 
+jd kalo fungsiny dipanggil kaya gini berhasil:
+sortSelectList(document.getElementById("roleRight"));
+
+tp kalo kaya gini yg waktu on document ready ga berhasil:
+sortSelectList($('#roleRight'));
+(16:49:50) Adi Satria: 
+gw saranin yg mst lu ganti fungsi sortSelectList,
+bikin spy dia versatile,
+jd bisa trima DOM object dan JQuery object
+
+#http://10.32.6.20:9876/FasttraxBeanService/FasttraxService?wsdl (locate_V2)
+String target = 6281575007622 (nomor dari simulator sesuai dengan ip sendiri)
+String username = 1
+String password = 12345
+String typeQuery = AUT
+String aliasHp = 
+String timeZone = 0
+String smsNode = 
+String app = MO/FT/FX
+String iv = 
+String psl = 0
+
+#9533 Inactive Symbol on User Admin Page even the user is active
+(13:13:41) Adi Satria: di client MOI ada 2 app server
+(13:14:00) Adi Satria: app server yg biasa yg isinnya:admin,fasttrax,geofenceing,dlll
+(13:14:11) Adi Satria: satu server lg yg isinya cmn : admin, audittrax
+(13:14:28) Adi Satria: jadi module admin yg sm trd dideploy di 2 server
+(13:14:37) Adi Satria: ada 2 jboss jg
+(13:15:47) Adi Satria: module nya sama persis, yg dibedain configuration :
+- blacklist.server.admin=false (altamides.properties)
+- databasenya
+(13:16:09) Adi Satria: lu kalo mo test cb lu set blacklist.server.admin=true
+(13:16:30) Adi Satria: kalo blacklist.server.admin=true => ini artinya settingan admin untuk diinstall di server blacklist
+(13:17:01) Adi Satria: slh satu cirinya kalo dia admin di blacklist, tab groupadmin bakal hilang
+
+blacklist.secureBlackList=true
+blacklist.server.admin=false
+----------harusnya-------------
+blacklist.secureBlackList=false
+blacklist.server.admin=true
+
+private final String isUserCanLoginQuery = "(ACTIVE && "
+			+ "NOW() >= START_TIMESTAMP && "
+			+ "NOW() <= END_TIMESTAMP && "
+			+ "NOW() >= START_TRACKING_DATE && " <-- pengecekan group/client hilangkan
+			+ "NOW() <= END_TRACKING_DATE && "   <-- pengecekan group/client hilangkan
+			+ "IF(INACTIVE_REASON = '" + InactivateUser.SKIP_CHECKING + "', "
+					+ "true, "
+					+ "IF(MAX(LAST_ATTEMPT) is null, "
+						+ "true, "
+						+ "NOW() - interval " + Static.pfc.EXPIRED_USER_PERIOD + " week < MAX(LAST_ATTEMPT)))) as active";
+
+Date date = new Date();
+		if(date.after(user.getClient().getEndTrackingDate()) && date.before(user.getClient().getStartTrackingDate()))
+			return true;
+		else
+			return false;
+
+#9646
+<script type="text/javascript">showAlert2('Data Not Founds', this);</script>
+
+function showAlert2(str,action)
+{
+	var _id = 'dialog-' + generateRandomString();
+	var selector = '#'+_id;
+	var _str= str || "";
+	var anchor = anchor || "";
+	var _tpl = '<div id="'+_id+'" style="text-align:right;"><table width="100%" border="0" cellpadding="2" cellspacing="2"><tr><td valign="middle" align="center"><img src="images/red-exclamation.gif" alt="Alert" /></td><td valign="middle" class="center-align" style="white-space:pre-line" ><span class="contentText">'+_str+'</span></td></tr></table></div>';
+
+	$(selector).dialog('destroy');
+    $('body').append(_tpl);
+    $(selector).dialog
+    ({    	
+        autoOpen: true,
+        resizable: false,
+        modal: true,
+        width: 200,
+        title:alertMsg.common_msg_confirm_title
+    });	
+}
+
+#5682
+-Database yang bersangkutan 
+	LOCATION_TRACKING.LOCATION_STATUS_REQUEST_MAP,
+	LOCATION_TRACKING.LOCATION_STATUS,
+	CELL_DB.CELL_DB
+ 
+-LRTP_V2.LOCATION_CALCULATION_METHOD, id = 4, BTS Location tidak memiliki radius
+
+#ProfileTrax
+-Semua target selalu dari profiletrax basic target admin. Zonetrax, ziptrax, proximi cmn bikin area nya
+
+-Jika di ProfileTrax target sudah ada tapi tidak muncul (di Zonetrax, ziptrax, proximi, dll), ubah settingan altamides/altamides-web/src/app/web/configs/config.global.php (const ALTAMIDES_BLACKLIST_DB_SEPARATION = false)
+
+#11694 Add a configuration to enable or disable co branding in MobileTrax communication
+ex:
+jadi kalo sms normal kaya gini?
+_PUT1 0GPIAMS888841-06-19 09:30:39.31019<TERRY>08121122334<TERRY>1rstwap<TERRY>SMS_BIASA
+
+trs kalo sms dari mobiletrax kaya gini?
+_PUT1 0GPIAMS888841-06-19 09:30:39.31019<TERRY>08121122334<TERRY>1rstwap<TERRY>SMS_MOBILETRAX<TERRY>COBRANDER_MT
+
+
+-cek smsdisp.getMsg() diawali dengan mT2 atau tidak
+-cek nomor tujuan dan pengirim dari database
+-tambahkan <TERRY>COBRANDER_MT dengan variable configurable
+
+solution:
+ini buat cek dest & source nya, jadi total kondisinya ada 3
+
+1. isi sms diawali dengan mT2
+
+2.dest nya ada di table ini (MSISDN=dest)
+SELECT count(*) FROM LOCATION_SINGLE_USE.AUTHORIZED_MSISDN where MSISDN='60183686720';
+
+3.src nya ada di table ini (MSISDN=src)
+SELECT count(*) FROM SMSDISPATCHER.VIRTUAL_NUMBER where SERVICE_TYPE='FT' and VIRTUAL_NUMBER='6285780998322' and ENABLED = 1;
+
+#11819 Add group alarm sender id to generate alarm sms (cara test)
+A
+1. edit file simulator - subscriberState (2 = status hape mati, 0 & 1 = status hape nyala) 
+2. untuk test lakukan perubahan seperti pada nomor 1 (dari 0/1 --> 2 atau 2 --> 0/1)
+
+B  
+1. buat akun di profiletrax - basic target admin. Pastikan pilihan Phone On/Off Alarm di check. Pastikan pula authorized user dipilih Send SMS (edit dibagian Admin - user admin)
+2. pilih omnitrax - location tracking
+3. edit dan lalu save target di profiletrax - basic target admin untuk trigger interogasi tanpa menunggu waktu scheduler
+4. liat table SMSDISPATCHER.SMS_DISPATCHER order by id desc, untuk melihat sms yg ke generate
+
+(16:39:48) Risky Rusfadilah: Lingga berikut saya lampirkan update web.xml milik altamides-config-api:
+
+#9110
+<context-param>
+   <param-name>contextConfigLocation</param-name>
+   <param-value>com.firstwap.config.ConfigAPI</param-value>
+</context-param>
+
+====================
+checkExistMsisdn
+
+getMapListsByRoleId
+
+checkUserMsisdn
+  -user mobilenumber
+  -user id
+  -user client id
+
+checkTargetMsisdn
+  -user mobilenumber
+  -user id
+  -user client id
+	
+public boolean checkUserMsisdn(String msisdn, int userId, int clientId, boolean ssoSuperadmin) throws Exception;
+
+alert("AAA !!!");
+
+#Altamides Config API
+
+URL = http://localhost:8080/config-api/config/getvalue
+JSON Format = 
+{
+    "module":"CELLTRAX",
+    "key":"db.password" 
+}
+
+URL = http://localhost:8080/config-api/config/multigetvalue
+JSON Format = 
+{    
+    "module": "celltrax",
+    "keys": ["db.username","db.url","db.password","db.time.format","default.azimuth"]
+}
+
+{    
+    "module": "admin",
+    "keys": ["user.and.target.msisdn.duplication.checking","sso.superadmin.limited"]
+}
+
+==========================================================================================
+
+LocateResponse response = new LocateResponse();
+LocateRequest jsonRequest
+
+response = requestJson.callSmscJsonService(jsonRequest, LocateResponse.class, ipAddress, timeoutMs);
+
+*response = LocateResponse response = new LocateResponse();
+*jsonRequest = pojo class LocateRequest
+*timeoutMs = int timeoutMs = 60 * 1000;// default timeout : 60 seconds
+
+==========================================================================================
+#Implement Altamides Config API
+
+http://stackoverflow.com/questions/9366403/java-lang-verifyerror-class-net-sf-cglib-core-debuggingclasswriter
+
+25881232139
+
+/*@PostConstruct
+	public void loadSingleConfig()
+	{
+		GetValueRes resSingle = new GetValueRes();
+		
+		GetValueReq reqSingle = new GetValueReq();
+		reqSingle.setModule("ADMIN");
+		reqSingle.setKey("user.and.target.msisdn.duplication.checking");
+		
+		resSingle = impl.getSingleValue(reqSingle, GetValueRes.class, urlSingleValue, timeoutMS);
+		if (resSingle != null)
+		{
+			logger.info(resSingle.getData().getValue().toString());
+			pfcApi.USER_AND_TARGET_MSISDN_DUPLICATION_CHECKING = resSingle.getData().getValue().toString();
+		}
+	}*/
+	
+	@PostConstruct
+	public void loadMultiConfig() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException
+	{
+		int timeoutMS = pfc.CONFIG_API_TIME_OUT;
+		String urlMultipleValue = pfc.CONFIG_API_URL_MULTIPLE_VALUE;
+		
+		MultiGetValueRes resMultiple = new MultiGetValueRes();
+		
+		String listKey[] = {"absolute.group.separation", "sso.superadmin.limited", "user.and.target.msisdn.duplication.checking"};
+		
+		MultiGetValueReq reqMultiple = new MultiGetValueReq();
+		reqMultiple.setModule("ADMIN");
+		reqMultiple.setKeys(listKey);
+		
+		resMultiple = impl.getMultiValue(reqMultiple, MultiGetValueRes.class, urlMultipleValue, timeoutMS);
+		if (resMultiple != null)
+		{
+			String key, value, type;			
+			Object parseVal;
+			
+			for (int i = 0; i < resMultiple.getData().getKeys().size(); i++)
+			{
+				key = resMultiple.getData().getKeys().get(i).getKey().toString();
+				value = resMultiple.getData().getKeys().get(i).getValue().toString();
+				type = resMultiple.getData().getKeys().get(i).getType().toString();
+				
+				logger.info("key: {}, value: {}, type: {}", key, value, type);
+								
+				if (type.equalsIgnoreCase("int"))
+				{
+					parseVal = Integer.parseInt(value);
+				}
+				else if (type.equalsIgnoreCase("boolean"))
+				{
+					parseVal = Boolean.parseBoolean(value);
+				}
+				else
+				{
+					parseVal = value;
+				}
+				
+				PreferenceApi.class.getDeclaredField(PreferenceApi.listFieldKey.get(key).toString()).set(pfcApi, parseVal);
+			}
+		}
+
+==========================================================================================
+#12507 Admin: Page error shown after click home button
+
+*Perubahan URL
+Home URL: https://dev-demox.1rstwap.com/altamides/
+Page Admin: https://dev-demoy.1rstwap.com/admin/userAdmin.do
+Setelah pencet tombol home: https://standalone.web.hostname/altamides
+
+==========================================================================================
+# ISMSC Manager - API Draft {Java Method @ LocateBPO.requestToSMSc()}
+
+(13:55:17) Adi Satria: cb pelajarin location interrogation dengan parameter smsc & method yg automatic
+(13:55:30) Adi Satria: mulainya dari sini LocateBPO.requestToSMSc()
+(13:56:10) Adi Satria: bagian automatic nya kita bakal buang, karena akan di handle oleh telco backend
+(13:56:23) Adi Satria: tp mesti tau kita perlu ganti apa aja
+(14:00:03) Adi Satria: sama pengecekan roaming sblm interogasi
+(14:01:43) Adi Satria: jadi yg perlu dipelajarin dari awal fungsi itu sampe line ini
+			logger.debug("IPaddress to be used [for cgi]:" + ipAddress);
+			logger.debug("IPaddressJson to be used:" + ipAddressJson);
+
+Wiki:
+https://project.1rstwap.com/projects/samoussa/wiki/ISMSC_Manager_-_Description
+https://project.1rstwap.com/projects/samoussa/wiki/ISMSC_Manager_-_API_Draft
+https://project.1rstwap.com/projects/telco/wiki/Testing_iSMSC_Manager
+
+1. Location Interrogation
+   parameter: version, uuid, type, async, param(target, targetType)
+	"version": "1.0",
+    	"uuid"   : "7d386f8c-1a4f-4b32-bd3d-65a5b3ed615f",
+    	"type"   : "locate",
+    	"async"  : false,
+    	"param"  : 
+	{
+        	"target"    : "6281212345678",
+        	"targetType": "msisdn" 
+    	}
+
+2. iSMSC Status
+   parameter: version, uuid, type, async, param()
+	"version": "1.0",
+    	"uuid"   : "7d386f8c-1a4f-4b32-bd3d-65a5b3ed615f",
+    	"type"   : "ismscStatus",
+    	"async"  : false,
+    	"param"  : {}
+
+==========================================================================================
+altamides.home.url=${global.protocol.name}://${sys:standalone.web.hostname}/${global.project.name} *pake sys berarti dia hrs baca dl di PID java
+global.web.balancer.address=${global.protocol.name}://${global.php.balancer.address}/${global.project.name} *ga pake sys baca standalone.conf
+
+
+==========================================================================================
+#12593 User Admin: Alert message 'User data has been saved' always shown if the page is reloaded
+// If URL is http://www.somedomain.com/account/search?filter=a#top
+
+javascript function:
+window.location.pathname // /account/search
+window.location.host     // www.somedomain.com (includes port if there is one)
+window.location.hostname // www.somedomain.com
+window.location.hash     // #top
+window.location.href     // http://www.somedomain.com/account/search?filter=a#top
+window.location.port     // (empty string)
+window.location.protocol // http:
+window.location.search   // ?filter=a
+
+==========================================================================================
+world.wide.map.enable=false
+
+'0', 'World_Wide_Map', '0', NULL, 'World_Wide_Map', '241200000', '-576000000', '-216000000', '612000000', '', '', '1', '90.00000', '-180.00000', '-90.00000', '180.00000', '6', '2013-01-15 14:20:19', '6', '2014-04-02 14:13:14'
+
+######################
+#   Config API      #
+######################
+#separate with comma
+config.api.list.keys.name=absolute.group.separation,sso.superadmin.limited,user.and.target.msisdn.duplication.checking
+
+==========================================================================================
+Task #13464 - Implement MLS
+
+{
+    "cellTowers": [{
+        "radioType": "wcdma",
+        "mobileCountryCode": 510,
+        "mobileNetworkCode": 1,
+        "locationAreaCode": 39029,
+        "cellId": 6716,
+        "signalStrength": -60
+    }],
+    "fallbacks": {
+        "lacf": true,
+        "ipf": false
+    }
+}
+
+=======================================================================================
+checkExpired.do ==> sso.utilities.js.php
+
+=======================================================================================
+198
+1845 listItems += "<option value='" + id + "'" + selected + ">" + name + "</option>";
+1435 <option value="${mapId}" selected="selected"><c:out value="${map.mapName}" /></option>	
+
+modified:   altamides-web/src/app/web/broadcast/home.php
+	modified:   altamides-web/src/app/web/configs/config.connections.php
+	modified:   altamides-web/src/app/web/configs/config.domain.php
+	modified:   altamides-web/src/app/web/configs/config.global.php
+	modified:   altamides-web/src/app/web/configs/config.menu.php
+	deleted:    altamides-web/src/app/web/doc/lrtp_doc_suite.pdf
+	modified:   altamides-web/src/app/web/ftrack/vehicle.setup.php
+	modified:   altamides-web/src/app/web/language/en/menu/menu.ini
+	modified:   settings.gradle
+
+2539
+
+var mapDefaultVal = $("#userMapDefault").val();
+						if (!mapDefaultVal)
+						{
+							selected = "selected";
+						}
+
+'default' => array('simulated' => true, 'file' => '/xxx/default', 'fixed' => 'ellipsoidPoint', 'psl-file'=>'psl_response','psl-fixed'=>false),
+
+17:49:01.434 [New I/O  worker #2] ERROR c.f.g.alarm.SleeperAlarmChecker:338 - Failed messages: javax.mail.SendFailedException: Invalid Addresses;
+  nested exception is:
+	com.sun.mail.smtp.SMTPAddressFailedException: 504 5.5.2 <edo-Java>: Helo command rejected: need fully-qualified hostname
+
+org.springframework.mail.MailSendException: Failed messages: javax.mail.SendFailedException: Invalid Addresses;
+  nested exception is:
+	com.sun.mail.smtp.SMTPAddressFailedException: 504 5.5.2 <edo-Java>: Helo command rejected: need fully-qualified hostname
+
+	at org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:440) ~[org.springframework.context.support-3.1.1.RELEASE.jar:3.1.1.RELEASE]
+	at org.springframework.mail.javamail.JavaMailSenderImpl.send(JavaMailSenderImpl.java:340) ~[org.springframework.context.support-3.1.1.RELEASE.jar:3.1.1.RELEASE]
+	at org.springframework.mail.javamail.JavaMailSenderImpl.send(JavaMailSenderImpl.java:336) ~[org.springframework.context.support-3.1.1.RELEASE.jar:3.1.1.RELEASE]
+	at com.firstwap.geofence.alarm.AlarmChecker.sendEmailAlert(AlarmChecker.java:334) [classes:na]
+	at com.firstwap.geofence.alarm.SleeperAlarmChecker.sendAlerts(SleeperAlarmChecker.java:307) [classes:na]
+	at com.firstwap.geofence.alarm.SleeperAlarmChecker.createAlarm(SleeperAlarmChecker.java:206) [classes:na]
+	at com.firstwap.geofence.alarm.SleeperAlarmChecker.checkAlarm(SleeperAlarmChecker.java:151) [classes:na]
+	at com.firstwap.geofence.alarm.SleeperAlarmChecker.process(SleeperAlarmChecker.java:50) [classes:na]
+	at com.firstwap.geofence.alarm.AlarmChecker.execute(AlarmChecker.java:145) [classes:na]
+	at com.firstwap.geofence.server.GeofenceProcessor.process(GeofenceProcessor.java:280) [classes:na]
+	at com.firstwap.geofence.server.GeofenceProcessor.process(GeofenceProcessor.java:120) [classes:na]
+	at com.firstwap.geofence.server.GeofenceServerHandler.messageReceived(GeofenceServerHandler.java:55) [classes:na]
+	at org.jboss.netty.channel.SimpleChannelHandler.handleUpstream(SimpleChannelHandler.java:95) [netty-3.4.6.Final.jar:na]
+	at org.jboss.netty.channel.DefaultChannelPipeline.sendUpstream(DefaultChannelPipeline.java:564) [netty-3.4.6.Final.jar:na]
+	at org.jboss.netty.channel.DefaultChannelPipeline.sendUpstream(DefaultChannelPipeline.java:559) [netty-3.4.6.Final.jar:na]
+	at org.jboss.netty.channel.Channels.fireMessageReceived(Channels.java:268) [netty-3.4.6.Final.jar:na]
+	at org.jboss.netty.channel.Channels.fireMessageReceived(Channels.java:255) [netty-3.4.6.Final.jar:na]
+	at org.jboss.netty.channel.socket.nio.NioWorker.read(NioWorker.java:94) [netty-3.4.6.Final.jar:na]
+	at org.jboss.netty.channel.socket.nio.AbstractNioWorker.processSelectedKeys(AbstractNioWorker.java:372) [netty-3.4.6.Final.jar:na]
+	at org.jboss.netty.channel.socket.nio.AbstractNioWorker.run(AbstractNioWorker.java:246) [netty-3.4.6.Final.jar:na]
+	at org.jboss.netty.channel.socket.nio.NioWorker.run(NioWorker.java:38) [netty-3.4.6.Final.jar:na]
+	at org.jboss.netty.util.ThreadRenamingRunnable.run(ThreadRenamingRunnable.java:102) [netty-3.4.6.Final.jar:na]
+	at org.jboss.netty.util.internal.DeadLockProofWorker$1.run(DeadLockProofWorker.java:42) [netty-3.4.6.Final.jar:na]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [na:1.7.0_67]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [na:1.7.0_67]
+	at java.lang.Thread.run(Thread.java:745) [na:1.7.0_67]
+
+=======================================================================================
+#15815 Basic ALTAMIDES Module Licensing
+
+Admin /app/jboss/standalone/deployments/admin.war
+AuditTrax /app/jboss/standalone/deployments/audittrax.war
+CellComputation /app/jboss/standalone/deployments/cell-computation.war
+ConfigApi /app/jboss/standalone/deployments/config-api.war
+FasttraxWeb /app/jboss/standalone/deployments/fasttrax.war
+FasttraxWS /app/jboss/standalone/deployments/fasttrax-ws.war
+Geofencing /app/jboss/standalone/deployments/geofencing.war
+Middleware /app/jboss/standalone/deployments/middleware.war
+Spottrax /app/jboss/standalone/deployments/spottrax.war
+Statistic /app/jboss/standalone/deployments/statistic.war
+
+=======================================================================================
+#18291
+
+http://10.32.6.20:8081/fasttrax-ws/locate?target=2099009911&username=web_test&userid=1258&password=nv/ZAuHbUWTFwmgmjFXA%2BTuAEyP7qiW7&typeQuery=PSI&aliasHp=eti&timeZone=7&smsNode=LI&app=FT&psl=4
+
+http://10.32.6.20:8081/fasttrax-ws/locate?target=2099009915&username=web_test&userid=533&password=nv/ZAuHbUWTFwmgmjFXA%2BTuAEyP7qiW7&typeQuery=PSI&aliasHp=eti&timeZone=7&smsNode=LI&app=MO&psl=4
+
+=======================================================================================
+
+modified:   altamides-config/src/data/TRD-EGY/app.trd.ams/servers/fasttrax-scheduler/AppStarter/apilocation.properties
+modified:   altamides-fasttrax-commons/src/main/java/com/firstwap/commons/util/FasttraxConstants.java
+modified:   altamides-fasttrax-server/src/main/java/com/firstwap/fasttrax/location/bpo/LocateBPO.java
+
+=======================================================================================
+
+2017-04-21 10:18:50 INFO  [main      ] mls.lookupservice.Application - Started Application in 17.131 seconds (JVM running for 20.437)
+2017-04-21 11:42:51 ERROR [pool-2-thread-1] o.s.s.s.TaskUtils$LoggingErrorHandler - Unexpected error occurred in scheduled task.
+java.lang.OutOfMemoryError: Java heap space
+	at java.util.Arrays.copyOf(Arrays.java:3181)
+	at java.util.ArrayList.grow(ArrayList.java:261)
+	at java.util.ArrayList.ensureExplicitCapacity(ArrayList.java:235)
+	at java.util.ArrayList.ensureCapacityInternal(ArrayList.java:227)
+	at java.util.ArrayList.add(ArrayList.java:458)
+	at org.sql2o.Connection.setKeys(Connection.java:173)
+	at org.sql2o.Query.executeUpdate(Query.java:522)
+	at mls.lookupservice.dao.MlsDaoImpl.batchProcess(MlsDaoImpl.java:81)
+	at mls.lookupservice.dao.MlsDaoImpl$$FastClassBySpringCGLIB$$14cd1ec7.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:720)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:136)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:655)
+	at mls.lookupservice.dao.MlsDaoImpl$$EnhancerBySpringCGLIB$$32e6954f.batchProcess(<generated>)
+	at mls.lookupservice.task.DataService.dumpData(DataService.java:415)
+	at mls.lookupservice.task.DataService.reportCurrentTime(DataService.java:148)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:65)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+=======================================================================================
+Metode license
+1. Mengirim tanggal pertama kali aplikasi dijalankan ke server kita, dan ada aplikasi yg akan memonitor expired time di server kita.
+2. 
+
+Masalah dengan trial version
+1. Tanggal
+   (+) mudah diimplementasikan
+   (-) jika sistem validasi menggunakan tanggal, maka user akan dengan mudah mengganti" tanggal
+
+2. Registry (windows)
+   (+)
+   (-) metode standar, user juga bisa mengganti/menghapus registry agar lolos dari trial version
+
+3. 
+
+========================Add the extra [visible] column IP address in AuditTrax #21300========================
+1. Scheduler: FasttraxAuditMessage - storeAuditInformation
+#2. Admin: HibernateAdminDAO - storeAuditInformation
+#3. Audittrax: HibernateAuditTraxDAO - storeAuditInformation
+4. Cell Computation: QueriesDAO - addAuditLog
+5. SSO Client: Interceptor - storeAuditInformation
+
+========================SPRINT========================
+- 21302 Add activity column in ATV3 DBA, Lingga, (Khadi/Rezza)
+- 21572 GADIS Lingga -> ntar kita discuss bentar
+
+	calculationMethod = "BTS";
+	locationDTO.setAzimuth(null);
+	locationDTO.setAzimuth("");
+
+- 21303 Add group column in ATV3 DBA,Lingga, (Khadi/Rezza)
+- 21306 Add Role column in ATV3 Lingga, (Khadi/Rezza)
+- 20353 Masstrax Mark as target (Rework) Khadi -> harusny cmn mslh image not loaded properly
+
+SELECT 
+    -- al.AUDIT_LOG_ID id,
+    -- ul.USER_LOG_ID,
+    -- al.TIMESTAMP,
+    IFNULL(u.USER_NAME, ul.USER_NAME) AS USER_NAME,
+    al.MODULE,
+    al.TARGET_MSISDN AS MSISDN,
+    -- av.LEVEL,
+    al.AUDIT_MESSAGE,
+    GROUP_CONCAT(r.ROLE_NAME),
+    ul.TOKEN -- ,
+    -- GROUP_CONCAT(an.AUDIT_NOTES_ID SEPARATOR ',') AS AUDIT_NOTES_IDS, COUNT(AUDIT_NOTES_ID) COUNT_NOTES
+FROM
+    LRTP_V2.AUDIT_LOG al INNER JOIN
+    -- LRTP_V2.AUDIT_LEVEL av ON al.AUDIT_LEVEL_ID = av.AUDIT_LEVEL_ID INNER JOIN
+    LRTP_V2.USER_LOG ul ON al.USER_LOG_ID = ul.USER_LOG_ID LEFT JOIN
+    LRTP_V2.USER u ON ul.USER_ID = u.USER_ID INNER JOIN 
+	LRTP_V2.USER_ROLE_MAPPING urm ON u.USER_ID = urm.USER_ID INNER JOIN 
+	LRTP_V2.ROLE r ON urm.ROLE_ID = r.ROLE_ID
+WHERE u.USER_ID = 44
+GROUP BY al.AUDIT_LOG_ID;
+
+========================Step Changes on #22120========================
+1. application.properties
+2. RouterPreference.java
+3. RouterRoutesResolver.java
+4. RouterStarter.java
+5. Add new package and file: ConfigurationManager.java
+6. logback.xml
+
+========================Step Changes on #22001========================
+Lingga:
+- Admin*
+- Cell Computation*
+- Statistic**
+- Middleware*
+- Fasttrax web*
+- ROOT/OMA
+
+
+Note:
+1. test SSO
+2. create new config
+	GLOBAL:web.address = {GLOBAL:web.protocol}://{GLOBAL:web.hostname}{GLOBAL:web.url.path}
+	GLOBAL:sso.client.token.receiver = {GLOBAL:web.address}/sso_client/tokenReceiver.php
+3. implement applicationContext-hibernate.xml with config api
+
+
+parentnya 22001 -> 22170
+parentnya 22308 -> 22001
+
+kalo mo merge request 22308 tetep ke 22001, jgn ke 22170
+
+================================================================================================
+1. upgrade notify messages, this is for reference: https://confluence.jetbrains.com/display/IDEADEV/Inotify+Watches+Limit
+2. create folder /app/ with full access (READ, WRITE, DELETE)
+3. i cant access my local mysql, please check & make sure that i'm using MariaDB, then please set user = root & password = root
+4. update MySql Workbench with the latest version
+5. change firefox with esr version
+6. install vim
+7. install meld
+8. reinstall skype (skype was installed with unsupported version)
+9. please reset java home for gradle
+   Java home supplied via 'org.gradle.java.home' is invalid. Invalid directory: /home/edo/Downloads/jdk1.8.0_112/
+10. change gradle version 2 to 1.12
+
+========================Audit Log from OMA========================
+http://10.32.6.20:8081/audittrax/auditservice.do?targetNumber=6281374041104&auditMessage=User%20testing_superadmin%20did%20a%20SLIR%20on%206281374041104%20from%20IP%2010.32.6.10&module=OMA&auditLevel=1&tokenId=7173a89b-5
+
+========================List Simulator Lingga========================
+//Lingga
+        '10.32.6.20' => array(
+        'default' => array('simulated' => true, 'file' => '/xxx/farDefault', 'fixed' => 'default', 'callbackFile' => '/xxx/farCallBack', 'callbackFixed' => 'CallbackFL', 'delayCallback' => 2),
+        '971654130' => array('simulated' => true, 'file' => '/Juli-QA/MOI', 'fixed' => 'default', 'callbackFile' => '/Juli-QA/HA', 'callbackFixed' => 'defaultCallbackHACircle', 'delayCallback' => 2),
+        '6281575001001' => array('simulated' => true, 'file' => '/xxx/farDefault', 'fixed' => 'default', 'callbackFile' => '/xxx/farCallBack', 'callbackFixed' => 'defaultCallback1', 'delayCallback' => 2),
+        '6281575001002' => array('simulated' => true, 'file' => '/xxx/farDefault', 'fixed' => 'default', 'callbackFile' => '/xxx/farCallBack', 'callbackFixed' => 'defaultCallback2', 'delayCallback' => 2),
+        '6281575001003' => array('simulated' => true, 'file' => '/xxx/farDefault', 'fixed' => 'default', 'callbackFile' => '/xxx/farCallBack', 'callbackFixed' => 'defaultCallback3', 'delayCallback' => 2),
+        '6281575001004' => array('simulated' => true, 'file' => '/xxx/farDefault', 'fixed' => 'default', 'callbackFile' => '/xxx/farCallBack', 'callbackFixed' => 'defaultCallback3', 'delayCallback' => 2),
+        '6285757573' => array('simulated' => true, 'file' => '/xxx/newDefault', 'fixed' => 'default', 'callbackFile' => '/xxx/DefaultCallBack', 'callbackFixed' => 'defaultCallback2', 'delayCallback' => 2),
+        '6285757574' => array('simulated' => true, 'file' => '/xxx/farDefault', 'fixed' => 'default', 'callbackFile' => '/xxx/farCallBack', 'callbackFixed' => 'CallbackFL', 'delayCallback' => 2),
+        '62227514596' => array('simulated' => true, 'file' => '/xxx/farDefault', 'fixed' => 'default', 'callbackFile' => '/xxx/farCallBack', 'callbackFixed' => 'CallbackFL', 'delayCallback' => 2),
+        '20120000012' => array('simulated' => true, 'file' => '/xxx/TRD', 'fixed' => 'default', 'callbackFile' => '/xxx/TRD', 'callbackFixed' => 'defaultCallbackECC', 'delayCallback' => 2),
+        '62227514595' => array('simulated' => true, 'file' => '/testQA/farDefault', 'fixed' => 'default', 'callbackFile' => '/testQA/farCallBack', 'callbackFixed' => 'CallbackFL', 'delayCallback' => 2),
+        '628991001001' => array('simulated' => true, 'file' => '/xxx/farDefault', 'fixed' => 'default', 'callbackFile' => '/xxx/farCallBack', 'callbackFixed' => 'defaultCallback', 'delayCallback' => 2),
+        '62227514595' => array('simulated' => true, 'file' => '/testQA/farDefault', 'fixed' => 'default', 'callbackFile' => '/testQA/farCallBack', 'callbackFixed' => 'CallbackFL', 'delayCallback' => 2),
+        '6281575001234' => array('simulated' => true, 'file' => '/adi/default', 'fixed' => 'defaultNew', 'callbackFile' => '/adi/default', 'callbackFixed' => 'defaultCallbackECC', 'delayCallback' => 2),
+        '6289878787878' => array('simulated' => true, 'file' => '/testQA/newDefault', 'fixed' => 'default', 'callbackFile' => '/testQA/DefaultCallBack', 'callbackFixed' => 'defaultCallback', 'delayCallback' => 2),
+        '97181374041104' => array('simulated' => true, 'file' => 'Inge/trd', 'fixed' => 'default', 'callbackFile' => 'Inge/trd','callbackFixed' => 'INLongLat0', 'delayCallback' => 2),
+
+        '2011223344' => array('simulated' => true, 'file' => '/xxx/default', 'fixed' => 'arcResponse', 'psl-file'=>'psl_response', 'psl-fixed'=>false),
+        '6281575007622' => array('simulated' => true, 'file' => '/psl/default', 'fixed' => 'ellipsoidPointEllipseWithAlt', 'psl-file'=>'psl_response', 'psl-fixed'=>false),
+        '502991503310256' => array('simulated' => true, 'file' => '/psl/default', 'fixed' => 'ellipsoidPointEllipseWithAlt', 'psl-file'=>'psl_response', 'psl-fixed'=>false),
+        '2588123213' => array('simulated' => true, 'file' => '/xxx/default', 'fixed' => 'targetA', 'psl-file'=>'psl_response', 'psl-fixed'=>false),
+        '2588123217' => array('simulated' => true, 'file' => '/xxx/default', 'fixed' => 'targetB', 'psl-file'=>'psl_response', 'psl-fixed'=>false),
+        '60133432286' => array('simulated' => true, 'file' => '/xxx/default', 'fixed' => 'ellipsoidPoint', 'psl-file'=>'psl_response', 'psl-fixed'=>false),
+
+========================Template SMS Interrogation Result========================
+"No","Destination Number","Sender","Message","Delivery Status","Date Sent","Date Delivered","Reason","
+"
+"1","628123456789","+971504070330","
+
+MSISDN: 6285646472225
+Alias: 
+Home Country / Operator: Thailand / DTAC
+Roaming Country / Operator: Thailand / DTAC
+Roaming Number: 
+MSC/VLR GT / Name:  /    Egypt
+IMSI: 
+IMEI: 
+Cell Reference: 510.11.9101.57223
+Location Quality: Estimated Cell Center
+Lat/Lon: {locationResultAdditional.latitude , locationResultAdditional.longitude}
+BTS Lat/Lon: -6.20350000, 106.83640000 {locationResultCell.btsLatitude , locationResultCell.btsLongitude}
+Vicinity: Jl. Lembang, Jl. Latuharhari 
+Kel. Menteng, Kec. Menteng 
+Jakarta Pusat - 10310
+INDONESIA
+Azimuth: 0
+Start Angle: 0
+End Angle: 0
+Radius: 300m
+Phone Status: In Use
+Age of Location: 0 min
+Forwarded To Number: 628997483992
+Forwarding: When Unreachable
+iSMSC: ET1
+Query Method: ATI
+Date/Time: 2017-12-12 14:18:27
+Map Link: http://maps.google.com/maps?hl=en&t=&ll=-6.20080500,106.83639970&spn=-6.20080500,106.83639970&q=-6.20080500,106.83639970&z=16
+BTS Map Link: http://maps.google.com/maps?hl=en&t=&ll=-6.20350000,106.83640000&spn=-6.20350000,106.83640000&q=-6.20350000,106.83640000&z=16","Pending
+
+",,,
+
+====================================================================
+
+MSISDN: {locationRequest.destinationHp}
+Home Country / Operator: {locationResult.country} / {locationResult.operator}
+Roaming Country / Operator: {locationResult.roamingCountry} / {locationResult.roamingOperator}
+Roaming Number: {locationResult.roamingNumber}
+MSC/VLR GT / Name: {locationResult.globalTitle} / {locationResult.mscName}
+IMSI: {locationResult.imsi}
+IMEI: {locationResult.imei}
+Cell Reference: {locationResult.cellId}
+Location Quality: {locationResult.locationCalculationMethodId} *case dengan LRTP_V2.LOCATION_CALCULATION_METHOD
+Lat/Lon: {locationResultAdditional.latitude}, {locationResultAdditional.longitude}
+BTS Lat/Lon: {locationResultCell.btsLatitude}, {locationResultCell.btsLongitude}
+Vicinity: {locationResultAdditional.textualDescription} *tanda ~ diganti enter/new line
+Azimuth: {locationResult.azzimuth}
+Start Angle: {locationResultAdditional.startAngle}
+End Angle: {locationResultAdditional.endAngle}
+Radius: {locationResultAdditional.radius}
+Phone Status: {locationResult.phoneStatus} *case dengan 2 = locatephonestatusoff="Off", 1 = locatephonestatususe="In Use", 0 = locatephonestatusidle="Idle", -1 = locatephonestatusunknown="Unknown"
+Age of Location: {locationResult.ageOfLocation}
+Forwarded To Number: {locationCallFwd.fwdToAddr}
+Forwarding: {locationCallFwd.fwdReason}
+iSMSC: {locationRequest.smsNode}
+Query Method: {locationRequest.queryMethod}
+Date/Time: {locationRequest.dateTime}
+Map Link: http://maps.google.com/maps?hl=en&t=&ll={locationResultAdditional.latitude1},{locationResultAdditional.longitude1}&spn={locationResultAdditional.latitude2},{locationResultAdditional.longitude2}&q={locationResultAdditional.latitude3},{locationResultAdditional.longitude3}
+BTS Map Link: http://maps.google.com/maps?hl=en&t=&ll={locationResultCell.btsLatitude1},{locationResultCell.btsLongitude1}&spn={locationResultCell.btsLatitude2},{locationResultCell.btsLongitude2}&q={locationResultCell.btsLatitude3},{locationResultCell.btsLongitude3}
+
+====================================================================
+
+14:54:04.003 [New I/O  worker #9] INFO  c.f.g.server.GeofenceProcessor:287 - locationRequest: 
+LocationRequest
+{
+	id=2763412, 
+	destinationHp='6281575001002', 
+	dateTime=2017-12-13 14:54:00.0, 
+	requestingHp='null', 
+	requestingUser='44', 
+	requestingApp=FX, 
+	locationPword='',
+	smsText='null', 
+	status=true, 
+	ipAddress='null', 
+	virtualNumber='-', 
+	queryMethod='ENH', 
+	visitorTimezone=null, 
+	smsNode='LI', 
+	numberingType=mobile
+}
+
+14:54:04.013 [New I/O  worker #9] INFO  c.f.g.server.GeofenceProcessor:291 - locationResult: 
+LocationResult
+{
+	id=2717784, 
+	locationRequestId=2763412, 
+	country='Malaysia', 
+	countryFlag='502', 
+	operator='Celcom', 
+	mscName='MOI', 
+	cellId='510.11.9102.55122', 
+	cellIdInfo='-X9', 
+	subscriberState=1, 
+	ageOfLocation=0, 
+	responseCode='0+0+0+0', 
+	responseFlag='*0', 
+	asAt='null', 
+	age='null', 
+	phoneStatus=1, 
+	roamingCountry='Malaysia', 
+	roamingOperator='U Mobile', 
+	roamingFlag='502', 
+	globalTitle='97154542125', 
+	azzimuth='', 
+	sector='null', 
+	longitudeMsc='', 
+	latitudeMsc='', 
+	roamingNumber='628562123333', 
+	lacArea='', 
+	completeMessage='
+	{
+		"version":"1.0",
+		"requestUuid":"eb55ec77-5341-49fd-89ca-2daa29f9c7d2",
+		"uuid":"b7d1f913-44c7-4897-8545-29cb929b3a91",
+		"type":"locate",
+		"status":0,
+		"param":
+		{
+			"method":"ENH",
+			"node":"LI",
+			"network":
+			{
+				"tadigCode":"MYSCC",
+				"name":"Exelcomindo",
+				"mccmnc":51011,
+				"ccnc":62818,
+				"country":
+				{
+					"iso3166":"MYS",
+					"name":"Malaysia",
+					"countryCode":60,
+					"mcc":502
+				}
+			},
+			"visitedNetwork":
+			{
+				"tadigCode":"MYSMI",
+				"name":"Exelcomindo",
+				"mccmnc":51011,
+				"ccnc":62818,
+				"country":
+				{
+					"iso3166":"IDN",
+					"name":"Indonesia",
+					"countryCode":62,
+					"mcc":502
+				}
+			},
+			"isOutbound":false,
+			"isForeign":false,
+			"userError":0,
+			"providerError":0,
+			"deliveryError":0,
+			"networkError":0,
+			"serviceType":"GSM",
+			"currencyCode":8,
+			"tva":2,
+			"currency":"idr",
+			"agent":"agent1",
+			"visitedMscName":"MOI",
+			"cellRef":"510.11.9102.55122",
+			"imsiFromSriSm":"",
+			"imsiFromSriFc":"",
+			"locationNumber":"8493872102",
+			"subscriberState":1,
+			"ageOfLocation":0,
+			"notReachableReason":0,
+			"roamingNumber":"628562123333",
+			"forwardingNumber":"6289652581864",
+			"forwardingSubAddr":"",
+			"forwardingOption":1,
+			"sgsnAddress":"sgsn1",
+			"ggsnAddress":"ggsn1",
+			"imei":"",
+			"classmark":"",
+			"callForwardingData":{},
+			"callBarringData":{},
+			"odbInfo":{},
+			"camelSubscriberInfo":{},
+			"vlrCamelPhase":0,
+			"sgsnCamelPhase":0,
+			"subscriberData":{},
+			"visitedMscGt":"97154542125"
+		}
+	}',
+	locationCalculationMethodId=4, 
+	imsi='', 
+	numberingPlanId=0, 
+	imei=''
+}
+
+14:54:04.025 [New I/O  worker #9] INFO  c.f.g.server.GeofenceProcessor:295 - locationResultAdditional: 
+LocationResultAdditional
+{
+	id=2717040,
+	locationResultId=2717784, 
+	longitude='106.85960000', 
+	latitude='-6.25530000', 
+	radius=null, 
+	startAngle=0, 
+	endAngle=0, 
+	gravity='', 
+	textualDescription='Jl. Binawarga, Jl. Kalibata ~Kel. Rawajati, Kec. Pancoran ~Jakarta Selatan - 12750~INDONESIA', 
+	smsMessageId='', 
+	gsmLocationType=true, 
+	locationSmsText='', 
+	comment='null', 
+	netType='null', 
+	netStartDate=null
+}
+
+====================================================================
+41100-411300
+
+510.1.1011.40272
+
+510.1.8844.3133
+
+10:49:05.964 [Camel (camel-1) thread #11 - RabbitMQConsumer] INFO  c.f.g.alarm.CityfenceAlarmChecker:344 - checking city fence Anjun
+10:49:05.965 [Camel (camel-1) thread #8 - RabbitMQConsumer] INFO  c.f.g.alarm.CityfenceAlarmChecker:460 - cell db zip code 14470
+10:49:05.965 [Camel (camel-1) thread #8 - RabbitMQConsumer] INFO  c.f.g.alarm.CityfenceAlarmChecker:468 - area zip code from 41100      to      41300
+10:49:05.965 [Camel (camel-1) thread #8 - RabbitMQConsumer] INFO  c.f.g.alarm.CityfenceAlarmChecker:496 - cell db zip code 14470 doesn't match with any area code
+10:49:05.966 [Camel (camel-1) thread #8 - RabbitMQConsumer] INFO  c.f.g.alarm.CityfenceAlarmChecker:232 - previous position OUT
+10:49:05.966 [Camel (camel-1) thread #8 - RabbitMQConsumer] INFO  c.f.g.alarm.CityfenceAlarmChecker:249 - cityfence target type FENCE_IN_OUT
+10:49:05.983 [Camel (camel-1) thread #11 - RabbitMQConsumer] INFO  c.f.g.alarm.CityfenceAlarmChecker:460 - cell db zip code 14470
+10:49:05.983 [Camel (camel-1) thread #11 - RabbitMQConsumer] INFO  c.f.g.alarm.CityfenceAlarmChecker:468 - area zip code from 41100      to      41300
+10:49:05.984 [Camel (camel-1) thread #11 - RabbitMQConsumer] INFO  c.f.g.alarm.CityfenceAlarmChecker:496 - cell db zip code 14470 doesn't match with any area code
+10:49:05.984 [Camel (camel-1) thread #11 - RabbitMQConsumer] INFO  c.f.g.alarm.CityfenceAlarmChecker:229 - current position OUT
+10:49:05.984 [Camel (camel-1) thread #11 - RabbitMQConsumer] INFO  c.f.g.alarm.CityfenceAlarmChecker:344 - checking city fence Anjun
+10:49:05.993 [Camel (camel-1) thread #11 - RabbitMQConsumer] INFO  c.f.g.alarm.CityfenceAlarmChecker:460 - cell db zip code 14470
+10:49:05.994 [Camel (camel-1) thread #11 - RabbitMQConsumer] INFO  c.f.g.alarm.CityfenceAlarmChecker:468 - area zip code from 41100      to      41300
+10:49:05.994 [Camel (camel-1) thread #11 - RabbitMQConsumer] INFO  c.f.g.alarm.CityfenceAlarmChecker:496 - cell db zip code 14470 doesn't match with any area code
+
+'97156552200' => array('simulated' => true, 'file' => '/gigin/moi2', 'fixed' => 'default', 'callbackFile' => '/gigin/moi2','callbackFixed' => 'out', 'delayCallback' => 2),
+'971666255220' => array('simulated' => true, 'file' => '/gigin/moi2', 'fixed' => 'default', 'callbackFile' => '/gigin/moi2','callbackFixed' => 'in', 'delayCallback' => 2),
+
+in='
+{
+  "version": "1.0",
+  "uuid": "b7d1f913-44c7-4897-8545-29cb929b3a91",
+  "requestUuid": "{uuid}",
+  "type": "locate",
+  "status": 0,
+  "param": {
+    "method": "ENH",
+    "node": "LI",
+    "network": {
+      "ccnc": 97150,
+      "tadigCode": "IDN89",
+      "country": {
+        "countryCode": 971,
+        "mcc": 424,
+        "iso3166": "ARETC",
+        "name": "U.A. Emirates"
+      },
+      "mccmnc": 4242,
+      "name": "/Etisalat – Emirates  Telecommunications"
+    },
+    "visitedNetwork": {
+      "tadigCode": "IDN89",
+      "name": "U.A. Emirates",
+      "mccmnc": 4242,
+      "ccnc": 97150,
+      "country": {
+        "iso3166": "IDN",
+        "name": "Etisalat – Emirates  Telecommunications",
+        "countryCode": 971,
+        "mcc": 424
+      }
+    },
+    "isForeign": false,
+    "isOutbound": false,
+    "userError": 0,
+    "providerError": 0,
+    "deliveryError": 0,
+    "networkError": 0,
+    "serviceType": "GSM",
+    "currencyCode": 8,
+    "tva": 2,
+    "currency": "idr",
+    "agent": "agent1",
+    "visitedMscName": "United Arab Emirates",
+    "cellRef": "510.1.8844.3133",
+    "imsiFromSriSm": "",
+    "imsiFromSriFc": "",
+    "subscriberState": 0,
+    "ageOfLocation": 0,
+    "notReachableReason": 0,
+    "locationNumber": "8493872102",
+    "roamingNumber": "628562123333",
+    "forwardingNumber": "97156123456",
+    "forwardingSubAddr": "",
+    "forwardingOption": 3,
+    "sgsnAddress": "sgsn 1",
+    "ggsnAddress": "ggsn 1",
+    "imei": "01275300",
+    "classmark": "",
+    "vlrCamelPhase": 0,
+    "sgsnCamelPhase": 0,
+    "callForwardingData": {},
+    "callBarringData": {},
+    "odbInfo": {},
+    "camelSubscriberInfo": {},
+    "subscriberData": {},
+    "visitedMscGt": "971506092991",
+    "geoInfo":
+        {
+            "typeOfShape": 3,
+            "degreesOfLatitude": 21.3782,
+            "degreesOfLongitude":  57.0522,
+            "altitude": 0,
+            "innerRadius": 10,
+            "uncertaintyCode": 0,
+            "uncertaintySemiMajor": 27,
+            "uncertaintySemiMinor": 20,
+            "uncertaintyAltitude": 0,
+            "uncertaintyRadius": 10,
+            "orientationOfMajorAxis": 90,
+            "offsetAngle": 0,
+            "includedAngle": 0,
+            "confidence": 14,
+            "gadPolygon":
+            {
+                "numberOfPoints": 0,
+                "degreesOfLatitude":
+                [
+                ],
+                "degreesOfLongitude":
+                [
+                ]
+            }
+        }
+        }
+  }
+'
+
+-H 'Content-Type: application/json'
+
+=========================#23914
+Arisa.lac = 132
+'966427413' => array('simulated' => true, 'file' => 'arisa/KSA', 'fixed' => 'default', 'callbackFile' => 'arisa/KSA', 'callbackFixed' => 'LACMONAS', 'delayCallback' => 2),//arisa
+vehicle id = 2656
+
+LACMONAS='
+{
+    "version": "1.0",
+    "uuid": "b7d1f913-44c7-4897-8545-29cb929b3a91",
+    "requestUuid": "{uuid}",
+    "type": "locate",
+    "status": 0,
+    "param": {
+        "method": "AUT",
+        "node": "DJ",
+        "network": {
+            "ccnc": 62818,
+            "tadigCode": "MYSMI",
+            "country": {
+                "countryCode": 60,
+                "mcc": 502,
+                "iso3166": "MYS",
+                "name": "Malaysia"
+            },
+            "mccmnc": 51011,
+            "name": "Exelcomindo"
+        },
+        "visitedNetwork": {
+            "tadigCode": "MYSCC",
+            "name": "Exelcomindo",
+            "mccmnc": 51011,
+            "ccnc": 62818,
+            "country": {
+                "iso3166": "IDN",
+                "name": "Indonesia",
+                "countryCode": 62,
+                "mcc": 502
+            }
+        },
+        "isForeign": false,
+        "isOutbound": false,
+        "userError": 0,
+        "providerError": 0,
+        "deliveryError": 0,
+        "networkError": 0,
+        "serviceType": "GSM",
+        "currencyCode": 8,
+        "tva": 2,
+        "currency": "idr",
+        "agent": "agent1",
+        "visitedMscName": "MOI",
+        "cellRef": "510.10.1019.33591",
+        "imsiFromSriSm": "602223522200000",
+       "imsiFromSriFc": "602223522200000",
+        "subscriberState": 2,
+        "ageOfLocation": 0,
+        "notReachableReason": 0,
+        "locationNumber": "8493872102",
+        "roamingNumber": "628562123333",
+        "forwardingNumber": "6289652581864",
+        "forwardingSubAddr": "",
+        "forwardingOption": 3,
+        "sgsnAddress": "sgsn 1",
+        "ggsnAddress": "ggsn 1",
+        "imei": "00100700",
+        "classmark": "",
+        "vlrCamelPhase": 0,
+        "sgsnCamelPhase": 0,
+        "callForwardingData": {},
+        "callBarringData": {},
+        "odbInfo": {},
+        "camelSubscriberInfo": {},
+        "subscriberData": {},
+        "visitedMscGt": "97154542125"
+    }
+}
+'
+
+Arisalac = 122
+'9662740924' => array('simulated' => true, 'file' => 'arisa/KSA', 'fixed' => 'default', 'callbackFile' => 'arisa/KSA', 'callbackFixed' => 'LAC', 'delayCallback' => 2),//arisa
+vehicle id = 2657
+
+LAC='
+{
+    "version": "1.0",
+    "uuid": "b7d1f913-44c7-4897-8545-29cb929b3a91",
+    "requestUuid": "{uuid}",
+    "type": "locate",
+    "status": 0,
+    "param": {
+        "method": "AUT",
+        "node": "DJ",
+        "network": {
+            "ccnc": 62818,
+            "tadigCode": "MYSMI",
+            "country": {
+                "countryCode": 60,
+                "mcc": 502,
+                "iso3166": "MYS",
+                "name": "Malaysia"
+            },
+            "mccmnc": 51011,
+            "name": "Exelcomindo"
+        },
+        "visitedNetwork": {
+            "tadigCode": "MYSCC",
+            "name": "Exelcomindo",
+            "mccmnc": 51011,
+            "ccnc": 62818,
+            "country": {
+                "iso3166": "IDN",
+                "name": "Indonesia",
+                "countryCode": 62,
+                "mcc": 502
+            }
+        },
+        "isForeign": false,
+        "isOutbound": false,
+        "userError": 0,
+        "providerError": 0,
+        "deliveryError": 0,
+        "networkError": 0,
+        "serviceType": "GSM",
+        "currencyCode": 8,
+        "tva": 2,
+        "currency": "idr",
+        "agent": "agent1",
+        "visitedMscName": "MOI",
+        "cellRef": "724.16.4100",
+        "imsiFromSriSm": "602223522200000",
+       "imsiFromSriFc": "602223522200000",
+        "subscriberState": 1,
+        "ageOfLocation": 0,
+        "notReachableReason": 0,
+        "locationNumber": "8493872102",
+        "roamingNumber": "628562123333",
+        "forwardingNumber": "6289652581864",
+        "forwardingSubAddr": "",
+        "forwardingOption": 3,
+        "sgsnAddress": "sgsn 1",
+        "ggsnAddress": "ggsn 1",
+        "imei": "00100700",
+        "classmark": "",
+        "vlrCamelPhase": 0,
+        "sgsnCamelPhase": 0,
+        "callForwardingData": {},
+        "callBarringData": {},
+        "odbInfo": {},
+        "camelSubscriberInfo": {},
+        "subscriberData": {},
+        "visitedMscGt": "97154542125"
+    }
+}

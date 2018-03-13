@@ -1,0 +1,2 @@
+compileJava.options.fork = true
+compileJava.options.forkOptions.executable = /home/edo/Downloads/jdk1.8.0_65/bin/

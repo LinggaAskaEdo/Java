@@ -1,0 +1,87 @@
+group 'JavaSample'
+version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: "jacoco"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-milestone" }
+}
+
+dependencies {
+    //MySql
+    compile("mysql:mysql-connector-java:5.1.40")
+
+    //Sql20
+    compile("org.sql2o:sql2o:1.5.4")
+    
+    //Common CSV
+    compile("org.apache.commons:commons-csv:1.4")
+
+    //Open CSV
+    compile("com.opencsv:opencsv:3.8")
+
+    //Univocity CSV
+    compile("com.univocity:univocity-parsers:2.3.0")
+
+    //Apache Commons
+    //compile("commons-lang:commons-lang:2.6")
+    compile("org.apache.commons:commons-lang3:3.5")
+
+    //Mockito
+    compile("org.mockito:mockito-all:1.10.19")
+
+    //GSON
+    compile("com.google.code.gson:gson:2.8.0")
+
+    //Apache HttpClient
+    compile("org.apache.httpcomponents:httpclient:4.5.4")
+
+    //Encryption
+    compile(group: 'org.jasypt', name: 'jasypt', version: '1.6')
+
+    //Jackson
+    compile("com.fasterxml.jackson.core:jackson-core:2.8.9")
+    compile("com.fasterxml.jackson.core:jackson-annotations:2.8.9")
+    compile("com.fasterxml.jackson.core:jackson-databind:2.8.9")
+    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.8.9")
+
+    compile(group: 'au.com.bytecode', name: 'opencsv', version: '2.4')
+
+    //FirstCsv
+    compile files("libs/altamides-v3-first-csv.jar")
+
+    //RabbitMQ
+    compile("com.rabbitmq:amqp-client:3.0.4")
+
+    //JSch
+    compile("com.jcraft:jsch:0.1.54")
+
+    //TestNG
+    testCompile("org.testng:testng:6.10")
+}
+
+task listJars << {
+    configurations.compile.each { File file -> println file.name }
+}
+
+jacoco {
+    toolVersion = "0.7.9"
+    reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        //html.destination file("${buildDir}/jacocoHtml")
+    }
+}
+
+check.dependsOn jacocoTestReport

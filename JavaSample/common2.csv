@@ -1,0 +1,5 @@
+'nama','alamat','tanggal'
+'nama','     alamat','tanggal'
+'nama','		alamat','tanggal'
+'nama','alamat	','@tanggal'
+'nama','alamat, hayooo','tanggal'

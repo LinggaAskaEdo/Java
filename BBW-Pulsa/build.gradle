@@ -1,0 +1,71 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+sourceCompatibility = 1.8
+
+def jarBaseName = 'bbw-pulsa-api'
+def distributionFolder = 'bbw-pulsa-api'
+def configFiles = ['application.properties'] as Set
+
+jar {
+    baseName = jarBaseName
+    exclude configFiles
+}
+
+buildscript {
+    ext {
+        springBootVersion = '1.5.6.RELEASE'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.spring.io/libs-milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-milestone" }
+}
+
+dependencies {
+    //Spring Boot
+    compile("org.springframework.boot:spring-boot-starter-jdbc")
+    compile("org.springframework.boot:spring-boot-starter-logging")
+    compile("org.springframework.boot:spring-boot-starter-web")
+
+    //JSON
+    compile("com.google.code.gson:gson")
+
+    //MySQL Connector
+    compile("mysql:mysql-connector-java")
+}
+
+task copyFilesToPackage << {
+    copy {
+        //from('src/main/resources')
+        from 'build/libs/' + jarBaseName + '.jar'
+        into 'build/' + distributionFolder + '/lib'
+    }
+
+    copy {
+        from('src/main/resources') {
+            include configFiles
+        }
+        into 'build/' + distributionFolder
+    }
+}
+
+task zipPackage(type: Zip, dependsOn: 'copyFilesToPackage') {
+    from 'build/' + distributionFolder
+    baseName distributionFolder
+}
+
+build.dependsOn zipPackage
+zipPackage.mustRunAfter check

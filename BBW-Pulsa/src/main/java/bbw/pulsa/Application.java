@@ -9,8 +9,6 @@ import org.springframework.context.annotation.PropertySource;
  * Created by Lingga on 12/03/18.
  */
 
-@ComponentScan(basePackages = "bbw.pulsa")
-@PropertySource(value = { "classpath:application.properties" })
 @SpringBootApplication
 public class Application
 {

@@ -6,22 +6,35 @@ package bbw.pulsa.model;
 
 public class Operator
 {
-    private int operatorId;
-    private String nama;
+    private Integer operatorId;
+    private String operatorName;
 
-    public int getOperatorId() {
+    public Integer getOperatorId()
+    {
         return operatorId;
     }
 
-    public void setOperatorId(int operatorId) {
+    public void setOperatorId(Integer operatorId)
+    {
         this.operatorId = operatorId;
     }
 
-    public String getNama() {
-        return nama;
+    public String getOperatorName()
+    {
+        return operatorName;
     }
 
-    public void setNama(String nama) {
-        this.nama = nama;
+    public void setOperatorName(String operatorName)
+    {
+        this.operatorName = operatorName;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Operator{" +
+                "operatorId=" + operatorId +
+                ", operatorName='" + operatorName + '\'' +
+                '}';
     }
 }

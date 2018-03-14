@@ -1,0 +1,33 @@
+#Introducing Config Mapper
+SQL Generator is a tool to generate SQL files from Config Mapper that is in CSV format. Currently there are several columns in the Config Mapper which will be explain as follows:
+
+1.  Configuration Key ID (A): This column shows ID of each configuration key
+2.  Module (B): This column shows which module this configuration is intended for.
+3.  Key (C): This column shows configuration key that will be stored in database.
+4.  Description (D): This column shows description of the configuration.
+5.  Configuration Data Type ID (E): This column show the ID of configuration data type. Eg ID 2 defines integer data type.
+6.  Configuration path (F): This column shows path of configuration is placed. Eg /app/servers/configuration/hostname.properties that mean hostname.properties file is placed in folder configuration.
+7.  Configuration key (G): This column shows configuration key that is placed in the configuration file.
+8.  Configuration Type (H): This column may consist JAVA, PHP, MANUAL and DEFAULT. It defines type of each configuration.
+9.  Default value (I): This column shows default value that will be given if configuration key or file is not found.
+10. ID (J): This column shows who does the configuration.
+11. Date (K): This column shows the date of configuration.
+
+#Setting Application
+1.  Copy www folder & getConfig.php file to apache folder (eg. /var/www/html/)
+2.  Setting the application.properties
+        a. client.name = make sure the client name matches the client list in altamides-config
+        b. csv.file.path = path of csv file
+        c. csv.start.read.line = specify the first line in csv file
+        d. base.config.path = path of the altamides config
+        e. get.config.url = url of getConfig.php service
+        f. target.web.path = path of config web folder
+        g. target.vdir.path = path of config vdir folder
+        h. src.web.path = path of config web in GIT
+        i. src.vdir.path = path of config vdir in GIT
+        j. file.path.result.script = full path & file name of result file
+        k. file.path.warning.log = full path & file name of warning log file
+3.  Run the application with this command "java -jar ams-configuration-generator.jar"
+4.  By running the command will generate two files. Result script that placed in file.path.result.script and Warning log that placed in file.path.warning.log
+5.  In the warning log file there will be two types of warning log. Eg "Error" warning log type may happen if there is no config key found in the configuration folder,
+    another warning log type is "Manual" that means the configuration should be adjusted depends on which client

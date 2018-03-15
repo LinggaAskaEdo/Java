@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="poProduksiReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3b8e1726-c2ee-462d-b9bb-b23355886223">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="tanggal" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT
+    pop.PO_PRODUKSI_ID,
+    pop.PO_PRODUKSI_NO,
+    pop.KONTRAK_ID,
+    pop.PRODUKSI,
+    pop.TANGGAL,
+    pop.NILAI_PRODUKSI,
+    pop.KETERANGAN,
+    pop.PPN_IMAGE,
+    dp.DETAIL_PRODUKSI_ID,
+    dp.PO_PRODUKSI_NO,
+    dp.MEDIA,
+    dp.DURASI,
+    dp.HARI,
+    dp.LOKASI,
+    dp.PRE_PRODUKSI_URAIAN,
+    dp.PRE_PRODUKSI_JENIS,
+    dp.PRODUKSI_JENIS,
+    dp.PRODUKSI_JUMLAH,
+    dp.PRODUKSI_BARANG,
+    dp.PRODUKSI_HARGA_SATUAN,
+    dp.PRODUKSI_TOTAL_HARGA,
+    dp.POST_PRODUKSI_BARANG,
+    dp.POST_PRODUKSI_TOTAL_HARGA,
+    kon.KONTRAK_ID,
+    kon.NO_KONTRAK
+FROM
+    PO_PRODUKSI AS pop
+        JOIN
+    DETAIL_PRODUKSI AS dp ON pop.PO_PRODUKSI_NO = dp.PO_PRODUKSI_NO
+        JOIN
+    KONTRAK AS kon ON pop.KONTRAK_ID = kon.KONTRAK_ID
+WHERE
+    pop.TANGGAL = $P{tanggal};]]>
+	</queryString>
+	<field name="PO_PRODUKSI_ID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PO_PRODUKSI_NO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="KONTRAK_ID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRODUKSI" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TANGGAL" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NILAI_PRODUKSI" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="KETERANGAN" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PPN_IMAGE" class="java.lang.Object">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DETAIL_PRODUKSI_ID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MEDIA" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DURASI" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="HARI" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="LOKASI" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRE_PRODUKSI_URAIAN" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRE_PRODUKSI_JENIS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRODUKSI_JENIS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRODUKSI_JUMLAH" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRODUKSI_BARANG" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRODUKSI_HARGA_SATUAN" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRODUKSI_TOTAL_HARGA" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="POST_PRODUKSI_BARANG" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="POST_PRODUKSI_TOTAL_HARGA" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NO_KONTRAK" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -44,11 +44,14 @@ dependencies {
 
     //Slf4j
     compile("org.slf4j:slf4j-api")
+
+    //MySQL Connector
+    compile("mysql:mysql-connector-java")
 }
 
 task copyFilesToPackage << {
     copy {
-        from('src/main/resources')
+        //from('src/main/resources')
         from 'build/libs/' + jarBaseName + '.jar'
         into 'build/' + distributionFolder + '/lib'
     }

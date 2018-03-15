@@ -23,7 +23,7 @@ public class MidllewareDaoImpl implements MiddlewareDao
     {
         boolean result = false;
 
-        String insertRequestSql = "INSERT INTO BBW_PULSA.TRANSACTION (USER_ID, OPERATOR_ID, HARGA) VALUES (?)";
+        String insertRequestSql = "INSERT INTO BBW_PULSA.TRANSACTION (USER_ID, OPERATOR_ID, HARGA) VALUES (?, ?, ?)";
 
         log.debug("insertRequest: {}", insertRequestSql);
 

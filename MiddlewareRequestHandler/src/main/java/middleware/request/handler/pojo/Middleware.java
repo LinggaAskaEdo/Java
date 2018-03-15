@@ -1,8 +1,13 @@
 package middleware.request.handler.pojo;
 
+/**
+ * Created by Lingga on 01/03/18.
+ */
+
 public class Middleware
 {
     private String uuid;
+    private String status;
     private String role;
     private String message;
 
@@ -14,6 +19,16 @@ public class Middleware
     public void setUuid(String uuid)
     {
         this.uuid = uuid;
+    }
+
+    public String getStatus()
+    {
+        return status;
+    }
+
+    public void setStatus(String status)
+    {
+        this.status = status;
     }
 
     public String getRole()
@@ -41,6 +56,7 @@ public class Middleware
     {
         return "Middleware{" +
                 "uuid='" + uuid + '\'' +
+                ", status='" + status + '\'' +
                 ", role='" + role + '\'' +
                 ", message='" + message + '\'' +
                 '}';

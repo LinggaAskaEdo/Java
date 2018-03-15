@@ -19,12 +19,26 @@
         </encoder>
     </appender>
 
+    <appender name="CONTROLLER-SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/app/logs/middleware-request-handler/middleware-request-handler-sql.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
 
     <logger name=" middleware.request.handler.controller.APIController" level="DEBUG" additivity="false">
         <appender-ref ref="CONTROLLER"/>
+    </logger>
+
+    <logger name=" middleware.request.handler.dao.MidllewareDaoImpl" level="DEBUG" additivity="false">
+        <appender-ref ref="CONTROLLER-SQL"/>
     </logger>
 
 </configuration>

@@ -4,8 +4,8 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="5"/>
 	<subDataset name="New Dataset 1" uuid="04a4e01c-6717-43c0-a9e1-5411c76173b7"/>
-	<parameter name="date" class="java.util.Date"/>
-	<parameter name="dete_2" class="java.util.Date"/>
+	<parameter name="date_1" class="java.util.Date"/>
+	<parameter name="date_2" class="java.util.Date"/>
 	<queryString>
 		<![CDATA[SELECT
     poe.PO_EVENT_ID,
@@ -31,7 +31,7 @@ FROM
         JOIN
     DETAIL_EVENT AS de ON poe.PO_EVENT_NO = de.PO_EVENT_NO
 WHERE
-    poe.TANGGAL BETWEEN $P{date} AND $P{dete_2};]]>
+    poe.TANGGAL BETWEEN $P{date_1} AND $P{date_2};]]>
 	</queryString>
 	<field name="PO_EVENT_ID" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>

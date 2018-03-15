@@ -15,11 +15,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import com.main.java.invoice.project.dao.DetailProduksiDAO;
+import com.main.java.invoice.project.dao.KontrakDAO;
 import com.main.java.invoice.project.dao.PoProduksiDAO;
-import com.main.java.invoice.project.pojo.DetailProduksi;
-import com.main.java.invoice.project.pojo.PoMedia;
-import com.main.java.invoice.project.pojo.PoProduksi;
-import com.main.java.invoice.project.pojo.TagihanMedia;
+import com.main.java.invoice.project.pojo.*;
 import com.toedter.calendar.JDateChooser;
 import de.wannawork.jcalendar.JCalendarComboBox;
 
@@ -37,6 +35,7 @@ public class POProduksiForm extends JInternalFrame {
 	private JTextArea TA_Keterangan;
 	PoProduksiDAO dao;
 	DetailProduksiDAO detailProduksiDAO;
+	KontrakDAO kontrakDAO;
 
 	/**
 	 * Launch the application.
@@ -198,8 +197,13 @@ public class POProduksiForm extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				PoProduksi poProduksi = null;
 
+				Kontrak kontrak = null;
+
+				kontrak.setNoKontrak(TF_ReffKontrak.getText());
+				kontrak = kontrakDAO.GetKontrakById(kontrak);
+
 				poProduksi.setPoProduksiNo(TF_PONomor.getText());
-				poProduksi.setKontrakId(TF_ReffKontrak.getText());
+				poProduksi.setKontrakId(kontrak.getKontrakId());
 				poProduksi.setProduksi(TF_Produksi.getText());
 				poProduksi.setTanggal(CL_Tanggal.getDate());
 				poProduksi.setNilaiProduksi(new BigDecimal(TF_NilaiProduksi.getText()));

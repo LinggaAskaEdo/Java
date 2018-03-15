@@ -92,7 +92,7 @@ public class FundingForm extends JInternalFrame {
 		TF_Nama.setBounds(173, 26, 294, 19);
 		desktopPane.add(TF_Nama);
 		TF_Nama.setColumns(10);
-		
+
 		JDateChooser CL_Tanggal = new JDateChooser();
 		CL_Tanggal.setBounds(173, 118, 184, 20);
 		CL_Tanggal.setDateFormatString("yyyy-MM-dd");

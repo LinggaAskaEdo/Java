@@ -38,6 +38,7 @@ public class POEventForm extends JInternalFrame {
 	DetailEventDAO detailEventDAO;
 	DetailReimbursementDAO detailReimbursementDAO;
 	TagihanReimbursementDAO tagihanReimbursementDAO;
+	KontrakDAO kontrakDAO;
 
 	/**
 	 * Launch the application.
@@ -286,9 +287,13 @@ public class POEventForm extends JInternalFrame {
 		btnSimpan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PoEvent poEvent = null;
+				Kontrak kontrak = null;
+
+				kontrak.setNoKontrak(TF_ReffKontrak.getText());
+				kontrak = kontrakDAO.GetKontrakById(kontrak);
 
 				poEvent.setPoEventNo(TF_PONomor.getText());
-				poEvent.setKontrakId(TF_ReffKontrak.getText());
+				poEvent.setKontrakId(kontrak.getKontrakId());
 				poEvent.setKegiatan(TF_Kegiatan.getText());
 				poEvent.setTanggal(CL_Tanggal.getDate());
 				poEvent.setJumlah(new BigDecimal(TF_Jumlah.getText()));

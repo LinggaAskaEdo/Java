@@ -58,6 +58,7 @@ public class MasterEventForm extends JInternalFrame {
 		initializeForm();
 		table.setModel(tabelModel);
 		Tabel(table, new int[]{120, 120, 120, 120, 120});
+		setDefaultTable();
 	}
 
 	int row = 0;

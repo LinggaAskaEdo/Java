@@ -13,10 +13,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import com.main.java.invoice.project.dao.MasterDanaDAO;
-import com.main.java.invoice.project.dao.MasterMediaDAO;
-import com.main.java.invoice.project.dao.PoMediaDAO;
-import com.main.java.invoice.project.dao.TagihanMediaDAO;
+import com.main.java.invoice.project.dao.*;
 import com.main.java.invoice.project.pojo.*;
 import com.toedter.calendar.JDateChooser;
 import de.wannawork.jcalendar.JCalendarComboBox;
@@ -41,6 +38,7 @@ public class POMediaForm extends JInternalFrame {
 	MasterDanaDAO masterDanaDAO;
 	MasterMediaDAO masterMediaDAO;
 	TagihanMediaDAO tagihanMediaDAO;
+	KontrakDAO kontrakDAO;
 
 	/**
 	 * Launch the application.
@@ -241,8 +239,13 @@ public class POMediaForm extends JInternalFrame {
 		btnSimpan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PoMedia poMedia = null;
+				Kontrak kontrak = null;
+
+				kontrak.setNoKontrak(TF_ReffKontrak.getText());
+				kontrak = kontrakDAO.GetKontrakById(kontrak);
+
 				poMedia.setPoMediaNo(TF_PONomor.getText());
-				poMedia.setKontrakId(Integer.valueOf(TF_ReffKontrak.getText()));
+				poMedia.setKontrakId(kontrak.getKontrakId());
 				poMedia.setPekerjaanKementerian(TF_Klien.getText());
 				poMedia.setMasterMediaId(Integer.valueOf(cbId.getText()));
 				poMedia.setTanggalTayang(CL_Tanggal.getDate());

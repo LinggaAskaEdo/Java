@@ -1,0 +1,128 @@
+-- MySQL dump 10.15  Distrib 10.0.34-MariaDB, for debian-linux-gnu (x86_64)
+--
+-- Host: localhost    Database: BBW_PULSA
+-- ------------------------------------------------------
+-- Server version	10.0.34-MariaDB-0ubuntu0.16.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `OPERATOR`
+--
+
+DROP TABLE IF EXISTS `OPERATOR`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `OPERATOR` (
+  `OPERATOR_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `OPERATOR_NAME` varchar(45) NOT NULL,
+  PRIMARY KEY (`OPERATOR_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `OPERATOR`
+--
+
+LOCK TABLES `OPERATOR` WRITE;
+/*!40000 ALTER TABLE `OPERATOR` DISABLE KEYS */;
+INSERT INTO `OPERATOR` VALUES (1,'IM3'),(2,'XL'),(3,'TELKOMSEL - FLASH');
+/*!40000 ALTER TABLE `OPERATOR` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `TRANSACTION`
+--
+
+DROP TABLE IF EXISTS `TRANSACTION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `TRANSACTION` (
+  `TRANSACTION_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_ID` int(11) NOT NULL,
+  `OPERATOR_ID` int(11) NOT NULL,
+  `HARGA` int(11) NOT NULL,
+  PRIMARY KEY (`TRANSACTION_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TRANSACTION`
+--
+
+LOCK TABLES `TRANSACTION` WRITE;
+/*!40000 ALTER TABLE `TRANSACTION` DISABLE KEYS */;
+INSERT INTO `TRANSACTION` VALUES (1,1,3,770000);
+/*!40000 ALTER TABLE `TRANSACTION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `USER`
+--
+
+DROP TABLE IF EXISTS `USER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `USER` (
+  `USER_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_NAME` varchar(45) NOT NULL,
+  `USER_PASSWORD` varchar(45) NOT NULL,
+  PRIMARY KEY (`USER_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `USER`
+--
+
+LOCK TABLES `USER` WRITE;
+/*!40000 ALTER TABLE `USER` DISABLE KEYS */;
+INSERT INTO `USER` VALUES (1,'AskaCool','123');
+/*!40000 ALTER TABLE `USER` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `VOUCHER`
+--
+
+DROP TABLE IF EXISTS `VOUCHER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `VOUCHER` (
+  `VOUCHER_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `OPERATOR_ID` int(11) NOT NULL,
+  `VOUCHER_PULSA` varchar(45) NOT NULL,
+  `VOUCHER_HARGA` int(11) NOT NULL,
+  PRIMARY KEY (`VOUCHER_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `VOUCHER`
+--
+
+LOCK TABLES `VOUCHER` WRITE;
+/*!40000 ALTER TABLE `VOUCHER` DISABLE KEYS */;
+INSERT INTO `VOUCHER` VALUES (1,1,'10 ribu',11000),(2,1,'25 ribu',27000),(3,1,'50 ribu',51000),(4,1,'100 ribu',100000),(5,2,'50 ribu',51000),(6,2,'100 ribu',100000),(7,3,'75 ribu',770000);
+/*!40000 ALTER TABLE `VOUCHER` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2018-03-14 16:19:09

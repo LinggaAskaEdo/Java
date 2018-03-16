@@ -25,30 +25,39 @@ public class APIController
     {
         log.debug("request: {}", requestMiddleware.toString());
 
+        Integer resultId = null;
+
         if (requestMiddleware.getUuid() != null && requestMiddleware.getRole() != null)
         {
             String role = requestMiddleware.getRole();
 
             log.debug("role: {}", role);
 
-            //saving request
-            if (dao.insertRequest(requestMiddleware.toString()))
+            resultId = dao.insertRequest(new Gson().toJson(requestMiddleware));
+
+            if (resultId > 0)
             {
                 requestMiddleware.setStatus("1");
 
-                switch (role)
+                String roleDesc = dao.getRoleDesc(role);
+
+                if (roleDesc != null && !roleDesc.isEmpty())
                 {
-                    case "admin" :
-                        requestMiddleware.setMessage(role.toUpperCase() + " have all access");
-                        break;
-                    default :
-                        requestMiddleware.setMessage(role.toUpperCase() + " have limited access");
+                    requestMiddleware.setMessage(role.toUpperCase() + " " + roleDesc);
                 }
+                else
+                {
+                    requestMiddleware.setMessage("~");
+                }
+
+                log.info("Success save request !!!");
             }
             else
             {
                 requestMiddleware.setStatus("0");
                 requestMiddleware.setMessage("Failed to save Request !!!");
+
+                log.info("Fail save request !!!");
             }
         }
         else
@@ -58,6 +67,15 @@ public class APIController
         }
 
         log.debug("response: {}", requestMiddleware.toString());
+
+        if (dao.insertResponse(resultId, requestMiddleware))
+        {
+            log.info("Success save response !!!");
+        }
+        else
+        {
+            log.info("Fail save response !!!");
+        }
 
         return new Gson().toJson(requestMiddleware);
     }

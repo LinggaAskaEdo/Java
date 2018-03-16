@@ -19,14 +19,34 @@ public class Test
 {
     public static void main(String[] args)
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 25; i++)
         {
             Middleware middleware = new Middleware();
 
             UUID uuid = UUID.randomUUID();
 
             middleware.setUuid(uuid.toString());
-            middleware.setRole("admin");
+
+            //if even = admin, if odd = user
+            if (i == 13)
+            {
+                middleware.setRole("stranger");
+            }
+            else
+            {
+                if (i % 2 == 0)
+                {
+                    middleware.setRole("admin");
+                }
+                else if (i % 2 != 0)
+                {
+                    middleware.setRole("user");
+                }
+                else
+                {
+                    middleware.setRole("stranger");
+                }
+            }
 
             System.out.println("Request: " + middleware);
 

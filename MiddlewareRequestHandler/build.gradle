@@ -42,9 +42,6 @@ dependencies {
     //JSON
     compile("com.google.code.gson:gson")
 
-    //Slf4j
-    compile("org.slf4j:slf4j-api")
-
     //MySQL Connector
     compile("mysql:mysql-connector-java")
 }

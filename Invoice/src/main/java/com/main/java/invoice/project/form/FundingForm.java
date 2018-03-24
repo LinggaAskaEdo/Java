@@ -187,20 +187,25 @@ public class FundingForm extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				Funding funding = null;
 
-				funding.setKontakName(TF_Nama.getText());
-				if (buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1")){
-					funding.setCheckReff(1);
-				} else {
-					funding.setCheckReff(0);
-				}
-				funding.setReff(Integer.valueOf(reffId.getText()));
-				funding.setTanggal(CL_Tanggal.getDate());
-				funding.setNilai(new BigDecimal(TF_Nilai.getText()));
-				funding.setKeterangan(TA_Keterangan.getText());
-				funding.setImage(TF_Unggah.getText());
+				try {
+					funding.setKontakName(TF_Nama.getText());
+					if (buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1")){
+						funding.setCheckReff(1);
+					} else {
+						funding.setCheckReff(0);
+					}
+					funding.setReff(Integer.valueOf(reffId.getText()));
+					funding.setTanggal(CL_Tanggal.getDate());
+					funding.setNilai(new BigDecimal(TF_Nilai.getText()));
+					funding.setKeterangan(TA_Keterangan.getText());
+					funding.setImage(TF_Unggah.getText());
 
-				dao.addFunding(funding);
-				ClearFunding();
+					dao.addFunding(funding);
+					ClearFunding();
+				} catch (Exception e1) {
+					System.out.println(e1);
+				}
+
 			}
 		});
 		btnSimpan.setBounds(350, 277, 117, 25);

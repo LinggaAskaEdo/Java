@@ -226,17 +226,21 @@ public class MasterProduksiForm extends JInternalFrame {
 
 	public void setDefaultTable()
 	{
-		List<MasterProduksi> masterProduksiList;
-		masterProduksiList = dao.GetAllMasterProduksi();
+		try {
+			List<MasterProduksi> masterProduksiList;
+			masterProduksiList = dao.GetAllMasterProduksi();
 
-		for(int i = 0; i < masterProduksiList.size(); i++) {
-			data[0] = masterProduksiList.get(i).getAgentProduksi();
-			data[1] = masterProduksiList.get(i).getName();
-			data[2] = masterProduksiList.get(i).getAddress();
-			data[3] = masterProduksiList.get(i).getNoNpwp();
-			data[4] = masterProduksiList.get(i).getInformation();
+			for(int i = 0; i < masterProduksiList.size(); i++) {
+				data[0] = masterProduksiList.get(i).getAgentProduksi();
+				data[1] = masterProduksiList.get(i).getName();
+				data[2] = masterProduksiList.get(i).getAddress();
+				data[3] = masterProduksiList.get(i).getNoNpwp();
+				data[4] = masterProduksiList.get(i).getInformation();
 
-			tabelModel.addRow(data);
+				tabelModel.addRow(data);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 

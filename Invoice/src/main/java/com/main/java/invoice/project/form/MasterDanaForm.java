@@ -110,16 +110,20 @@ public class MasterDanaForm extends JInternalFrame {
 		JButton btnHapus = new JButton("Hapus");
 		btnHapus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MasterDana masterDana = null;
+				MasterDana masterDana = new MasterDana();
 				masterDana.setNameBankAccount(TF_Nama.getText());
 				masterDana.setNoBankAccount(TF_noRek.getText());
 				masterDana.setNameAccount(TF_AtasNama.getText());
 				masterDana.setTotalCash(new BigDecimal(TF_Tunai.getText()));
 
-				dao.DeleteMasterDanaById(masterDana);
-				tabelModel.removeRow(row);
-				clearDana();
-				TF_Nama.setEnabled(true);
+				try {
+					dao.DeleteMasterDanaById(masterDana);
+					tabelModel.removeRow(row);
+					clearDana();
+					TF_Nama.setEnabled(true);
+				} catch (Exception e1) {
+					System.out.println(e1);
+				}
 			}
 		});
 		btnHapus.setBounds(462, 259, 117, 25);
@@ -130,31 +134,39 @@ public class MasterDanaForm extends JInternalFrame {
 		JButton btnSimpan = new JButton("Simpan");
 		btnSimpan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MasterDana masterDana = null;
+				MasterDana masterDana = new MasterDana();
 				masterDana.setNameBankAccount(TF_Nama.getText());
 				masterDana.setNoBankAccount(TF_noRek.getText());
 				masterDana.setNameAccount(TF_AtasNama.getText());
 				masterDana.setTotalCash(new BigDecimal(TF_Tunai.getText()));
 
-				if(btnHapus.isEnabled() == false){
-					dao.addUpdate(masterDana, 0);
-					data[0] = TF_Nama.getText();
-					data[1] = TF_noRek.getText();
-					data[2] = TF_AtasNama.getText();
-					data[3] = TF_Tunai.getText();
-					tabelModel.insertRow(0, data);
-					clearDana();
-					TF_Nama.setEnabled(true);
+				if(btnHapus.isEnabled() == false) {
+					try {
+						dao.addUpdate(masterDana, 0);
+						data[0] = TF_Nama.getText();
+						data[1] = TF_noRek.getText();
+						data[2] = TF_AtasNama.getText();
+						data[3] = TF_Tunai.getText();
+						tabelModel.insertRow(0, data);
+						clearDana();
+						TF_Nama.setEnabled(true);
+					} catch (Exception e1){
+						System.out.println(e1);
+					}
 				} else {
-					dao.addUpdate(masterDana, 1);
-					data[0] = TF_Nama.getText();
-					data[1] = TF_noRek.getText();
-					data[2] = TF_AtasNama.getText();
-					data[3] = TF_Tunai.getText();
-					tabelModel.removeRow(row);
-					tabelModel.insertRow(row, data);
-					clearDana();
-					TF_Nama.setEnabled(true);
+					try {
+						dao.addUpdate(masterDana, 1);
+						data[0] = TF_Nama.getText();
+						data[1] = TF_noRek.getText();
+						data[2] = TF_AtasNama.getText();
+						data[3] = TF_Tunai.getText();
+						tabelModel.removeRow(row);
+						tabelModel.insertRow(row, data);
+						clearDana();
+						TF_Nama.setEnabled(true);
+					} catch (Exception e2) {
+						System.out.println(e2);
+					}
 				}
 			}
 		});
@@ -211,24 +223,29 @@ public class MasterDanaForm extends JInternalFrame {
 
 	public void setDefaultTable()
 	{
-		List<MasterDana> masterDanaList;
-		masterDanaList = dao.GetAllMasterDana();
+		try {
+			List<MasterDana> masterDanaList;
+			masterDanaList = dao.GetAllMasterDana();
 
-		for(int i = 0; i < masterDanaList.size(); i++) {
-			data[0] = masterDanaList.get(i).getNameBankAccount();
-			data[1] = masterDanaList.get(i).getNoBankAccount();
-			data[2] = masterDanaList.get(i).getNameAccount();
-			data[3] = String.valueOf(masterDanaList.get(i).getTotalCash());
+			for(int i = 0; i < masterDanaList.size(); i++) {
+				data[0] = masterDanaList.get(i).getNameBankAccount();
+				data[1] = masterDanaList.get(i).getNoBankAccount();
+				data[2] = masterDanaList.get(i).getNameAccount();
+				data[3] = String.valueOf(masterDanaList.get(i).getTotalCash());
 
-			tabelModel.addRow(data);
+				tabelModel.addRow(data);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 		}
+
 	}
 
 	public void showDana()
 	{
 		row = table.getSelectedRow();
 		TF_Nama.setText(tabelModel.getValueAt(row, 0).toString());
-		TF_AtasNama.setText(tabelModel.getValueAt(row, 1).toString());
+		TF_noRek.setText(tabelModel.getValueAt(row, 1).toString());
 		TF_AtasNama.setText(tabelModel.getValueAt(row, 2).toString());
 		TF_Tunai.setText(tabelModel.getValueAt(row, 3).toString());
 	}
@@ -237,7 +254,7 @@ public class MasterDanaForm extends JInternalFrame {
 	{
 		TF_Nama.setText("");
 		TF_noRek.setText("");
-		TF_Nama.setText("");
+		TF_AtasNama.setText("");
 		TF_Tunai.setText("");
 	}
 }

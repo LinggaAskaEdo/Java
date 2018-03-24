@@ -22,8 +22,6 @@ public class MenuForm extends JFrame
 				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
                 MenuForm frame = new MenuForm();
-				//frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-				//frame.setExtendedState(MAXIMIZED_BOTH);
 				frame.setSize(screenSize);
 				frame.setResizable(true);
 				frame.setVisible(true);
@@ -37,11 +35,9 @@ public class MenuForm extends JFrame
 
 	MenuForm()
 	{
-		//setResizable(true);
 		setTitle("Menu");
 		initializeForm();
 		centerForm();
-		//this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 	}
 
 	private void centerForm()
@@ -58,7 +54,6 @@ public class MenuForm extends JFrame
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 
-//		desktopPane.setBounds(0, 0, 450, 300);
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 		getContentPane().add(desktopPane);
 		desktopPane.setLayout(null);
@@ -71,82 +66,6 @@ public class MenuForm extends JFrame
 
 		JMenuItem mntmKeluar = new JMenuItem("Keluar");
 		file.add(mntmKeluar);
-
-		/*JMenu Order = new JMenu("Order");
-		Order.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				orderActionPerformed(e);
-			}
-		});
-		menuBar.add(Order);*/
-
-		/*JMenu MasterDataForm = new JMenu("Master Data");
-		MasterDataForm.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				masterDataActionPerformed(e);
-			}
-		});
-		menuBar.add(MasterDataForm);
-
-		JMenu Menu = new JMenu("Menu");
-		menuBar.add(Menu);*/
-
-
-		/*JMenu mnMedia = new JMenu("Media");
-		Menu.add(mnMedia);
-
-		JMenuItem mntmCetak = new JMenuItem("Cetak");
-		mntmCetak.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cetakPerformed(e);
-			}
-		});
-		mnMedia.add(mntmCetak);
-
-		JMenuItem mntmEvent = new JMenuItem("Event");
-		mntmEvent.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				eventPerformed(e);
-			}
-		});
-		mnMedia.add(mntmEvent);
-
-		JMenuItem mntmProduksi = new JMenuItem("Produksi");
-		mntmProduksi.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				produksiPerformed(e);
-			}
-		});
-		mnMedia.add(mntmProduksi);
-
-		JMenu mnKeuangan = new JMenu("Keuangan");
-		Menu.add(mnKeuangan);
-
-		JMenuItem mntmBuktiTayang = new JMenuItem("Bukti Tayang");
-		mntmBuktiTayang.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buktiTayangPerformed(e);
-			}
-		});
-		mnKeuangan.add(mntmBuktiTayang);
-
-		JMenuItem mntmInvoice = new JMenuItem("Invoice");
-		mntmInvoice.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				invoicePerformed(e);
-			}
-		});
-		mnKeuangan.add(mntmInvoice);
-
-		JMenuItem mntmKontrak = new JMenuItem("Kontrak");
-		mntmKontrak.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				kontrakPerformed(e);
-			}
-		});
-		mnKeuangan.add(mntmKontrak);*/
 
 		JMenu mnPurchaseOrder = new JMenu("Purchase Order");
 		menuBar.add(mnPurchaseOrder);
@@ -166,14 +85,6 @@ public class MenuForm extends JFrame
 		JMenuItem mntmFunding = new JMenuItem("Funding");
 		mntmFunding.addActionListener(this::fundingActionPerformed);
 		mnPurchaseOrder.add(mntmFunding);
-
-		JMenuItem mntmTagihanMedia = new JMenuItem("Tagihan Media");
-		mntmTagihanMedia.addActionListener(this::tagihanMediaActionPerformed);
-		mnPurchaseOrder.add(mntmTagihanMedia);
-
-		JMenuItem mntmTagihanBiayaReimbursement = new JMenuItem("Tagihan Biaya Reimbursement");
-		mntmTagihanBiayaReimbursement.addActionListener(this::tagihanReimbursementActionPerformed);
-		mnPurchaseOrder.add(mntmTagihanBiayaReimbursement);
 
 		JMenuItem mntmCostOperasional = new JMenuItem("Cost Operasional");
 		mntmCostOperasional.addActionListener(this::costOperasionalActionPerformed);
@@ -273,26 +184,6 @@ public class MenuForm extends JFrame
 		fun.setVisible(true);
 	}
 	
-	private void tagihanMediaActionPerformed(ActionEvent e)
-	{
-		TagihanMediaForm tam = new TagihanMediaForm();
-		desktopPane.add(tam);
-		Dimension screen = this.getSize();
-		Dimension frame = tam.getSize();
-		tam.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
-		tam.setVisible(true);
-	}
-	
-	private void tagihanReimbursementActionPerformed(ActionEvent e)
-	{
-		TagihanReimbursementForm tar = new TagihanReimbursementForm();
-		desktopPane.add(tar);
-		Dimension screen = this.getSize();
-		Dimension frame = tar.getSize();
-		tar.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
-		tar.setVisible(true);
-	}
-	
 	private void costOperasionalActionPerformed(ActionEvent e)
 	{
 		CostOperasionalForm coo = new CostOperasionalForm();
@@ -382,104 +273,4 @@ public class MenuForm extends JFrame
 		lap.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
 		lap.setVisible(true);
 	}
-
-	/*private void klienActionPerformed(ActionEvent e)
-	{
-		MasterKlienForm kl = new MasterKlienForm();
-		desktopPane.add(kl);
-		Dimension screen = this.getSize();
-		Dimension frame = kl.getSize();
-		kl.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
-		kl.setVisible(true);
-	}
-	
-	private void orderActionPerformed(MouseEvent arg0)
-	{
-		Order_BUKAN or = new Order_BUKAN();
-		desktopPane.add(or);
-		Dimension screen = this.getSize();
-		Dimension frame = or.getSize();
-		or.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
-		or.setVisible(true);
-	}
-	
-	private void masterDataActionPerformed(MouseEvent arg0)
-	{
-		MasterDataForm ma = new MasterDataForm();
-		desktopPane.add(ma);
-		Dimension screen = this.getSize();
-		Dimension frame = ma.getSize();
-		ma.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/250);
-		ma.setVisible(true);
-	}
-		
-	private void legalitasActionPerformed(ActionEvent arg0)
-	{
-		MasterLegalitasForm le = new MasterLegalitasForm();
-		desktopPane.add(le);
-		Dimension screen = this.getSize();
-		Dimension frame = le.getSize();
-		le.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
-		le.setVisible(true);
-	}
-	
-	private void cetakPerformed(ActionEvent arg0)
-	{
-		POMediaForm ce = new POMediaForm();
-		desktopPane.add(ce);
-		Dimension screen = this.getSize();
-		Dimension frame = ce.getSize();
-		ce.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
-		ce.setVisible(true);
-	}
-	
-	private void eventPerformed(ActionEvent arg0)
-	{
-		POEventForm ev = new POEventForm();
-		desktopPane.add(ev);
-		Dimension screen = this.getSize();
-		Dimension frame = ev.getSize();
-		ev.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
-		ev.setVisible(true);
-	}
-	
-	private void produksiPerformed(ActionEvent arg0)
-	{
-		POProduksiForm pr = new POProduksiForm();
-		desktopPane.add(pr);
-		Dimension screen = this.getSize();
-		Dimension frame = pr.getSize();
-		pr.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
-		pr.setVisible(true);
-	}
-	
-	private void buktiTayangPerformed(ActionEvent arg0)
-	 {
-		BuktiTayang_BUKAN bt = new BuktiTayang_BUKAN();
-		desktopPane.add(bt);
-		Dimension screen = this.getSize();
-		Dimension frame = bt.getSize();
-		bt.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
-		bt.setVisible(true);
-	}
-	
-	private void invoicePerformed(ActionEvent arg0)
-	{
-		Invoicing_BUKAN in = new Invoicing_BUKAN();
-		desktopPane.add(in);
-		Dimension screen = this.getSize();
-		Dimension frame = in.getSize();
-		in.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
-		in.setVisible(true);
-	}
-	
-	private void kontrakPerformed(ActionEvent arg0)
-	{
-		Kontrak_BUKAN ko = new Kontrak_BUKAN();
-		desktopPane.add(ko);
-		Dimension screen = this.getSize();
-		Dimension frame = ko.getSize();
-		ko.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
-		ko.setVisible(true);
-	}*/
 }

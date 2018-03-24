@@ -139,10 +139,14 @@ public class MasterMediaForm extends JInternalFrame {
 				masterMedia.setBillCommitment(TF_BillComitment.getText());
 				masterMedia.setInformation(TA_Keterangan.getText());
 
-				dao.DeleteMasterMediaById(masterMedia);
-				tabelModel.removeRow(row);
-				clearMedia();
-				TF_NamaPerusahaan.setEnabled(true);
+				try {
+					dao.DeleteMasterMediaById(masterMedia);
+					tabelModel.removeRow(row);
+					clearMedia();
+					TF_NamaPerusahaan.setEnabled(true);
+				} catch (Exception e3) {
+					System.out.println(e3);
+				}
 			}
 		});
 		btnHapus.setBounds(462, 371, 117, 25);
@@ -162,28 +166,36 @@ public class MasterMediaForm extends JInternalFrame {
 				masterMedia.setInformation(TA_Keterangan.getText());
 
 				if(btnHapus.isEnabled() == false){
-					dao.addUpdate(masterMedia, 0);
-					data[0] = TF_NamaPerusahaan.getText();
-					data[1] = TF_NamaMedia.getText();
-					data[2] = TA_Alamat.getText();
-					data[3] = TF_Npwp.getText();
-					data[4] = TF_BillComitment.getText();
-					data[5] = TA_Keterangan.getText();
-					tabelModel.insertRow(0, data);
-					clearMedia();
-					TF_NamaPerusahaan.setEnabled(true);
+					try {
+						dao.addUpdate(masterMedia, 0);
+						data[0] = TF_NamaPerusahaan.getText();
+						data[1] = TF_NamaMedia.getText();
+						data[2] = TA_Alamat.getText();
+						data[3] = TF_Npwp.getText();
+						data[4] = TF_BillComitment.getText();
+						data[5] = TA_Keterangan.getText();
+						tabelModel.insertRow(0, data);
+						clearMedia();
+						TF_NamaPerusahaan.setEnabled(true);
+					} catch (Exception e1) {
+						System.out.println(e1);
+					}
 				} else {
-					dao.addUpdate(masterMedia, 1);
-					data[0] = TF_NamaPerusahaan.getText();
-					data[1] = TF_NamaMedia.getText();
-					data[2] = TA_Alamat.getText();
-					data[3] = TF_Npwp.getText();
-					data[4] = TF_BillComitment.getText();
-					data[5] = TA_Keterangan.getText();
-					tabelModel.removeRow(row);
-					tabelModel.insertRow(row, data);
-					clearMedia();
-					TF_NamaPerusahaan.setEnabled(true);
+					try {
+						dao.addUpdate(masterMedia, 1);
+						data[0] = TF_NamaPerusahaan.getText();
+						data[1] = TF_NamaMedia.getText();
+						data[2] = TA_Alamat.getText();
+						data[3] = TF_Npwp.getText();
+						data[4] = TF_BillComitment.getText();
+						data[5] = TA_Keterangan.getText();
+						tabelModel.removeRow(row);
+						tabelModel.insertRow(row, data);
+						clearMedia();
+						TF_NamaPerusahaan.setEnabled(true);
+					} catch (Exception e2) {
+						System.out.println(e2);
+					}
 				}
 			}
 		});
@@ -240,18 +252,22 @@ public class MasterMediaForm extends JInternalFrame {
 
 	public void setDefaultTable()
 	{
-		List<MasterMedia> masterMediaList;
-		masterMediaList = dao.GetAllMasterMedia();
+		try{
+			List<MasterMedia> masterMediaList;
+			masterMediaList = dao.GetAllMasterMedia();
 
-		for(int i = 0; i < masterMediaList.size(); i++) {
-			data[0] = masterMediaList.get(i).getCompanyName();
-			data[1] = masterMediaList.get(i).getMediaName();
-			data[2] = masterMediaList.get(i).getAddress();
-			data[3] = masterMediaList.get(i).getNoNpwp();
-			data[4] = masterMediaList.get(i).getBillCommitment();
-			data[5] = masterMediaList.get(i).getInformation();
+			for(int i = 0; i < masterMediaList.size(); i++) {
+				data[0] = masterMediaList.get(i).getCompanyName();
+				data[1] = masterMediaList.get(i).getMediaName();
+				data[2] = masterMediaList.get(i).getAddress();
+				data[3] = masterMediaList.get(i).getNoNpwp();
+				data[4] = masterMediaList.get(i).getBillCommitment();
+				data[5] = masterMediaList.get(i).getInformation();
 
-			tabelModel.addRow(data);
+				tabelModel.addRow(data);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 

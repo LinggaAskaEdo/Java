@@ -175,10 +175,14 @@ public class MasterLegalitasForm extends JInternalFrame {
 				masterPerusahaan.setNoBankAccount(TF_NoRek.getText());
 				masterPerusahaan.setFeeAgency(TF_FeeAgency.getText());
 
-				dao.DeleteMasterPerusahaanById(masterPerusahaan);
-				tabelModel.removeRow(row);
-				clearLegalitas();
-				TF_KodePerusahaan.setEnabled(true);
+				try {
+					dao.DeleteMasterPerusahaanById(masterPerusahaan);
+					tabelModel.removeRow(row);
+					clearLegalitas();
+					TF_KodePerusahaan.setEnabled(true);
+				} catch (Exception e1) {
+					System.out.println(e1);
+				}
 			}
 		});
 		btnHapus.setBounds(462, 408, 117, 25);
@@ -199,31 +203,39 @@ public class MasterLegalitasForm extends JInternalFrame {
 				masterPerusahaan.setNoBankAccount(TF_NoRek.getText());
 				masterPerusahaan.setFeeAgency(TF_FeeAgency.getText());
 
-				if(btnHapus.isEnabled() == false){
-					dao.addUpdate(masterPerusahaan, 0);
-					data[0] = TF_KodePerusahaan.getText();
-					data[1] = TF_NamaPerusahaan.getText();
-					data[2] = TA_Alamat.getText();
-					data[3] = TF_Npwp.getText();
-					data[4] = TF_Pic.getText();
-					data[5] = TF_NoRek.getText();
-					data[6] = TF_FeeAgency.getText();
-					tabelModel.insertRow(0, data);
-					clearLegalitas();
-					TF_KodePerusahaan.setEnabled(true);
+				if(btnHapus.isEnabled() == false) {
+					try {
+						dao.addUpdate(masterPerusahaan, 0);
+						data[0] = TF_KodePerusahaan.getText();
+						data[1] = TF_NamaPerusahaan.getText();
+						data[2] = TA_Alamat.getText();
+						data[3] = TF_Npwp.getText();
+						data[4] = TF_Pic.getText();
+						data[5] = TF_NoRek.getText();
+						data[6] = TF_FeeAgency.getText();
+						tabelModel.insertRow(0, data);
+						clearLegalitas();
+						TF_KodePerusahaan.setEnabled(true);
+					} catch (Exception e2) {
+						System.out.println(e2);
+					}
 				} else {
-					dao.addUpdate(masterPerusahaan, 1);
-					data[0] = TF_KodePerusahaan.getText();
-					data[1] = TF_NamaPerusahaan.getText();
-					data[2] = TA_Alamat.getText();
-					data[3] = TF_Npwp.getText();
-					data[4] = TF_Pic.getText();
-					data[5] = TF_NoRek.getText();
-					data[6] = TF_FeeAgency.getText();
-					tabelModel.removeRow(row);
-					tabelModel.insertRow(row, data);
-					clearLegalitas();
-					TF_KodePerusahaan.setEnabled(true);
+					try {
+						dao.addUpdate(masterPerusahaan, 1);
+						data[0] = TF_KodePerusahaan.getText();
+						data[1] = TF_NamaPerusahaan.getText();
+						data[2] = TA_Alamat.getText();
+						data[3] = TF_Npwp.getText();
+						data[4] = TF_Pic.getText();
+						data[5] = TF_NoRek.getText();
+						data[6] = TF_FeeAgency.getText();
+						tabelModel.removeRow(row);
+						tabelModel.insertRow(row, data);
+						clearLegalitas();
+						TF_KodePerusahaan.setEnabled(true);
+					} catch (Exception e3) {
+						System.out.println(e3);
+					}
 				}
 			}
 		});
@@ -280,19 +292,23 @@ public class MasterLegalitasForm extends JInternalFrame {
 
 	public void setDefaultTable()
 	{
-		List<MasterPerusahaan> masterPerusahaanList;
-		masterPerusahaanList = dao.GetAllMasterPerusahaan();
+		try {
+			List<MasterPerusahaan> masterPerusahaanList;
+			masterPerusahaanList = dao.GetAllMasterPerusahaan();
 
-		for(int i = 0; i < masterPerusahaanList.size(); i++) {
-			data[0] = masterPerusahaanList.get(i).getCode();
-			data[1] = masterPerusahaanList.get(i).getName();
-			data[2] = masterPerusahaanList.get(i).getAddress();
-			data[3] = masterPerusahaanList.get(i).getNoNpwp();
-			data[4] = masterPerusahaanList.get(i).getContactNumber();
-			data[5] = masterPerusahaanList.get(i).getNoBankAccount();
-			data[6] = masterPerusahaanList.get(i).getFeeAgency();
+			for(int i = 0; i < masterPerusahaanList.size(); i++) {
+				data[0] = masterPerusahaanList.get(i).getCode();
+				data[1] = masterPerusahaanList.get(i).getName();
+				data[2] = masterPerusahaanList.get(i).getAddress();
+				data[3] = masterPerusahaanList.get(i).getNoNpwp();
+				data[4] = masterPerusahaanList.get(i).getContactNumber();
+				data[5] = masterPerusahaanList.get(i).getNoBankAccount();
+				data[6] = masterPerusahaanList.get(i).getFeeAgency();
 
-			tabelModel.addRow(data);
+				tabelModel.addRow(data);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 

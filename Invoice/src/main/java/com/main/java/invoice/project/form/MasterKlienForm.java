@@ -129,10 +129,14 @@ public class MasterKlienForm extends JInternalFrame {
 				masterClient.setSatkerPpk(TF_Satker.getText());
 				masterClient.setInformation(TA_Keterangan.getText());
 
-				dao.DeleteMasterClientById(masterClient);
-				tabelModel.removeRow(row);
-				clearKlien();
-				TF_Nama.setEnabled(true);
+				try {
+					dao.DeleteMasterClientById(masterClient);
+					tabelModel.removeRow(row);
+					clearKlien();
+					TF_Nama.setEnabled(true);
+				} catch (Exception e3){
+					System.out.println(e3);
+				}
 			}
 		});
 		btnHapus.setBounds(462, 351, 117, 25);
@@ -150,27 +154,35 @@ public class MasterKlienForm extends JInternalFrame {
 				masterClient.setSatkerPpk(TF_Satker.getText());
 				masterClient.setInformation(TA_Keterangan.getText());
 
-				if(btnHapus.isEnabled() == false){
-					dao.addUpdate(masterClient, 0);
-					data[0] = TF_Nama.getText();
-					data[1] = TA_Alamat.getText();
-					data[2] = TF_Npwp.getText();
-					data[3] = TF_Satker.getText();
-					data[4] = TF_Satker.getText();
-					tabelModel.insertRow(0, data);
-					clearKlien();
-					TF_Nama.setEnabled(true);
+				if(btnHapus.isEnabled() == false) {
+					try {
+						dao.addUpdate(masterClient, 0);
+						data[0] = TF_Nama.getText();
+						data[1] = TA_Alamat.getText();
+						data[2] = TF_Npwp.getText();
+						data[3] = TF_Satker.getText();
+						data[4] = TF_Satker.getText();
+						tabelModel.insertRow(0, data);
+						clearKlien();
+						TF_Nama.setEnabled(true);
+					} catch (Exception e1) {
+						System.out.println(e1);
+					}
 				} else {
-					dao.addUpdate(masterClient, 1);
-					data[0] = TF_Nama.getText();
-					data[1] = TA_Alamat.getText();
-					data[2] = TF_Npwp.getText();
-					data[3] = TF_Satker.getText();
-					data[4] = TF_Satker.getText();
-					tabelModel.removeRow(row);
-					tabelModel.insertRow(row, data);
-					clearKlien();
-					TF_Nama.setEnabled(true);
+					try {
+						dao.addUpdate(masterClient, 1);
+						data[0] = TF_Nama.getText();
+						data[1] = TA_Alamat.getText();
+						data[2] = TF_Npwp.getText();
+						data[3] = TF_Satker.getText();
+						data[4] = TF_Satker.getText();
+						tabelModel.removeRow(row);
+						tabelModel.insertRow(row, data);
+						clearKlien();
+						TF_Nama.setEnabled(true);
+					} catch (Exception e2) {
+						System.out.println(e2);
+					}
 				}
 			}
 		});
@@ -228,17 +240,21 @@ public class MasterKlienForm extends JInternalFrame {
 
 	public void setDefaultTable()
 	{
-		List<MasterClient> masterClientList;
-		masterClientList = dao.GetAllMasterClient();
+		try {
+			List<MasterClient> masterClientList;
+			masterClientList = dao.GetAllMasterClient();
 
-		for(int i = 0; i < masterClientList.size(); i++) {
-			data[0] = masterClientList.get(i).getName();
-			data[1] = masterClientList.get(i).getAddress();
-			data[2] = masterClientList.get(i).getNoNpwp();
-			data[3] = masterClientList.get(i).getSatkerPpk();
-			data[4] = masterClientList.get(i).getInformation();
+			for(int i = 0; i < masterClientList.size(); i++) {
+				data[0] = masterClientList.get(i).getName();
+				data[1] = masterClientList.get(i).getAddress();
+				data[2] = masterClientList.get(i).getNoNpwp();
+				data[3] = masterClientList.get(i).getSatkerPpk();
+				data[4] = masterClientList.get(i).getInformation();
 
-			tabelModel.addRow(data);
+				tabelModel.addRow(data);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 

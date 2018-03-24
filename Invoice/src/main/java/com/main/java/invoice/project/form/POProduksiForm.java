@@ -199,9 +199,12 @@ public class POProduksiForm extends JInternalFrame {
 
 				Kontrak kontrak = null;
 
-				kontrak.setNoKontrak(TF_ReffKontrak.getText());
-				kontrak = kontrakDAO.GetKontrakById(kontrak);
-
+				try {
+					kontrak.setNoKontrak(TF_ReffKontrak.getText());
+					kontrak = kontrakDAO.GetKontrakById(kontrak);
+				} catch (Exception e2) {
+					System.out.println(e2);
+				}
 				poProduksi.setPoProduksiNo(TF_PONomor.getText());
 				poProduksi.setKontrakId(kontrak.getKontrakId());
 				poProduksi.setProduksi(TF_Produksi.getText());
@@ -210,7 +213,11 @@ public class POProduksiForm extends JInternalFrame {
 				poProduksi.setKeterangan(TA_Keterangan.getText());
 				poProduksi.setImage(TF_Unggah.getText());
 
-				dao.add(poProduksi);
+				try {
+					dao.add(poProduksi);
+				} catch (Exception e3){
+					System.out.println(e3);
+				}
 				GetTableList();
 				RemoveRowPoProduksi();
 				ClearPoProduksi();
@@ -271,7 +278,11 @@ public class POProduksiForm extends JInternalFrame {
 			detailProduksi.setPostProduksiBarang(String.valueOf(tabelModel.getValueAt(i, 11)));
 			detailProduksi.setPostProduksiTotalHarga((BigDecimal) tabelModel.getValueAt(i, 12));
 
-			detailProduksiDAO.add(detailProduksi);
+			try {
+				detailProduksiDAO.add(detailProduksi);
+			} catch (Exception e1) {
+				System.out.println(e1);
+			}
 		}
 	}
 

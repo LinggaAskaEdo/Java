@@ -38,6 +38,7 @@ public class POEventForm extends JInternalFrame {
 	DetailEventDAO detailEventDAO;
 	DetailReimbursementDAO detailReimbursementDAO;
 	TagihanReimbursementDAO tagihanReimbursementDAO;
+	KontrakDAO kontrakDAO;
 
 	/**
 	 * Launch the application.
@@ -286,16 +287,27 @@ public class POEventForm extends JInternalFrame {
 		btnSimpan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PoEvent poEvent = null;
+				Kontrak kontrak = null;
 
+				kontrak.setNoKontrak(TF_ReffKontrak.getText());
+				try {
+					kontrak = kontrakDAO.GetKontrakById(kontrak);
+				} catch (Exception e2) {
+					System.out.println(e2);
+				}
 				poEvent.setPoEventNo(TF_PONomor.getText());
-				poEvent.setKontrakId(TF_ReffKontrak.getText());
+				poEvent.setKontrakId(kontrak.getKontrakId());
 				poEvent.setKegiatan(TF_Kegiatan.getText());
 				poEvent.setTanggal(CL_Tanggal.getDate());
 				poEvent.setJumlah(new BigDecimal(TF_Jumlah.getText()));
 				poEvent.setKeterangan(TA_Keterangan.getText());
 				poEvent.setImage(TF_Unggah.getText());
 
-				dao.add(poEvent);
+				try {
+					dao.add(poEvent);
+				} catch (Exception e3) {
+					System.out.println(e3);
+				}
 
 				GetTableList_1();
 				RemoveRow_1();
@@ -343,7 +355,7 @@ public class POEventForm extends JInternalFrame {
 		};
 	}
 
-	private DefaultTableModel getDefaultTabelModel2(){
+	public DefaultTableModel getDefaultTabelModel2(){
 		return new DefaultTableModel(
 				new Object [][] {
 						{null, null, null},
@@ -397,8 +409,11 @@ public class POEventForm extends JInternalFrame {
 			detailEvent.setHargaSatuan((BigDecimal) tabelModel1.getValueAt(i, 6));
 			detailEvent.setTotal((BigDecimal) tabelModel1.getValueAt(i, 7));
 
-			detailEventDAO.add(detailEvent);
-
+			try {
+				detailEventDAO.add(detailEvent);
+			} catch (Exception e3) {
+				System.out.println(e3);
+			}
 		}
 	}
 
@@ -421,7 +436,11 @@ public class POEventForm extends JInternalFrame {
 			detailReimburse.setDetail(String.valueOf(tabelModel2.getValueAt(i, 1)));
 			detailReimburse.setHarga((BigDecimal) tabelModel2.getValueAt(i, 2));
 
-			detailReimbursementDAO.add(detailReimburse);
+			try {
+				detailReimbursementDAO.add(detailReimburse);
+			} catch (Exception e2) {
+				System.out.println(e2);
+			}
 		}
 	}
 
@@ -445,6 +464,7 @@ public class POEventForm extends JInternalFrame {
 			tagihanReimburse.setCatatan(String.valueOf(tabelModel3.getValueAt(i,1)));
 			tagihanReimburse.setTanggal((Date) tabelModel3.getValueAt(i, 2));
 
+			try {
 			String splitData = String.valueOf(tabelModel3.getValueAt(i,3));
 			masterDana = masterDanaDAO.GetMasterDanaById(splitData);
 			tagihanReimburse.setMasterDanaId(masterDana.getMasterDanaId());
@@ -453,6 +473,9 @@ public class POEventForm extends JInternalFrame {
 			tagihanReimburse.setImage(String.valueOf(tabelModel3.getValueAt(i, 5)));
 
 			tagihanReimbursementDAO.add(tagihanReimburse);
+			} catch (Exception e1) {
+				System.out.println(e1);
+			}
 		}
 	}
 

@@ -148,17 +148,21 @@ public class CostOperasionalForm extends JInternalFrame {
 				CostOperasional costOperasional = null;
 				MasterDana masterDana;
 
-				String splitData = String.valueOf(CB_ReffSumbDana.getSelectedItem());
-				masterDana = masterDanaDAO.GetMasterDanaById(splitData);
-				costOperasional.setMasterDanaId(masterDana.getMasterDanaId());
+				try {
+					String splitData = String.valueOf(CB_ReffSumbDana.getSelectedItem());
+					masterDana = masterDanaDAO.GetMasterDanaById(splitData);
+					costOperasional.setMasterDanaId(masterDana.getMasterDanaId());
 
-				costOperasional.setPic(TB_Kontrak.getText());
-				costOperasional.setKeperluan(TA_Keperluan.getText());
-				costOperasional.setTanggalPemebelian(CL_Tanggal.getDate());
-				costOperasional.setImage(TB_Unggah.getText());
+					costOperasional.setPic(TB_Kontrak.getText());
+					costOperasional.setKeperluan(TA_Keperluan.getText());
+					costOperasional.setTanggalPemebelian(CL_Tanggal.getDate());
+					costOperasional.setImage(TB_Unggah.getText());
 
-				dao.addCostOperasional(costOperasional);
-				ClearCost();
+					dao.addCostOperasional(costOperasional);
+					ClearCost();
+				} catch (Exception e1) {
+					System.out.println(e1);
+				}
 			}
 		});
 		BT_Simpan.setBounds(366, 223, 117, 25);
@@ -174,12 +178,16 @@ public class CostOperasionalForm extends JInternalFrame {
 
 	public void ShowComboBoxCost()
 	{
-		List<MasterDana> allMasterDana;
-		allMasterDana = masterDanaDAO.GetAllMasterDanaComboBox();
+		try {
+			List<MasterDana> allMasterDana;
+			allMasterDana = masterDanaDAO.GetAllMasterDanaComboBox();
 
-		for (int i = 0; i < allMasterDana.size(); i++) {
+			for (int i = 0; i < allMasterDana.size(); i++) {
 
-			CB_ReffSumbDana.addItem(allMasterDana.get(i).getNameBankAccount()+"-"+allMasterDana.get(i).getNoBankAccount());
+				CB_ReffSumbDana.addItem(allMasterDana.get(i).getNameBankAccount()+"-"+allMasterDana.get(i).getNoBankAccount());
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 }

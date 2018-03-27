@@ -149,12 +149,16 @@ public class TagihanReimbursementForm extends JInternalFrame {
 
 	public void ShowComboBoxTagihan()
 	{
-		List<MasterDana> allMasterDana;
-		allMasterDana = masterDanaDAO.GetAllMasterDanaComboBox();
+		try {
+			List<MasterDana> allMasterDana;
+			allMasterDana = masterDanaDAO.GetAllMasterDanaComboBox();
 
-		for (int i = 0; i < allMasterDana.size(); i++) {
+			for (int i = 0; i < allMasterDana.size(); i++) {
 
-			CB_SumberDana.addItem(allMasterDana.get(i).getNameBankAccount()+"-"+allMasterDana.get(i).getNoBankAccount());
+				CB_SumberDana.addItem(allMasterDana.get(i).getNameBankAccount()+"-"+allMasterDana.get(i).getNoBankAccount());
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 }

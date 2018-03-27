@@ -58,6 +58,7 @@ public class MasterEventForm extends JInternalFrame {
 		initializeForm();
 		table.setModel(tabelModel);
 		Tabel(table, new int[]{120, 120, 120, 120, 120});
+		setDefaultTable();
 	}
 
 	int row = 0;
@@ -127,10 +128,14 @@ public class MasterEventForm extends JInternalFrame {
 				masterEvent.setNoNpwp(TF_Npwp.getText());
 				masterEvent.setInformation(TA_Keterangan.getText());
 
-				dao.DeleteMasterEventById(masterEvent);
-				tabelModel.removeRow(row);
-				clearEvent();
-				TF_Agent.setEnabled(true);
+				try {
+					dao.DeleteMasterEventById(masterEvent);
+					tabelModel.removeRow(row);
+					clearEvent();
+					TF_Agent.setEnabled(true);
+				} catch (Exception e1) {
+					System.out.println(e1);
+				}
 			}
 		});
 		btnHapus.setBounds(462, 344, 117, 25);
@@ -146,27 +151,35 @@ public class MasterEventForm extends JInternalFrame {
 				masterEvent.setNoNpwp(TF_Npwp.getText());
 				masterEvent.setInformation(TA_Keterangan.getText());
 
-				if(btnHapus.isEnabled() == false){
-					dao.addUpdate(masterEvent, 0);
-					data[0] = TF_Agent.getText();
-					data[1] = TF_NamaKoor.getText();
-					data[2] = TA_Alamat.getText();
-					data[3] = TF_Npwp.getText();
-					data[4] = TA_Keterangan.getText();
-					tabelModel.insertRow(0, data);
-					clearEvent();
-					TF_Agent.setEnabled(true);
+				if(btnHapus.isEnabled() == false) {
+					try {
+						dao.addUpdate(masterEvent, 0);
+						data[0] = TF_Agent.getText();
+						data[1] = TF_NamaKoor.getText();
+						data[2] = TA_Alamat.getText();
+						data[3] = TF_Npwp.getText();
+						data[4] = TA_Keterangan.getText();
+						tabelModel.insertRow(0, data);
+						clearEvent();
+						TF_Agent.setEnabled(true);
+					} catch (Exception e1) {
+						System.out.println(e);
+					}
 				} else {
-					dao.addUpdate(masterEvent, 1);
-					data[0] = TF_Agent.getText();
-					data[1] = TF_NamaKoor.getText();
-					data[2] = TA_Alamat.getText();
-					data[3] = TF_Npwp.getText();
-					data[4] = TA_Keterangan.getText();
-					tabelModel.removeRow(row);
-					tabelModel.insertRow(row, data);
-					clearEvent();
-					TF_Agent.setEnabled(true);
+					try {
+						dao.addUpdate(masterEvent, 1);
+						data[0] = TF_Agent.getText();
+						data[1] = TF_NamaKoor.getText();
+						data[2] = TA_Alamat.getText();
+						data[3] = TF_Npwp.getText();
+						data[4] = TA_Keterangan.getText();
+						tabelModel.removeRow(row);
+						tabelModel.insertRow(row, data);
+						clearEvent();
+						TF_Agent.setEnabled(true);
+					} catch (Exception e2) {
+						System.out.println(e2);
+					}
 				}
 			}
 		});
@@ -223,17 +236,21 @@ public class MasterEventForm extends JInternalFrame {
 
 	public void setDefaultTable()
 	{
-		List<MasterEvent> masterDanaList;
-		masterDanaList = dao.GetAllMasterEvent();
+		try {
+			List<MasterEvent> masterDanaList;
+			masterDanaList = dao.GetAllMasterEvent();
 
-		for(int i = 0; i < masterDanaList.size(); i++) {
-			data[0] = masterDanaList.get(i).getAgentEvent();
-			data[1] = masterDanaList.get(i).getName();
-			data[2] = masterDanaList.get(i).getAddress();
-			data[3] = masterDanaList.get(i).getNoNpwp();
-			data[4] = masterDanaList.get(i).getInformation();
+			for(int i = 0; i < masterDanaList.size(); i++) {
+				data[0] = masterDanaList.get(i).getAgentEvent();
+				data[1] = masterDanaList.get(i).getName();
+				data[2] = masterDanaList.get(i).getAddress();
+				data[3] = masterDanaList.get(i).getNoNpwp();
+				data[4] = masterDanaList.get(i).getInformation();
 
-			tabelModel.addRow(data);
+				tabelModel.addRow(data);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 

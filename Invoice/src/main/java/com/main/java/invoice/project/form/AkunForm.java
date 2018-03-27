@@ -122,10 +122,14 @@ public class AkunForm extends JInternalFrame {
 				User user = null;
 				user.setUsers(textField.getText());
 
-				dao.DeleteUserById(user);
-				tabelModel.removeRow(row);
-				clearUser();
-				textField.setEnabled(true);
+				try {
+					dao.DeleteUserById(user);
+					tabelModel.removeRow(row);
+					clearUser();
+					textField.setEnabled(true);
+				} catch (Exception e3) {
+					System.out.println(e3);
+				}
 			}
 		});
 		btnHapus.setBounds(172, 266, 117, 25);
@@ -146,34 +150,41 @@ public class AkunForm extends JInternalFrame {
 					user.setIsAdmin(0);
 				}
 
-				if(!btnHapus.isEnabled() == false){
-					dao.addUpdate(user, 0);
-					data[0] = textField.getText();
-					data[1] = textField_1.getText();
+				if(!btnHapus.isEnabled() == false) {
+					try{
+						dao.addUpdate(user, 0);
+						data[0] = textField.getText();
+						data[1] = textField_1.getText();
 
-					if (chckbxAdmin.isSelected()){
-						data[2] = String.valueOf(1);
-					} else {
-						data[2] = String.valueOf(0);
+						if (chckbxAdmin.isSelected()){
+							data[2] = String.valueOf(1);
+						} else {
+							data[2] = String.valueOf(0);
+						}
+						tabelModel.insertRow(0, data);
+						clearUser();
+						textField.setEnabled(true);
+					} catch (Exception e1) {
+						System.out.println(e1);
 					}
-
-					tabelModel.insertRow(0, data);
-					clearUser();
-					textField.setEnabled(true);
 				} else {
-					dao.addUpdate(user, 1);
-					data[0] = textField.getText();
-					data[1] = textField_1.getText();
+					try {
+						dao.addUpdate(user, 1);
+						data[0] = textField.getText();
+						data[1] = textField_1.getText();
 
-					if (chckbxAdmin.isSelected()){
-						data[2] = String.valueOf(1);
-					} else {
-						data[2] = String.valueOf(0);
+						if (chckbxAdmin.isSelected()){
+							data[2] = String.valueOf(1);
+						} else {
+							data[2] = String.valueOf(0);
+						}
+						tabelModel.removeRow(row);
+						tabelModel.insertRow(row, data);
+						clearUser();
+						textField.setEnabled(true);
+					} catch (Exception e2) {
+						System.out.println(e2);
 					}
-					tabelModel.removeRow(row);
-					tabelModel.insertRow(row, data);
-					clearUser();
-					textField.setEnabled(true);
 				}
 			}
 		});
@@ -235,15 +246,19 @@ public class AkunForm extends JInternalFrame {
 
 	public void setDefaultTable()
 	{
-		List<User> userList;
-		userList = dao.GetAllUser();
+		try {
+			List<User> userList;
+			userList = dao.GetAllUser();
 
-		for(int i = 0; i < userList.size(); i++) {
-			data[0] = userList.get(i).getUsers();
-			data[1] = userList.get(i).getUserName();
-			data[2] = String.valueOf(userList.get(i).getIsAdmin());
+			for(int i = 0; i < userList.size(); i++) {
+				data[0] = userList.get(i).getUsers();
+				data[1] = userList.get(i).getUserName();
+				data[2] = String.valueOf(userList.get(i).getIsAdmin());
 
-			tabelModel.addRow(data);
+				tabelModel.addRow(data);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 

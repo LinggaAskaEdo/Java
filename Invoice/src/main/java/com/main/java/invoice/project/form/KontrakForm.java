@@ -212,13 +212,17 @@ public class KontrakForm extends JInternalFrame
 			public void itemStateChanged(ItemEvent arg0) {
 				MasterPerusahaan masterPerusahaan = new MasterPerusahaan();
 
-				masterPerusahaan.setCode(String.valueOf(CB_KodePerusahaan.getSelectedItem()));
-				masterPerusahaan = masterLegalitasDAO.GetMasterPerusahaanById(masterPerusahaan);
+				try {
+					masterPerusahaan.setCode(String.valueOf(CB_KodePerusahaan.getSelectedItem()));
+					masterPerusahaan = masterLegalitasDAO.GetMasterPerusahaanById(masterPerusahaan);
 
-				codeId.setText(String.valueOf(masterPerusahaan.getMasterPerusahaanId()));
-				TF_NamaPerusahaan.setText(masterPerusahaan.getName());
-				TA_AlamatPerusahaan.setText(masterPerusahaan.getAddress());
-				TF_Npwp.setText(masterPerusahaan.getNoNpwp());
+					codeId.setText(String.valueOf(masterPerusahaan.getMasterPerusahaanId()));
+					TF_NamaPerusahaan.setText(masterPerusahaan.getName());
+					TA_AlamatPerusahaan.setText(masterPerusahaan.getAddress());
+					TF_Npwp.setText(masterPerusahaan.getNoNpwp());
+				} catch (Exception e1) {
+					System.out.println(e1);
+				}
 			}
 		});
 		CB_KodePerusahaan.setBounds(194, 88, 212, 24);
@@ -357,17 +361,21 @@ public class KontrakForm extends JInternalFrame
 				Kontrak kontrak = new Kontrak();
 				MasterPerusahaan perusahaan;
 
-				kontrak.setNoKontrak(String.valueOf(CB_ListKontrak.getSelectedItem()));
-				kontrak = dao.GetKontrakById(kontrak);
+				try {
+					kontrak.setNoKontrak(String.valueOf(CB_ListKontrak.getSelectedItem()));
+					kontrak = dao.GetKontrakById(kontrak);
 
-				listId.setText(String.valueOf(kontrak.getKontrakId()));
+					listId.setText(String.valueOf(kontrak.getKontrakId()));
 
-				perusahaan = masterLegalitasDAO.GetMasterPerusahaanById(kontrak.getMasterPerusahaanId());
-				CB_KodePerusahaan.setActionCommand(perusahaan.getCode());
+					perusahaan = masterLegalitasDAO.GetMasterPerusahaanById(kontrak.getMasterPerusahaanId());
+					CB_KodePerusahaan.setActionCommand(perusahaan.getCode());
 
-				CB_Project.setActionCommand(kontrak.getProject());
-				CL_tanggal.setDate(kontrak.getDate());
-				TF_NilaiKontrak.setText(String.valueOf(kontrak.getNilaiKontrak()));
+					CB_Project.setActionCommand(kontrak.getProject());
+					CL_tanggal.setDate(kontrak.getDate());
+					TF_NilaiKontrak.setText(String.valueOf(kontrak.getNilaiKontrak()));
+				} catch (Exception e2) {
+					System.out.println( e2);
+				}
 			}
 		});
 		CB_ListKontrak.setBounds(194, 21, 212, 24);
@@ -401,13 +409,21 @@ public class KontrakForm extends JInternalFrame
 				}
 
 				if(TF_NoKontrak.isEnabled()){
-					dao.addUpdate(kontrak, 0);
-					clearkontrak();
-					TF_NoKontrak.setEnabled(true);
+					try {
+						dao.addUpdate(kontrak, 0);
+						clearkontrak();
+						TF_NoKontrak.setEnabled(true);
+					} catch (Exception e2) {
+						System.out.println(e2);
+					}
 				} else {
-					dao.addUpdate(kontrak, 1);
-					clearkontrak();
-					TF_NoKontrak.setEnabled(true);
+					try {
+						dao.addUpdate(kontrak, 1);
+						clearkontrak();
+						TF_NoKontrak.setEnabled(true);
+					} catch (Exception e3) {
+						System.out.println(e3);
+					}
 				}
 			}
 		});
@@ -437,23 +453,32 @@ public class KontrakForm extends JInternalFrame
 
 	public void ShowComboBoxPerusahaan()
 	{
-		List<MasterPerusahaan> allMasterPerusahaan;
-		allMasterPerusahaan = masterLegalitasDAO.GetAllMasterPerusahaanComboBox();
+		try {
+			List<MasterPerusahaan> allMasterPerusahaan;
+			allMasterPerusahaan = masterLegalitasDAO.GetAllMasterPerusahaanComboBox();
 
-		for (int i = 0; i < allMasterPerusahaan.size(); i++) {
+			for (int i = 0; i < allMasterPerusahaan.size(); i++) {
 
-			CB_KodePerusahaan.addItem(allMasterPerusahaan.get(i).getCode());
+				CB_KodePerusahaan.addItem(allMasterPerusahaan.get(i).getCode());
+			}
+		} catch (Exception e) {
+			System.out.println( e);
 		}
+
 	}
 
 	public void ShowComboBoxKontrak()
 	{
-		List<Kontrak> allKontrak;
-		allKontrak = dao.GetAllKontrakComboBox();
+		try {
+			List<Kontrak> allKontrak;
+			allKontrak = dao.GetAllKontrakComboBox();
 
-		for (int i = 0; i < allKontrak.size(); i++) {
+			for (int i = 0; i < allKontrak.size(); i++) {
 
-			CB_KodePerusahaan.addItem(allKontrak.get(i).getNoKontrak());
+				CB_KodePerusahaan.addItem(allKontrak.get(i).getNoKontrak());
+			}
+		} catch (Exception e1) {
+			System.out.println(e1);
 		}
 	}
 }

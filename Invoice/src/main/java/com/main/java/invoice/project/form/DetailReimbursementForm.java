@@ -85,12 +85,20 @@ public class DetailReimbursementForm extends JInternalFrame {
 		btnTambah.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				data[0] = String.valueOf(CB_Uraian.getSelectedItem());
-				data[1] = TF_Detail.getText();
-				data[2] = TF_Harga.getText();
+				String a = String.valueOf(CB_Uraian.getSelectedItem());
+				String b = TF_Detail.getText();
+				String c = TF_Harga.getText();
 
-				eventForm.tabelModel2.insertRow(0, data);
-				dispose();
+				data[0] = a;
+				data[1] = b;
+				data[2] = c;
+
+				try {
+					eventForm.tabelModel2.insertRow(0, data);
+					dispose();
+				} catch (Exception e) {
+					System.out.println(e);
+				}
 			}
 		});
 		btnTambah.setBounds(265, 113, 117, 25);

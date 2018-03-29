@@ -1,5 +1,6 @@
-package com.main.java.invoice.project.form;
+package com.main.java.invoice.project;
 
+import com.main.java.invoice.project.form.LoginForm;
 import com.main.java.invoice.project.function.SshFunction;
 
 import javax.swing.*;

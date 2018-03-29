@@ -16,9 +16,9 @@ public class SshFunction
     {
         boolean result = false;
 
-        String user = "dery";
-        String pass = "in progress";
-        String host = "10.32.6.10";
+        String user = "grandwijaya";
+        String pass = "aaa";
+        String host = "192.168.1.112";
         int port = 22;
 
         try

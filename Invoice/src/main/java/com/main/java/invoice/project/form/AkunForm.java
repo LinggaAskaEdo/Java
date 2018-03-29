@@ -28,7 +28,6 @@ public class AkunForm extends JInternalFrame {
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField textField;
 	private JTextField textField_1;
-	//private JTextField textField_2;
 	private JPasswordField passwordField;
 	private JPasswordField passwordField_1;
 	private JTable table;

@@ -32,7 +32,7 @@ public class DetailProduksiForm extends JInternalFrame {
 	private JTextField TF_Barang_2;
 	private JTextField TF_TotHarga_2;
 	private JTextArea TA_Lokasi;
-	POProduksiForm produksiForm;
+	private POProduksiForm produksiForm = new POProduksiForm();
 
 	/**
 	 * Launch the application.

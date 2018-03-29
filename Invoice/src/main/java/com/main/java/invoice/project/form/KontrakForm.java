@@ -44,18 +44,6 @@ public class KontrakForm extends JInternalFrame
 	private JTextField TF_Npwp;
 	private JTextField TF_NoKontrak;
 	private JTextField TF_NilaiKontrak;
-	
-	@SuppressWarnings("unused")
-	private JTextField TF_BayarMedia;
-	
-	@SuppressWarnings("unused")
-	private JTextField TF_Cashback;
-	
-	@SuppressWarnings("unused")
-	private JTextField TF_Entertain;
-	
-	@SuppressWarnings("unused")
-	private JTextField TF_Margin;
 	private JTextField TF_Dpp;
 	private JTextField TF_Ppn;
 	private JTextField TF_Pph_23;

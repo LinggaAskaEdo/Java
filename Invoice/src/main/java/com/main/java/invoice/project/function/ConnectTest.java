@@ -20,8 +20,6 @@ class ConnectTest
 
 	void connect()
 	{
-		//System.out.println("-------- MySQL JDBC Connection Testing ------------");
-
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -33,8 +31,6 @@ class ConnectTest
 
 			return;
 		}
-
-		//System.out.println("MySQL JDBC Driver Registered!");
 
 		try
 		{

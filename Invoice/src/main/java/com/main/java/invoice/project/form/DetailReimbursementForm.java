@@ -85,13 +85,9 @@ public class DetailReimbursementForm extends JInternalFrame {
 		btnTambah.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				String a = String.valueOf(CB_Uraian.getSelectedItem());
-				String b = TF_Detail.getText();
-				String c = TF_Harga.getText();
-
-				data[0] = a;
-				data[1] = b;
-				data[2] = c;
+				data[0] = String.valueOf(CB_Uraian.getSelectedItem());
+				data[1] = TF_Detail.getText();
+				data[2] = TF_Harga.getText();
 
 				try {
 					eventForm.tabelModel2.insertRow(0, data);
@@ -103,7 +99,5 @@ public class DetailReimbursementForm extends JInternalFrame {
 		});
 		btnTambah.setBounds(265, 113, 117, 25);
 		desktopPane.add(btnTambah);
-
 	}
-
 }

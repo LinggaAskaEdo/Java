@@ -22,7 +22,7 @@ public class TagihanMediaForm extends JInternalFrame {
 	private JTextField TF_Unggah;
 	private JComboBox CB_SumberDana;
 	MasterDanaDAO masterDanaDAO;
-	POMediaForm MediaForm;
+	private POMediaForm MediaForm = new POMediaForm();
 
 	/**
 	 * Launch the application.
@@ -51,7 +51,6 @@ public class TagihanMediaForm extends JInternalFrame {
 
 	public void initializeForm() {
 		setClosable(true);
-		//setBounds(100, 100, 630, 428);
 		setBounds(100, 100, 560, 303);
 		getContentPane().setLayout(null);
 		

@@ -21,7 +21,7 @@ public class DetailEventForm extends JInternalFrame {
 	private JComboBox CB_Uraian;
 	private ButtonGroup buttonGroupUp;
 	private ButtonGroup buttonGroupDown;
-	POEventForm eventForm;
+	private POEventForm eventForm = new POEventForm();
 
 	/**
 	 * Launch the application.

@@ -16,14 +16,13 @@ import de.wannawork.jcalendar.JCalendarComboBox;
 
 public class TagihanReimbursementForm extends JInternalFrame {
 	JDesktopPane desktopPane = new JDesktopPane();
-	private JTable table;
 	private JTextField TF_ReffPO;
 	private JTextField TF_Unggah;
 	private JTextArea TA_Catatan;
 	private JTextArea TA_Keterangan;
 	private JComboBox CB_SumberDana;
 	MasterDanaDAO masterDanaDAO;
-	POEventForm eventForm;
+	private POEventForm eventForm = new POEventForm();
 
 	/**
 	 * Launch the application.

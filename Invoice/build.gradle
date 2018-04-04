@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'java-library-distribution'
 
 sourceCompatibility = 1.8
 
@@ -8,7 +9,7 @@ repositories {
     maven { url "http://repo.spring.io/libs-milestone" }
 }
 
-def jarBaseName= 'invoice'
+/*def jarBaseName= 'invoice'
 def distributionFolder = 'invoice'
 def configFiles = ['invoice.sh', 'README'] as Set
 
@@ -24,7 +25,7 @@ jar {
     }
     baseName = jarBaseName
     exclude configFiles
-}
+}*/
 
 dependencies {
     //MySql
@@ -40,7 +41,23 @@ dependencies {
     compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '4.5.0'
 }
 
-task copyFilesToPackage << {
+// Task "distZip" added by plugin "java-library-distribution":
+distZip.shouldRunAfter(build)
+
+jar {
+    // Keep jar clean:
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
+
+    manifest {
+        attributes 'Main-Class': 'com.main.java.invoice.project.form.Main',
+                'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
+    }
+    // How-to add class path:
+    //     https://stackoverflow.com/questions/22659463/add-classpath-in-manifest-using-gradle
+    //     https://gist.github.com/simon04/6865179
+}
+
+/*task copyFilesToPackage << {
     copy {
         //from('src/main/resources')
         from 'build/libs/' + jarBaseName + '.jar'
@@ -53,12 +70,13 @@ task copyFilesToPackage << {
         }
         into 'build/' + distributionFolder
     }
-}
+}*/
 
-task zipPackage(type: Zip, dependsOn: 'copyFilesToPackage') {
+/*task zipPackage(type: Zip, dependsOn: 'copyFilesToPackage') {
     from 'build/' + distributionFolder
     baseName distributionFolder
-}
+}*/
 
+/*
 build.dependsOn zipPackage
-zipPackage.mustRunAfter check
+zipPackage.mustRunAfter check*/

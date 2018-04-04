@@ -1,4 +1,4 @@
-package com.main.java.invoice.project;
+package com.main.java.invoice.project.form;
 
 import com.main.java.invoice.project.form.LoginForm;
 import com.main.java.invoice.project.function.SshFunction;

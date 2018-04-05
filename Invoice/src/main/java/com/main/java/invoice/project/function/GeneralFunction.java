@@ -55,7 +55,7 @@ public class GeneralFunction
 
 		for (int x = 0; x < (StaticPreference.COUNTER_FILE_LENGTH - lengthCounter); x++)
 		{
-			System.out.println("BBB");
+			//System.out.println("BBB");
 			extendName.append("0");
 		}
 

@@ -8,6 +8,8 @@ import com.main.java.invoice.project.preference.StaticPreference;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 public class SshFunction
@@ -18,8 +20,12 @@ public class SshFunction
 
         String user = "grandwijaya";
         String pass = "aaa";
-        String host = "192.168.1.112";
+        String host = "192.168.1.7";
         int port = 22;
+
+        Path currentRelativePath = Paths.get("");
+        String s = currentRelativePath.toAbsolutePath().toString();
+        System.out.println("Current relative path is: " + s);
 
         try
         {
@@ -79,9 +85,9 @@ public class SshFunction
                 return false;
             }
 
-            System.out.println("URL: " + StaticPreference.URL);
-            System.out.println("USERNAME: " + StaticPreference.USERNAME);
-            System.out.println("PASSWORD: " + StaticPreference.PASSWORD);
+            //System.out.println("URL: " + StaticPreference.URL);
+            //System.out.println("USERNAME: " + StaticPreference.USERNAME);
+            //System.out.println("PASSWORD: " + StaticPreference.PASSWORD);
 
             ConnectTest connectTest = new ConnectTest(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
             connectTest.connect();

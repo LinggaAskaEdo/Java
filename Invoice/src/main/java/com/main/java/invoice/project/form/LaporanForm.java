@@ -104,36 +104,44 @@ public class LaporanForm extends JInternalFrame {
 				if (CB_Laporan.getSelectedItem().equals("PO EVENT REPORT"))
 				{
 					if (buttonGroup.getSelection().getActionCommand().equals("1")){
-						fileName = "./Invoice/report/poEventReport.jasper";
-						try {
+						fileName = "C:\\Program Files\\Invoice\\report\\poEventReport.jasper";
+
+						try
+						{
 							Class.forName("com.mysql.jdbc.Driver");
 							connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
 							HashMap param = new HashMap();
 
-							param.put("date",CL_Harian.getDate());
+							param.put("date", CL_Harian.getDate());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
 							JasperViewer.viewReport(JPrint);
-
-						}catch (ClassNotFoundException | SQLException | JRException e1) {
+						}
+						catch (ClassNotFoundException | SQLException | JRException e1)
+						{
 							e1.printStackTrace();
 						}
-					} else {
-						fileName = "./Invoice/report/poEventReport_2.jasper";
-						try {
+					}
+					else
+						{
+						fileName = "C:\\Program Files\\Invoice\\report\\poEventReport_2.jasper";
+
+						try
+						{
 							Class.forName("com.mysql.jdbc.Driver");
 							connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
 							HashMap param = new HashMap();
 
-							param.put("date_1",CL_Bulanan_1.getDate());
-							param.put("date_2",CL_Bulanan_2.getDate());
+							param.put("date_1", CL_Bulanan_1.getDate());
+							param.put("date_2", CL_Bulanan_2.getDate());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
 							JasperViewer.viewReport(JPrint);
-
-						}catch (ClassNotFoundException | SQLException | JRException e1) {
+						}
+						catch (ClassNotFoundException | SQLException | JRException e1)
+						{
 							e1.printStackTrace();
 						}
 					}

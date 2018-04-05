@@ -84,9 +84,9 @@ public class LoginForm extends JFrame
 			String pass = String.valueOf(PF_KataSandi.getPassword());
 
 			System.out.println(user + " - " + pass);
-			System.out.println("URL: " + StaticPreference.URL);
-			System.out.println("USERNAME: " + StaticPreference.USERNAME);
-			System.out.println("PASSWORD: " + StaticPreference.PASSWORD);
+			//System.out.println("URL: " + StaticPreference.URL);
+			//System.out.println("USERNAME: " + StaticPreference.USERNAME);
+			//System.out.println("PASSWORD: " + StaticPreference.PASSWORD);
 
 			//TODO Login Check
 			UserDAO userDAO = new UserDAO();

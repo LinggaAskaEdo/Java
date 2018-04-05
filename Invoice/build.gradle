@@ -7,6 +7,7 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven { url "http://repo.spring.io/libs-milestone" }
+    maven { url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/" }
 }
 
 /*def jarBaseName= 'invoice'
@@ -37,8 +38,11 @@ dependencies {
     //Jcalendar
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
+    //Groovy - Compiler Report
+    compile("org.codehaus.groovy:groovy-all:2.3.10")
+
     //JasperReport
-    compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '4.5.0'
+    compile("net.sf.jasperreports:jasperreports:5.6.0")
 }
 
 // Task "distZip" added by plugin "java-library-distribution":
@@ -49,8 +53,7 @@ jar {
     exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
 
     manifest {
-        attributes 'Main-Class': 'com.main.java.invoice.project.form.Main',
-                'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
+        attributes 'Main-Class': 'com.main.java.invoice.project.form.Main', 'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
     }
     // How-to add class path:
     //     https://stackoverflow.com/questions/22659463/add-classpath-in-manifest-using-gradle

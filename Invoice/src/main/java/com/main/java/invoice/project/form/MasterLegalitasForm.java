@@ -165,7 +165,7 @@ public class MasterLegalitasForm extends JInternalFrame {
 		JButton btnHapus = new JButton("Hapus");
 		btnHapus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MasterPerusahaan masterPerusahaan = null;
+				MasterPerusahaan masterPerusahaan = new MasterPerusahaan();
 				masterPerusahaan.setCode(TF_KodePerusahaan.getText());
 				masterPerusahaan.setName(TF_NamaPerusahaan.getText());
 				masterPerusahaan.setImage(TF_Unggah.getText());
@@ -181,7 +181,7 @@ public class MasterLegalitasForm extends JInternalFrame {
 					clearLegalitas();
 					TF_KodePerusahaan.setEnabled(true);
 				} catch (Exception e1) {
-					System.out.println(e1);
+					System.out.println(e1.getMessage());
 				}
 			}
 		});
@@ -193,7 +193,7 @@ public class MasterLegalitasForm extends JInternalFrame {
 		JButton btnSimpan = new JButton("Simpan");
 		btnSimpan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MasterPerusahaan masterPerusahaan = null;
+				MasterPerusahaan masterPerusahaan = new MasterPerusahaan();
 				masterPerusahaan.setCode(TF_KodePerusahaan.getText());
 				masterPerusahaan.setName(TF_NamaPerusahaan.getText());
 				masterPerusahaan.setImage(TF_Unggah.getText());
@@ -203,7 +203,7 @@ public class MasterLegalitasForm extends JInternalFrame {
 				masterPerusahaan.setNoBankAccount(TF_NoRek.getText());
 				masterPerusahaan.setFeeAgency(TF_FeeAgency.getText());
 
-				if(btnHapus.isEnabled() == false) {
+				if(!btnHapus.isEnabled()) {
 					try {
 						dao.addUpdate(masterPerusahaan, 0);
 						data[0] = TF_KodePerusahaan.getText();
@@ -217,7 +217,7 @@ public class MasterLegalitasForm extends JInternalFrame {
 						clearLegalitas();
 						TF_KodePerusahaan.setEnabled(true);
 					} catch (Exception e2) {
-						System.out.println(e2);
+						System.out.println(e2.getMessage());
 					}
 				} else {
 					try {
@@ -234,7 +234,7 @@ public class MasterLegalitasForm extends JInternalFrame {
 						clearLegalitas();
 						TF_KodePerusahaan.setEnabled(true);
 					} catch (Exception e3) {
-						System.out.println(e3);
+						System.out.println(e3.getMessage());
 					}
 				}
 			}
@@ -290,11 +290,10 @@ public class MasterLegalitasForm extends JInternalFrame {
 		};
 	}
 
-	public void setDefaultTable()
+	private void setDefaultTable()
 	{
 		try {
-			List<MasterPerusahaan> masterPerusahaanList;
-			masterPerusahaanList = dao.GetAllMasterPerusahaan();
+			List<MasterPerusahaan> masterPerusahaanList = dao.GetAllMasterPerusahaan();
 
 			for(int i = 0; i < masterPerusahaanList.size(); i++) {
 				data[0] = masterPerusahaanList.get(i).getCode();
@@ -308,11 +307,11 @@ public class MasterLegalitasForm extends JInternalFrame {
 				tabelModel.addRow(data);
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			System.out.println(e.getMessage());
 		}
 	}
 
-	public void showLegalitas()
+	private void showLegalitas()
 	{
 		row = table.getSelectedRow();
 		TF_KodePerusahaan.setText(tabelModel.getValueAt(row, 0).toString());
@@ -324,7 +323,7 @@ public class MasterLegalitasForm extends JInternalFrame {
 		TF_FeeAgency.setText(tabelModel.getValueAt(row, 6).toString());
 	}
 
-	public void clearLegalitas()
+	private void clearLegalitas()
 	{
 		TF_KodePerusahaan.setText("");
 		TF_NamaPerusahaan.setText("");

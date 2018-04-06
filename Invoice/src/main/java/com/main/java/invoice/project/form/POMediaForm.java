@@ -124,7 +124,7 @@ public class POMediaForm extends JInternalFrame {
 		CB_NamaMedia = new JComboBox();
 		CB_NamaMedia.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				MasterMedia masterMedia = null;
+				MasterMedia masterMedia = new MasterMedia();
 				masterMedia.setCompanyName(String.valueOf(CB_NamaMedia.getSelectedItem()));
 
 				try {
@@ -132,7 +132,7 @@ public class POMediaForm extends JInternalFrame {
 
 					cbId.setText(String.valueOf(masterMedia.getMasterMediaId()));
 				} catch (Exception e4) {
-					System.out.println(e4);
+					System.out.println(e4.getMessage());
 				}
 			}
 		});
@@ -242,14 +242,14 @@ public class POMediaForm extends JInternalFrame {
 		JButton btnSimpan = new JButton("Simpan");
 		btnSimpan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PoMedia poMedia = null;
-				Kontrak kontrak = null;
+				PoMedia poMedia = new PoMedia();
+				Kontrak kontrak = new Kontrak();
 
 				try {
 					kontrak.setNoKontrak(TF_ReffKontrak.getText());
 					kontrak = kontrakDAO.GetKontrakById(kontrak);
 				} catch (Exception e2) {
-					System.out.println(e2);
+					System.out.println(e2.getMessage());
 				}
 
 				poMedia.setPoMediaNo(TF_PONomor.getText());
@@ -269,7 +269,7 @@ public class POMediaForm extends JInternalFrame {
 					RemoveRowPoMedia();
 					ClearPoMedia();
 				} catch (Exception e3) {
-					System.out.println(e3);
+					System.out.println(e3.getMessage());
 				}
 			}
 		});
@@ -310,8 +310,7 @@ public class POMediaForm extends JInternalFrame {
 
 	public void GetTableList()
 	{
-		TagihanMedia tagihanMedia = null;
-		MasterDana masterDana;
+		TagihanMedia tagihanMedia = new TagihanMedia();
 
 		for(int i = 0; i < tabelModel.getRowCount(); i++) {
 			try {
@@ -321,14 +320,14 @@ public class POMediaForm extends JInternalFrame {
 				tagihanMedia.setNilaiTagihan((BigDecimal) tabelModel.getValueAt(i, 2));
 
 				String splitData = String.valueOf(tabelModel.getValueAt(i,3));
-				masterDana = masterDanaDAO.GetMasterDanaById(splitData);
+				MasterDana masterDana = masterDanaDAO.GetMasterDanaById(splitData);
 				tagihanMedia.setMasterDanaId(masterDana.getMasterDanaId());
 
 				tagihanMedia.setImage(String.valueOf(tabelModel.getValueAt(i, 4)));
 
 				tagihanMediaDAO.add(tagihanMedia);
 			} catch (Exception e1) {
-				System.out.println(e1);
+				System.out.println(e1.getMessage());
 			}
 		}
 	}
@@ -356,15 +355,14 @@ public class POMediaForm extends JInternalFrame {
 	public void ShowComboBoxPoMedia()
 	{
 		try {
-			List<MasterMedia> allMasterMedia;
-			allMasterMedia = masterMediaDAO.GetAllMasterMediaComboBox();
+			List<MasterMedia> allMasterMedia = masterMediaDAO.GetAllMasterMediaComboBox();
 
 			for (int i = 0; i < allMasterMedia.size(); i++) {
 
 				CB_NamaMedia.addItem(allMasterMedia.get(i).getMediaName());
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			System.out.println(e.getMessage());
 		}
 	}
 }

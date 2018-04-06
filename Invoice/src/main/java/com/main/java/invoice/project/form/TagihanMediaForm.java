@@ -145,18 +145,17 @@ public class TagihanMediaForm extends JInternalFrame {
 		desktopPane.add(button);
 	}
 
-	public void ShowComboBoxTagihan()
+	private void ShowComboBoxTagihan()
 	{
 		try {
-			List<MasterDana> allMasterDana;
-			allMasterDana = masterDanaDAO.GetAllMasterDanaComboBox();
+			List<MasterDana> allMasterDana = masterDanaDAO.GetAllMasterDanaComboBox();
 
 			for (int i = 0; i < allMasterDana.size(); i++) {
 
 				CB_SumberDana.addItem(allMasterDana.get(i).getNameBankAccount()+"-"+allMasterDana.get(i).getNoBankAccount());
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			System.out.println(e.getMessage());
 		}
 	}
 }

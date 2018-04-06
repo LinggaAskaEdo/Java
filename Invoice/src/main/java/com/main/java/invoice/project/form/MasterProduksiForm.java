@@ -121,7 +121,7 @@ public class MasterProduksiForm extends JInternalFrame {
 		JButton btnHapus = new JButton("Hapus");
 		btnHapus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MasterProduksi masterProduksi = null;
+				MasterProduksi masterProduksi = new MasterProduksi();
 				masterProduksi.setAgentProduksi(TF_Agent.getText());
 				masterProduksi.setName(TF_DOP.getText());
 				masterProduksi.setAddress(TA_Alamat.getText());
@@ -142,14 +142,14 @@ public class MasterProduksiForm extends JInternalFrame {
 		JButton btnSimpan = new JButton("Simpan");
 		btnSimpan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MasterProduksi masterProduksi = null;
+				MasterProduksi masterProduksi = new MasterProduksi();
 				masterProduksi.setAgentProduksi(TF_Agent.getText());
 				masterProduksi.setName(TF_DOP.getText());
 				masterProduksi.setAddress(TA_Alamat.getText());
 				masterProduksi.setNoNpwp(TF_Npwp.getText());
 				masterProduksi.setInformation(TA_Keterangan.getText());
 
-				if(btnHapus.isEnabled() == false) {
+				if(!btnHapus.isEnabled()) {
 					dao.addUpdate(masterProduksi, 0);
 					data[0] = TF_Agent.getText();
 					data[1] = TF_DOP.getText();
@@ -224,11 +224,10 @@ public class MasterProduksiForm extends JInternalFrame {
 		};
 	}
 
-	public void setDefaultTable()
+	private void setDefaultTable()
 	{
 		try {
-			List<MasterProduksi> masterProduksiList;
-			masterProduksiList = dao.GetAllMasterProduksi();
+			List<MasterProduksi> masterProduksiList = dao.GetAllMasterProduksi();
 
 			for(int i = 0; i < masterProduksiList.size(); i++) {
 				data[0] = masterProduksiList.get(i).getAgentProduksi();
@@ -240,11 +239,11 @@ public class MasterProduksiForm extends JInternalFrame {
 				tabelModel.addRow(data);
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			System.out.println(e.getMessage());
 		}
 	}
 
-	public void showProduksi()
+	private void showProduksi()
 	{
 		row = table.getSelectedRow();
 		TF_Agent.setText(tabelModel.getValueAt(row, 0).toString());
@@ -254,7 +253,7 @@ public class MasterProduksiForm extends JInternalFrame {
 		TA_Keterangan.setText(tabelModel.getValueAt(row, 4).toString());
 	}
 
-	public void clearProduksi()
+	private void clearProduksi()
 	{
 		TF_Agent.setText("");
 		TF_DOP.setText("");

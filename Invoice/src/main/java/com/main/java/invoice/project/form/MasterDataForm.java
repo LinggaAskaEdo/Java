@@ -14,8 +14,8 @@ import de.wannawork.jcalendar.JCalendarComboBox;
 
 import javax.swing.JButton;
 
-public class MasterDataForm extends JInternalFrame {
-	
+public class MasterDataForm extends JInternalFrame
+{
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField textField;
 	private JTextField textField_1;
@@ -41,16 +41,19 @@ public class MasterDataForm extends JInternalFrame {
 	private JTextField textField_21;
 	private JTextField textField_22;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					MasterDataForm frame = new MasterDataForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}

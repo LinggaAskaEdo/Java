@@ -1,17 +1,24 @@
 package com.main.java.invoice.project.form;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 public class MenuForm extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 
-	private JDesktopPane desktopPane = new JDesktopPane();
+	private JDesktopPane desktopPane;
+
+	private BufferedImage img;
 
 	public static void main(String[] args)
 	{
@@ -19,11 +26,12 @@ public class MenuForm extends JFrame
 		{
             try
             {
-				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
                 MenuForm frame = new MenuForm();
-				frame.setSize(screenSize);
-				frame.setResizable(true);
+
+				//Panel panel = new Panel();
+				//frame.add(panel);
+				//frame.pack();
+				frame.setResizable(false);
 				frame.setVisible(true);
             }
             catch (Exception e)
@@ -47,16 +55,63 @@ public class MenuForm extends JFrame
 
 	private void initializeForm()
 	{
+		this.setExtendedState(this.getExtendedState() | MAXIMIZED_BOTH);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		JPanel contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
-		setContentPane(contentPane);
 
-		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
-		getContentPane().add(desktopPane);
-		desktopPane.setLayout(null);
+		JPanel contentPane = new JPanel();
+		//contentPane.setBackground(new Image());
+		//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		//contentPane.setLayout(null);
+
+		//JLabel background = new JLabel(new ImageIcon("C:\\Program Files\\Invoice\\image\\background.png"), SwingConstants.CENTER);
+		//add(background);
+		//background.setLayout(new FlowLayout());
+		//contentPane.add(background);
+
+		//ImagePanel panel = new ImagePanel(new ImageIcon("C:\\\\Program Files\\\\Invoice\\\\image\\\\background.png").getImage());
+		//getContentPane().add(panel);
+		//pack();
+		//setContentPane(contentPane);
+
+		/*try
+		{
+			img = ImageIO.read(new URL("C:\\Program Files\\Invoice\\image\\background.png"));
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}*/
+
+		// A specialized layered pane to be used with JInternalFrames
+		ImageIcon icon = new ImageIcon("C:\\Program Files\\Invoice\\image\\background.png");
+		Image image = icon.getImage();
+		desktopPane = new JDesktopPane()
+		{
+			public void paintComponent(Graphics g)
+			{
+				g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+			}
+
+			/*@Override
+			protected void paintComponent(Graphics grphcs)
+			{
+				super.paintComponent(grphcs);
+				grphcs.drawImage(img, 0, 0, null);
+			}
+
+			@Override
+			public Dimension getPreferredSize()
+			{
+				return new Dimension(img.getWidth(), img.getHeight());
+			}*/
+		};
+
+		//getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
+		//getContentPane().add(desktopPane);
+		//desktopPane.setLayout(null);
+
+		contentPane.add(desktopPane, BorderLayout.CENTER);
+		setContentPane(contentPane);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -127,6 +182,17 @@ public class MenuForm extends JFrame
 		JMenuItem mntmMasterDana = new JMenuItem("Master Dana");
 		mntmMasterDana.addActionListener(this::masterDanaActionPerformed);
 		mnMasterData.add(mntmMasterDana);
+
+		JMenu mnAkun = new JMenu("Akun");
+		mnAkun.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				akunActionPerformed(e);
+			}
+		});
+		menuBar.add(mnAkun);
 
 		JMenu Laporan = new JMenu("Laporan");
 		Laporan.addMouseListener(new MouseAdapter()
@@ -203,6 +269,16 @@ public class MenuForm extends JFrame
 		kon.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
 		kon.setVisible(true);
 	}
+
+	private void akunActionPerformed(MouseEvent e)
+	{
+		AkunForm akunForm = new AkunForm();
+		desktopPane.add(akunForm);
+		Dimension screen = this.getSize();
+		Dimension frame = akunForm.getSize();
+		akunForm.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
+		akunForm.setVisible(true);
+	}
 	
 	private void masterLegalitasActionPerformed(ActionEvent e)
 	{
@@ -272,5 +348,31 @@ public class MenuForm extends JFrame
 		Dimension frame = lap.getSize();
 		lap.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
 		lap.setVisible(true);
+	}
+
+	class ImagePanel extends JPanel
+	{
+		private Image img;
+
+		public ImagePanel(String img)
+		{
+			this(new ImageIcon(img).getImage());
+		}
+
+		ImagePanel(Image img)
+		{
+			this.img = img;
+			Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
+			setPreferredSize(size);
+			setMinimumSize(size);
+			setMaximumSize(size);
+			setSize(size);
+			setLayout(null);
+		}
+
+		public void paintComponent(Graphics g)
+		{
+			g.drawImage(img, 0, 0, null);
+		}
 	}
 }

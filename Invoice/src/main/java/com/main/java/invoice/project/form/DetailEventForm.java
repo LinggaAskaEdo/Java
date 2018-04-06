@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class DetailEventForm extends JInternalFrame {
-	
+public class DetailEventForm extends JInternalFrame
+{
 	/**
 	 * 
 	 */
@@ -185,7 +185,7 @@ public class DetailEventForm extends JInternalFrame {
 		desktopPane.add(BT_Tambah);
 	}
 
-	public void ComboBoxItem()
+	private void ComboBoxItem()
 	{
 		CB_Uraian.addItem("HADIAH");
 		CB_Uraian.addItem("HONORARIUM");

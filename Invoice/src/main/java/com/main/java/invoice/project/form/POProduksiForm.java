@@ -195,15 +195,14 @@ public class POProduksiForm extends JInternalFrame {
 		JButton btnSimpan = new JButton("Simpan");
 		btnSimpan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PoProduksi poProduksi = null;
-
-				Kontrak kontrak = null;
+				PoProduksi poProduksi = new PoProduksi();
+				Kontrak kontrak = new Kontrak();
 
 				try {
 					kontrak.setNoKontrak(TF_ReffKontrak.getText());
 					kontrak = kontrakDAO.GetKontrakById(kontrak);
 				} catch (Exception e2) {
-					System.out.println(e2);
+					System.out.println(e2.getMessage());
 				}
 				poProduksi.setPoProduksiNo(TF_PONomor.getText());
 				poProduksi.setKontrakId(kontrak.getKontrakId());
@@ -216,7 +215,7 @@ public class POProduksiForm extends JInternalFrame {
 				try {
 					dao.add(poProduksi);
 				} catch (Exception e3){
-					System.out.println(e3);
+					System.out.println(e3.getMessage());
 				}
 				GetTableList();
 				RemoveRowPoProduksi();
@@ -259,7 +258,7 @@ public class POProduksiForm extends JInternalFrame {
 
 	public void GetTableList()
 	{
-		DetailProduksi detailProduksi = null;
+		DetailProduksi detailProduksi = new DetailProduksi();
 
 		for(int i = 0; i < tabelModel.getRowCount(); i++) {
 
@@ -281,12 +280,12 @@ public class POProduksiForm extends JInternalFrame {
 			try {
 				detailProduksiDAO.add(detailProduksi);
 			} catch (Exception e1) {
-				System.out.println(e1);
+				System.out.println(e1.getMessage());
 			}
 		}
 	}
 
-	public void RemoveRowPoProduksi()
+	private void RemoveRowPoProduksi()
 	{
 		for(int i = 0; i < tabelModel.getRowCount(); i++)
 		{
@@ -294,7 +293,8 @@ public class POProduksiForm extends JInternalFrame {
 		}
 	}
 
-	public void ClearPoProduksi(){
+	private void ClearPoProduksi()
+	{
 		TF_PONomor.setText("");
 		TF_ReffKontrak.setText("");
 		TF_Produksi.setText("");

@@ -17,25 +17,26 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 
-public class LaporanForm extends JInternalFrame {
-	/**
-	 * 
-	 */
+public class LaporanForm extends JInternalFrame
+{
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 	private ButtonGroup buttonGroup;
 	private Connection connect = null;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					LaporanForm frame = new LaporanForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -48,8 +49,8 @@ public class LaporanForm extends JInternalFrame {
 		initializeForm();
 	}
 
-	public void initializeForm() {
-
+	public void initializeForm()
+	{
 		setClosable(true);
 		setBounds(100, 100, 577, 280);
 		getContentPane().setLayout(null);
@@ -98,12 +99,16 @@ public class LaporanForm extends JInternalFrame {
 		buttonGroup.add(rdbtnBulanan);
 
 		JButton btnCetak = new JButton("Cetak");
-		btnCetak.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String fileName = "";
+		btnCetak.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				String fileName;
+
 				if (CB_Laporan.getSelectedItem().equals("PO EVENT REPORT"))
 				{
-					if (buttonGroup.getSelection().getActionCommand().equals("1")){
+					if (buttonGroup.getSelection().getActionCommand().equals("1"))
+					{
 						fileName = "C:\\Program Files\\Invoice\\report\\poEventReport.jasper";
 
 						try
@@ -124,7 +129,7 @@ public class LaporanForm extends JInternalFrame {
 						}
 					}
 					else
-						{
+					{
 						fileName = "C:\\Program Files\\Invoice\\report\\poEventReport_2.jasper";
 
 						try

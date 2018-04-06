@@ -22,8 +22,8 @@ import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.table.TableColumn;
 
-public class AkunForm extends JInternalFrame {
-
+public class AkunForm extends JInternalFrame
+{
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField textField;
@@ -118,7 +118,7 @@ public class AkunForm extends JInternalFrame {
 		JButton btnHapus = new JButton("Hapus");
 		btnHapus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				User user = null;
+				User user = new User();
 				user.setUsers(textField.getText());
 
 				try {
@@ -127,7 +127,7 @@ public class AkunForm extends JInternalFrame {
 					clearUser();
 					textField.setEnabled(true);
 				} catch (Exception e3) {
-					System.out.println(e3);
+					System.out.println(e3.getMessage());
 				}
 			}
 		});
@@ -149,7 +149,7 @@ public class AkunForm extends JInternalFrame {
 					user.setIsAdmin(0);
 				}
 
-				if(!btnHapus.isEnabled() == false) {
+				if(!btnHapus.isEnabled()) {
 					try{
 						dao.addUpdate(user, 0);
 						data[0] = textField.getText();
@@ -164,7 +164,7 @@ public class AkunForm extends JInternalFrame {
 						clearUser();
 						textField.setEnabled(true);
 					} catch (Exception e1) {
-						System.out.println(e1);
+						System.out.println(e1.getMessage());
 					}
 				} else {
 					try {
@@ -182,7 +182,7 @@ public class AkunForm extends JInternalFrame {
 						clearUser();
 						textField.setEnabled(true);
 					} catch (Exception e2) {
-						System.out.println(e2);
+						System.out.println(e2.getMessage());
 					}
 				}
 			}
@@ -243,11 +243,10 @@ public class AkunForm extends JInternalFrame {
 		};
 	}
 
-	public void setDefaultTable()
+	private void setDefaultTable()
 	{
 		try {
-			List<User> userList;
-			userList = dao.GetAllUser();
+			List<User> userList = dao.GetAllUser();
 
 			for(int i = 0; i < userList.size(); i++) {
 				data[0] = userList.get(i).getUsers();
@@ -257,11 +256,11 @@ public class AkunForm extends JInternalFrame {
 				tabelModel.addRow(data);
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			System.out.println(e.getMessage());
 		}
 	}
 
-	public void showDana()
+	private void showDana()
 	{
 		row = table.getSelectedRow();
 		textField.setText(tabelModel.getValueAt(row, 0).toString());
@@ -276,7 +275,7 @@ public class AkunForm extends JInternalFrame {
 		passwordField_1.setText("");
 	}
 
-	public void clearUser()
+	private void clearUser()
 	{
 		textField.setText("");
 		textField_1.setText("");

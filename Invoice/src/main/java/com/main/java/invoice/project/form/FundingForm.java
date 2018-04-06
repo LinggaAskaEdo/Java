@@ -19,11 +19,8 @@ import com.main.java.invoice.project.pojo.*;
 import com.toedter.calendar.JDateChooser;
 import de.wannawork.jcalendar.JCalendarComboBox;
 
-public class FundingForm extends JInternalFrame {
-	
-	/**
-	 * 
-	 */
+public class FundingForm extends JInternalFrame
+{
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_Nama;
@@ -40,13 +37,19 @@ public class FundingForm extends JInternalFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					FundingForm frame = new FundingForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -59,8 +62,8 @@ public class FundingForm extends JInternalFrame {
 		initializeForm();
 	}
 
-	public void initializeForm() {
-
+	public void initializeForm()
+	{
 		setClosable(true);
 		setBounds(100, 100, 530, 353);
 		getContentPane().setLayout(null);
@@ -123,27 +126,32 @@ public class FundingForm extends JInternalFrame {
 		buttonGroup.add(rdbtnMasterDana);
 		
 		CB_Reff = new JComboBox();
-		CB_Reff.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-
-				if(buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1")){
+		CB_Reff.addItemListener(new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent arg0)
+			{
+				if (buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1"))
+				{
 					ShowComboBoxKontrakFunding();
-				} else {
+				}
+				else
+				{
 					ShowComboBoxDanaFunding();
 				}
 
-				if(buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1")){
+				if (buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1"))
+				{
 					Kontrak kontrak = new Kontrak();
 
 					kontrak.setNoKontrak(String.valueOf(CB_Reff.getSelectedItem()));
 					kontrak = kontrakDAO.GetKontrakById(kontrak);
 
 					reffId.setText(String.valueOf(kontrak.getKontrakId()));
-				} else {
-					MasterDana masterDana;
-
+				}
+				else
+				{
 					String splitData = String.valueOf(CB_Reff.getSelectedItem());
-					masterDana = masterDanaDAO.GetMasterDanaById(splitData);
+					MasterDana masterDana = masterDanaDAO.GetMasterDanaById(splitData);
 					reffId.setText(String.valueOf(masterDana.getMasterDanaId()));
 				}
 			}
@@ -167,13 +175,16 @@ public class FundingForm extends JInternalFrame {
 		TF_Unggah.setColumns(10);
 		
 		JButton BT_Unggah = new JButton("Browse");
-		BT_Unggah.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
+		BT_Unggah.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				JFileChooser jfc = new JFileChooser();
 
 				int returnValue = jfc.showOpenDialog(null);
-				if (returnValue == JFileChooser.APPROVE_OPTION) {
+
+				if (returnValue == JFileChooser.APPROVE_OPTION)
+				{
 					File selectedFile = jfc.getSelectedFile();
 					TF_Unggah.setText(selectedFile.getAbsolutePath());
 				}
@@ -183,17 +194,25 @@ public class FundingForm extends JInternalFrame {
 		desktopPane.add(BT_Unggah);
 
 		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Funding funding = null;
+		btnSimpan.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				Funding funding = new Funding();
 
-				try {
+				try
+				{
 					funding.setKontakName(TF_Nama.getText());
-					if (buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1")){
+
+					if (buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1"))
+					{
 						funding.setCheckReff(1);
-					} else {
+					}
+					else
+					{
 						funding.setCheckReff(0);
 					}
+
 					funding.setReff(Integer.valueOf(reffId.getText()));
 					funding.setTanggal(CL_Tanggal.getDate());
 					funding.setNilai(new BigDecimal(TF_Nilai.getText()));
@@ -202,17 +221,18 @@ public class FundingForm extends JInternalFrame {
 
 					dao.addFunding(funding);
 					ClearFunding();
-				} catch (Exception e1) {
-					System.out.println(e1);
 				}
-
+				catch (Exception e1)
+				{
+					System.out.println(e1.getMessage());
+				}
 			}
 		});
 		btnSimpan.setBounds(350, 277, 117, 25);
 		desktopPane.add(btnSimpan);
 	}
 
-	public void ClearFunding()
+	private void ClearFunding()
 	{
 		TF_Nama.setText("");
 		TF_Nilai.setText("");
@@ -220,10 +240,9 @@ public class FundingForm extends JInternalFrame {
 		TF_Unggah.setText("");
 	}
 
-	public void ShowComboBoxDanaFunding()
+	private void ShowComboBoxDanaFunding()
 	{
-		List<MasterDana> allMasterDana;
-		allMasterDana = masterDanaDAO.GetAllMasterDanaComboBox();
+		List<MasterDana> allMasterDana = masterDanaDAO.GetAllMasterDanaComboBox();
 
 		for (int i = 0; i < allMasterDana.size(); i++) {
 
@@ -231,10 +250,9 @@ public class FundingForm extends JInternalFrame {
 		}
 	}
 
-	public void ShowComboBoxKontrakFunding()
+	private void ShowComboBoxKontrakFunding()
 	{
-		List<Kontrak> allKontrak;
-		allKontrak = kontrakDAO.GetAllKontrakComboBox();
+		List<Kontrak> allKontrak = kontrakDAO.GetAllKontrakComboBox();
 
 		for (int i = 0; i < allKontrak.size(); i++) {
 

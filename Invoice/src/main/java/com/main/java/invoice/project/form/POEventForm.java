@@ -286,14 +286,14 @@ public class POEventForm extends JInternalFrame {
 		JButton btnSimpan = new JButton("Simpan");
 		btnSimpan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PoEvent poEvent = null;
-				Kontrak kontrak = null;
+				PoEvent poEvent = new PoEvent();
+				Kontrak kontrak = new Kontrak();
 
 				kontrak.setNoKontrak(TF_ReffKontrak.getText());
 				try {
 					kontrak = kontrakDAO.GetKontrakById(kontrak);
 				} catch (Exception e2) {
-					System.out.println(e2);
+					System.out.println(e2.getMessage());
 				}
 				poEvent.setPoEventNo(TF_PONomor.getText());
 				poEvent.setKontrakId(kontrak.getKontrakId());
@@ -306,7 +306,7 @@ public class POEventForm extends JInternalFrame {
 				try {
 					dao.add(poEvent);
 				} catch (Exception e3) {
-					System.out.println(e3);
+					System.out.println(e3.getMessage());
 				}
 
 				GetTableList_1();
@@ -395,7 +395,7 @@ public class POEventForm extends JInternalFrame {
 
 	public void GetTableList_1()
 	{
-		DetailEvent detailEvent = null;
+		DetailEvent detailEvent = new DetailEvent();
 
 		for(int i = 0; i < tabelModel1.getRowCount(); i++) {
 
@@ -412,7 +412,7 @@ public class POEventForm extends JInternalFrame {
 			try {
 				detailEventDAO.add(detailEvent);
 			} catch (Exception e3) {
-				System.out.println(e3);
+				System.out.println(e3.getMessage());
 			}
 		}
 	}
@@ -427,7 +427,7 @@ public class POEventForm extends JInternalFrame {
 
 	public void GetTableList_2()
 	{
-		DetailReimburse detailReimburse = null;
+		DetailReimburse detailReimburse = new DetailReimburse();
 
 		for(int i = 0; i < tabelModel2.getRowCount(); i++) {
 
@@ -439,7 +439,7 @@ public class POEventForm extends JInternalFrame {
 			try {
 				detailReimbursementDAO.add(detailReimburse);
 			} catch (Exception e2) {
-				System.out.println(e2);
+				System.out.println(e2.getMessage());
 			}
 		}
 	}
@@ -454,7 +454,7 @@ public class POEventForm extends JInternalFrame {
 
 	public void GetTableList_3()
 	{
-		TagihanReimburse tagihanReimburse = null;
+		TagihanReimburse tagihanReimburse = new TagihanReimburse();
 		MasterDana masterDana;
 
 		for(int i = 0; i < tabelModel3.getRowCount(); i++) {
@@ -474,12 +474,12 @@ public class POEventForm extends JInternalFrame {
 
 			tagihanReimbursementDAO.add(tagihanReimburse);
 			} catch (Exception e1) {
-				System.out.println(e1);
+				System.out.println(e1.getMessage());
 			}
 		}
 	}
 
-	public void RemoveRow_3()
+	private void RemoveRow_3()
 	{
 		for(int i = 0; i < tabelModel3.getRowCount(); i++)
 		{
@@ -487,7 +487,7 @@ public class POEventForm extends JInternalFrame {
 		}
 	}
 
-	public void ClearPoEvent()
+	private void ClearPoEvent()
 	{
 		TF_PONomor.setText("");
 		TF_ReffKontrak.setText("");

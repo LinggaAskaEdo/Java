@@ -25,9 +25,7 @@ public class CostOperasionalForm extends JInternalFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
-	
-	@SuppressWarnings("unused")
-	private JTable table;
+
 	private JTextField TB_Kontrak;
 	private JTextField TB_Unggah;
 	private JTextField cbId;
@@ -100,10 +98,8 @@ public class CostOperasionalForm extends JInternalFrame {
 		CB_ReffSumbDana = new JComboBox();
 		CB_ReffSumbDana.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				MasterDana masterDana = null;
-
 				String splitData = String.valueOf(CB_ReffSumbDana.getSelectedItem());
-				masterDana = masterDanaDAO.GetMasterDanaById(splitData);
+				MasterDana masterDana = masterDanaDAO.GetMasterDanaById(splitData);
 
 				cbId.setText(masterDana.getMasterDanaId().toString());
 			}
@@ -143,14 +139,16 @@ public class CostOperasionalForm extends JInternalFrame {
 		desktopPane.add(BT_Unggah);
 
 		JButton BT_Simpan = new JButton("Simpan");
-		BT_Simpan.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CostOperasional costOperasional = null;
-				MasterDana masterDana;
+		BT_Simpan.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				CostOperasional costOperasional = new CostOperasional();
 
-				try {
+				try
+				{
 					String splitData = String.valueOf(CB_ReffSumbDana.getSelectedItem());
-					masterDana = masterDanaDAO.GetMasterDanaById(splitData);
+					MasterDana masterDana = masterDanaDAO.GetMasterDanaById(splitData);
 					costOperasional.setMasterDanaId(masterDana.getMasterDanaId());
 
 					costOperasional.setPic(TB_Kontrak.getText());
@@ -160,8 +158,10 @@ public class CostOperasionalForm extends JInternalFrame {
 
 					dao.addCostOperasional(costOperasional);
 					ClearCost();
-				} catch (Exception e1) {
-					System.out.println(e1);
+				}
+				catch (Exception e1)
+				{
+					System.out.println(e1.getMessage());
 				}
 			}
 		});
@@ -169,14 +169,14 @@ public class CostOperasionalForm extends JInternalFrame {
 		desktopPane.add(BT_Simpan);
 	}
 
-	public void ClearCost()
+	private void ClearCost()
 	{
 		TB_Kontrak.setText("");
 		TA_Keperluan.setText("");
 		TB_Unggah.setText("");
 	}
 
-	public void ShowComboBoxCost()
+	private void ShowComboBoxCost()
 	{
 		try {
 			List<MasterDana> allMasterDana;
@@ -187,7 +187,7 @@ public class CostOperasionalForm extends JInternalFrame {
 				CB_ReffSumbDana.addItem(allMasterDana.get(i).getNameBankAccount()+"-"+allMasterDana.get(i).getNoBankAccount());
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			System.out.println(e.getMessage());
 		}
 	}
 }

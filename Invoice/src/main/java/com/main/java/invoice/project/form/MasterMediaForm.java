@@ -131,7 +131,7 @@ public class MasterMediaForm extends JInternalFrame {
 		JButton btnHapus = new JButton("Hapus");
 		btnHapus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MasterMedia masterMedia = null;
+				MasterMedia masterMedia = new MasterMedia();
 				masterMedia.setCompanyName(TF_NamaPerusahaan.getText());
 				masterMedia.setMediaName(TF_NamaMedia.getText());
 				masterMedia.setAddress(TA_Alamat.getText());
@@ -145,7 +145,7 @@ public class MasterMediaForm extends JInternalFrame {
 					clearMedia();
 					TF_NamaPerusahaan.setEnabled(true);
 				} catch (Exception e3) {
-					System.out.println(e3);
+					System.out.println(e3.getMessage());
 				}
 			}
 		});
@@ -157,7 +157,7 @@ public class MasterMediaForm extends JInternalFrame {
 		JButton btnSimpan = new JButton("Simpan");
 		btnSimpan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MasterMedia masterMedia = null;
+				MasterMedia masterMedia = new MasterMedia();
 				masterMedia.setCompanyName(TF_NamaPerusahaan.getText());
 				masterMedia.setMediaName(TF_NamaMedia.getText());
 				masterMedia.setAddress(TA_Alamat.getText());
@@ -165,7 +165,7 @@ public class MasterMediaForm extends JInternalFrame {
 				masterMedia.setBillCommitment(TF_BillComitment.getText());
 				masterMedia.setInformation(TA_Keterangan.getText());
 
-				if(btnHapus.isEnabled() == false){
+				if(!btnHapus.isEnabled()){
 					try {
 						dao.addUpdate(masterMedia, 0);
 						data[0] = TF_NamaPerusahaan.getText();
@@ -178,7 +178,7 @@ public class MasterMediaForm extends JInternalFrame {
 						clearMedia();
 						TF_NamaPerusahaan.setEnabled(true);
 					} catch (Exception e1) {
-						System.out.println(e1);
+						System.out.println(e1.getMessage());
 					}
 				} else {
 					try {
@@ -194,7 +194,7 @@ public class MasterMediaForm extends JInternalFrame {
 						clearMedia();
 						TF_NamaPerusahaan.setEnabled(true);
 					} catch (Exception e2) {
-						System.out.println(e2);
+						System.out.println(e2.getMessage());
 					}
 				}
 			}
@@ -250,11 +250,10 @@ public class MasterMediaForm extends JInternalFrame {
 		};
 	}
 
-	public void setDefaultTable()
+	private void setDefaultTable()
 	{
 		try{
-			List<MasterMedia> masterMediaList;
-			masterMediaList = dao.GetAllMasterMedia();
+			List<MasterMedia> masterMediaList = dao.GetAllMasterMedia();
 
 			for(int i = 0; i < masterMediaList.size(); i++) {
 				data[0] = masterMediaList.get(i).getCompanyName();
@@ -267,11 +266,11 @@ public class MasterMediaForm extends JInternalFrame {
 				tabelModel.addRow(data);
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			System.out.println(e.getMessage());
 		}
 	}
 
-	public void showMedia()
+	private void showMedia()
 	{
 		row = table.getSelectedRow();
 		TF_NamaPerusahaan.setText(tabelModel.getValueAt(row, 0).toString());
@@ -282,7 +281,7 @@ public class MasterMediaForm extends JInternalFrame {
 		TA_Keterangan.setText(tabelModel.getValueAt(row, 5).toString());
 	}
 
-	public void clearMedia()
+	private void clearMedia()
 	{
 		TF_NamaPerusahaan.setText("");
 		TF_NamaMedia.setText("");

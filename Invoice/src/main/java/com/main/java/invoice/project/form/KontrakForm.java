@@ -196,11 +196,14 @@ public class KontrakForm extends JInternalFrame
 		desktopPane.add(label_6);
 
 		CB_KodePerusahaan = new JComboBox();
-		CB_KodePerusahaan.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
+		CB_KodePerusahaan.addItemListener(new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent arg0)
+			{
 				MasterPerusahaan masterPerusahaan = new MasterPerusahaan();
 
-				try {
+				try
+				{
 					masterPerusahaan.setCode(String.valueOf(CB_KodePerusahaan.getSelectedItem()));
 					masterPerusahaan = masterLegalitasDAO.GetMasterPerusahaanById(masterPerusahaan);
 
@@ -208,8 +211,10 @@ public class KontrakForm extends JInternalFrame
 					TF_NamaPerusahaan.setText(masterPerusahaan.getName());
 					TA_AlamatPerusahaan.setText(masterPerusahaan.getAddress());
 					TF_Npwp.setText(masterPerusahaan.getNoNpwp());
-				} catch (Exception e1) {
-					System.out.println(e1);
+				}
+				catch (Exception e1)
+				{
+					System.out.println(e1.getMessage());
 				}
 			}
 		});
@@ -265,12 +270,14 @@ public class KontrakForm extends JInternalFrame
 
 		JDateChooser CL_tanggal = new JDateChooser();
 		CL_tanggal.setBounds(193, 287, 157, 20);
-		CL_tanggal.setDateFormatString("d MMM yyyy");
+		CL_tanggal.setDateFormatString("yyyy-MM-dd");
 		desktopPane.add(CL_tanggal);
 		
 		TF_Dpp = new JTextField();
-		TF_Dpp.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent arg0) {
+		TF_Dpp.addCaretListener(new CaretListener()
+		{
+			public void caretUpdate(CaretEvent arg0)
+			{
 				String getDpp = TF_Dpp.getText();
 				int grdpp = Integer.parseInt(getDpp);
 				int redpp = (grdpp * 110)/100;
@@ -288,8 +295,10 @@ public class KontrakForm extends JInternalFrame
 		TF_ResultDpp.setColumns(10);
 		
 		TF_Ppn = new JTextField();
-		TF_Ppn.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent arg0) {
+		TF_Ppn.addCaretListener(new CaretListener()
+		{
+			public void caretUpdate(CaretEvent arg0)
+			{
 				String getPpn = TF_Ppn.getText();
 				int grPpn = Integer.parseInt(getPpn);
 				int rePpn = (grPpn * 10)/100;
@@ -302,8 +311,10 @@ public class KontrakForm extends JInternalFrame
 		TF_Ppn.setColumns(10);
 		
 		TF_Pph_23 = new JTextField();
-		TF_Pph_23.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent arg0) {
+		TF_Pph_23.addCaretListener(new CaretListener()
+		{
+			public void caretUpdate(CaretEvent arg0)
+			{
 				String getPph23 = TF_Pph_23.getText();
 				int grPph23 = Integer.parseInt(getPph23);
 				int rePph23 = (grPph23 * 2)/100;
@@ -344,25 +355,29 @@ public class KontrakForm extends JInternalFrame
 		desktopPane.add(lblListKontrak);
 
 		JComboBox CB_ListKontrak = new JComboBox();
-		CB_ListKontrak.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
+		CB_ListKontrak.addItemListener(new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent arg0)
+			{
 				Kontrak kontrak = new Kontrak();
-				MasterPerusahaan perusahaan;
 
-				try {
+				try
+				{
 					kontrak.setNoKontrak(String.valueOf(CB_ListKontrak.getSelectedItem()));
 					kontrak = dao.GetKontrakById(kontrak);
 
 					listId.setText(String.valueOf(kontrak.getKontrakId()));
 
-					perusahaan = masterLegalitasDAO.GetMasterPerusahaanById(kontrak.getMasterPerusahaanId());
+					MasterPerusahaan perusahaan = masterLegalitasDAO.GetMasterPerusahaanById(kontrak.getMasterPerusahaanId());
 					CB_KodePerusahaan.setActionCommand(perusahaan.getCode());
 
 					CB_Project.setActionCommand(kontrak.getProject());
 					CL_tanggal.setDate(kontrak.getDate());
 					TF_NilaiKontrak.setText(String.valueOf(kontrak.getNilaiKontrak()));
-				} catch (Exception e2) {
-					System.out.println( e2);
+				}
+				catch (Exception e2)
+				{
+					System.out.println( e2.getMessage());
 				}
 			}
 		});
@@ -377,8 +392,10 @@ public class KontrakForm extends JInternalFrame
 		listId.setVisible(false);
 
 		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnSimpan.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				Kontrak kontrak = new Kontrak();
 				kontrak.setListKontrakId(Integer.valueOf(listId.getText()));
 				kontrak.setNoKontrak(TF_NoKontrak.getText());
@@ -390,27 +407,40 @@ public class KontrakForm extends JInternalFrame
 				kontrak.setPpn(new BigDecimal(TF_ResultDpp.getText()));
 				kontrak.setPph23(new BigDecimal(TF_ResultPph_23.getText()));
 				kontrak.setSp2d(new BigDecimal(TF_ResultSP_2D.getText()));
-				if (chckbxPaid.isSelected()){
+
+				if (chckbxPaid.isSelected())
+				{
 					kontrak.setPaid(1);
-				} else {
+				}
+				else
+				{
 					kontrak.setPaid(0);
 				}
 
-				if(TF_NoKontrak.isEnabled()){
-					try {
+				if (TF_NoKontrak.isEnabled())
+				{
+					try
+					{
 						dao.addUpdate(kontrak, 0);
 						clearkontrak();
 						TF_NoKontrak.setEnabled(true);
-					} catch (Exception e2) {
-						System.out.println(e2);
 					}
-				} else {
-					try {
+					catch (Exception e2)
+					{
+						System.out.println(e2.getMessage());
+					}
+				}
+				else
+				{
+					try
+					{
 						dao.addUpdate(kontrak, 1);
 						clearkontrak();
 						TF_NoKontrak.setEnabled(true);
-					} catch (Exception e3) {
-						System.out.println(e3);
+					}
+					catch (Exception e3)
+					{
+						System.out.println(e3.getMessage());
 					}
 				}
 			}
@@ -419,8 +449,10 @@ public class KontrakForm extends JInternalFrame
 		desktopPane.add(btnSimpan);
 		
 		JButton btnEdit = new JButton("Edit");
-		btnEdit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnEdit.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				CB_ListKontrak.setEnabled(true);
 				TF_NoKontrak.setEnabled(false);
 				TF_NoKontrak.setText("");
@@ -430,43 +462,45 @@ public class KontrakForm extends JInternalFrame
 		desktopPane.add(btnEdit);
 	}
 
-	public void clearkontrak()
+	private void clearkontrak()
 	{
 		listId.setText("");
 		TF_NoKontrak.setText("");
 		codeId.setText("");
 		TF_NilaiKontrak.setText("");
-
 	}
 
-	public void ShowComboBoxPerusahaan()
+	private void ShowComboBoxPerusahaan()
 	{
-		try {
-			List<MasterPerusahaan> allMasterPerusahaan;
-			allMasterPerusahaan = masterLegalitasDAO.GetAllMasterPerusahaanComboBox();
+		try
+		{
+			List<MasterPerusahaan> allMasterPerusahaan = masterLegalitasDAO.GetAllMasterPerusahaanComboBox();
 
-			for (int i = 0; i < allMasterPerusahaan.size(); i++) {
-
+			for (int i = 0; i < allMasterPerusahaan.size(); i++)
+			{
 				CB_KodePerusahaan.addItem(allMasterPerusahaan.get(i).getCode());
 			}
-		} catch (Exception e) {
-			System.out.println( e);
 		}
-
+		catch (Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
 	}
 
-	public void ShowComboBoxKontrak()
+	private void ShowComboBoxKontrak()
 	{
-		try {
-			List<Kontrak> allKontrak;
-			allKontrak = dao.GetAllKontrakComboBox();
+		try
+		{
+			List<Kontrak> allKontrak = dao.GetAllKontrakComboBox();
 
-			for (int i = 0; i < allKontrak.size(); i++) {
-
+			for (int i = 0; i < allKontrak.size(); i++)
+			{
 				CB_KodePerusahaan.addItem(allKontrak.get(i).getNoKontrak());
 			}
-		} catch (Exception e1) {
-			System.out.println(e1);
+		}
+		catch (Exception e1)
+		{
+			System.out.println(e1.getMessage());
 		}
 	}
 }

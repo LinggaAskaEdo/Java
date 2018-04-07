@@ -255,7 +255,7 @@ public class MasterMediaForm extends JInternalFrame
 				new String [] {"Nama Perusahaan", "Nama Media", "Alamat", "NPWP", "Bill Commitment", "Keterangan"}
 		){
 			boolean [] canEdit = new boolean[]{
-					false,false
+					false,false,false,false,false,false
 			};
 			public boolean isCellEditable(int rowIndex, int columnIndex){
 				return canEdit[columnIndex];

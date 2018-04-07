@@ -350,9 +350,9 @@ public class POEventForm extends JInternalFrame
 		desktopPane.add(btnSimpan);
 	}
 
-	DefaultTableModel tabelModel1 = getDefaultTabelModel1();
-	DefaultTableModel tabelModel2 = getDefaultTabelModel2();
-	DefaultTableModel tabelModel3 = getDefaultTabelModel3();
+	static DefaultTableModel tabelModel1 = getDefaultTabelModel1();
+	static DefaultTableModel tabelModel2 = getDefaultTabelModel2();
+	static DefaultTableModel tabelModel3 = getDefaultTabelModel3();
 
 	private void Tabel(JTable tb, int lebar[])
 	{
@@ -367,7 +367,7 @@ public class POEventForm extends JInternalFrame
 		}
 	}
 
-	private DefaultTableModel getDefaultTabelModel1()
+	private static DefaultTableModel getDefaultTabelModel1()
 	{
 		return new DefaultTableModel(
 				new Object [][] {
@@ -379,7 +379,7 @@ public class POEventForm extends JInternalFrame
 				new String [] {"Uraian", "Detail", "Jumlah 1", "Jenis 1", "Jumlah 2", "Jenis 2","Harga Satuan", "Total"}
 		){
 			boolean [] canEdit = new boolean[]{
-					false,false
+					false,false,false,false,false,false,false,false
 			};
 			public boolean isCellEditable(int rowIndex, int columnIndex){
 				return canEdit[columnIndex];
@@ -387,7 +387,7 @@ public class POEventForm extends JInternalFrame
 		};
 	}
 
-	private DefaultTableModel getDefaultTabelModel2()
+	private static DefaultTableModel getDefaultTabelModel2()
 	{
 		return new DefaultTableModel(
 				new Object [][] {
@@ -399,7 +399,7 @@ public class POEventForm extends JInternalFrame
 				new String [] {"Uraian", "Detail", "Harga"}
 		){
 			boolean [] canEdit = new boolean[]{
-					false,false
+					false,false,false
 			};
 			public boolean isCellEditable(int rowIndex, int columnIndex){
 				return canEdit[columnIndex];
@@ -407,7 +407,7 @@ public class POEventForm extends JInternalFrame
 		};
 	}
 
-	private DefaultTableModel getDefaultTabelModel3()
+	private static DefaultTableModel getDefaultTabelModel3()
 	{
 		return new DefaultTableModel(
 				new Object [][] {
@@ -419,7 +419,7 @@ public class POEventForm extends JInternalFrame
 				new String [] {"Reff PO", "Catatan Reimburse", "Tanggal", "Reff Sumber Dana", "Keterangan", "File"}
 		){
 			boolean [] canEdit = new boolean[]{
-					false,false
+					false,false,false,false,false,false
 			};
 			public boolean isCellEditable(int rowIndex, int columnIndex){
 				return canEdit[columnIndex];

@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 
+import static com.main.java.invoice.project.form.POEventForm.tabelModel3;
+
 public class TagihanReimbursementForm extends JInternalFrame
 {
 	JDesktopPane desktopPane = new JDesktopPane();
@@ -142,7 +144,7 @@ public class TagihanReimbursementForm extends JInternalFrame
 				data[4] = TA_Keterangan.getText();
 				data[5] = TF_Unggah.getText();
 
-				eventForm.tabelModel3.insertRow(0, data);
+				tabelModel3.insertRow(0, data);
 				dispose();
 			}
 		});

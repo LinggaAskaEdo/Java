@@ -295,7 +295,7 @@ public class POMediaForm extends JInternalFrame
 		desktopPane.add(btnSimpan);
 	}
 
-	public DefaultTableModel tabelModel = getDefaultTabelModel();
+	static DefaultTableModel tabelModel = getDefaultTabelModel();
 
 	private void Tabel(JTable tb, int lebar[])
 	{
@@ -310,7 +310,7 @@ public class POMediaForm extends JInternalFrame
 		}
 	}
 
-	private DefaultTableModel getDefaultTabelModel()
+	private static DefaultTableModel getDefaultTabelModel()
 	{
 		return new DefaultTableModel(
 				new Object [][] {
@@ -322,7 +322,7 @@ public class POMediaForm extends JInternalFrame
 				new String [] {"Invoice Media", "Tanggal", "Nilai Tagihan", "Reff Sumber Dana", "File"}
 		){
 			boolean [] canEdit = new boolean[]{
-					false,false
+					false,false,false,false,false
 			};
 			public boolean isCellEditable(int rowIndex, int columnIndex){
 				return canEdit[columnIndex];

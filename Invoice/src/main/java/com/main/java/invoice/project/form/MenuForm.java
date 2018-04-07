@@ -6,6 +6,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.MalformedURLException;
+
+import static java.awt.SystemColor.desktop;
 
 public class MenuForm extends JFrame
 {
@@ -35,6 +38,7 @@ public class MenuForm extends JFrame
 		setTitle("Menu");
 		initializeForm();
 		centerForm();
+		setBackgroundImage();
 	}
 
 	private void centerForm()
@@ -316,5 +320,17 @@ public class MenuForm extends JFrame
 		Dimension frame = lap.getSize();
 		lap.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
 		lap.setVisible(true);
+	}
+
+	protected void setBackgroundImage() {
+		try {
+			ImageIcon icon = new ImageIcon(new ImageIcon("/home/dery/workspace/Java/Invoice/image/aft.jpg").getImage());
+			JLabel label = new JLabel(icon);
+			label.setBounds(350, 35, icon.getIconWidth(), icon.getIconHeight());
+
+			desktopPane.add(label, new Integer(Integer.MIN_VALUE));
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }

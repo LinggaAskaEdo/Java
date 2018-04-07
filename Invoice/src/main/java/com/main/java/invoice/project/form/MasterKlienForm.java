@@ -243,7 +243,7 @@ public class MasterKlienForm extends JInternalFrame
 				new String [] {"Nama Kementerian", "Alamat", "NPWP", "Satker PKK", "Keterangan"}
 		){
 			boolean [] canEdit = new boolean[]{
-					false,false
+					false,false,false,false,false
 			};
 			public boolean isCellEditable(int rowIndex, int columnIndex){
 				return canEdit[columnIndex];

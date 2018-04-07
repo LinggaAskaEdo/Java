@@ -242,7 +242,7 @@ public class POProduksiForm extends JInternalFrame
 		desktopPane.add(btnSimpan);
 	}
 
-	public DefaultTableModel tabelModel = getDefaultTabelModel();
+	static DefaultTableModel tabelModel = getDefaultTabelModel();
 
 	private void Tabel(JTable tb, int lebar[]){
 		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -256,7 +256,7 @@ public class POProduksiForm extends JInternalFrame
 		}
 	}
 
-	private DefaultTableModel getDefaultTabelModel()
+	private static DefaultTableModel getDefaultTabelModel()
 	{
 		return new DefaultTableModel(
 				new Object [][] {
@@ -268,7 +268,7 @@ public class POProduksiForm extends JInternalFrame
 				new String [] {"Media", "Durasi", "Hari", "Lokasi", "Pre-Uraian", "Pre-Jenis", "Pro-Jenis", "Pro-Jumlah", "Pro-Barang", "Pro-Harga Satuan", "Pro-Total Harga", "Post-Barang", "Post-Total Harga"}
 		){
 			boolean [] canEdit = new boolean[]{
-					false,false
+					false,false,false,false,false,false,false,false,false,false,false,false,false
 			};
 			public boolean isCellEditable(int rowIndex, int columnIndex){
 				return canEdit[columnIndex];

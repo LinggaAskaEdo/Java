@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import static com.main.java.invoice.project.form.POEventForm.tabelModel1;
+
 public class DetailEventForm extends JInternalFrame
 {
 	private static final long serialVersionUID = 1L;
@@ -18,7 +20,6 @@ public class DetailEventForm extends JInternalFrame
 	private JComboBox CB_Uraian;
 	private ButtonGroup buttonGroupUp;
 	private ButtonGroup buttonGroupDown;
-	private POEventForm eventForm = new POEventForm();
 	String data[] = new String[8];
 
 	public static void main(String[] args)
@@ -177,7 +178,7 @@ public class DetailEventForm extends JInternalFrame
 				data[6] = TF_HargaSatuan.getText();
 				data[7] = TB_Total.getText();
 
-				eventForm.tabelModel1.insertRow(0, data);
+				tabelModel1.insertRow(0, data);
 				dispose();
 			}
 		});

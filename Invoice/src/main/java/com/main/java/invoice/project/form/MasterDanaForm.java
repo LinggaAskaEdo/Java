@@ -216,7 +216,7 @@ public class MasterDanaForm extends JInternalFrame
 				new String [] {"Nama Bank", "No. Rek", "Atas Nama", "Cash/Tunai"}
 		){
 			boolean [] canEdit = new boolean[]{
-					false,false
+					false,false,false,false
 			};
 			public boolean isCellEditable(int rowIndex, int columnIndex){
 				return canEdit[columnIndex];

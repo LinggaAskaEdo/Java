@@ -14,6 +14,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
+import static com.main.java.invoice.project.form.POProduksiForm.tabelModel;
+
 public class DetailProduksiForm extends JInternalFrame
 {
 	private static final long serialVersionUID = 1L;
@@ -30,7 +32,6 @@ public class DetailProduksiForm extends JInternalFrame
 	private JTextField TF_Barang_2;
 	private JTextField TF_TotHarga_2;
 	private JTextArea TA_Lokasi;
-	private POProduksiForm produksiForm = new POProduksiForm();
 	String data[] = new String[13];
 
 	public static void main(String[] args)
@@ -215,7 +216,7 @@ public class DetailProduksiForm extends JInternalFrame
 				data[11] = TF_Barang_2.getText();
 				data[12] = TF_TotHarga_2.getText();
 
-				produksiForm.tabelModel.insertRow(0, data);
+				tabelModel.insertRow(0, data);
 				dispose();
 			}
 		});

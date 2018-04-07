@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 
+import static com.main.java.invoice.project.form.POMediaForm.tabelModel;
+
 public class TagihanMediaForm extends JInternalFrame
 {
 	JDesktopPane desktopPane = new JDesktopPane();
@@ -21,7 +23,6 @@ public class TagihanMediaForm extends JInternalFrame
 	private JTextField TF_Unggah;
 	private JComboBox CB_SumberDana;
 	private MasterDanaDAO masterDanaDAO = new MasterDanaDAO();
-	private POMediaForm MediaForm = new POMediaForm();
 	String data[] = new String[5];
 
 	public static void main(String[] args)
@@ -143,7 +144,7 @@ public class TagihanMediaForm extends JInternalFrame
 				data[3] = String.valueOf(CB_SumberDana.getSelectedItem());
 				data[4] = TF_Unggah.getText();
 
-				MediaForm.tabelModel.insertRow(0, data);
+				tabelModel.insertRow(0, data);
 				dispose();
 			}
 		});

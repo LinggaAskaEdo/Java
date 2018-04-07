@@ -60,7 +60,7 @@ public class AkunForm extends JInternalFrame
 		setTitle("Akun");
 		initializeForm();
 		table.setModel(tabelModel);
-		Tabel(table, new int[]{120, 120, 200});
+		Tabel(table, new int[]{120, 200, 200});
 		setDefaultTable();
 	}
 
@@ -233,7 +233,7 @@ public class AkunForm extends JInternalFrame
 			{
 				if (e.getClickCount() == 1)
 				{
-					showDana();
+					showAkun();
 					btnHapus.setEnabled(true);
 					textField.setEnabled(false);
 				}
@@ -272,7 +272,7 @@ public class AkunForm extends JInternalFrame
 				new String [] {"Nama", "Nama Pengguna", "Role"}
 		){
 			boolean [] canEdit = new boolean[]{
-					false,false
+					false,false,false
 			};
 			public boolean isCellEditable(int rowIndex, int columnIndex){
 				return canEdit[columnIndex];
@@ -301,7 +301,7 @@ public class AkunForm extends JInternalFrame
 		}
 	}
 
-	private void showDana()
+	private void showAkun()
 	{
 		row = table.getSelectedRow();
 		textField.setText(tabelModel.getValueAt(row, 0).toString());

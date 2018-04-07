@@ -220,7 +220,7 @@ public class MasterProduksiForm extends JInternalFrame
 				new String [] {"Agent Produksi", "Nama DOP", "Alamat", "NPWP", "Keterangan"}
 		){
 			boolean [] canEdit = new boolean[]{
-					false,false
+					false,false,false,false,false
 			};
 			public boolean isCellEditable(int rowIndex, int columnIndex){
 				return canEdit[columnIndex];

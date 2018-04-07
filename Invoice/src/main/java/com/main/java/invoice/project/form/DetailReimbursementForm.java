@@ -11,13 +11,14 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import static com.main.java.invoice.project.form.POEventForm.tabelModel2;
+
 public class DetailReimbursementForm extends JInternalFrame
 {
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_Detail;
 	private JTextField TF_Harga;
-	private POEventForm eventForm = new POEventForm();
 	String data[] = new String[3];
 
 	public static void main(String[] args)
@@ -94,7 +95,7 @@ public class DetailReimbursementForm extends JInternalFrame
 
 				try
 				{
-					eventForm.tabelModel2.insertRow(0, data);
+					tabelModel2.insertRow(0, data);
 					dispose();
 				}
 				catch (Exception e)

@@ -239,7 +239,7 @@ public class MasterEventForm extends JInternalFrame
 				new String [] {"Agent Event", "Nama Koordinator", "Alamat", "NPWP", "Keterangan"}
 		){
 			boolean [] canEdit = new boolean[]{
-					false,false
+					false,false,false,false,false
 			};
 			public boolean isCellEditable(int rowIndex, int columnIndex){
 				return canEdit[columnIndex];

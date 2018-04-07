@@ -307,7 +307,7 @@ public class MasterLegalitasForm extends JInternalFrame
 				new String [] {"Kode Perusahaan", "Nama Perusahaan", "Alamat", "NPWP", "PIC/Kontak", "No. Rek", "Fee Agency"}
 		){
 			boolean [] canEdit = new boolean[]{
-					false,false
+					false,false,false,false,false,false,false
 			};
 			public boolean isCellEditable(int rowIndex, int columnIndex){
 				return canEdit[columnIndex];

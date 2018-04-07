@@ -32,17 +32,23 @@ public class AkunForm extends JInternalFrame
 	private JPasswordField passwordField_1;
 	private JTable table;
 	private JCheckBox chckbxAdmin;
-	UserDAO dao;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	UserDAO dao = new UserDAO();
+	int row = 0;
+	String data[] = new String[3];
+
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					AkunForm frame = new AkunForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -57,9 +63,6 @@ public class AkunForm extends JInternalFrame
 		Tabel(table, new int[]{120, 120, 200});
 		setDefaultTable();
 	}
-
-	int row = 0;
-	String data[]=new String[3];
 
 	public void initializeForm()
 	{
@@ -105,9 +108,10 @@ public class AkunForm extends JInternalFrame
 		desktopPane.add(passwordField_1);
 		
 		JButton btnBatal = new JButton("Batal");
-		btnBatal.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
+		btnBatal.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				clearUser();
 				textField.setEnabled(true);
 			}
@@ -116,18 +120,23 @@ public class AkunForm extends JInternalFrame
 		desktopPane.add(btnBatal);
 		
 		JButton btnHapus = new JButton("Hapus");
-		btnHapus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnHapus.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				User user = new User();
 				user.setUsers(textField.getText());
 
-				try {
+				try
+				{
 					dao.DeleteUserById(user);
 					tabelModel.removeRow(row);
 					clearUser();
 					textField.setEnabled(true);
-				} catch (Exception e3) {
-					System.out.println(e3.getMessage());
+				}
+				catch (Exception e3)
+				{
+					e3.printStackTrace();
 				}
 			}
 		});
@@ -137,52 +146,74 @@ public class AkunForm extends JInternalFrame
 		btnHapus.setEnabled(false);
 
 		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnSimpan.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				User user = new User();
+				user.setUsers(textField.getText());
 				user.setUserName(textField.getText());
 				user.setUserPassword(String.valueOf(passwordField.getPassword()));
 
-				if (chckbxAdmin.isSelected()){
+				if (chckbxAdmin.isSelected())
+				{
 					user.setIsAdmin(1);
-				} else {
+				}
+				else
+				{
 					user.setIsAdmin(0);
 				}
 
-				if(!btnHapus.isEnabled()) {
-					try{
+				if (!btnHapus.isEnabled())
+				{
+					try
+					{
 						dao.addUpdate(user, 0);
 						data[0] = textField.getText();
 						data[1] = textField_1.getText();
 
-						if (chckbxAdmin.isSelected()){
+						if (chckbxAdmin.isSelected())
+						{
 							data[2] = String.valueOf(1);
-						} else {
+						}
+						else
+						{
 							data[2] = String.valueOf(0);
 						}
+
 						tabelModel.insertRow(0, data);
 						clearUser();
 						textField.setEnabled(true);
-					} catch (Exception e1) {
-						System.out.println(e1.getMessage());
 					}
-				} else {
-					try {
+					catch (Exception e1)
+					{
+						e1.printStackTrace();
+					}
+				}
+				else
+				{
+					try
+					{
 						dao.addUpdate(user, 1);
 						data[0] = textField.getText();
 						data[1] = textField_1.getText();
 
-						if (chckbxAdmin.isSelected()){
+						if (chckbxAdmin.isSelected())
+						{
 							data[2] = String.valueOf(1);
-						} else {
+						}
+						else {
 							data[2] = String.valueOf(0);
 						}
+
 						tabelModel.removeRow(row);
 						tabelModel.insertRow(row, data);
 						clearUser();
 						textField.setEnabled(true);
-					} catch (Exception e2) {
-						System.out.println(e2.getMessage());
+					}
+					catch (Exception e2)
+					{
+						e2.printStackTrace();
 					}
 				}
 			}
@@ -195,10 +226,13 @@ public class AkunForm extends JInternalFrame
 		desktopPane.add(chckbxAdmin);
 
 		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
+		table.addMouseListener(new MouseAdapter()
+		{
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount()==1) {
+			public void mouseClicked(MouseEvent e)
+			{
+				if (e.getClickCount() == 1)
+				{
 					showDana();
 					btnHapus.setEnabled(true);
 					textField.setEnabled(false);
@@ -210,21 +244,24 @@ public class AkunForm extends JInternalFrame
 		scrollPane.setBounds(46, 151, 534, 90);
 		scrollPane.setViewportView(table);
 		desktopPane.add(scrollPane);
-
 	}
 
 	private DefaultTableModel tabelModel = getDefaultTabelModel();
-	private void Tabel(JTable tb, int lebar[]){
+	private void Tabel(JTable tb, int lebar[])
+	{
 		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		int kolom = tb.getColumnCount();
-		for (int i=0; i<kolom; i++){
+
+		for (int i=0; i<kolom; i++)
+		{
 			TableColumn tbc= tb.getColumnModel().getColumn(i);
 			tbc.setPreferredWidth(lebar[i]);
 			tb.setRowHeight(18);
 		}
 	}
 
-	private DefaultTableModel getDefaultTabelModel(){
+	private DefaultTableModel getDefaultTabelModel()
+	{
 		return new DefaultTableModel(
 				new Object [][] {
 						{null, null, null},
@@ -245,17 +282,21 @@ public class AkunForm extends JInternalFrame
 
 	private void setDefaultTable()
 	{
-		try {
+		try
+		{
 			List<User> userList = dao.GetAllUser();
 
-			for(int i = 0; i < userList.size(); i++) {
-				data[0] = userList.get(i).getUsers();
-				data[1] = userList.get(i).getUserName();
-				data[2] = String.valueOf(userList.get(i).getIsAdmin());
+			for (User anUserList : userList)
+			{
+				data[0] = anUserList.getUsers();
+				data[1] = anUserList.getUserName();
+				data[2] = String.valueOf(anUserList.getIsAdmin());
 
 				tabelModel.addRow(data);
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			System.out.println(e.getMessage());
 		}
 	}
@@ -266,9 +307,12 @@ public class AkunForm extends JInternalFrame
 		textField.setText(tabelModel.getValueAt(row, 0).toString());
 		textField_1.setText(tabelModel.getValueAt(row, 1).toString());
 
-		if (tabelModel.getValueAt(row, 2).toString().equalsIgnoreCase("1")){
+		if (tabelModel.getValueAt(row, 2).toString().equalsIgnoreCase("1"))
+		{
 			chckbxAdmin.setEnabled(true);
-		} else {
+		}
+		else
+		{
 			chckbxAdmin.setEnabled(false);
 		}
 		passwordField.setText("");

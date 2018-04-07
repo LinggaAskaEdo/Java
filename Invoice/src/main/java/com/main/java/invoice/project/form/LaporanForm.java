@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Objects;
 
 import javax.swing.*;
 
@@ -105,7 +106,7 @@ public class LaporanForm extends JInternalFrame
 			{
 				String fileName;
 
-				if (CB_Laporan.getSelectedItem().equals("PO EVENT REPORT"))
+				if (Objects.equals(CB_Laporan.getSelectedItem(), "PO EVENT REPORT"))
 				{
 					if (buttonGroup.getSelection().getActionCommand().equals("1"))
 					{

@@ -1,6 +1,5 @@
 package com.main.java.invoice.project.dao;
 
-import com.main.java.invoice.project.pojo.MasterDana;
 import com.main.java.invoice.project.pojo.MasterEvent;
 import com.main.java.invoice.project.preference.StaticPreference;
 
@@ -20,7 +19,7 @@ public class MasterEventDAO
 
     public void addUpdate(MasterEvent masterEvent, int flag)
     {
-        String query = null;
+        String query;
 
         try
         {
@@ -63,14 +62,14 @@ public class MasterEventDAO
         {
             close();
         }
-
     }
 
     public List<MasterEvent> GetAllMasterEvent ()
     {
         List<MasterEvent> allMasterEvent = new ArrayList<>();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -79,7 +78,8 @@ public class MasterEventDAO
             statement = connect.createStatement();
             resultSet = statement.executeQuery(query);
 
-            while (resultSet.next()){
+            while (resultSet.next())
+            {
                 MasterEvent masterEvent = new MasterEvent();
                 masterEvent.setMasterEventId(resultSet.getInt(1));
                 masterEvent.setAgentEvent(resultSet.getString(2));
@@ -90,10 +90,13 @@ public class MasterEventDAO
 
                 allMasterEvent.add(masterEvent);
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
 
@@ -102,9 +105,10 @@ public class MasterEventDAO
 
     public MasterEvent GetMasterEventById(MasterEvent masterEvent)
     {
-        MasterEvent getMasterEvent = null;
+        MasterEvent getMasterEvent = new MasterEvent();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -115,26 +119,31 @@ public class MasterEventDAO
 
             resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
-
+            while (resultSet.next())
+            {
                 getMasterEvent.setAgentEvent(resultSet.getString(1));
                 getMasterEvent.setName(resultSet.getString(2));
                 getMasterEvent.setAddress(resultSet.getString(3));
                 getMasterEvent.setNoNpwp(resultSet.getString(4));
                 getMasterEvent.setInformation(resultSet.getString(5));
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
+
         return getMasterEvent;
     }
 
     public void DeleteMasterEventById (MasterEvent masterEvent)
     {
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -144,10 +153,13 @@ public class MasterEventDAO
             preparedStatement.setString(1, masterEvent.getAgentEvent());
 
             preparedStatement.executeUpdate();
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
     }

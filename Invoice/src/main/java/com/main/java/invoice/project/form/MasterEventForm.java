@@ -22,15 +22,23 @@ public class MasterEventForm extends JInternalFrame
 	private JTextField TF_Npwp;
 	private JTextArea TA_Alamat;
 	private JTextArea TA_Keterangan;
-	MasterEventDAO dao;
+	MasterEventDAO dao = new MasterEventDAO();
+	int row = 0;
+	String data[] = new String[5];
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					MasterEventForm frame = new MasterEventForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -46,11 +54,8 @@ public class MasterEventForm extends JInternalFrame
 		setDefaultTable();
 	}
 
-	int row = 0;
-	String data[]=new String[5];
-
-	public void initializeForm() {
-
+	public void initializeForm()
+	{
 		setClosable(true);
 		setBounds(100, 100, 630, 428);
 		getContentPane().setLayout(null);
@@ -124,7 +129,7 @@ public class MasterEventForm extends JInternalFrame
 				}
 				catch (Exception e1)
 				{
-					System.out.println(e1.getMessage());
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -159,7 +164,7 @@ public class MasterEventForm extends JInternalFrame
 					}
 					catch (Exception e1)
 					{
-						System.out.println(e1.getMessage());
+						e1.printStackTrace();
 					}
 				}
 				else
@@ -179,7 +184,7 @@ public class MasterEventForm extends JInternalFrame
 					}
 					catch (Exception e2)
 					{
-						System.out.println(e2.getMessage());
+						e2.printStackTrace();
 					}
 				}
 			}
@@ -215,7 +220,7 @@ public class MasterEventForm extends JInternalFrame
 		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		int kolom = tb.getColumnCount();
 
-		for (int i=0; i<kolom; i++)
+		for (int i = 0; i < kolom; i++)
 		{
 			TableColumn tbc= tb.getColumnModel().getColumn(i);
 			tbc.setPreferredWidth(lebar[i]);
@@ -248,20 +253,23 @@ public class MasterEventForm extends JInternalFrame
 		{
 			List<MasterEvent> masterDanaList = dao.GetAllMasterEvent();
 
-			for (MasterEvent aMasterDanaList : masterDanaList)
+			if (masterDanaList.size() > 0)
 			{
-				data[0] = aMasterDanaList.getAgentEvent();
-				data[1] = aMasterDanaList.getName();
-				data[2] = aMasterDanaList.getAddress();
-				data[3] = aMasterDanaList.getNoNpwp();
-				data[4] = aMasterDanaList.getInformation();
+				for (MasterEvent aMasterDanaList : masterDanaList)
+				{
+					data[0] = aMasterDanaList.getAgentEvent();
+					data[1] = aMasterDanaList.getName();
+					data[2] = aMasterDanaList.getAddress();
+					data[3] = aMasterDanaList.getNoNpwp();
+					data[4] = aMasterDanaList.getInformation();
 
-				tabelModel.addRow(data);
+					tabelModel.addRow(data);
+				}
 			}
 		}
 		catch (Exception e)
 		{
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 

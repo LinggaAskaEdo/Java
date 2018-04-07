@@ -1,7 +1,6 @@
 package com.main.java.invoice.project.dao;
 
 import com.main.java.invoice.project.pojo.Kontrak;
-import com.main.java.invoice.project.pojo.MasterPerusahaan;
 import com.main.java.invoice.project.preference.StaticPreference;
 
 import java.sql.*;
@@ -15,7 +14,7 @@ public class KontrakDAO
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public String getLastId()
     {
@@ -53,7 +52,7 @@ public class KontrakDAO
 
     public void addUpdate(Kontrak kontrak, int flag)
     {
-        String query = "";
+        String query;
 
         try
         {
@@ -114,17 +113,18 @@ public class KontrakDAO
     {
         List<Kontrak> allKontrak = new ArrayList<>();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
-            String query = "SELECT KONTRAK_ID, NO_KONTRAK, MASTER_PERUSAHAAN_ID, PROJECT, DATE, NILAI_KONTRAK, DPP, PPN, PPH_23, SP_2D, PAID";
+            String query = "SELECT KONTRAK_ID, NO_KONTRAK, MASTER_PERUSAHAAN_ID, PROJECT, DATE, NILAI_KONTRAK, DPP, PPN, PPH_23, SP_2D, PAID FROM KONTRAK";
 
             statement = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             resultSet = statement.executeQuery(query);
 
-            while (resultSet.next()) {
-
+            while (resultSet.next())
+            {
                 Kontrak kontrak = new Kontrak();
                 kontrak.setKontrakId(resultSet.getInt(1));
                 kontrak.setNoKontrak(resultSet.getString(2));
@@ -140,10 +140,13 @@ public class KontrakDAO
 
                 allKontrak.add(kontrak);
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
 
@@ -152,9 +155,10 @@ public class KontrakDAO
 
     public Kontrak GetKontrakById(Kontrak kontrak)
     {
-        Kontrak getKontrak = null;
+        Kontrak getKontrak = new Kontrak();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -165,25 +169,29 @@ public class KontrakDAO
 
             resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-
-                kontrak.setKontrakId(resultSet.getInt(1));
-                kontrak.setMasterPerusahaanId(resultSet.getInt(2));
-                kontrak.setProject(resultSet.getString(3));
-                kontrak.setDate(resultSet.getDate(4));
-                kontrak.setNilaiKontrak(resultSet.getBigDecimal(5));
-                kontrak.setDpp(resultSet.getBigDecimal(6));
-                kontrak.setPpn(resultSet.getBigDecimal(7));
-                kontrak.setPph23(resultSet.getBigDecimal(8));
-                kontrak.setSp2d(resultSet.getBigDecimal(9));
-                kontrak.setPaid(resultSet.getInt(10));
+            while (resultSet.next())
+            {
+                getKontrak.setKontrakId(resultSet.getInt(1));
+                getKontrak.setMasterPerusahaanId(resultSet.getInt(2));
+                getKontrak.setProject(resultSet.getString(3));
+                getKontrak.setDate(resultSet.getDate(4));
+                getKontrak.setNilaiKontrak(resultSet.getBigDecimal(5));
+                getKontrak.setDpp(resultSet.getBigDecimal(6));
+                getKontrak.setPpn(resultSet.getBigDecimal(7));
+                getKontrak.setPph23(resultSet.getBigDecimal(8));
+                getKontrak.setSp2d(resultSet.getBigDecimal(9));
+                getKontrak.setPaid(resultSet.getInt(10));
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
+
         return getKontrak;
     }
 

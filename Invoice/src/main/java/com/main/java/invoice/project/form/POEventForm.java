@@ -1,7 +1,13 @@
 package com.main.java.invoice.project.form;
 
-import java.awt.Color;
-import java.awt.EventQueue;
+import com.main.java.invoice.project.dao.*;
+import com.main.java.invoice.project.pojo.*;
+import com.toedter.calendar.JDateChooser;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -10,19 +16,8 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-
-import com.main.java.invoice.project.dao.*;
-import com.main.java.invoice.project.pojo.*;
-import com.toedter.calendar.JDateChooser;
-import de.wannawork.jcalendar.JCalendarComboBox;
-
-import javax.swing.table.TableColumn;
-
-public class POEventForm extends JInternalFrame {
-	
+public class POEventForm extends JInternalFrame
+{
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTable table1;
 	private JTable table2;
@@ -33,23 +28,27 @@ public class POEventForm extends JInternalFrame {
 	private JTextField TF_Jumlah;
 	private JTextField TF_Unggah;
 	private JTextArea TA_Keterangan;
-	PoEventDAO dao;
-	MasterDanaDAO masterDanaDAO;
-	DetailEventDAO detailEventDAO;
-	DetailReimbursementDAO detailReimbursementDAO;
-	TagihanReimbursementDAO tagihanReimbursementDAO;
-	KontrakDAO kontrakDAO;
+	PoEventDAO dao = new PoEventDAO();
+	private MasterDanaDAO masterDanaDAO = new MasterDanaDAO();
+	private DetailEventDAO detailEventDAO = new DetailEventDAO();
+	private DetailReimbursementDAO detailReimbursementDAO = new DetailReimbursementDAO();
+	private TagihanReimbursementDAO tagihanReimbursementDAO = new TagihanReimbursementDAO();
+	private KontrakDAO kontrakDAO = new KontrakDAO();
+	int row = 0;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					POEventForm frame = new POEventForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -68,10 +67,8 @@ public class POEventForm extends JInternalFrame {
 		Tabel(table3, new int[]{120, 120, 120, 120, 120, 120});
 	}
 
-	int row = 0;
-
-	public void initializeForm() {
-
+	public void initializeForm()
+	{
 		setClosable(true);
 		setBounds(100, 100, 630, 693);
 		getContentPane().setLayout(null);
@@ -132,9 +129,10 @@ public class POEventForm extends JInternalFrame {
 		TF_Kegiatan.setColumns(10);
 		
 		JButton btnPlus_1 = new JButton("+");
-		btnPlus_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
+		btnPlus_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				DetailEventForm detailEvent = new DetailEventForm();
 				getParent().add(detailEvent);
 				detailEvent.setVisible(true);
@@ -144,8 +142,10 @@ public class POEventForm extends JInternalFrame {
 		desktopPane.add(btnPlus_1);
 		
 		JButton btnMinus_1 = new JButton("-");
-		btnMinus_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnMinus_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				tabelModel1.removeRow(row);
 				btnMinus_1.setEnabled(false);
 			}
@@ -156,10 +156,13 @@ public class POEventForm extends JInternalFrame {
 		btnMinus_1.setEnabled(false);
 
 		table1 = new JTable();
-		table1.addMouseListener(new MouseAdapter() {
+		table1.addMouseListener(new MouseAdapter()
+		{
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount()==1) {
+			public void mouseClicked(MouseEvent e)
+			{
+				if (e.getClickCount() == 1)
+				{
 					btnMinus_1.setEnabled(true);
 				}
 			}
@@ -171,9 +174,10 @@ public class POEventForm extends JInternalFrame {
 		desktopPane.add(scrollPane);
 		
 		JButton btnPlus_2 = new JButton("+");
-		btnPlus_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
+		btnPlus_2.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				DetailReimbursementForm detailReimbursement = new DetailReimbursementForm();
 				getParent().add(detailReimbursement);
 				detailReimbursement.setVisible(true);
@@ -183,8 +187,10 @@ public class POEventForm extends JInternalFrame {
 		desktopPane.add(btnPlus_2);
 		
 		JButton btnMinus_2 = new JButton("-");
-		btnMinus_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnMinus_2.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				tabelModel2.removeRow(row);
 				btnMinus_2.setEnabled(false);
 			}
@@ -195,10 +201,13 @@ public class POEventForm extends JInternalFrame {
 		btnMinus_2.setEnabled(false);
 
 		table2 = new JTable();
-		table2.addMouseListener(new MouseAdapter() {
+		table2.addMouseListener(new MouseAdapter()
+		{
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount()==1) {
+			public void mouseClicked(MouseEvent e)
+			{
+				if (e.getClickCount() == 1)
+				{
 					btnMinus_2.setEnabled(true);
 				}
 			}
@@ -225,13 +234,16 @@ public class POEventForm extends JInternalFrame {
 		TF_Unggah.setColumns(10);
 
 		JButton btnUnggah = new JButton("Browse");
-		btnUnggah.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
+		btnUnggah.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				JFileChooser jfc = new JFileChooser();
 
 				int returnValue = jfc.showOpenDialog(null);
-				if (returnValue == JFileChooser.APPROVE_OPTION) {
+
+				if (returnValue == JFileChooser.APPROVE_OPTION)
+				{
 					File selectedFile = jfc.getSelectedFile();
 					TF_Unggah.setText(selectedFile.getAbsolutePath());
 				}
@@ -241,9 +253,10 @@ public class POEventForm extends JInternalFrame {
 		desktopPane.add(btnUnggah);
 		
 		JButton btnPlus_3 = new JButton("+");
-		btnPlus_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
+		btnPlus_3.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				TagihanReimbursementForm tagihanReimbursement = new TagihanReimbursementForm();
 				getParent().add(tagihanReimbursement);
 				tagihanReimbursement.setVisible(true);
@@ -254,8 +267,10 @@ public class POEventForm extends JInternalFrame {
 		
 		JButton btnMinus_3 = new JButton("-");
 		btnMinus_3.setBounds(549, 528, 49, 25);
-		btnMinus_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnMinus_3.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				tabelModel3.removeRow(row);
 				btnMinus_3.setEnabled(false);
 			}
@@ -265,10 +280,13 @@ public class POEventForm extends JInternalFrame {
 		btnMinus_3.setEnabled(false);
 
 		table3 = new JTable();
-		table3.addMouseListener(new MouseAdapter() {
+		table3.addMouseListener(new MouseAdapter()
+		{
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount()==1) {
+			public void mouseClicked(MouseEvent e)
+			{
+				if (e.getClickCount() == 1)
+				{
 					btnMinus_3.setEnabled(true);
 				}
 			}
@@ -284,17 +302,24 @@ public class POEventForm extends JInternalFrame {
 		desktopPane.add(lblUnggahDokumen);
 
 		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnSimpan.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				PoEvent poEvent = new PoEvent();
 				Kontrak kontrak = new Kontrak();
 
 				kontrak.setNoKontrak(TF_ReffKontrak.getText());
-				try {
+
+				try
+				{
 					kontrak = kontrakDAO.GetKontrakById(kontrak);
-				} catch (Exception e2) {
-					System.out.println(e2.getMessage());
 				}
+				catch (Exception e2)
+				{
+					e2.printStackTrace();
+				}
+
 				poEvent.setPoEventNo(TF_PONomor.getText());
 				poEvent.setKontrakId(kontrak.getKontrakId());
 				poEvent.setKegiatan(TF_Kegiatan.getText());
@@ -303,10 +328,13 @@ public class POEventForm extends JInternalFrame {
 				poEvent.setKeterangan(TA_Keterangan.getText());
 				poEvent.setImage(TF_Unggah.getText());
 
-				try {
+				try
+				{
 					dao.add(poEvent);
-				} catch (Exception e3) {
-					System.out.println(e3.getMessage());
+				}
+				catch (Exception e3)
+				{
+					e3.printStackTrace();
 				}
 
 				GetTableList_1();
@@ -322,21 +350,25 @@ public class POEventForm extends JInternalFrame {
 		desktopPane.add(btnSimpan);
 	}
 
-	public DefaultTableModel tabelModel1 = getDefaultTabelModel1();
-	public DefaultTableModel tabelModel2 = getDefaultTabelModel2();
-	public DefaultTableModel tabelModel3 = getDefaultTabelModel3();
+	DefaultTableModel tabelModel1 = getDefaultTabelModel1();
+	DefaultTableModel tabelModel2 = getDefaultTabelModel2();
+	DefaultTableModel tabelModel3 = getDefaultTabelModel3();
 
-	private void Tabel(JTable tb, int lebar[]){
+	private void Tabel(JTable tb, int lebar[])
+	{
 		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		int kolom = tb.getColumnCount();
-		for (int i=0; i<kolom; i++){
+
+		for (int i = 0; i < kolom; i++)
+		{
 			TableColumn tbc= tb.getColumnModel().getColumn(i);
 			tbc.setPreferredWidth(lebar[i]);
 			tb.setRowHeight(18);
 		}
 	}
 
-	private DefaultTableModel getDefaultTabelModel1(){
+	private DefaultTableModel getDefaultTabelModel1()
+	{
 		return new DefaultTableModel(
 				new Object [][] {
 						{null, null, null, null, null, null, null, null},
@@ -355,7 +387,8 @@ public class POEventForm extends JInternalFrame {
 		};
 	}
 
-	public DefaultTableModel getDefaultTabelModel2(){
+	private DefaultTableModel getDefaultTabelModel2()
+	{
 		return new DefaultTableModel(
 				new Object [][] {
 						{null, null, null},
@@ -374,7 +407,8 @@ public class POEventForm extends JInternalFrame {
 		};
 	}
 
-	private DefaultTableModel getDefaultTabelModel3(){
+	private DefaultTableModel getDefaultTabelModel3()
+	{
 		return new DefaultTableModel(
 				new Object [][] {
 						{null, null, null, null, null, null},
@@ -393,12 +427,12 @@ public class POEventForm extends JInternalFrame {
 		};
 	}
 
-	public void GetTableList_1()
+	private void GetTableList_1()
 	{
 		DetailEvent detailEvent = new DetailEvent();
 
-		for(int i = 0; i < tabelModel1.getRowCount(); i++) {
-
+		for (int i = 0; i < tabelModel1.getRowCount(); i++)
+		{
 			detailEvent.setPoEventNo(TF_PONomor.getText());
 			detailEvent.setUraian(String.valueOf(tabelModel1.getValueAt(i, 0)));
 			detailEvent.setDetail(String.valueOf(tabelModel1.getValueAt(i, 1)));
@@ -409,15 +443,18 @@ public class POEventForm extends JInternalFrame {
 			detailEvent.setHargaSatuan((BigDecimal) tabelModel1.getValueAt(i, 6));
 			detailEvent.setTotal((BigDecimal) tabelModel1.getValueAt(i, 7));
 
-			try {
+			try
+			{
 				detailEventDAO.add(detailEvent);
-			} catch (Exception e3) {
-				System.out.println(e3.getMessage());
+			}
+			catch (Exception e3)
+			{
+				e3.printStackTrace();
 			}
 		}
 	}
 
-	public void RemoveRow_1()
+	private void RemoveRow_1()
 	{
 		for(int i = 0; i < tabelModel1.getRowCount(); i++)
 		{
@@ -425,26 +462,29 @@ public class POEventForm extends JInternalFrame {
 		}
 	}
 
-	public void GetTableList_2()
+	private void GetTableList_2()
 	{
 		DetailReimburse detailReimburse = new DetailReimburse();
 
-		for(int i = 0; i < tabelModel2.getRowCount(); i++) {
-
+		for (int i = 0; i < tabelModel2.getRowCount(); i++)
+		{
 			detailReimburse.setPoEventNo(TF_PONomor.getText());
 			detailReimburse.setUraian(String.valueOf(tabelModel2.getValueAt(i, 0)));
 			detailReimburse.setDetail(String.valueOf(tabelModel2.getValueAt(i, 1)));
 			detailReimburse.setHarga((BigDecimal) tabelModel2.getValueAt(i, 2));
 
-			try {
+			try
+			{
 				detailReimbursementDAO.add(detailReimburse);
-			} catch (Exception e2) {
-				System.out.println(e2.getMessage());
+			}
+			catch (Exception e2)
+			{
+				e2.printStackTrace();
 			}
 		}
 	}
 
-	public void RemoveRow_2()
+	private void RemoveRow_2()
 	{
 		for(int i = 0; i < tabelModel2.getRowCount(); i++)
 		{
@@ -452,36 +492,39 @@ public class POEventForm extends JInternalFrame {
 		}
 	}
 
-	public void GetTableList_3()
+	private void GetTableList_3()
 	{
 		TagihanReimburse tagihanReimburse = new TagihanReimburse();
 		MasterDana masterDana;
 
-		for(int i = 0; i < tabelModel3.getRowCount(); i++) {
-
+		for (int i = 0; i < tabelModel3.getRowCount(); i++)
+		{
 			tagihanReimburse.setPoEventNo(TF_PONomor.getText());
 			tagihanReimburse.setPoNomor(String.valueOf(tabelModel3.getValueAt(i, 0)));
 			tagihanReimburse.setCatatan(String.valueOf(tabelModel3.getValueAt(i,1)));
 			tagihanReimburse.setTanggal((Date) tabelModel3.getValueAt(i, 2));
 
-			try {
-			String splitData = String.valueOf(tabelModel3.getValueAt(i,3));
-			masterDana = masterDanaDAO.GetMasterDanaById(splitData);
-			tagihanReimburse.setMasterDanaId(masterDana.getMasterDanaId());
+			try
+			{
+				String splitData = String.valueOf(tabelModel3.getValueAt(i,3));
+				masterDana = masterDanaDAO.GetMasterDanaById(splitData);
+				tagihanReimburse.setMasterDanaId(masterDana.getMasterDanaId());
 
-			tagihanReimburse.setKeterangan(String.valueOf(tabelModel3.getValueAt(i, 4)));
-			tagihanReimburse.setImage(String.valueOf(tabelModel3.getValueAt(i, 5)));
+				tagihanReimburse.setKeterangan(String.valueOf(tabelModel3.getValueAt(i, 4)));
+				tagihanReimburse.setImage(String.valueOf(tabelModel3.getValueAt(i, 5)));
 
-			tagihanReimbursementDAO.add(tagihanReimburse);
-			} catch (Exception e1) {
-				System.out.println(e1.getMessage());
+				tagihanReimbursementDAO.add(tagihanReimburse);
+			}
+			catch (Exception e1)
+			{
+				e1.printStackTrace();
 			}
 		}
 	}
 
 	private void RemoveRow_3()
 	{
-		for(int i = 0; i < tabelModel3.getRowCount(); i++)
+		for (int i = 0; i < tabelModel3.getRowCount(); i++)
 		{
 			tabelModel3.removeRow(i);
 		}

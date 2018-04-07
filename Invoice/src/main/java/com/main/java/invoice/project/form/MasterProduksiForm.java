@@ -1,32 +1,20 @@
 package com.main.java.invoice.project.form;
 
 import com.main.java.invoice.project.dao.MasterProduksiDAO;
-import com.main.java.invoice.project.pojo.MasterDana;
 import com.main.java.invoice.project.pojo.MasterProduksi;
 
-import java.awt.Color;
-import java.awt.EventQueue;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JButton;
-import javax.swing.table.TableColumn;
-
-public class MasterProduksiForm extends JInternalFrame {
-	
+public class MasterProduksiForm extends JInternalFrame
+{
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_Agent;
 	private JTextField TF_DOP;
@@ -34,18 +22,23 @@ public class MasterProduksiForm extends JInternalFrame {
 	private JTextArea TA_Alamat;
 	private JTextArea TA_Keterangan;
 	private JTable table;
-	MasterProduksiDAO dao;
+	MasterProduksiDAO dao = new MasterProduksiDAO();
+	int row = 0;
+	String data[] = new String[5];
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					MasterProduksiForm frame = new MasterProduksiForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -61,11 +54,8 @@ public class MasterProduksiForm extends JInternalFrame {
 		setDefaultTable();
 	}
 
-	int row = 0;
-	String data[]=new String[5];
-
-	public void initializeForm() {
-
+	public void initializeForm()
+	{
 		setClosable(true);
 		setBounds(100, 100, 630, 428);
 		getContentPane().setLayout(null);
@@ -119,8 +109,10 @@ public class MasterProduksiForm extends JInternalFrame {
 		TF_Npwp.setColumns(10);
 		
 		JButton btnHapus = new JButton("Hapus");
-		btnHapus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnHapus.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				MasterProduksi masterProduksi = new MasterProduksi();
 				masterProduksi.setAgentProduksi(TF_Agent.getText());
 				masterProduksi.setName(TF_DOP.getText());
@@ -140,8 +132,10 @@ public class MasterProduksiForm extends JInternalFrame {
 		btnHapus.setEnabled(false);
 
 		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnSimpan.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				MasterProduksi masterProduksi = new MasterProduksi();
 				masterProduksi.setAgentProduksi(TF_Agent.getText());
 				masterProduksi.setName(TF_DOP.getText());
@@ -149,7 +143,8 @@ public class MasterProduksiForm extends JInternalFrame {
 				masterProduksi.setNoNpwp(TF_Npwp.getText());
 				masterProduksi.setInformation(TA_Keterangan.getText());
 
-				if(!btnHapus.isEnabled()) {
+				if (!btnHapus.isEnabled())
+				{
 					dao.addUpdate(masterProduksi, 0);
 					data[0] = TF_Agent.getText();
 					data[1] = TF_DOP.getText();
@@ -159,7 +154,9 @@ public class MasterProduksiForm extends JInternalFrame {
 					tabelModel.insertRow(0, data);
 					clearProduksi();
 					TF_Agent.setEnabled(true);
-				} else {
+				}
+				else
+				{
 					dao.addUpdate(masterProduksi, 1);
 					data[0] = TF_Agent.getText();
 					data[1] = TF_DOP.getText();
@@ -177,10 +174,13 @@ public class MasterProduksiForm extends JInternalFrame {
 		desktopPane.add(btnSimpan);
 
 		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
+		table.addMouseListener(new MouseAdapter()
+		{
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount()==1) {
+			public void mouseClicked(MouseEvent e)
+			{
+				if (e.getClickCount() == 1)
+				{
 					showProduksi();
 					btnHapus.setEnabled(true);
 					TF_Agent.setEnabled(false);
@@ -195,17 +195,21 @@ public class MasterProduksiForm extends JInternalFrame {
 	}
 
 	private DefaultTableModel tabelModel = getDefaultTabelModel();
-	private void Tabel(JTable tb, int lebar[]){
+	private void Tabel(JTable tb, int lebar[])
+	{
 		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		int kolom = tb.getColumnCount();
-		for (int i=0; i<kolom; i++){
+
+		for (int i = 0; i < kolom; i++)
+		{
 			TableColumn tbc= tb.getColumnModel().getColumn(i);
 			tbc.setPreferredWidth(lebar[i]);
 			tb.setRowHeight(18);
 		}
 	}
 
-	private DefaultTableModel getDefaultTabelModel(){
+	private DefaultTableModel getDefaultTabelModel()
+	{
 		return new DefaultTableModel(
 				new Object [][] {
 						{null, null, null, null, null},
@@ -226,20 +230,27 @@ public class MasterProduksiForm extends JInternalFrame {
 
 	private void setDefaultTable()
 	{
-		try {
+		try
+		{
 			List<MasterProduksi> masterProduksiList = dao.GetAllMasterProduksi();
 
-			for(int i = 0; i < masterProduksiList.size(); i++) {
-				data[0] = masterProduksiList.get(i).getAgentProduksi();
-				data[1] = masterProduksiList.get(i).getName();
-				data[2] = masterProduksiList.get(i).getAddress();
-				data[3] = masterProduksiList.get(i).getNoNpwp();
-				data[4] = masterProduksiList.get(i).getInformation();
+			if (masterProduksiList.size() > 0)
+			{
+				for (MasterProduksi aMasterProduksiList : masterProduksiList)
+				{
+					data[0] = aMasterProduksiList.getAgentProduksi();
+					data[1] = aMasterProduksiList.getName();
+					data[2] = aMasterProduksiList.getAddress();
+					data[3] = aMasterProduksiList.getNoNpwp();
+					data[4] = aMasterProduksiList.getInformation();
 
-				tabelModel.addRow(data);
+					tabelModel.addRow(data);
+				}
 			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 

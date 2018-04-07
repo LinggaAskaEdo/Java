@@ -18,11 +18,12 @@ public class PoEventDAO
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public void add (PoEvent poEvent)
     {
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -45,11 +46,7 @@ public class PoEventDAO
 
             preparedStatement.executeUpdate();
         }
-        catch (ClassNotFoundException | SQLException e)
-        {
-            e.printStackTrace();
-        }
-        catch (FileNotFoundException e)
+        catch (ClassNotFoundException | SQLException | FileNotFoundException e)
         {
             e.printStackTrace();
         }

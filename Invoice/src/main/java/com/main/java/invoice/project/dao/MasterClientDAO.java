@@ -1,7 +1,6 @@
 package com.main.java.invoice.project.dao;
 
 import com.main.java.invoice.project.pojo.MasterClient;
-import com.main.java.invoice.project.pojo.MasterDana;
 import com.main.java.invoice.project.preference.StaticPreference;
 
 import java.sql.*;
@@ -20,7 +19,7 @@ public class MasterClientDAO
 
     public void addUpdate(MasterClient masterClient, int flag)
     {
-        String query = null;
+        String query;
 
         try
         {
@@ -70,7 +69,8 @@ public class MasterClientDAO
     {
         List<MasterClient> allMasterClient = new ArrayList<>();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -79,7 +79,8 @@ public class MasterClientDAO
             statement = connect.createStatement();
             resultSet = statement.executeQuery(query);
 
-            while (resultSet.next()){
+            while (resultSet.next())
+            {
                 MasterClient masterClient = new MasterClient();
                 masterClient.setMasterClientId(resultSet.getInt(1));
                 masterClient.setName(resultSet.getString(2));
@@ -90,10 +91,13 @@ public class MasterClientDAO
 
                 allMasterClient.add(masterClient);
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
 
@@ -102,9 +106,10 @@ public class MasterClientDAO
 
     public MasterClient GetMasterClientById(MasterClient masterClient)
     {
-        MasterClient getMasterClient = null;
+        MasterClient getMasterClient = new MasterClient();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -115,25 +120,31 @@ public class MasterClientDAO
 
             resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
+            while (resultSet.next())
+            {
                 getMasterClient.setName(resultSet.getString(1));
                 getMasterClient.setAddress(resultSet.getString(2));
                 getMasterClient.setNoNpwp(resultSet.getString(3));
                 getMasterClient.setSatkerPpk(resultSet.getString(4));
                 getMasterClient.setInformation(resultSet.getString(5));
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
+
         return getMasterClient;
     }
 
     public void DeleteMasterClientById (MasterClient masterClient)
     {
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -143,10 +154,13 @@ public class MasterClientDAO
             preparedStatement.setString(1, masterClient.getName());
 
             preparedStatement.executeUpdate();
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
     }

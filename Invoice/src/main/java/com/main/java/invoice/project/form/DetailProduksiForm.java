@@ -14,10 +14,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
-public class DetailProduksiForm extends JInternalFrame {
-	/**
-	 * 
-	 */
+public class DetailProduksiForm extends JInternalFrame
+{
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_Media;
@@ -33,17 +31,21 @@ public class DetailProduksiForm extends JInternalFrame {
 	private JTextField TF_TotHarga_2;
 	private JTextArea TA_Lokasi;
 	private POProduksiForm produksiForm = new POProduksiForm();
+	String data[] = new String[13];
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					DetailProduksiForm frame = new DetailProduksiForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -56,10 +58,8 @@ public class DetailProduksiForm extends JInternalFrame {
 		initializeForm();
 	}
 
-	String data[] = new String[13];
-
-	public void initializeForm() {
-
+	public void initializeForm()
+	{
 		setClosable(true);
 		setBounds(100, 100, 630, 630);
 		getContentPane().setLayout(null);
@@ -197,9 +197,10 @@ public class DetailProduksiForm extends JInternalFrame {
 		TF_TotHarga_2.setColumns(10);
 		
 		JButton btnTambah = new JButton("Tambah");
-		btnTambah.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
+		btnTambah.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				data[0] = TF_Media.getText();
 				data[1] = TF_Durasi.getText();
 				data[2] = TF_Hari.getText();
@@ -220,6 +221,5 @@ public class DetailProduksiForm extends JInternalFrame {
 		});
 		btnTambah.setBounds(450, 547, 117, 25);
 		desktopPane.add(btnTambah);
-
 	}
 }

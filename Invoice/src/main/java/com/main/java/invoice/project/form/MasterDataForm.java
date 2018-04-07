@@ -60,10 +60,8 @@ public class MasterDataForm extends JInternalFrame
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public MasterDataForm() {
+	private MasterDataForm()
+	{
 		setClosable(true);
 		setTitle("Master Data");
 		setBounds(100, 100, 950, 680);

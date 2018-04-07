@@ -1,35 +1,21 @@
 package com.main.java.invoice.project.form;
 
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.event.*;
-import java.math.BigDecimal;
-import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 import com.main.java.invoice.project.dao.KontrakDAO;
 import com.main.java.invoice.project.dao.MasterLegalitasDAO;
-import com.main.java.invoice.project.pojo.*;
+import com.main.java.invoice.project.function.GeneralFunction;
+import com.main.java.invoice.project.pojo.Kontrak;
+import com.main.java.invoice.project.pojo.MasterPerusahaan;
 import com.toedter.calendar.JDateChooser;
-import de.wannawork.jcalendar.JCalendarComboBox;
 
+import javax.swing.*;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
-
-import com.main.java.invoice.project.function.GeneralFunction;
-
-import static com.lowagie.text.pdf.PdfName.TA;
+import java.awt.*;
+import java.awt.event.*;
+import java.math.BigDecimal;
+import java.util.List;
 
 public class KontrakForm extends JInternalFrame 
 {
@@ -52,8 +38,8 @@ public class KontrakForm extends JInternalFrame
 	private JTextField TF_ResultPph_23;
 	private JTextField TF_ResultSP_2D;
 	private JComboBox CB_KodePerusahaan;
-	KontrakDAO dao;
-	MasterLegalitasDAO masterLegalitasDAO;
+	KontrakDAO dao = new KontrakDAO();
+	private MasterLegalitasDAO masterLegalitasDAO = new MasterLegalitasDAO();
 
 	public static void main(String[] args) 
 	{
@@ -214,7 +200,7 @@ public class KontrakForm extends JInternalFrame
 				}
 				catch (Exception e1)
 				{
-					System.out.println(e1.getMessage());
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -377,7 +363,7 @@ public class KontrakForm extends JInternalFrame
 				}
 				catch (Exception e2)
 				{
-					System.out.println( e2.getMessage());
+					e2.printStackTrace();
 				}
 			}
 		});
@@ -427,7 +413,7 @@ public class KontrakForm extends JInternalFrame
 					}
 					catch (Exception e2)
 					{
-						System.out.println(e2.getMessage());
+						e2.printStackTrace();
 					}
 				}
 				else
@@ -440,7 +426,7 @@ public class KontrakForm extends JInternalFrame
 					}
 					catch (Exception e3)
 					{
-						System.out.println(e3.getMessage());
+						e3.printStackTrace();
 					}
 				}
 			}
@@ -476,14 +462,17 @@ public class KontrakForm extends JInternalFrame
 		{
 			List<MasterPerusahaan> allMasterPerusahaan = masterLegalitasDAO.GetAllMasterPerusahaanComboBox();
 
-			for (int i = 0; i < allMasterPerusahaan.size(); i++)
+			if (allMasterPerusahaan.size() > 0)
 			{
-				CB_KodePerusahaan.addItem(allMasterPerusahaan.get(i).getCode());
+				for (MasterPerusahaan anAllMasterPerusahaan : allMasterPerusahaan)
+				{
+					CB_KodePerusahaan.addItem(anAllMasterPerusahaan.getCode());
+				}
 			}
 		}
 		catch (Exception e)
 		{
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -493,14 +482,17 @@ public class KontrakForm extends JInternalFrame
 		{
 			List<Kontrak> allKontrak = dao.GetAllKontrakComboBox();
 
-			for (int i = 0; i < allKontrak.size(); i++)
+			if (allKontrak.size() > 0)
 			{
-				CB_KodePerusahaan.addItem(allKontrak.get(i).getNoKontrak());
+				for (Kontrak anAllKontrak : allKontrak)
+				{
+					CB_KodePerusahaan.addItem(anAllKontrak.getNoKontrak());
+				}
 			}
 		}
 		catch (Exception e1)
 		{
-			System.out.println(e1.getMessage());
+			e1.printStackTrace();
 		}
 	}
 }

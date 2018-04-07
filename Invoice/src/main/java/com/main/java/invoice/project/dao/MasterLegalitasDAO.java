@@ -20,8 +20,9 @@ public class MasterLegalitasDAO
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
 
-    public void addUpdate(MasterPerusahaan masterPerusahaan, int flag) {
-        String query = null;
+    public void addUpdate(MasterPerusahaan masterPerusahaan, int flag)
+    {
+        String query;
 
         try
         {
@@ -68,11 +69,7 @@ public class MasterLegalitasDAO
             preparedStatement.executeUpdate();
 
         }
-        catch (ClassNotFoundException | SQLException e)
-        {
-            e.printStackTrace();
-        }
-        catch (FileNotFoundException e)
+        catch (ClassNotFoundException | SQLException | FileNotFoundException e)
         {
             e.printStackTrace();
         }
@@ -80,14 +77,14 @@ public class MasterLegalitasDAO
         {
             close();
         }
-
     }
 
     public List<MasterPerusahaan> GetAllMasterPerusahaan()
     {
         List<MasterPerusahaan> allMasterMedia = new ArrayList<>();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -96,8 +93,8 @@ public class MasterLegalitasDAO
             statement = connect.createStatement();
             resultSet = statement.executeQuery(query);
 
-            while (resultSet.next()) {
-
+            while (resultSet.next())
+            {
                 MasterPerusahaan masterPerusahaan = new MasterPerusahaan();
                 masterPerusahaan.setMasterPerusahaanId(resultSet.getInt(1));
                 masterPerusahaan.setCode(resultSet.getString(2));
@@ -110,10 +107,13 @@ public class MasterLegalitasDAO
 
                 allMasterMedia.add(masterPerusahaan);
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
 
@@ -124,7 +124,8 @@ public class MasterLegalitasDAO
     {
         List<MasterPerusahaan> allMasterMedia = new ArrayList<>();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -133,8 +134,8 @@ public class MasterLegalitasDAO
             statement = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             resultSet = statement.executeQuery(query);
 
-            while (resultSet.next()) {
-
+            while (resultSet.next())
+            {
                 MasterPerusahaan masterPerusahaan = new MasterPerusahaan();
                 masterPerusahaan.setMasterPerusahaanId(resultSet.getInt(1));
                 masterPerusahaan.setCode(resultSet.getString(2));
@@ -147,10 +148,13 @@ public class MasterLegalitasDAO
 
                 allMasterMedia.add(masterPerusahaan);
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
 
@@ -159,9 +163,10 @@ public class MasterLegalitasDAO
 
     public MasterPerusahaan GetMasterPerusahaanById(MasterPerusahaan masterPerusahaan)
     {
-        MasterPerusahaan getMasterPerusahaan = null;
+        MasterPerusahaan getMasterPerusahaan = new MasterPerusahaan();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -172,8 +177,8 @@ public class MasterLegalitasDAO
 
             resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-
+            while (resultSet.next())
+            {
                 getMasterPerusahaan.setName(resultSet.getString(1));
                 getMasterPerusahaan.setAddress(resultSet.getString(2));
                 getMasterPerusahaan.setNoNpwp(resultSet.getString(3));
@@ -181,20 +186,25 @@ public class MasterLegalitasDAO
                 getMasterPerusahaan.setNoBankAccount(resultSet.getString(5));
                 getMasterPerusahaan.setFeeAgency(resultSet.getString(6));
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
+
         return getMasterPerusahaan;
     }
 
     public MasterPerusahaan GetMasterPerusahaanById(int id)
     {
-        MasterPerusahaan getMasterPerusahaan = null;
+        MasterPerusahaan getMasterPerusahaan = new MasterPerusahaan();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -205,8 +215,8 @@ public class MasterLegalitasDAO
 
             resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-
+            while (resultSet.next())
+            {
                 getMasterPerusahaan.setCode(resultSet.getString(1));
                 getMasterPerusahaan.setName(resultSet.getString(2));
                 getMasterPerusahaan.setAddress(resultSet.getString(3));
@@ -215,18 +225,23 @@ public class MasterLegalitasDAO
                 getMasterPerusahaan.setNoBankAccount(resultSet.getString(6));
                 getMasterPerusahaan.setFeeAgency(resultSet.getString(7));
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
+
         return getMasterPerusahaan;
     }
 
     public void DeleteMasterPerusahaanById (MasterPerusahaan masterPerusahaan)
     {
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -236,10 +251,13 @@ public class MasterLegalitasDAO
             preparedStatement.setString(1, masterPerusahaan.getCode());
 
             preparedStatement.executeUpdate();
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
     }

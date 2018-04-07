@@ -18,12 +18,12 @@ public class TagihanMediaDAO
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public void add(TagihanMedia tagihanMediaList)
     {
-        try {
-
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -45,11 +45,7 @@ public class TagihanMediaDAO
 
             preparedStatement.executeUpdate();
         }
-        catch (ClassNotFoundException | SQLException e)
-        {
-            e.printStackTrace();
-        }
-        catch (FileNotFoundException e)
+        catch (ClassNotFoundException | SQLException | FileNotFoundException e)
         {
             e.printStackTrace();
         }
@@ -57,7 +53,6 @@ public class TagihanMediaDAO
         {
             close();
         }
-
     }
 
     private void close()

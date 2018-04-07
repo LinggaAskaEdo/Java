@@ -17,8 +17,8 @@ public class DetailProduksiDAO
 
     public void add(DetailProduksi detailProduksi)
     {
-        try {
-
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -53,7 +53,6 @@ public class DetailProduksiDAO
         {
             close();
         }
-
     }
 
     private void close()

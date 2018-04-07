@@ -1,30 +1,26 @@
 package com.main.java.invoice.project.form;
 
-import java.awt.Color;
-import java.awt.EventQueue;
+import com.main.java.invoice.project.dao.DetailProduksiDAO;
+import com.main.java.invoice.project.dao.KontrakDAO;
+import com.main.java.invoice.project.dao.PoProduksiDAO;
+import com.main.java.invoice.project.pojo.DetailProduksi;
+import com.main.java.invoice.project.pojo.Kontrak;
+import com.main.java.invoice.project.pojo.PoProduksi;
+import com.toedter.calendar.JDateChooser;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.Date;
 
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-
-import com.main.java.invoice.project.dao.DetailProduksiDAO;
-import com.main.java.invoice.project.dao.KontrakDAO;
-import com.main.java.invoice.project.dao.PoProduksiDAO;
-import com.main.java.invoice.project.pojo.*;
-import com.toedter.calendar.JDateChooser;
-import de.wannawork.jcalendar.JCalendarComboBox;
-
-import javax.swing.table.TableColumn;
-
-public class POProduksiForm extends JInternalFrame {
-
+public class POProduksiForm extends JInternalFrame
+{
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_Produksi;
 	private JTable table;
@@ -33,20 +29,24 @@ public class POProduksiForm extends JInternalFrame {
 	private JTextField TF_NilaiProduksi;
 	private JTextField TF_Unggah;
 	private JTextArea TA_Keterangan;
-	PoProduksiDAO dao;
-	DetailProduksiDAO detailProduksiDAO;
-	KontrakDAO kontrakDAO;
+	PoProduksiDAO dao = new PoProduksiDAO();
+	private DetailProduksiDAO detailProduksiDAO = new DetailProduksiDAO();
+	private KontrakDAO kontrakDAO = new KontrakDAO();
+	int row = 0;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					POProduksiForm frame = new POProduksiForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -61,10 +61,8 @@ public class POProduksiForm extends JInternalFrame {
 		Tabel(table, new int[]{120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120});
 	}
 
-	int row = 0;
-
-	public void initializeForm() {
-
+	public void initializeForm()
+	{
 		setClosable(true);
 		setBounds(100, 100, 630, 487);
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -111,9 +109,10 @@ public class POProduksiForm extends JInternalFrame {
 		TF_ReffKontrak.setColumns(10);
 		
 		JButton btnPlus = new JButton("+");
-		btnPlus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
+		btnPlus.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				DetailProduksiForm produksi = new DetailProduksiForm();
 				getParent().add(produksi);
 				produksi.setVisible(true);
@@ -123,8 +122,10 @@ public class POProduksiForm extends JInternalFrame {
 		desktopPane.add(btnPlus);
 		
 		JButton btnMinus = new JButton("-");
-		btnMinus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnMinus.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				tabelModel.removeRow(row);
 				btnMinus.setEnabled(false);
 			}
@@ -135,10 +136,13 @@ public class POProduksiForm extends JInternalFrame {
 		btnMinus.setEnabled(false);
 
 		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
+		table.addMouseListener(new MouseAdapter()
+		{
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount()==1) {
+			public void mouseClicked(MouseEvent e)
+			{
+				if (e.getClickCount() == 1)
+				{
 					btnMinus.setEnabled(true);
 				}
 			}
@@ -173,13 +177,16 @@ public class POProduksiForm extends JInternalFrame {
 		desktopPane.add(TF_Unggah);
 		
 		JButton btnUnggah = new JButton("Browse");
-		btnUnggah.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
+		btnUnggah.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				JFileChooser jfc = new JFileChooser();
 
 				int returnValue = jfc.showOpenDialog(null);
-				if (returnValue == JFileChooser.APPROVE_OPTION) {
+
+				if (returnValue == JFileChooser.APPROVE_OPTION)
+				{
 					File selectedFile = jfc.getSelectedFile();
 					TF_Unggah.setText(selectedFile.getAbsolutePath());
 				}
@@ -193,17 +200,23 @@ public class POProduksiForm extends JInternalFrame {
 		desktopPane.add(lblUnggahDokumen);
 
 		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnSimpan.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				PoProduksi poProduksi = new PoProduksi();
 				Kontrak kontrak = new Kontrak();
 
-				try {
+				try
+				{
 					kontrak.setNoKontrak(TF_ReffKontrak.getText());
 					kontrak = kontrakDAO.GetKontrakById(kontrak);
-				} catch (Exception e2) {
-					System.out.println(e2.getMessage());
 				}
+				catch (Exception e2)
+				{
+					e2.printStackTrace();
+				}
+
 				poProduksi.setPoProduksiNo(TF_PONomor.getText());
 				poProduksi.setKontrakId(kontrak.getKontrakId());
 				poProduksi.setProduksi(TF_Produksi.getText());
@@ -212,10 +225,13 @@ public class POProduksiForm extends JInternalFrame {
 				poProduksi.setKeterangan(TA_Keterangan.getText());
 				poProduksi.setImage(TF_Unggah.getText());
 
-				try {
+				try
+				{
 					dao.add(poProduksi);
-				} catch (Exception e3){
-					System.out.println(e3.getMessage());
+				}
+				catch (Exception e3)
+				{
+					e3.printStackTrace();
 				}
 				GetTableList();
 				RemoveRowPoProduksi();
@@ -227,17 +243,21 @@ public class POProduksiForm extends JInternalFrame {
 	}
 
 	public DefaultTableModel tabelModel = getDefaultTabelModel();
+
 	private void Tabel(JTable tb, int lebar[]){
 		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		int kolom = tb.getColumnCount();
-		for (int i=0; i<kolom; i++){
+
+		for (int i = 0; i < kolom; i++)
+		{
 			TableColumn tbc= tb.getColumnModel().getColumn(i);
 			tbc.setPreferredWidth(lebar[i]);
 			tb.setRowHeight(18);
 		}
 	}
 
-	private DefaultTableModel getDefaultTabelModel(){
+	private DefaultTableModel getDefaultTabelModel()
+	{
 		return new DefaultTableModel(
 				new Object [][] {
 						{null, null, null, null, null, null, null, null, null, null, null, null, null},
@@ -256,12 +276,12 @@ public class POProduksiForm extends JInternalFrame {
 		};
 	}
 
-	public void GetTableList()
+	private void GetTableList()
 	{
 		DetailProduksi detailProduksi = new DetailProduksi();
 
-		for(int i = 0; i < tabelModel.getRowCount(); i++) {
-
+		for (int i = 0; i < tabelModel.getRowCount(); i++)
+		{
 			detailProduksi.setPoProduksiNo(TF_PONomor.getText());
 			detailProduksi.setMedia(String.valueOf(tabelModel.getValueAt(i, 0)));
 			detailProduksi.setDurasi(String.valueOf(tabelModel.getValueAt(i,1)));
@@ -277,17 +297,20 @@ public class POProduksiForm extends JInternalFrame {
 			detailProduksi.setPostProduksiBarang(String.valueOf(tabelModel.getValueAt(i, 11)));
 			detailProduksi.setPostProduksiTotalHarga((BigDecimal) tabelModel.getValueAt(i, 12));
 
-			try {
+			try
+			{
 				detailProduksiDAO.add(detailProduksi);
-			} catch (Exception e1) {
-				System.out.println(e1.getMessage());
+			}
+			catch (Exception e1)
+			{
+				e1.printStackTrace();
 			}
 		}
 	}
 
 	private void RemoveRowPoProduksi()
 	{
-		for(int i = 0; i < tabelModel.getRowCount(); i++)
+		for (int i = 0; i < tabelModel.getRowCount(); i++)
 		{
 			tabelModel.removeRow(i);
 		}

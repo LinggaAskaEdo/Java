@@ -1,24 +1,17 @@
 package com.main.java.invoice.project.form;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 
 public class MenuForm extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 
 	private JDesktopPane desktopPane;
-
-	private BufferedImage img;
 
 	public static void main(String[] args)
 	{
@@ -27,10 +20,6 @@ public class MenuForm extends JFrame
             try
             {
                 MenuForm frame = new MenuForm();
-
-				//Panel panel = new Panel();
-				//frame.add(panel);
-				//frame.pack();
 				frame.setResizable(false);
 				frame.setVisible(true);
             }
@@ -58,7 +47,10 @@ public class MenuForm extends JFrame
 		this.setExtendedState(this.getExtendedState() | MAXIMIZED_BOTH);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		JPanel contentPane = new JPanel();
+		/*Setting Panel*/
+		desktopPane = new JDesktopPane();
+
+		//JPanel contentPane = new JPanel();
 		//contentPane.setBackground(new Image());
 		//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		//contentPane.setLayout(null);
@@ -71,48 +63,16 @@ public class MenuForm extends JFrame
 		//ImagePanel panel = new ImagePanel(new ImageIcon("C:\\\\Program Files\\\\Invoice\\\\image\\\\background.png").getImage());
 		//getContentPane().add(panel);
 		//pack();
-		//setContentPane(contentPane);
-
-		/*try
-		{
-			img = ImageIO.read(new URL("C:\\Program Files\\Invoice\\image\\background.png"));
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace();
-		}*/
-
-		// A specialized layered pane to be used with JInternalFrames
-		ImageIcon icon = new ImageIcon("C:\\Program Files\\Invoice\\image\\background.png");
-		Image image = icon.getImage();
-		desktopPane = new JDesktopPane()
-		{
-			public void paintComponent(Graphics g)
-			{
-				g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-			}
-
-			/*@Override
-			protected void paintComponent(Graphics grphcs)
-			{
-				super.paintComponent(grphcs);
-				grphcs.drawImage(img, 0, 0, null);
-			}
-
-			@Override
-			public Dimension getPreferredSize()
-			{
-				return new Dimension(img.getWidth(), img.getHeight());
-			}*/
-		};
 
 		//getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 		//getContentPane().add(desktopPane);
 		//desktopPane.setLayout(null);
 
-		contentPane.add(desktopPane, BorderLayout.CENTER);
-		setContentPane(contentPane);
+		//contentPane.add(desktopPane, BorderLayout.CENTER);
 
+		setContentPane(desktopPane);
+
+		/*Setting MenuBar*/
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
@@ -120,6 +80,7 @@ public class MenuForm extends JFrame
 		menuBar.add(file);
 
 		JMenuItem mntmKeluar = new JMenuItem("Keluar");
+		mntmKeluar.addActionListener(this::keluarActionPerformed);
 		file.add(mntmKeluar);
 
 		JMenu mnPurchaseOrder = new JMenu("Purchase Order");
@@ -208,6 +169,13 @@ public class MenuForm extends JFrame
 		/*menuBar.add(Box.createHorizontalGlue());
 		JMenu mnLogout = new JMenu("Logout");
 		menuBar.add(mnLogout);*/
+	}
+
+	private void keluarActionPerformed(ActionEvent actionEvent)
+	{
+		dispose();
+		LoginForm loginForm = new LoginForm();
+		loginForm.setVisible(true);
 	}
 
 	private void poMediaActionPerformed(ActionEvent e)
@@ -348,31 +316,5 @@ public class MenuForm extends JFrame
 		Dimension frame = lap.getSize();
 		lap.setLocation((screen.width - frame.width)/2, (screen.height=frame.height)/25);
 		lap.setVisible(true);
-	}
-
-	class ImagePanel extends JPanel
-	{
-		private Image img;
-
-		public ImagePanel(String img)
-		{
-			this(new ImageIcon(img).getImage());
-		}
-
-		ImagePanel(Image img)
-		{
-			this.img = img;
-			Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
-			setPreferredSize(size);
-			setMinimumSize(size);
-			setMaximumSize(size);
-			setSize(size);
-			setLayout(null);
-		}
-
-		public void paintComponent(Graphics g)
-		{
-			g.drawImage(img, 0, 0, null);
-		}
 	}
 }

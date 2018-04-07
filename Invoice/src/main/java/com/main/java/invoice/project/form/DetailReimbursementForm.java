@@ -11,24 +11,28 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class DetailReimbursementForm extends JInternalFrame {
-
+public class DetailReimbursementForm extends JInternalFrame
+{
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_Detail;
 	private JTextField TF_Harga;
-	POEventForm eventForm;
+	private POEventForm eventForm = new POEventForm();
+	String data[] = new String[3];
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					DetailReimbursementForm frame = new DetailReimbursementForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -41,10 +45,8 @@ public class DetailReimbursementForm extends JInternalFrame {
 		initializeForm();
 	}
 
-	String data[] = new String[3];
-
-	public void initializeForm() {
-
+	public void initializeForm()
+	{
 		setClosable(true);
 		setBounds(100, 100, 445, 202);
 		getContentPane().setLayout(null);
@@ -82,18 +84,22 @@ public class DetailReimbursementForm extends JInternalFrame {
 		TF_Harga.setColumns(10);
 		
 		JButton btnTambah = new JButton("Tambah");
-		btnTambah.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
+		btnTambah.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				data[0] = String.valueOf(CB_Uraian.getSelectedItem());
 				data[1] = TF_Detail.getText();
 				data[2] = TF_Harga.getText();
 
-				try {
+				try
+				{
 					eventForm.tabelModel2.insertRow(0, data);
 					dispose();
-				} catch (Exception e) {
-					System.out.println(e);
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
 				}
 			}
 		});

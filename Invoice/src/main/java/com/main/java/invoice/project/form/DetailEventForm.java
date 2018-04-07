@@ -8,9 +8,6 @@ import javax.swing.*;
 
 public class DetailEventForm extends JInternalFrame
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TB_Detail;
@@ -22,17 +19,21 @@ public class DetailEventForm extends JInternalFrame
 	private ButtonGroup buttonGroupUp;
 	private ButtonGroup buttonGroupDown;
 	private POEventForm eventForm = new POEventForm();
+	String data[] = new String[8];
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					DetailEventForm frame = new DetailEventForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -45,10 +46,8 @@ public class DetailEventForm extends JInternalFrame
 		initializeForm();
 	}
 
-	String data[] = new String[8];
-
-	public void initializeForm() {
-
+	public void initializeForm()
+	{
 		setClosable(true);
 		setBounds(100, 100, 630, 301);
 		getContentPane().setLayout(null);
@@ -165,9 +164,10 @@ public class DetailEventForm extends JInternalFrame
 		TB_Total.setColumns(10);
 		
 		JButton BT_Tambah = new JButton("Tambah");
-		BT_Tambah.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
+		BT_Tambah.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				data[0] = String.valueOf(CB_Uraian.getSelectedItem());
 				data[1] = TB_Detail.getText();
 				data[2] = TF_Vol_1.getText();

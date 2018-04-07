@@ -1,32 +1,20 @@
 package com.main.java.invoice.project.form;
 
 import com.main.java.invoice.project.dao.MasterMediaDAO;
-import com.main.java.invoice.project.pojo.MasterDana;
 import com.main.java.invoice.project.pojo.MasterMedia;
 
-import java.awt.Color;
-import java.awt.EventQueue;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JButton;
-import javax.swing.table.TableColumn;
-
-public class MasterMediaForm extends JInternalFrame {
-	
+public class MasterMediaForm extends JInternalFrame
+{
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_NamaPerusahaan;
 	private JTextField TF_NamaMedia;
@@ -35,18 +23,23 @@ public class MasterMediaForm extends JInternalFrame {
 	private JTextField TF_BillComitment;
 	private JTextArea TA_Keterangan;
 	private JTable table;
-	MasterMediaDAO dao;
+	MasterMediaDAO dao = new MasterMediaDAO();
+	int row = 0;
+	String data[] = new String[6];
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					MasterMediaForm frame = new MasterMediaForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -62,11 +55,8 @@ public class MasterMediaForm extends JInternalFrame {
 		setDefaultTable();
 	}
 
-	int row = 0;
-	String data[]=new String[6];
-
-	public void initializeForm() {
-
+	public void initializeForm()
+	{
 		setClosable(true);
 		setBounds(100, 100, 630, 450);
 		getContentPane().setLayout(null);
@@ -129,8 +119,10 @@ public class MasterMediaForm extends JInternalFrame {
 		desktopPane.add(TA_Keterangan);
 
 		JButton btnHapus = new JButton("Hapus");
-		btnHapus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnHapus.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				MasterMedia masterMedia = new MasterMedia();
 				masterMedia.setCompanyName(TF_NamaPerusahaan.getText());
 				masterMedia.setMediaName(TF_NamaMedia.getText());
@@ -139,13 +131,16 @@ public class MasterMediaForm extends JInternalFrame {
 				masterMedia.setBillCommitment(TF_BillComitment.getText());
 				masterMedia.setInformation(TA_Keterangan.getText());
 
-				try {
+				try
+				{
 					dao.DeleteMasterMediaById(masterMedia);
 					tabelModel.removeRow(row);
 					clearMedia();
 					TF_NamaPerusahaan.setEnabled(true);
-				} catch (Exception e3) {
-					System.out.println(e3.getMessage());
+				}
+				catch (Exception e3)
+				{
+					e3.printStackTrace();
 				}
 			}
 		});
@@ -155,8 +150,10 @@ public class MasterMediaForm extends JInternalFrame {
 		btnHapus.setEnabled(false);
 
 		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnSimpan.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				MasterMedia masterMedia = new MasterMedia();
 				masterMedia.setCompanyName(TF_NamaPerusahaan.getText());
 				masterMedia.setMediaName(TF_NamaMedia.getText());
@@ -165,8 +162,10 @@ public class MasterMediaForm extends JInternalFrame {
 				masterMedia.setBillCommitment(TF_BillComitment.getText());
 				masterMedia.setInformation(TA_Keterangan.getText());
 
-				if(!btnHapus.isEnabled()){
-					try {
+				if (!btnHapus.isEnabled())
+				{
+					try
+					{
 						dao.addUpdate(masterMedia, 0);
 						data[0] = TF_NamaPerusahaan.getText();
 						data[1] = TF_NamaMedia.getText();
@@ -177,11 +176,16 @@ public class MasterMediaForm extends JInternalFrame {
 						tabelModel.insertRow(0, data);
 						clearMedia();
 						TF_NamaPerusahaan.setEnabled(true);
-					} catch (Exception e1) {
-						System.out.println(e1.getMessage());
 					}
-				} else {
-					try {
+					catch (Exception e1)
+					{
+						e1.printStackTrace();
+					}
+				}
+				else
+				{
+					try
+					{
 						dao.addUpdate(masterMedia, 1);
 						data[0] = TF_NamaPerusahaan.getText();
 						data[1] = TF_NamaMedia.getText();
@@ -193,8 +197,10 @@ public class MasterMediaForm extends JInternalFrame {
 						tabelModel.insertRow(row, data);
 						clearMedia();
 						TF_NamaPerusahaan.setEnabled(true);
-					} catch (Exception e2) {
-						System.out.println(e2.getMessage());
+					}
+					catch (Exception e2)
+					{
+						e2.printStackTrace();
 					}
 				}
 			}
@@ -203,10 +209,13 @@ public class MasterMediaForm extends JInternalFrame {
 		desktopPane.add(btnSimpan);
 
 		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
+		table.addMouseListener(new MouseAdapter()
+		{
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount()==1) {
+			public void mouseClicked(MouseEvent e)
+			{
+				if (e.getClickCount() == 1)
+				{
 					showMedia();
 					btnHapus.setEnabled(true);
 					TF_NamaPerusahaan.setEnabled(false);
@@ -221,17 +230,21 @@ public class MasterMediaForm extends JInternalFrame {
 	}
 
 	private DefaultTableModel tabelModel = getDefaultTabelModel();
-	private void Tabel(JTable tb, int lebar[]){
+	private void Tabel(JTable tb, int lebar[])
+	{
 		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		int kolom = tb.getColumnCount();
-		for (int i=0; i<kolom; i++){
+
+		for (int i = 0; i < kolom; i++)
+		{
 			TableColumn tbc= tb.getColumnModel().getColumn(i);
 			tbc.setPreferredWidth(lebar[i]);
 			tb.setRowHeight(18);
 		}
 	}
 
-	private DefaultTableModel getDefaultTabelModel(){
+	private DefaultTableModel getDefaultTabelModel()
+	{
 		return new DefaultTableModel(
 				new Object [][] {
 						{null, null, null, null, null, null},
@@ -252,21 +265,28 @@ public class MasterMediaForm extends JInternalFrame {
 
 	private void setDefaultTable()
 	{
-		try{
+		try
+		{
 			List<MasterMedia> masterMediaList = dao.GetAllMasterMedia();
 
-			for(int i = 0; i < masterMediaList.size(); i++) {
-				data[0] = masterMediaList.get(i).getCompanyName();
-				data[1] = masterMediaList.get(i).getMediaName();
-				data[2] = masterMediaList.get(i).getAddress();
-				data[3] = masterMediaList.get(i).getNoNpwp();
-				data[4] = masterMediaList.get(i).getBillCommitment();
-				data[5] = masterMediaList.get(i).getInformation();
+			if (masterMediaList.size() > 0)
+			{
+				for (MasterMedia aMasterMediaList : masterMediaList)
+				{
+					data[0] = aMasterMediaList.getCompanyName();
+					data[1] = aMasterMediaList.getMediaName();
+					data[2] = aMasterMediaList.getAddress();
+					data[3] = aMasterMediaList.getNoNpwp();
+					data[4] = aMasterMediaList.getBillCommitment();
+					data[5] = aMasterMediaList.getInformation();
 
-				tabelModel.addRow(data);
+					tabelModel.addRow(data);
+				}
 			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 

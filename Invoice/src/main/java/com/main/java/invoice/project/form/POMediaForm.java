@@ -1,27 +1,21 @@
 package com.main.java.invoice.project.form;
 
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.event.*;
-import java.io.File;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-
 import com.main.java.invoice.project.dao.*;
 import com.main.java.invoice.project.pojo.*;
 import com.toedter.calendar.JDateChooser;
-import de.wannawork.jcalendar.JCalendarComboBox;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
-public class POMediaForm extends JInternalFrame {
-	
+public class POMediaForm extends JInternalFrame
+{
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTable table;
 	private JTextField TF_PONomor;
@@ -34,22 +28,26 @@ public class POMediaForm extends JInternalFrame {
 	private JTextArea TA_Keterangan;
 	private JComboBox CB_NamaMedia;
 	private JTextField cbId;
-	PoMediaDAO poMediaDAO;
-	MasterDanaDAO masterDanaDAO;
-	MasterMediaDAO masterMediaDAO;
-	TagihanMediaDAO tagihanMediaDAO;
-	KontrakDAO kontrakDAO;
+	private PoMediaDAO poMediaDAO = new PoMediaDAO();
+	private MasterDanaDAO masterDanaDAO = new MasterDanaDAO();
+	private MasterMediaDAO masterMediaDAO = new MasterMediaDAO();
+	private TagihanMediaDAO tagihanMediaDAO = new TagihanMediaDAO();
+	private KontrakDAO kontrakDAO = new KontrakDAO();
+	int row = 0;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					POMediaForm frame = new POMediaForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -65,9 +63,8 @@ public class POMediaForm extends JInternalFrame {
 		ShowComboBoxPoMedia();
 	}
 
-	int row = 0;
-
-	public void initializeForm() {
+	public void initializeForm()
+	{
 		setClosable(true);
 		setBounds(100, 100, 630, 551);
 		getContentPane().setLayout(null);
@@ -122,17 +119,22 @@ public class POMediaForm extends JInternalFrame {
 		TF_Klien.setColumns(10);
 
 		CB_NamaMedia = new JComboBox();
-		CB_NamaMedia.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
+		CB_NamaMedia.addItemListener(new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent arg0)
+			{
 				MasterMedia masterMedia = new MasterMedia();
 				masterMedia.setCompanyName(String.valueOf(CB_NamaMedia.getSelectedItem()));
 
-				try {
+				try
+				{
 					masterMedia = masterMediaDAO.GetMasterMediaById(masterMedia);
 
 					cbId.setText(String.valueOf(masterMedia.getMasterMediaId()));
-				} catch (Exception e4) {
-					System.out.println(e4.getMessage());
+				}
+				catch (Exception e4)
+				{
+					e4.printStackTrace();
 				}
 			}
 		});
@@ -185,9 +187,10 @@ public class POMediaForm extends JInternalFrame {
 		TF_ReffKontrak.setColumns(10);
 		
 		JButton btnPlus = new JButton("+");
-		btnPlus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
+		btnPlus.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				TagihanMediaForm media = new TagihanMediaForm();
 				getParent().add(media);
 				media.setVisible(true);
@@ -197,8 +200,10 @@ public class POMediaForm extends JInternalFrame {
 		desktopPane.add(btnPlus);
 		
 		JButton btnMinus = new JButton("-");
-		btnMinus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnMinus.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				tabelModel.removeRow(row);
 				btnMinus.setEnabled(false);
 			}
@@ -209,10 +214,13 @@ public class POMediaForm extends JInternalFrame {
 		btnMinus.setEnabled(false);
 
 		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
+		table.addMouseListener(new MouseAdapter()
+		{
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount()==1) {
+			public void mouseClicked(MouseEvent e)
+			{
+				if (e.getClickCount() == 1)
+				{
 					btnMinus.setEnabled(true);
 				}
 			}
@@ -224,13 +232,15 @@ public class POMediaForm extends JInternalFrame {
 		desktopPane.add(scrollPane);
 		
 		JButton btn_Unggah = new JButton("Browse");
-		btn_Unggah.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
+		btn_Unggah.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				JFileChooser jfc = new JFileChooser();
 
 				int returnValue = jfc.showOpenDialog(null);
-				if (returnValue == JFileChooser.APPROVE_OPTION) {
+				if (returnValue == JFileChooser.APPROVE_OPTION)
+				{
 					File selectedFile = jfc.getSelectedFile();
 					TF_unggah.setText(selectedFile.getAbsolutePath());
 				}
@@ -240,16 +250,21 @@ public class POMediaForm extends JInternalFrame {
 		desktopPane.add(btn_Unggah);
 
 		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnSimpan.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				PoMedia poMedia = new PoMedia();
 				Kontrak kontrak = new Kontrak();
 
-				try {
+				try
+				{
 					kontrak.setNoKontrak(TF_ReffKontrak.getText());
 					kontrak = kontrakDAO.GetKontrakById(kontrak);
-				} catch (Exception e2) {
-					System.out.println(e2.getMessage());
+				}
+				catch (Exception e2)
+				{
+					e2.printStackTrace();
 				}
 
 				poMedia.setPoMediaNo(TF_PONomor.getText());
@@ -263,33 +278,40 @@ public class POMediaForm extends JInternalFrame {
 				poMedia.setKeterangan(TA_Keterangan.getText());
 				poMedia.setImage(TF_unggah.getText());
 
-				try {
+				try
+				{
 					poMediaDAO.add(poMedia);
 					GetTableList();
 					RemoveRowPoMedia();
 					ClearPoMedia();
-				} catch (Exception e3) {
-					System.out.println(e3.getMessage());
+				}
+				catch (Exception e3)
+				{
+					e3.printStackTrace();
 				}
 			}
 		});
 		btnSimpan.setBounds(423, 475, 117, 25);
 		desktopPane.add(btnSimpan);
-
 	}
 
 	public DefaultTableModel tabelModel = getDefaultTabelModel();
-	private void Tabel(JTable tb, int lebar[]){
+
+	private void Tabel(JTable tb, int lebar[])
+	{
 		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		int kolom = tb.getColumnCount();
-		for (int i=0; i<kolom; i++){
+
+		for (int i = 0; i < kolom; i++)
+		{
 			TableColumn tbc= tb.getColumnModel().getColumn(i);
 			tbc.setPreferredWidth(lebar[i]);
 			tb.setRowHeight(18);
 		}
 	}
 
-	private DefaultTableModel getDefaultTabelModel(){
+	private DefaultTableModel getDefaultTabelModel()
+	{
 		return new DefaultTableModel(
 				new Object [][] {
 						{null, null, null, null, null},
@@ -308,12 +330,14 @@ public class POMediaForm extends JInternalFrame {
 		};
 	}
 
-	public void GetTableList()
+	private void GetTableList()
 	{
 		TagihanMedia tagihanMedia = new TagihanMedia();
 
-		for(int i = 0; i < tabelModel.getRowCount(); i++) {
-			try {
+		for (int i = 0; i < tabelModel.getRowCount(); i++)
+		{
+			try
+			{
 				tagihanMedia.setPoMediaNo(TF_PONomor.getText());
 				tagihanMedia.setInvoiceMedia(String.valueOf(tabelModel.getValueAt(i,0)));
 				tagihanMedia.setTanggal((Date) tabelModel.getValueAt(i,1));
@@ -326,21 +350,23 @@ public class POMediaForm extends JInternalFrame {
 				tagihanMedia.setImage(String.valueOf(tabelModel.getValueAt(i, 4)));
 
 				tagihanMediaDAO.add(tagihanMedia);
-			} catch (Exception e1) {
-				System.out.println(e1.getMessage());
+			}
+			catch (Exception e1)
+			{
+				e1.printStackTrace();
 			}
 		}
 	}
 
-	public void RemoveRowPoMedia()
+	private void RemoveRowPoMedia()
 	{
-		for(int i = 0; i < tabelModel.getRowCount(); i++)
+		for (int i = 0; i < tabelModel.getRowCount(); i++)
 		{
 			tabelModel.removeRow(i);
 		}
 	}
 
-	public void ClearPoMedia()
+	private void ClearPoMedia()
 	{
 		TF_PONomor.setText("");
 		TF_ReffKontrak.setText("");
@@ -352,17 +378,23 @@ public class POMediaForm extends JInternalFrame {
 		TF_unggah.setText("");
 	}
 
-	public void ShowComboBoxPoMedia()
+	private void ShowComboBoxPoMedia()
 	{
-		try {
+		try
+		{
 			List<MasterMedia> allMasterMedia = masterMediaDAO.GetAllMasterMediaComboBox();
 
-			for (int i = 0; i < allMasterMedia.size(); i++) {
-
-				CB_NamaMedia.addItem(allMasterMedia.get(i).getMediaName());
+			if (allMasterMedia.size() > 0)
+			{
+				for (MasterMedia anAllMasterMedia : allMasterMedia)
+				{
+					CB_NamaMedia.addItem(anAllMasterMedia.getMediaName());
+				}
 			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 }

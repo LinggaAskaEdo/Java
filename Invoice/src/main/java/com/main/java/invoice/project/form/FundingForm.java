@@ -1,7 +1,15 @@
 package com.main.java.invoice.project.form;
 
-import java.awt.Color;
-import java.awt.EventQueue;
+import com.main.java.invoice.project.dao.FundingDAO;
+import com.main.java.invoice.project.dao.KontrakDAO;
+import com.main.java.invoice.project.dao.MasterDanaDAO;
+import com.main.java.invoice.project.pojo.Funding;
+import com.main.java.invoice.project.pojo.Kontrak;
+import com.main.java.invoice.project.pojo.MasterDana;
+import com.toedter.calendar.JDateChooser;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -9,15 +17,6 @@ import java.awt.event.ItemListener;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
-
-import javax.swing.*;
-
-import com.main.java.invoice.project.dao.FundingDAO;
-import com.main.java.invoice.project.dao.KontrakDAO;
-import com.main.java.invoice.project.dao.MasterDanaDAO;
-import com.main.java.invoice.project.pojo.*;
-import com.toedter.calendar.JDateChooser;
-import de.wannawork.jcalendar.JCalendarComboBox;
 
 public class FundingForm extends JInternalFrame
 {
@@ -30,13 +29,10 @@ public class FundingForm extends JInternalFrame
 	private ButtonGroup buttonGroup;
 	private JTextArea TA_Keterangan;
 	private JComboBox CB_Reff;
-	FundingDAO dao;
-	MasterDanaDAO masterDanaDAO;
-	KontrakDAO kontrakDAO;
+	FundingDAO dao = new FundingDAO();
+	private MasterDanaDAO masterDanaDAO = new MasterDanaDAO();
+	private KontrakDAO kontrakDAO = new KontrakDAO();
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args)
 	{
 		EventQueue.invokeLater(new Runnable()
@@ -224,7 +220,7 @@ public class FundingForm extends JInternalFrame
 				}
 				catch (Exception e1)
 				{
-					System.out.println(e1.getMessage());
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -244,9 +240,12 @@ public class FundingForm extends JInternalFrame
 	{
 		List<MasterDana> allMasterDana = masterDanaDAO.GetAllMasterDanaComboBox();
 
-		for (int i = 0; i < allMasterDana.size(); i++) {
-
-			CB_Reff.addItem(allMasterDana.get(i).getNameBankAccount()+"-"+allMasterDana.get(i).getNoBankAccount());
+		if (allMasterDana.size() > 0)
+		{
+			for (MasterDana anAllMasterDana : allMasterDana)
+			{
+				CB_Reff.addItem(anAllMasterDana.getNameBankAccount() + "-" + anAllMasterDana.getNoBankAccount());
+			}
 		}
 	}
 
@@ -254,9 +253,12 @@ public class FundingForm extends JInternalFrame
 	{
 		List<Kontrak> allKontrak = kontrakDAO.GetAllKontrakComboBox();
 
-		for (int i = 0; i < allKontrak.size(); i++) {
-
-			CB_Reff.addItem(allKontrak.get(i).getNoKontrak());
+		if (allKontrak.size() > 0)
+		{
+			for (Kontrak anAllKontrak : allKontrak)
+			{
+				CB_Reff.addItem(anAllKontrak.getNoKontrak());
+			}
 		}
 	}
 }

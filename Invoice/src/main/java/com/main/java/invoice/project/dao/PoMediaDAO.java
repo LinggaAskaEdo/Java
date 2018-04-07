@@ -18,11 +18,12 @@ public class PoMediaDAO
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public void add(PoMedia poMedia)
     {
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -45,13 +46,8 @@ public class PoMediaDAO
             preparedStatement.setBigDecimal(8, poMedia.getPpn());
             preparedStatement.setString(9, poMedia.getKeterangan());
             preparedStatement.setBinaryStream(10, inputStream, file.length());
-
         }
-        catch (ClassNotFoundException | SQLException e)
-        {
-            e.printStackTrace();
-        }
-        catch (FileNotFoundException e)
+        catch (ClassNotFoundException | SQLException | FileNotFoundException e)
         {
             e.printStackTrace();
         }

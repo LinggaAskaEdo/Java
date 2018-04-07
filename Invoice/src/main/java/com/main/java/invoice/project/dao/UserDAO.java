@@ -48,17 +48,18 @@ public class UserDAO
 
     public void addUpdate(User user, int flag)
     {
-        String query = "";
+        String query;
 
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
+            System.out.println("User: " + user);
+
             if (flag == 0)
             {
-                query = "INSERT INTO USER(USERS, USER_NAME, USER_PASSWORD, IS_ADMIN)" +
-                        "VALUES (?, ?, ?, ?)";
+                query = "INSERT INTO USER(USERS, USER_NAME, USER_PASSWORD, IS_ADMIN) VALUES (?, ?, ?, ?)";
 
                 preparedStatement = connect.prepareStatement(query);
                 preparedStatement.setString(1, user.getUsers());
@@ -68,8 +69,7 @@ public class UserDAO
             }
             else
             {
-                query = "UPDATE USER set USER_NAME = ?, USER_PASSWORD = ?, IS_ADMIN = ? " +
-                        "WHERE USERS = ?";
+                query = "UPDATE USER set USER_NAME = ?, USER_PASSWORD = ?, IS_ADMIN = ? WHERE USERS = ?";
 
                 preparedStatement = connect.prepareStatement(query);
                 preparedStatement.setString(1, user.getUserName());
@@ -79,7 +79,6 @@ public class UserDAO
             }
 
             preparedStatement.executeUpdate();
-
         }
         catch (ClassNotFoundException | SQLException e)
         {
@@ -95,7 +94,8 @@ public class UserDAO
     {
         List<User> allUser = new ArrayList<>();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -104,8 +104,8 @@ public class UserDAO
             statement = connect.createStatement();
             resultSet = statement.executeQuery(query);
 
-            while (resultSet.next()) {
-
+            while (resultSet.next())
+            {
                 User user = new User();
                 user.setUserId(resultSet.getInt(1));
                 user.setUsers(resultSet.getString(2));
@@ -115,10 +115,13 @@ public class UserDAO
 
                 allUser.add(user);
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
 
@@ -127,7 +130,8 @@ public class UserDAO
 
     public void DeleteUserById(User user)
     {
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -137,10 +141,13 @@ public class UserDAO
             preparedStatement.setString(1, user.getUsers());
 
             preparedStatement.executeUpdate();
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
     }
@@ -167,5 +174,4 @@ public class UserDAO
         catch (Exception ignored)
         {}
     }
-
 }

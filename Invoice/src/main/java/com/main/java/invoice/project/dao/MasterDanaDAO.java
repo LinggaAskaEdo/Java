@@ -24,7 +24,7 @@ public class MasterDanaDAO
 
     public void addUpdate (MasterDana masterDana, int flag)
     {
-        String query = "";
+        String query;
 
         try
         {
@@ -72,7 +72,8 @@ public class MasterDanaDAO
     {
         List<MasterDana> allMasterDana = new ArrayList<>();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -81,8 +82,8 @@ public class MasterDanaDAO
             statement = connect.createStatement();
             resultSet = statement.executeQuery(query);
 
-            while (resultSet.next()) {
-
+            while (resultSet.next())
+            {
                 MasterDana masterDana = new MasterDana();
                 masterDana.setMasterDanaId(resultSet.getInt(1));
                 masterDana.setNameBankAccount(resultSet.getString(2));
@@ -92,10 +93,13 @@ public class MasterDanaDAO
 
                 allMasterDana.add(masterDana);
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
 
@@ -106,7 +110,8 @@ public class MasterDanaDAO
     {
         List<MasterDana> allMasterDana = new ArrayList<>();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -115,8 +120,8 @@ public class MasterDanaDAO
             statement = connect.createStatement();
             resultSet = statement.executeQuery(query);
 
-            while (resultSet.next()) {
-
+            while (resultSet.next())
+            {
                 MasterDana masterDana = new MasterDana();
                 masterDana.setMasterDanaId(resultSet.getInt(1));
                 masterDana.setNameBankAccount(resultSet.getString(2));
@@ -126,10 +131,13 @@ public class MasterDanaDAO
 
                 allMasterDana.add(masterDana);
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
 
@@ -138,9 +146,10 @@ public class MasterDanaDAO
 
     public MasterDana GetMasterDanaById (String splitData)
     {
-        MasterDana getMasterDana = null;
+        MasterDana getMasterDana = new MasterDana();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -156,24 +165,29 @@ public class MasterDanaDAO
 
             resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-
+            while (resultSet.next())
+            {
                 getMasterDana.setMasterDanaId(resultSet.getInt(1));
                 getMasterDana.setNameAccount(resultSet.getString(2));
                 getMasterDana.setTotalCash(resultSet.getBigDecimal(3));
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
+
         return getMasterDana;
     }
 
     public void DeleteMasterDanaById(MasterDana masterDana)
     {
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -183,10 +197,13 @@ public class MasterDanaDAO
             preparedStatement.setString(1, masterDana.getNameBankAccount());
 
             preparedStatement.executeUpdate();
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
     }

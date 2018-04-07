@@ -17,7 +17,8 @@ public class DetailReimbursementDAO
 
     public void add(DetailReimburse detailReimburse)
     {
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 

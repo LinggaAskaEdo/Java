@@ -19,7 +19,7 @@ public class MasterMediaDAO
 
     public void addUpdate(MasterMedia masterMedia, int flag)
     {
-        String query = null;
+        String query;
 
         try
         {
@@ -71,7 +71,8 @@ public class MasterMediaDAO
     {
         List<MasterMedia> allMasterMedia = new ArrayList<>();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -80,8 +81,8 @@ public class MasterMediaDAO
             statement = connect.createStatement();
             resultSet = statement.executeQuery(query);
 
-            while (resultSet.next()) {
-
+            while (resultSet.next())
+            {
                 MasterMedia masterMedia = new MasterMedia();
                 masterMedia.setMasterMediaId(resultSet.getInt(1));
                 masterMedia.setCompanyName(resultSet.getString(2));
@@ -93,10 +94,13 @@ public class MasterMediaDAO
 
                 allMasterMedia.add(masterMedia);
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
 
@@ -107,7 +111,8 @@ public class MasterMediaDAO
     {
         List<MasterMedia> allMasterMedia = new ArrayList<>();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -116,8 +121,8 @@ public class MasterMediaDAO
             statement = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             resultSet = statement.executeQuery(query);
 
-            while (resultSet.next()) {
-
+            while (resultSet.next())
+            {
                 MasterMedia masterMedia = new MasterMedia();
                 masterMedia.setMasterMediaId(resultSet.getInt(1));
                 masterMedia.setCompanyName(resultSet.getString(2));
@@ -129,10 +134,13 @@ public class MasterMediaDAO
 
                 allMasterMedia.add(masterMedia);
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
 
@@ -141,9 +149,10 @@ public class MasterMediaDAO
     
     public MasterMedia GetMasterMediaById(MasterMedia masterMedia)
     {
-        MasterMedia getMasterMedia = null;
+        MasterMedia getMasterMedia = new MasterMedia();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -154,8 +163,8 @@ public class MasterMediaDAO
 
             resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-
+            while (resultSet.next())
+            {
                 getMasterMedia.setMasterMediaId(resultSet.getInt(1));
                 getMasterMedia.setMediaName(resultSet.getString(2));
                 getMasterMedia.setAddress(resultSet.getString(3));
@@ -163,18 +172,23 @@ public class MasterMediaDAO
                 getMasterMedia.setBillCommitment(resultSet.getString(5));
                 getMasterMedia.setInformation(resultSet.getString(6));
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
+
         return getMasterMedia;
     }
 
     public void DeleteMasterMediaById (MasterMedia masterMedia)
     {
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -184,10 +198,13 @@ public class MasterMediaDAO
             preparedStatement.setString(1, masterMedia.getCompanyName());
 
             preparedStatement.executeUpdate();
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
     }

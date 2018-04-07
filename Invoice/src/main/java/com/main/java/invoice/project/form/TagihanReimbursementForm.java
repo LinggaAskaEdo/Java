@@ -1,39 +1,41 @@
 package com.main.java.invoice.project.form;
 
-import java.awt.EventQueue;
+import com.main.java.invoice.project.dao.MasterDanaDAO;
+import com.main.java.invoice.project.pojo.MasterDana;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 
-import com.main.java.invoice.project.dao.MasterDanaDAO;
-import com.main.java.invoice.project.pojo.MasterDana;
-import com.toedter.calendar.JDateChooser;
-import de.wannawork.jcalendar.JCalendarComboBox;
-
-public class TagihanReimbursementForm extends JInternalFrame {
+public class TagihanReimbursementForm extends JInternalFrame
+{
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_ReffPO;
 	private JTextField TF_Unggah;
 	private JTextArea TA_Catatan;
 	private JTextArea TA_Keterangan;
 	private JComboBox CB_SumberDana;
-	MasterDanaDAO masterDanaDAO;
+	private MasterDanaDAO masterDanaDAO = new MasterDanaDAO();
 	private POEventForm eventForm = new POEventForm();
+	String data[] = new String[6];
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					TagihanReimbursementForm frame = new TagihanReimbursementForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -47,10 +49,8 @@ public class TagihanReimbursementForm extends JInternalFrame {
 		ShowComboBoxTagihan();
 	}
 
-	String data[] = new String[6];
-
-	public void initializeForm() {
-
+	public void initializeForm()
+	{
 		setClosable(true);
 		setBounds(100, 100, 583, 369);
 		getContentPane().setLayout(null);
@@ -108,13 +108,16 @@ public class TagihanReimbursementForm extends JInternalFrame {
 		desktopPane.add(TF_Unggah);
 
 		JButton btnUnggah = new JButton("Browse");
-		btnUnggah.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
+		btnUnggah.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				JFileChooser jfc = new JFileChooser();
 
 				int returnValue = jfc.showOpenDialog(null);
-				if (returnValue == JFileChooser.APPROVE_OPTION) {
+
+				if (returnValue == JFileChooser.APPROVE_OPTION)
+				{
 					File selectedFile = jfc.getSelectedFile();
 					TF_Unggah.setText(selectedFile.getAbsolutePath());
 				}
@@ -128,9 +131,10 @@ public class TagihanReimbursementForm extends JInternalFrame {
 		desktopPane.add(lblUnggahDokument);
 
 		JButton btnTambah = new JButton("Tambah");
-		btnTambah.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
+		btnTambah.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				data[0] = TF_ReffPO.getText();
 				data[1] = TA_Catatan.getText();
 				data[2] = String.valueOf(CL_Tanggal.getDate());
@@ -146,16 +150,22 @@ public class TagihanReimbursementForm extends JInternalFrame {
 		desktopPane.add(btnTambah);
 	}
 
-	public void ShowComboBoxTagihan()
+	private void ShowComboBoxTagihan()
 	{
-		try {
+		try
+		{
 			List<MasterDana> allMasterDana = masterDanaDAO.GetAllMasterDanaComboBox();
 
-			for (int i = 0; i < allMasterDana.size(); i++) {
-
-				CB_SumberDana.addItem(allMasterDana.get(i).getNameBankAccount()+"-"+allMasterDana.get(i).getNoBankAccount());
+			if (allMasterDana.size() > 0)
+			{
+				for (MasterDana anAllMasterDana : allMasterDana)
+				{
+					CB_SumberDana.addItem(anAllMasterDana.getNameBankAccount() + "-" + anAllMasterDana.getNoBankAccount());
+				}
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			System.out.println(e.getMessage());
 		}
 	}

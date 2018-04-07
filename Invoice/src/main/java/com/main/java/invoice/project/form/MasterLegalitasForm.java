@@ -1,16 +1,12 @@
 package com.main.java.invoice.project.form;
 
 import com.main.java.invoice.project.dao.MasterLegalitasDAO;
-import com.main.java.invoice.project.pojo.MasterDana;
 import com.main.java.invoice.project.pojo.MasterPerusahaan;
 
-import java.awt.EventQueue;
-
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -18,8 +14,8 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.List;
 
-public class MasterLegalitasForm extends JInternalFrame {
-	
+public class MasterLegalitasForm extends JInternalFrame
+{
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_KodePerusahaan;
 	private JTextField TF_NamaPerusahaan;
@@ -31,18 +27,23 @@ public class MasterLegalitasForm extends JInternalFrame {
 	private JTable table;
 	private JTextField TF_Unggah;
 	private JTextArea TA_Alamat;
-	MasterLegalitasDAO dao;
+	MasterLegalitasDAO dao = new MasterLegalitasDAO();
+	int row = 0;
+	String data[] = new String[7];
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					MasterLegalitasForm frame = new MasterLegalitasForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -58,11 +59,8 @@ public class MasterLegalitasForm extends JInternalFrame {
 		setDefaultTable();
 	}
 
-	int row = 0;
-	String data[]=new String[7];
-
-	public void initializeForm() {
-
+	public void initializeForm()
+	{
 		setClosable(true);
 		setBounds(100, 100, 630, 488);
 		getContentPane().setLayout(null);
@@ -147,13 +145,16 @@ public class MasterLegalitasForm extends JInternalFrame {
 		TF_Unggah.setColumns(10);
 		
 		JButton btnBrowse = new JButton("Browse");
-		btnBrowse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
+		btnBrowse.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				JFileChooser jfc = new JFileChooser();
 
 				int returnValue = jfc.showOpenDialog(null);
-				if (returnValue == JFileChooser.APPROVE_OPTION) {
+
+				if (returnValue == JFileChooser.APPROVE_OPTION)
+				{
 					File selectedFile = jfc.getSelectedFile();
 					TF_Unggah.setText(selectedFile.getAbsolutePath());
 				}
@@ -163,8 +164,10 @@ public class MasterLegalitasForm extends JInternalFrame {
 		desktopPane.add(btnBrowse);
 
 		JButton btnHapus = new JButton("Hapus");
-		btnHapus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnHapus.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				MasterPerusahaan masterPerusahaan = new MasterPerusahaan();
 				masterPerusahaan.setCode(TF_KodePerusahaan.getText());
 				masterPerusahaan.setName(TF_NamaPerusahaan.getText());
@@ -175,12 +178,15 @@ public class MasterLegalitasForm extends JInternalFrame {
 				masterPerusahaan.setNoBankAccount(TF_NoRek.getText());
 				masterPerusahaan.setFeeAgency(TF_FeeAgency.getText());
 
-				try {
+				try
+				{
 					dao.DeleteMasterPerusahaanById(masterPerusahaan);
 					tabelModel.removeRow(row);
 					clearLegalitas();
 					TF_KodePerusahaan.setEnabled(true);
-				} catch (Exception e1) {
+				}
+				catch (Exception e1)
+				{
 					System.out.println(e1.getMessage());
 				}
 			}
@@ -191,8 +197,10 @@ public class MasterLegalitasForm extends JInternalFrame {
 		btnHapus.setEnabled(false);
 
 		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnSimpan.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				MasterPerusahaan masterPerusahaan = new MasterPerusahaan();
 				masterPerusahaan.setCode(TF_KodePerusahaan.getText());
 				masterPerusahaan.setName(TF_NamaPerusahaan.getText());
@@ -203,8 +211,10 @@ public class MasterLegalitasForm extends JInternalFrame {
 				masterPerusahaan.setNoBankAccount(TF_NoRek.getText());
 				masterPerusahaan.setFeeAgency(TF_FeeAgency.getText());
 
-				if(!btnHapus.isEnabled()) {
-					try {
+				if (!btnHapus.isEnabled())
+				{
+					try
+					{
 						dao.addUpdate(masterPerusahaan, 0);
 						data[0] = TF_KodePerusahaan.getText();
 						data[1] = TF_NamaPerusahaan.getText();
@@ -216,11 +226,16 @@ public class MasterLegalitasForm extends JInternalFrame {
 						tabelModel.insertRow(0, data);
 						clearLegalitas();
 						TF_KodePerusahaan.setEnabled(true);
-					} catch (Exception e2) {
-						System.out.println(e2.getMessage());
 					}
-				} else {
-					try {
+					catch (Exception e2)
+					{
+						e2.printStackTrace();
+					}
+				}
+				else
+				{
+					try
+					{
 						dao.addUpdate(masterPerusahaan, 1);
 						data[0] = TF_KodePerusahaan.getText();
 						data[1] = TF_NamaPerusahaan.getText();
@@ -233,8 +248,10 @@ public class MasterLegalitasForm extends JInternalFrame {
 						tabelModel.insertRow(row, data);
 						clearLegalitas();
 						TF_KodePerusahaan.setEnabled(true);
-					} catch (Exception e3) {
-						System.out.println(e3.getMessage());
+					}
+					catch (Exception e3)
+					{
+						e3.printStackTrace();
 					}
 				}
 			}
@@ -243,10 +260,13 @@ public class MasterLegalitasForm extends JInternalFrame {
 		desktopPane.add(btnSimpan);
 
 		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
+		table.addMouseListener(new MouseAdapter()
+		{
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount()==1) {
+			public void mouseClicked(MouseEvent e)
+			{
+				if (e.getClickCount() == 1)
+				{
 					showLegalitas();
 					btnHapus.setEnabled(true);
 					TF_KodePerusahaan.setEnabled(false);
@@ -261,17 +281,22 @@ public class MasterLegalitasForm extends JInternalFrame {
 	}
 
 	private DefaultTableModel tabelModel = getDefaultTabelModel();
-	private void Tabel(JTable tb, int lebar[]){
+
+	private void Tabel(JTable tb, int lebar[])
+	{
 		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		int kolom = tb.getColumnCount();
-		for (int i=0; i<kolom; i++){
+
+		for (int i = 0; i < kolom; i++)
+		{
 			TableColumn tbc= tb.getColumnModel().getColumn(i);
 			tbc.setPreferredWidth(lebar[i]);
 			tb.setRowHeight(18);
 		}
 	}
 
-	private DefaultTableModel getDefaultTabelModel(){
+	private DefaultTableModel getDefaultTabelModel()
+	{
 		return new DefaultTableModel(
 				new Object [][] {
 						{null, null, null, null, null, null, null},
@@ -292,22 +317,29 @@ public class MasterLegalitasForm extends JInternalFrame {
 
 	private void setDefaultTable()
 	{
-		try {
+		try
+		{
 			List<MasterPerusahaan> masterPerusahaanList = dao.GetAllMasterPerusahaan();
 
-			for(int i = 0; i < masterPerusahaanList.size(); i++) {
-				data[0] = masterPerusahaanList.get(i).getCode();
-				data[1] = masterPerusahaanList.get(i).getName();
-				data[2] = masterPerusahaanList.get(i).getAddress();
-				data[3] = masterPerusahaanList.get(i).getNoNpwp();
-				data[4] = masterPerusahaanList.get(i).getContactNumber();
-				data[5] = masterPerusahaanList.get(i).getNoBankAccount();
-				data[6] = masterPerusahaanList.get(i).getFeeAgency();
+			if (masterPerusahaanList.size() > 0)
+			{
+				for (MasterPerusahaan aMasterPerusahaanList : masterPerusahaanList)
+				{
+					data[0] = aMasterPerusahaanList.getCode();
+					data[1] = aMasterPerusahaanList.getName();
+					data[2] = aMasterPerusahaanList.getAddress();
+					data[3] = aMasterPerusahaanList.getNoNpwp();
+					data[4] = aMasterPerusahaanList.getContactNumber();
+					data[5] = aMasterPerusahaanList.getNoBankAccount();
+					data[6] = aMasterPerusahaanList.getFeeAgency();
 
-				tabelModel.addRow(data);
+					tabelModel.addRow(data);
+				}
 			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 

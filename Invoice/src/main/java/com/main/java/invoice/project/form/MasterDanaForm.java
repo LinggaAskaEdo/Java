@@ -20,7 +20,7 @@ public class MasterDanaForm extends JInternalFrame
 	private JTextField TF_AtasNama;
 	private JTextField TF_Tunai;
 	private JTable table;
-	MasterDanaDAO dao;
+	MasterDanaDAO dao = new MasterDanaDAO();
 	int row = 0;
 	String data[] = new String[4];
 
@@ -111,7 +111,7 @@ public class MasterDanaForm extends JInternalFrame
 			}
 			catch (Exception e1)
 			{
-				System.out.println(e1.getMessage());
+				e1.printStackTrace();
 			}
 		});
 		btnHapus.setBounds(462, 259, 117, 25);
@@ -143,7 +143,7 @@ public class MasterDanaForm extends JInternalFrame
 				}
 				catch (Exception e1)
 				{
-					System.out.println(e1.getMessage());
+					e1.printStackTrace();
 				}
 			}
 			else
@@ -162,7 +162,7 @@ public class MasterDanaForm extends JInternalFrame
 				}
 				catch (Exception e2)
 				{
-					System.out.println(e2.getMessage());
+					e2.printStackTrace();
 				}
 			}
 		});
@@ -228,24 +228,25 @@ public class MasterDanaForm extends JInternalFrame
 	{
 		try
 		{
-			List<MasterDana> masterDanaList;
-			masterDanaList = dao.GetAllMasterDana();
+			List<MasterDana> masterDanaList = dao.GetAllMasterDana();
 
-			for (MasterDana aMasterDanaList : masterDanaList)
+			if (masterDanaList.size() > 0)
 			{
-				data[0] = aMasterDanaList.getNameBankAccount();
-				data[1] = aMasterDanaList.getNoBankAccount();
-				data[2] = aMasterDanaList.getNameAccount();
-				data[3] = String.valueOf(aMasterDanaList.getTotalCash());
+				for (MasterDana aMasterDanaList : masterDanaList)
+				{
+					data[0] = aMasterDanaList.getNameBankAccount();
+					data[1] = aMasterDanaList.getNoBankAccount();
+					data[2] = aMasterDanaList.getNameAccount();
+					data[3] = String.valueOf(aMasterDanaList.getTotalCash());
 
-				tabelModel.addRow(data);
+					tabelModel.addRow(data);
+				}
 			}
 		}
 		catch (Exception e)
 		{
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
-
 	}
 
 	private void showDana()

@@ -19,7 +19,7 @@ public class MasterProduksiDAO
 
     public void addUpdate(MasterProduksi masterProduksi, int flag)
     {
-        String query = null;
+        String query;
 
         try
         {
@@ -52,7 +52,6 @@ public class MasterProduksiDAO
             }
 
             preparedStatement.executeUpdate();
-
         }
         catch (ClassNotFoundException | SQLException e)
         {
@@ -62,14 +61,14 @@ public class MasterProduksiDAO
         {
             close();
         }
-
     }
 
     public List<MasterProduksi> GetAllMasterProduksi ()
     {
         List<MasterProduksi> allMasterProduksi = new ArrayList<>();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -78,7 +77,8 @@ public class MasterProduksiDAO
             statement = connect.createStatement();
             resultSet = statement.executeQuery(query);
 
-            while (resultSet.next()) {
+            while (resultSet.next())
+            {
                 MasterProduksi masterProduksi = new MasterProduksi();
                 masterProduksi.setMasterProduksiId(resultSet.getInt(1));
                 masterProduksi.setAgentProduksi(resultSet.getString(2));
@@ -89,10 +89,13 @@ public class MasterProduksiDAO
 
                 allMasterProduksi.add(masterProduksi);
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
 
@@ -101,9 +104,10 @@ public class MasterProduksiDAO
 
     public MasterProduksi GetMasterProduksiById(MasterProduksi masterProduksi)
     {
-        MasterProduksi getMasterProduksi = null;
+        MasterProduksi getMasterProduksi = new MasterProduksi();
 
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -114,25 +118,31 @@ public class MasterProduksiDAO
 
             resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
+            while (resultSet.next())
+            {
                 getMasterProduksi.setAgentProduksi(resultSet.getString(1));
                 getMasterProduksi.setName(resultSet.getString(2));
                 getMasterProduksi.setAddress(resultSet.getString(3));
                 getMasterProduksi.setNoNpwp(resultSet.getString(4));
                 getMasterProduksi.setInformation(resultSet.getString(5));
             }
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
+
         return getMasterProduksi;
     }
 
     public void DeleteMasterProduksiById (MasterProduksi masterProduksi)
     {
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -142,10 +152,13 @@ public class MasterProduksiDAO
             preparedStatement.setString(1, masterProduksi.getAgentProduksi());
 
             preparedStatement.executeUpdate();
-
-        } catch (ClassNotFoundException | SQLException e) {
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             close();
         }
     }

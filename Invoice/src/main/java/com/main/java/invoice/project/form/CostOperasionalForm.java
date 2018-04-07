@@ -1,7 +1,13 @@
 package com.main.java.invoice.project.form;
 
-import java.awt.Color;
-import java.awt.EventQueue;
+import com.main.java.invoice.project.dao.CostOperasionalDAO;
+import com.main.java.invoice.project.dao.MasterDanaDAO;
+import com.main.java.invoice.project.pojo.CostOperasional;
+import com.main.java.invoice.project.pojo.MasterDana;
+import com.toedter.calendar.JDateChooser;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -9,20 +15,8 @@ import java.awt.event.ItemListener;
 import java.io.File;
 import java.util.List;
 
-import javax.swing.*;
-
-import com.main.java.invoice.project.dao.CostOperasionalDAO;
-import com.main.java.invoice.project.dao.MasterDanaDAO;
-import com.main.java.invoice.project.pojo.CostOperasional;
-import com.main.java.invoice.project.pojo.MasterDana;
-import com.main.java.invoice.project.pojo.MasterMedia;
-import com.toedter.calendar.JDateChooser;
-import de.wannawork.jcalendar.JCalendarComboBox;
-
-public class CostOperasionalForm extends JInternalFrame {
-	/**
-	 * 
-	 */
+public class CostOperasionalForm extends JInternalFrame
+{
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 
@@ -31,18 +25,20 @@ public class CostOperasionalForm extends JInternalFrame {
 	private JTextField cbId;
 	private JTextArea TA_Keperluan;
 	private JComboBox CB_ReffSumbDana;
-	MasterDanaDAO masterDanaDAO;
-	CostOperasionalDAO dao;
+	private MasterDanaDAO masterDanaDAO = new MasterDanaDAO();
+	CostOperasionalDAO dao = new CostOperasionalDAO();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(() -> {
-            try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(() ->
+		{
+            try
+			{
                 CostOperasionalForm frame = new CostOperasionalForm();
                 frame.setVisible(true);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+			{
                 e.printStackTrace();
             }
         });
@@ -55,8 +51,8 @@ public class CostOperasionalForm extends JInternalFrame {
 		ShowComboBoxCost();
 	}
 
-	public void initializeForm() {
-
+	public void initializeForm()
+	{
 		setClosable(true);
 		setBounds(100, 100, 552, 300);
 		getContentPane().setLayout(null);
@@ -96,8 +92,10 @@ public class CostOperasionalForm extends JInternalFrame {
 		desktopPane.add(CL_Tanggal);
 		
 		CB_ReffSumbDana = new JComboBox();
-		CB_ReffSumbDana.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
+		CB_ReffSumbDana.addItemListener(new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent arg0)
+			{
 				String splitData = String.valueOf(CB_ReffSumbDana.getSelectedItem());
 				MasterDana masterDana = masterDanaDAO.GetMasterDanaById(splitData);
 
@@ -123,13 +121,16 @@ public class CostOperasionalForm extends JInternalFrame {
 		TB_Unggah.setColumns(10);
 		
 		JButton BT_Unggah = new JButton("Browse");
-		BT_Unggah.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
+		BT_Unggah.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				JFileChooser jfc = new JFileChooser();
 
 				int returnValue = jfc.showOpenDialog(null);
-				if (returnValue == JFileChooser.APPROVE_OPTION) {
+
+				if (returnValue == JFileChooser.APPROVE_OPTION)
+				{
 					File selectedFile = jfc.getSelectedFile();
 					TB_Unggah.setText(selectedFile.getAbsolutePath());
 				}
@@ -178,16 +179,21 @@ public class CostOperasionalForm extends JInternalFrame {
 
 	private void ShowComboBoxCost()
 	{
-		try {
-			List<MasterDana> allMasterDana;
-			allMasterDana = masterDanaDAO.GetAllMasterDanaComboBox();
+		try
+		{
+			List<MasterDana> allMasterDana = masterDanaDAO.GetAllMasterDanaComboBox();
 
-			for (int i = 0; i < allMasterDana.size(); i++) {
-
-				CB_ReffSumbDana.addItem(allMasterDana.get(i).getNameBankAccount()+"-"+allMasterDana.get(i).getNoBankAccount());
+			if (allMasterDana.size() > 0)
+			{
+				for (MasterDana anAllMasterDana : allMasterDana)
+				{
+					CB_ReffSumbDana.addItem(anAllMasterDana.getNameBankAccount() + "-" + anAllMasterDana.getNoBankAccount());
+				}
 			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 }

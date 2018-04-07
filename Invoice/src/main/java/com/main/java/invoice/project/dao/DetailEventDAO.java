@@ -17,7 +17,8 @@ public class DetailEventDAO
 
     public void add(DetailEvent detailEvent)
     {
-        try {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 

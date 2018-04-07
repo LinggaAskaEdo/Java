@@ -2,31 +2,19 @@ package com.main.java.invoice.project.form;
 
 import com.main.java.invoice.project.dao.MasterClientDAO;
 import com.main.java.invoice.project.pojo.MasterClient;
-import com.main.java.invoice.project.pojo.MasterDana;
 
-import java.awt.Color;
-import java.awt.EventQueue;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.BorderFactory;
-import javax.swing.JDesktopPane;
-import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JTextArea;
-import javax.swing.JButton;
-import javax.swing.table.TableColumn;
-
-public class MasterKlienForm extends JInternalFrame {
-
+public class MasterKlienForm extends JInternalFrame
+{
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_Nama;
 	private JTextField TF_Npwp;
@@ -34,18 +22,23 @@ public class MasterKlienForm extends JInternalFrame {
 	private JTextArea TA_Alamat;
 	private JTable table;
 	private JTextField TF_Satker;
-	MasterClientDAO dao;
+	MasterClientDAO dao = new MasterClientDAO();
+	int row = 0;
+	String data[] = new String[5];
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					MasterKlienForm frame = new MasterKlienForm();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -61,11 +54,8 @@ public class MasterKlienForm extends JInternalFrame {
 		setDefaultTable();
 	}
 
-	int row = 0;
-	String data[]=new String[5];
-
-	public void initializeForm() {
-
+	public void initializeForm()
+	{
 		setClosable(true);
 		setBounds(100, 100, 630, 428);
 		getContentPane().setLayout(null);
@@ -120,8 +110,10 @@ public class MasterKlienForm extends JInternalFrame {
 		desktopPane.add(lblNewLabel);
 		
 		JButton btnHapus = new JButton("Hapus");
-		btnHapus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnHapus.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				MasterClient masterClient = new MasterClient();
 				masterClient.setName(TF_Nama.getText());
 				masterClient.setAddress(TA_Alamat.getText());
@@ -129,13 +121,16 @@ public class MasterKlienForm extends JInternalFrame {
 				masterClient.setSatkerPpk(TF_Satker.getText());
 				masterClient.setInformation(TA_Keterangan.getText());
 
-				try {
+				try
+				{
 					dao.DeleteMasterClientById(masterClient);
 					tabelModel.removeRow(row);
 					clearKlien();
 					TF_Nama.setEnabled(true);
-				} catch (Exception e3){
-					System.out.println(e3.getMessage());
+				}
+				catch (Exception e3)
+				{
+					e3.printStackTrace();
 				}
 			}
 		});
@@ -145,8 +140,10 @@ public class MasterKlienForm extends JInternalFrame {
 		btnHapus.setEnabled(false);
 
 		JButton btnSimpan = new JButton("Simpan");
-		btnSimpan.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnSimpan.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				MasterClient masterClient = new MasterClient();
 				masterClient.setName(TF_Nama.getText());
 				masterClient.setAddress(TA_Alamat.getText());
@@ -154,8 +151,10 @@ public class MasterKlienForm extends JInternalFrame {
 				masterClient.setSatkerPpk(TF_Satker.getText());
 				masterClient.setInformation(TA_Keterangan.getText());
 
-				if(!btnHapus.isEnabled()) {
-					try {
+				if (!btnHapus.isEnabled())
+				{
+					try
+					{
 						dao.addUpdate(masterClient, 0);
 						data[0] = TF_Nama.getText();
 						data[1] = TA_Alamat.getText();
@@ -165,11 +164,16 @@ public class MasterKlienForm extends JInternalFrame {
 						tabelModel.insertRow(0, data);
 						clearKlien();
 						TF_Nama.setEnabled(true);
-					} catch (Exception e1) {
-						System.out.println(e1.getMessage());
 					}
-				} else {
-					try {
+					catch (Exception e1)
+					{
+						e1.printStackTrace();
+					}
+				}
+				else
+				{
+					try
+					{
 						dao.addUpdate(masterClient, 1);
 						data[0] = TF_Nama.getText();
 						data[1] = TA_Alamat.getText();
@@ -180,8 +184,10 @@ public class MasterKlienForm extends JInternalFrame {
 						tabelModel.insertRow(row, data);
 						clearKlien();
 						TF_Nama.setEnabled(true);
-					} catch (Exception e2) {
-						System.out.println(e2.getMessage());
+					}
+					catch (Exception e2)
+					{
+						e2.printStackTrace();
 					}
 				}
 			}
@@ -190,10 +196,13 @@ public class MasterKlienForm extends JInternalFrame {
 		desktopPane.add(btnSimpan);
 
 		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
+		table.addMouseListener(new MouseAdapter()
+		{
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount()==1) {
+			public void mouseClicked(MouseEvent e)
+			{
+				if (e.getClickCount() == 1)
+				{
 					showKlien();
 					btnHapus.setEnabled(true);
 					TF_Nama.setEnabled(false);
@@ -205,21 +214,25 @@ public class MasterKlienForm extends JInternalFrame {
 		scrollPane.setBounds(45, 249, 534, 90);
 		scrollPane.setViewportView(table);
 		desktopPane.add(scrollPane);
-
 	}
 
 	private DefaultTableModel tabelModel = getDefaultTabelModel();
-	private void Tabel(JTable tb, int lebar[]){
+
+	private void Tabel(JTable tb, int lebar[])
+	{
 		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		int kolom = tb.getColumnCount();
-		for (int i=0; i<kolom; i++){
+
+		for (int i = 0; i < kolom; i++)
+		{
 			TableColumn tbc= tb.getColumnModel().getColumn(i);
 			tbc.setPreferredWidth(lebar[i]);
 			tb.setRowHeight(18);
 		}
 	}
 
-	private DefaultTableModel getDefaultTabelModel(){
+	private DefaultTableModel getDefaultTabelModel()
+	{
 		return new DefaultTableModel(
 				new Object [][] {
 						{null, null, null, null, null},
@@ -240,19 +253,26 @@ public class MasterKlienForm extends JInternalFrame {
 
 	private void setDefaultTable()
 	{
-		try {
+		try
+		{
 			List<MasterClient> masterClientList = dao.GetAllMasterClient();
 
-			for(int i = 0; i < masterClientList.size(); i++) {
-				data[0] = masterClientList.get(i).getName();
-				data[1] = masterClientList.get(i).getAddress();
-				data[2] = masterClientList.get(i).getNoNpwp();
-				data[3] = masterClientList.get(i).getSatkerPpk();
-				data[4] = masterClientList.get(i).getInformation();
+			if (masterClientList.size() > 0)
+			{
+				for (MasterClient aMasterClientList : masterClientList)
+				{
+					data[0] = aMasterClientList.getName();
+					data[1] = aMasterClientList.getAddress();
+					data[2] = aMasterClientList.getNoNpwp();
+					data[3] = aMasterClientList.getSatkerPpk();
+					data[4] = aMasterClientList.getInformation();
 
-				tabelModel.addRow(data);
+					tabelModel.addRow(data);
+				}
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			System.out.println(e.getMessage());
 		}
 	}

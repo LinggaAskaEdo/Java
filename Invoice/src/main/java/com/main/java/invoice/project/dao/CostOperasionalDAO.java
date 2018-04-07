@@ -18,11 +18,12 @@ public class CostOperasionalDAO
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public void addCostOperasional (CostOperasional costOperasional) {
-
-        try {
+    public void addCostOperasional (CostOperasional costOperasional)
+    {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
@@ -34,22 +35,20 @@ public class CostOperasionalDAO
             File file = new File(costOperasional.getImage());
             FileInputStream inputStream = new FileInputStream(file);
 
-        preparedStatement = connect.prepareStatement(query);
-        preparedStatement.setInt(1, costOperasional.getMasterDanaId());
-        preparedStatement.setString(2, costOperasional.getPic());
-        preparedStatement.setString(3, costOperasional.getKeperluan());
-        preparedStatement.setString(4, currentDate);
-        preparedStatement.setBinaryStream(5, inputStream, file.length());
+            preparedStatement = connect.prepareStatement(query);
+            preparedStatement.setInt(1, costOperasional.getMasterDanaId());
+            preparedStatement.setString(2, costOperasional.getPic());
+            preparedStatement.setString(3, costOperasional.getKeperluan());
+            preparedStatement.setString(4, currentDate);
+            preparedStatement.setBinaryStream(5, inputStream, file.length());
 
-        preparedStatement.executeUpdate();
-
+            preparedStatement.executeUpdate();
         }
-        catch (ClassNotFoundException | SQLException e)
+        catch (ClassNotFoundException | SQLException | FileNotFoundException e)
         {
             e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally
+        }
+        finally
         {
             close();
         }

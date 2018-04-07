@@ -1,13 +1,20 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: 'war'
 apply plugin: 'org.springframework.boot'
 
 sourceCompatibility = 1.8
 
-def jarBaseName = 'bbw-pulsa-api'
-def distributionFolder = 'bbw-pulsa-api'
+def applicationName = 'bbw-pulsa-api'
+def warBaseName = applicationName
+def jarBaseName = applicationName
+def distributionFolder = applicationName
 def configFiles = ['application.properties', 'logback.xml', 'bbw-pulsa-api.sh'] as Set
+
+war {
+    baseName = warBaseName
+}
 
 jar {
     baseName = jarBaseName
@@ -45,6 +52,9 @@ dependencies {
 
     //MySQL Connector
     compile("mysql:mysql-connector-java")
+
+    //Tomcat
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 }
 
 task copyFilesToPackage << {

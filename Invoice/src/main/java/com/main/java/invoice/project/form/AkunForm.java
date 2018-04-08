@@ -252,9 +252,9 @@ public class AkunForm extends JInternalFrame
 		tb.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		int kolom = tb.getColumnCount();
 
-		for (int i=0; i<kolom; i++)
+		for (int i = 0; i < kolom; i++)
 		{
-			TableColumn tbc= tb.getColumnModel().getColumn(i);
+			TableColumn tbc = tb.getColumnModel().getColumn(i);
 			tbc.setPreferredWidth(lebar[i]);
 			tb.setRowHeight(18);
 		}
@@ -271,10 +271,13 @@ public class AkunForm extends JInternalFrame
 				},
 				new String [] {"Nama", "Nama Pengguna", "Role"}
 		){
-			boolean [] canEdit = new boolean[]{
+			boolean [] canEdit = new boolean[]
+			{
 					false,false,false
 			};
-			public boolean isCellEditable(int rowIndex, int columnIndex){
+
+			public boolean isCellEditable(int rowIndex, int columnIndex)
+			{
 				return canEdit[columnIndex];
 			}
 		};

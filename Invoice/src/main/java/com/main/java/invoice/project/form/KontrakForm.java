@@ -40,6 +40,7 @@ public class KontrakForm extends JInternalFrame
 	private JComboBox CB_KodePerusahaan;
 	KontrakDAO dao = new KontrakDAO();
 	private MasterLegalitasDAO masterLegalitasDAO = new MasterLegalitasDAO();
+	String pattern ="-?\\d+";
 
 	public static void main(String[] args) 
 	{
@@ -244,9 +245,11 @@ public class KontrakForm extends JInternalFrame
 		projectId.setVisible(false);
 		
 		TF_NilaiKontrak = new JTextField();
-		TF_NilaiKontrak.addKeyListener(new KeyAdapter() {
+		TF_NilaiKontrak.addKeyListener(new KeyAdapter()
+		{
 			@Override
-			public void keyReleased(KeyEvent e) {
+			public void keyReleased(KeyEvent e)
+			{
 				TF_Dpp.setText(TF_NilaiKontrak.getText());
 			}
 		});
@@ -265,10 +268,14 @@ public class KontrakForm extends JInternalFrame
 			public void caretUpdate(CaretEvent arg0)
 			{
 				String getDpp = TF_Dpp.getText();
-				int grdpp = Integer.parseInt(getDpp);
-				int redpp = (grdpp * 110)/100;
-				TF_ResultDpp.setText(String.valueOf(redpp));
-				TF_Ppn.setText(String.valueOf(redpp));
+
+				if (getDpp.matches(pattern))
+				{
+					Integer grdpp = Integer.parseInt(getDpp);
+					Integer redpp = (grdpp * 110)/100;
+					TF_ResultDpp.setText(String.valueOf(redpp));
+					TF_Ppn.setText(String.valueOf(redpp));
+				}
 			}
 		});
 		TF_Dpp.setBounds(228, 348, 153, 19);
@@ -286,10 +293,14 @@ public class KontrakForm extends JInternalFrame
 			public void caretUpdate(CaretEvent arg0)
 			{
 				String getPpn = TF_Ppn.getText();
-				int grPpn = Integer.parseInt(getPpn);
-				int rePpn = (grPpn * 10)/100;
-				TF_ResultPpn.setText(String.valueOf(rePpn));
-				TF_Pph_23.setText(String.valueOf(rePpn));
+
+				if (getPpn.matches(pattern))
+				{
+					Integer grPpn = Integer.parseInt(getPpn);
+					Integer rePpn = (grPpn * 10)/100;
+					TF_ResultPpn.setText(String.valueOf(rePpn));
+					TF_Pph_23.setText(String.valueOf(rePpn));
+				}
 			}
 		});
 		TF_Ppn.setBounds(228, 375, 153, 19);
@@ -302,15 +313,19 @@ public class KontrakForm extends JInternalFrame
 			public void caretUpdate(CaretEvent arg0)
 			{
 				String getPph23 = TF_Pph_23.getText();
-				int grPph23 = Integer.parseInt(getPph23);
-				int rePph23 = (grPph23 * 2)/100;
-				TF_ResultPph_23.setText(String.valueOf(rePph23));
 
-				String getDpp = TF_Dpp.getText();
-				int dpp = Integer.parseInt(getDpp);
+				if (getPph23.matches(pattern))
+				{
+					Integer grPph23 = Integer.parseInt(getPph23);
+					Integer rePph23 = (grPph23 * 2)/100;
+					TF_ResultPph_23.setText(String.valueOf(rePph23));
 
-				int resultSp2D = dpp - rePph23;
-				TF_ResultSP_2D.setText(String.valueOf(resultSp2D));
+					String getDpp = TF_Dpp.getText();
+					Integer dpp = Integer.parseInt(getDpp);
+
+					Integer resultSp2D = dpp - rePph23;
+					TF_ResultSP_2D.setText(String.valueOf(resultSp2D));
+				}
 			}
 		});
 		TF_Pph_23.setBounds(228, 402, 153, 19);

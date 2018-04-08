@@ -322,14 +322,18 @@ public class MenuForm extends JFrame
 		lap.setVisible(true);
 	}
 
-	protected void setBackgroundImage() {
-		try {
-			ImageIcon icon = new ImageIcon(new ImageIcon("/home/dery/workspace/Java/Invoice/image/aft.jpg").getImage());
+	private void setBackgroundImage()
+	{
+		try
+		{
+			ImageIcon icon = new ImageIcon(new ImageIcon("C:\\Program Files\\Invoice\\image\\aaa.png").getImage());
 			JLabel label = new JLabel(icon);
 			label.setBounds(350, 35, icon.getIconWidth(), icon.getIconHeight());
 
 			desktopPane.add(label, new Integer(Integer.MIN_VALUE));
-		} catch(Exception e) {
+		}
+		catch(Exception e)
+		{
 			System.out.println(e.getMessage());
 		}
 	}

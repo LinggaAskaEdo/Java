@@ -1,14 +1,10 @@
 package com.main.java.invoice.project.form;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.MalformedURLException;
-
-import static java.awt.SystemColor.desktop;
 
 public class MenuForm extends JFrame
 {
@@ -327,7 +323,7 @@ public class MenuForm extends JFrame
 		try
 		{
 			//ImageIcon icon = new ImageIcon(new ImageIcon("C:\\Program Files\\Invoice\\image\\aaa.png").getImage());
-			ImageIcon icon = new ImageIcon(new ImageIcon("/home/dery/workspace/Java/Invoice/image/goku3.jpg").getImage());
+			ImageIcon icon = new ImageIcon(new ImageIcon("C:\\Program Files\\Invoice\\image\\goku3.jpg").getImage());
 			JLabel label = new JLabel(icon);
 			label.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
 

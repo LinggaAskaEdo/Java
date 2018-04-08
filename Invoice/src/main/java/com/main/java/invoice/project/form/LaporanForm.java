@@ -102,10 +102,13 @@ public class LaporanForm extends JInternalFrame
 
 		boolean check = rdbtnHarian.isSelected();
 
-		if (check) {
+		if (check)
+		{
 			CL_Bulanan_1.setEnabled(false);
 			CL_Bulanan_2.setEnabled(false);
-		} else {
+		}
+		else
+		{
 			CL_Harian.setEnabled(false);
 		}
 
@@ -172,15 +175,21 @@ public class LaporanForm extends JInternalFrame
 		desktopPane.add(btnCetak);
 	}
 
-	class RadioButtonActionListener implements ActionListener {
+	class RadioButtonActionListener implements ActionListener
+	{
 		@Override
-		public void actionPerformed(ActionEvent event) {
+		public void actionPerformed(ActionEvent event)
+		{
 			JRadioButton button = (JRadioButton) event.getSource();
-			if (button == rdbtnHarian) {
+
+			if (button == rdbtnHarian)
+			{
 				CL_Bulanan_1.setEnabled(false);
 				CL_Bulanan_2.setEnabled(false);
 				CL_Harian.setEnabled(true);
-			} else {
+			}
+			else
+			{
 				CL_Bulanan_1.setEnabled(true);
 				CL_Bulanan_2.setEnabled(true);
 				CL_Harian.setEnabled(false);

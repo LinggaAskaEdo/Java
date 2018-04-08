@@ -40,7 +40,7 @@ public class KontrakForm extends JInternalFrame
 	private JComboBox CB_KodePerusahaan;
 	KontrakDAO dao = new KontrakDAO();
 	private MasterLegalitasDAO masterLegalitasDAO = new MasterLegalitasDAO();
-	String pattern ="-?\\d+";
+	private String pattern ="-?\\d+";
 
 	public static void main(String[] args) 
 	{

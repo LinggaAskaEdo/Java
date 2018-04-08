@@ -94,6 +94,7 @@ public class DetailEventForm extends JInternalFrame
 		JRadioButton rdbtnOrg = new JRadioButton("org");
 		rdbtnOrg.setActionCommand("org");
 		rdbtnOrg.setBounds(229, 89, 49, 23);
+		rdbtnOrg.setSelected(true);
 		desktopPane.add(rdbtnOrg);
 		
 		JRadioButton rdbtnUnit = new JRadioButton("unit");
@@ -137,6 +138,7 @@ public class DetailEventForm extends JInternalFrame
 		JRadioButton rdbtnOj = new JRadioButton("OJ");
 		rdbtnOj.setActionCommand("OJ");
 		rdbtnOj.setBounds(229, 120, 49, 23);
+		rdbtnOj.setSelected(true);
 		desktopPane.add(rdbtnOj);
 		
 		JRadioButton rdbtnHr = new JRadioButton("hr");

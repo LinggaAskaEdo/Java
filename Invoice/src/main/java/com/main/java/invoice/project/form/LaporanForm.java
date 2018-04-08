@@ -24,6 +24,11 @@ public class LaporanForm extends JInternalFrame
 	JDesktopPane desktopPane = new JDesktopPane();
 	private ButtonGroup buttonGroup;
 	private Connection connect = null;
+	private JRadioButton rdbtnHarian = new JRadioButton("Harian");
+	private JRadioButton rdbtnBulanan = new JRadioButton("Bulanan");
+	private JDateChooser CL_Harian = new JDateChooser();
+	private JDateChooser CL_Bulanan_1 = new JDateChooser();
+	private JDateChooser CL_Bulanan_2 = new JDateChooser();
 
 	public static void main(String[] args)
 	{
@@ -69,28 +74,24 @@ public class LaporanForm extends JInternalFrame
 		//CB_Laporan.addItem("PO PRODUKSI REPORT");
 		CB_Laporan.setBounds(130, 23, 370, 24);
 		desktopPane.add(CB_Laporan);
-		
-		JDateChooser CL_Harian = new JDateChooser();
+
 		CL_Harian.setBounds(45, 125, 142, 20);
 		CL_Harian.setDateFormatString("d MMM yyyy");
 		desktopPane.add(CL_Harian);
-		
-		JDateChooser CL_Bulanan_1 = new JDateChooser();
+
 		CL_Bulanan_1.setBounds(228, 125, 142, 20);
 		CL_Bulanan_1.setDateFormatString("d MMM yyyy");
 		desktopPane.add(CL_Bulanan_1);
 
-		JDateChooser CL_Bulanan_2 = new JDateChooser();
 		CL_Bulanan_2.setBounds(382, 125, 142, 20);
 		CL_Bulanan_2.setDateFormatString("d MMM yyyy");
 		desktopPane.add(CL_Bulanan_2);
-		
-		JRadioButton rdbtnHarian = new JRadioButton("Harian");
+
 		rdbtnHarian.setActionCommand("2");
 		rdbtnHarian.setBounds(74, 78, 77, 23);
+		rdbtnHarian.setSelected(true);
 		desktopPane.add(rdbtnHarian);
-		
-		JRadioButton rdbtnBulanan = new JRadioButton("Bulanan");
+
 		rdbtnBulanan.setActionCommand("2");
 		rdbtnBulanan.setBounds(325, 78, 91, 23);
 		desktopPane.add(rdbtnBulanan);
@@ -98,6 +99,19 @@ public class LaporanForm extends JInternalFrame
 		buttonGroup=new ButtonGroup();
 		buttonGroup.add(rdbtnHarian);
 		buttonGroup.add(rdbtnBulanan);
+
+		boolean check = rdbtnHarian.isSelected();
+
+		if (check) {
+			CL_Bulanan_1.setEnabled(false);
+			CL_Bulanan_2.setEnabled(false);
+		} else {
+			CL_Harian.setEnabled(false);
+		}
+
+		RadioButtonActionListener actionListener = new RadioButtonActionListener();
+		rdbtnHarian.addActionListener(actionListener);
+		rdbtnBulanan.addActionListener(actionListener);
 
 		JButton btnCetak = new JButton("Cetak");
 		btnCetak.addActionListener(new ActionListener()
@@ -156,5 +170,21 @@ public class LaporanForm extends JInternalFrame
 		});
 		btnCetak.setBounds(217, 181, 117, 25);
 		desktopPane.add(btnCetak);
+	}
+
+	class RadioButtonActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			JRadioButton button = (JRadioButton) event.getSource();
+			if (button == rdbtnHarian) {
+				CL_Bulanan_1.setEnabled(false);
+				CL_Bulanan_2.setEnabled(false);
+				CL_Harian.setEnabled(true);
+			} else {
+				CL_Bulanan_1.setEnabled(true);
+				CL_Bulanan_2.setEnabled(true);
+				CL_Harian.setEnabled(false);
+			}
+		}
 	}
 }

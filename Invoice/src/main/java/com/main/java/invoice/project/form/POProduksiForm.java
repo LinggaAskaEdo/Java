@@ -259,12 +259,7 @@ public class POProduksiForm extends JInternalFrame
 	private static DefaultTableModel getDefaultTabelModel()
 	{
 		return new DefaultTableModel(
-				new Object [][] {
-						{null, null, null, null, null, null, null, null, null, null, null, null, null},
-						{null, null, null, null, null, null, null, null, null, null, null, null, null},
-						{null, null, null, null, null, null, null, null, null, null, null, null, null},
-						{null, null, null, null, null, null, null, null, null, null, null, null, null}
-				},
+				new Object [][] {},
 				new String [] {"Media", "Durasi", "Hari", "Lokasi", "Pre-Uraian", "Pre-Jenis", "Pro-Jenis", "Pro-Jumlah", "Pro-Barang", "Pro-Harga Satuan", "Pro-Total Harga", "Post-Barang", "Post-Total Harga"}
 		){
 			boolean [] canEdit = new boolean[]{

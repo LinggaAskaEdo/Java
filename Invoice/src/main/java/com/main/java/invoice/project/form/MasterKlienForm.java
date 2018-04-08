@@ -234,12 +234,7 @@ public class MasterKlienForm extends JInternalFrame
 	private DefaultTableModel getDefaultTabelModel()
 	{
 		return new DefaultTableModel(
-				new Object [][] {
-						{null, null, null, null, null},
-						{null, null, null, null, null},
-						{null, null, null, null, null},
-						{null, null, null, null, null}
-				},
+				new Object [][] {},
 				new String [] {"Nama Kementerian", "Alamat", "NPWP", "Satker PKK", "Keterangan"}
 		){
 			boolean [] canEdit = new boolean[]{

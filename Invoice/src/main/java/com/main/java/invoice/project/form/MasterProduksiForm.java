@@ -211,12 +211,7 @@ public class MasterProduksiForm extends JInternalFrame
 	private DefaultTableModel getDefaultTabelModel()
 	{
 		return new DefaultTableModel(
-				new Object [][] {
-						{null, null, null, null, null},
-						{null, null, null, null, null},
-						{null, null, null, null, null},
-						{null, null, null, null, null}
-				},
+				new Object [][] {},
 				new String [] {"Agent Produksi", "Nama DOP", "Alamat", "NPWP", "Keterangan"}
 		){
 			boolean [] canEdit = new boolean[]{

@@ -313,12 +313,7 @@ public class POMediaForm extends JInternalFrame
 	private static DefaultTableModel getDefaultTabelModel()
 	{
 		return new DefaultTableModel(
-				new Object [][] {
-						{null, null, null, null, null},
-						{null, null, null, null, null},
-						{null, null, null, null, null},
-						{null, null, null, null, null}
-				},
+				new Object [][] {},
 				new String [] {"Invoice Media", "Tanggal", "Nilai Tagihan", "Reff Sumber Dana", "File"}
 		){
 			boolean [] canEdit = new boolean[]{

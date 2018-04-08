@@ -246,12 +246,7 @@ public class MasterMediaForm extends JInternalFrame
 	private DefaultTableModel getDefaultTabelModel()
 	{
 		return new DefaultTableModel(
-				new Object [][] {
-						{null, null, null, null, null, null},
-						{null, null, null, null, null, null},
-						{null, null, null, null, null, null},
-						{null, null, null, null, null, null}
-				},
+				new Object [][] {},
 				new String [] {"Nama Perusahaan", "Nama Media", "Alamat", "NPWP", "Bill Commitment", "Keterangan"}
 		){
 			boolean [] canEdit = new boolean[]{

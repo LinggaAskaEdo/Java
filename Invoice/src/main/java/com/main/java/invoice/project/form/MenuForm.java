@@ -326,9 +326,10 @@ public class MenuForm extends JFrame
 	{
 		try
 		{
-			ImageIcon icon = new ImageIcon(new ImageIcon("C:\\Program Files\\Invoice\\image\\aaa.png").getImage());
+			//ImageIcon icon = new ImageIcon(new ImageIcon("C:\\Program Files\\Invoice\\image\\aaa.png").getImage());
+			ImageIcon icon = new ImageIcon(new ImageIcon("/home/dery/workspace/Java/Invoice/image/goku3.jpg").getImage());
 			JLabel label = new JLabel(icon);
-			label.setBounds(350, 35, icon.getIconWidth(), icon.getIconHeight());
+			label.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
 
 			desktopPane.add(label, new Integer(Integer.MIN_VALUE));
 		}

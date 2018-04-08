@@ -207,12 +207,7 @@ public class MasterDanaForm extends JInternalFrame
 	private DefaultTableModel getDefaultTabelModel()
 	{
 		return new DefaultTableModel(
-				new Object [][] {
-						{null, null, null, null},
-						{null, null, null, null},
-						{null, null, null, null},
-						{null, null, null, null}
-				},
+				new Object [][] {},
 				new String [] {"Nama Bank", "No. Rek", "Atas Nama", "Cash/Tunai"}
 		){
 			boolean [] canEdit = new boolean[]{

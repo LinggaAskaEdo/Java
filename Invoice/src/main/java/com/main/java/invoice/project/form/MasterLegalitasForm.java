@@ -298,12 +298,7 @@ public class MasterLegalitasForm extends JInternalFrame
 	private DefaultTableModel getDefaultTabelModel()
 	{
 		return new DefaultTableModel(
-				new Object [][] {
-						{null, null, null, null, null, null, null},
-						{null, null, null, null, null, null, null},
-						{null, null, null, null, null, null, null},
-						{null, null, null, null, null, null, null}
-				},
+				new Object [][] {},
 				new String [] {"Kode Perusahaan", "Nama Perusahaan", "Alamat", "NPWP", "PIC/Kontak", "No. Rek", "Fee Agency"}
 		){
 			boolean [] canEdit = new boolean[]{

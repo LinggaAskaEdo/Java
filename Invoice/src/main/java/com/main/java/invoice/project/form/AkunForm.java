@@ -263,12 +263,7 @@ public class AkunForm extends JInternalFrame
 	private DefaultTableModel getDefaultTabelModel()
 	{
 		return new DefaultTableModel(
-				new Object [][] {
-						{null, null, null},
-						{null, null, null},
-						{null, null, null},
-						{null, null, null}
-				},
+				new Object [][] {},
 				new String [] {"Nama", "Nama Pengguna", "Role"}
 		){
 			boolean [] canEdit = new boolean[]

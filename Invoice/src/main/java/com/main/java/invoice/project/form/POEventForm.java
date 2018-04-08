@@ -370,12 +370,7 @@ public class POEventForm extends JInternalFrame
 	private static DefaultTableModel getDefaultTabelModel1()
 	{
 		return new DefaultTableModel(
-				new Object [][] {
-						{null, null, null, null, null, null, null, null},
-						{null, null, null, null, null, null, null, null},
-						{null, null, null, null, null, null, null, null},
-						{null, null, null, null, null, null, null, null}
-				},
+				new Object [][] {},
 				new String [] {"Uraian", "Detail", "Jumlah 1", "Jenis 1", "Jumlah 2", "Jenis 2","Harga Satuan", "Total"}
 		){
 			boolean [] canEdit = new boolean[]{
@@ -390,12 +385,7 @@ public class POEventForm extends JInternalFrame
 	private static DefaultTableModel getDefaultTabelModel2()
 	{
 		return new DefaultTableModel(
-				new Object [][] {
-						{null, null, null},
-						{null, null, null},
-						{null, null, null},
-						{null, null, null}
-				},
+				new Object [][] {},
 				new String [] {"Uraian", "Detail", "Harga"}
 		){
 			boolean [] canEdit = new boolean[]{
@@ -410,12 +400,7 @@ public class POEventForm extends JInternalFrame
 	private static DefaultTableModel getDefaultTabelModel3()
 	{
 		return new DefaultTableModel(
-				new Object [][] {
-						{null, null, null, null, null, null},
-						{null, null, null, null, null, null},
-						{null, null, null, null, null, null},
-						{null, null, null, null, null, null}
-				},
+				new Object [][] {},
 				new String [] {"Reff PO", "Catatan Reimburse", "Tanggal", "Reff Sumber Dana", "Keterangan", "File"}
 		){
 			boolean [] canEdit = new boolean[]{

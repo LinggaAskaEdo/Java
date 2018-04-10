@@ -156,7 +156,7 @@ public class MasterMediaDAO
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
-            String query = "SELECT MASTER_MEDIA_ID, MEDIA_NAME, ADDRESS, NO_NPWP, BILL_COMMITMENT, INFORMATION FROM MASTER_MEDIA WHERE COMPANY_NAME = ? LIMIT 1" ;
+            String query = "SELECT MASTER_MEDIA_ID, MEDIA_NAME, ADDRESS, NO_NPWP, BILL_COMMITMENT, INFORMATION FROM MASTER_MEDIA WHERE MEDIA_NAME = ? LIMIT 1" ;
 
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, masterMedia.getCompanyName());

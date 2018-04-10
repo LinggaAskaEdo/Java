@@ -133,7 +133,7 @@ public class MenuForm extends JFrame
 				akunActionPerformed(e);
 			}
 		});
-		menuBar.add(mnAkun);
+		//menuBar.add(mnAkun);
 
 		JMenu Laporan = new JMenu("Laporan");
 		Laporan.addMouseListener(new MouseAdapter()

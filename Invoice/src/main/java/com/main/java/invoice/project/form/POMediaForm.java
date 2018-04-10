@@ -129,7 +129,6 @@ public class POMediaForm extends JInternalFrame
 				try
 				{
 					masterMedia = masterMediaDAO.GetMasterMediaById(masterMedia);
-
 					cbId.setText(String.valueOf(masterMedia.getMasterMediaId()));
 				}
 				catch (Exception e4)

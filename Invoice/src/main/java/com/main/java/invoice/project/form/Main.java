@@ -9,14 +9,14 @@ public class Main
 {
 	public static void main (String[] args)
 	{
-		//SshFunction sshFunction = new SshFunction();
+		SshFunction sshFunction = new SshFunction();
 
-		//if (sshFunction.getConfigBySsh())
-		if (true)
+		if (sshFunction.getConfigBySsh())
+		//if (true)
 		{
-			StaticPreference.URL = "jdbc:mysql://localhost:3306/INVOICE_PROJECT";
-			StaticPreference.USERNAME = "dev";
-			StaticPreference.PASSWORD = "Password";
+			//StaticPreference.URL = "jdbc:mysql://localhost:3306/INVOICE_PROJECT";
+			//StaticPreference.USERNAME = "dev";
+			//StaticPreference.PASSWORD = "Password";
 
 			LoginForm loginForm = new LoginForm();
 			loginForm.setVisible(true);

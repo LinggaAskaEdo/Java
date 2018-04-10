@@ -50,26 +50,6 @@ public class MenuForm extends JFrame
 		/*Setting Panel*/
 		desktopPane = new JDesktopPane();
 
-		//JPanel contentPane = new JPanel();
-		//contentPane.setBackground(new Image());
-		//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		//contentPane.setLayout(null);
-
-		//JLabel background = new JLabel(new ImageIcon("C:\\Program Files\\Invoice\\image\\background.png"), SwingConstants.CENTER);
-		//add(background);
-		//background.setLayout(new FlowLayout());
-		//contentPane.add(background);
-
-		//ImagePanel panel = new ImagePanel(new ImageIcon("C:\\\\Program Files\\\\Invoice\\\\image\\\\background.png").getImage());
-		//getContentPane().add(panel);
-		//pack();
-
-		//getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
-		//getContentPane().add(desktopPane);
-		//desktopPane.setLayout(null);
-
-		//contentPane.add(desktopPane, BorderLayout.CENTER);
-
 		setContentPane(desktopPane);
 
 		/*Setting MenuBar*/
@@ -322,8 +302,7 @@ public class MenuForm extends JFrame
 	{
 		try
 		{
-			//ImageIcon icon = new ImageIcon(new ImageIcon("C:\\Program Files\\Invoice\\image\\aaa.png").getImage());
-			ImageIcon icon = new ImageIcon(new ImageIcon("C:\\Program Files\\Invoice\\image\\goku3.jpg").getImage());
+			ImageIcon icon = new ImageIcon(new ImageIcon("C:\\Program Files\\Invoice\\image\\background.png").getImage());
 			JLabel label = new JLabel(icon);
 			label.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
 

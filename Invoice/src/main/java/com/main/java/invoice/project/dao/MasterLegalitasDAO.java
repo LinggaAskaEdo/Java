@@ -34,13 +34,22 @@ public class MasterLegalitasDAO
                 query = "INSERT INTO MASTER_PERUSAHAAN(CODE, NAME, PPN_IMAGE, ADDRESS, NO_NPWP, CONTACT_NUMBER, NO_BANK_ACCOUNT, FEE_AGENCY)" +
                         "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
-                File file = new File(masterPerusahaan.getImage());
-                FileInputStream inputStream = new FileInputStream(file);
-
                 preparedStatement = connect.prepareStatement(query);
                 preparedStatement.setString(1, masterPerusahaan.getCode());
                 preparedStatement.setString(2, masterPerusahaan.getName());
-                preparedStatement.setBinaryStream(3, inputStream, (int) file.length());
+
+                if (masterPerusahaan.getImage() != null)
+                {
+                    File file = new File(masterPerusahaan.getImage());
+                    FileInputStream inputStream = new FileInputStream(file);
+
+                    preparedStatement.setBinaryStream(3, inputStream, (int) file.length());
+                }
+                else
+                {
+                    preparedStatement.setBinaryStream(3, null);
+                }
+
                 preparedStatement.setString(4, masterPerusahaan.getAddress());
                 preparedStatement.setString(5, masterPerusahaan.getNoNpwp());
                 preparedStatement.setString(6, masterPerusahaan.getContactNumber());
@@ -52,12 +61,20 @@ public class MasterLegalitasDAO
                 query = "UPDATE MASTER_PERUSAHAAN set NAME = ?, PPN_IMAGE = ?, ADDRESS = ?, NO_NPWP = ?, CONTACT_NUMBER = ?, NO_BANK_ACCOUNT = ?, FEE_AGENCY = ?" +
                         "WHERE CODE = ?";
 
-                File file = new File(masterPerusahaan.getImage());
-                FileInputStream inputStream = new FileInputStream(file);
-
                 preparedStatement = connect.prepareStatement(query);
                 preparedStatement.setString(1, masterPerusahaan.getName());
-                preparedStatement.setBinaryStream(2, inputStream, file.length());
+
+                if (masterPerusahaan.getImage() != null)
+                {
+                    File file = new File(masterPerusahaan.getImage());
+                    FileInputStream inputStream = new FileInputStream(file);
+                    preparedStatement.setBinaryStream(2, inputStream, file.length());
+                }
+                else
+                {
+                    preparedStatement.setBinaryStream(2, null);
+                }
+
                 preparedStatement.setString(3, masterPerusahaan.getAddress());
                 preparedStatement.setString(4, masterPerusahaan.getNoNpwp());
                 preparedStatement.setString(5, masterPerusahaan.getContactNumber());

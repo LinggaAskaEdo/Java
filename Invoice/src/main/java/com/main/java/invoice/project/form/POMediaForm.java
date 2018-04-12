@@ -129,6 +129,7 @@ public class POMediaForm extends JInternalFrame
 				try
 				{
 					masterMedia = masterMediaDAO.GetMasterMediaById(masterMedia);
+					System.out.println("masterMedia : " + masterMedia);
 					cbId.setText(String.valueOf(masterMedia.getMasterMediaId()));
 				}
 				catch (Exception e4)
@@ -238,6 +239,7 @@ public class POMediaForm extends JInternalFrame
 				JFileChooser jfc = new JFileChooser();
 
 				int returnValue = jfc.showOpenDialog(null);
+
 				if (returnValue == JFileChooser.APPROVE_OPTION)
 				{
 					File selectedFile = jfc.getSelectedFile();
@@ -266,27 +268,45 @@ public class POMediaForm extends JInternalFrame
 					e2.printStackTrace();
 				}
 
-				poMedia.setPoMediaNo(TF_PONomor.getText());
-				poMedia.setKontrakId(kontrak.getKontrakId());
-				poMedia.setPekerjaanKementerian(TF_Klien.getText());
-				poMedia.setMasterMediaId(Integer.valueOf(cbId.getText()));
-				poMedia.setTanggalTayang(CL_Tanggal.getDate());
-				poMedia.setUkuran(TF_volume.getText());
-				poMedia.setHarga(new BigDecimal(TF_Harga.getText()));
-				poMedia.setPpn(new BigDecimal(TF_Ppn.getText()));
-				poMedia.setKeterangan(TA_Keterangan.getText());
-				poMedia.setImage(TF_unggah.getText());
+				System.out.println("kontrak: " + kontrak);
+				System.out.println("masterId: " + cbId.getText());
 
-				try
+				if (kontrak.getKontrakId() == null)
 				{
-					poMediaDAO.add(poMedia);
-					GetTableList();
-					RemoveRowPoMedia();
-					ClearPoMedia();
+					JOptionPane.showMessageDialog(null, "Simpan Gagal, Kontrak tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
 				}
-				catch (Exception e3)
+				else if (cbId.getText() == null)
 				{
-					e3.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Simpan Gagal, Media tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+					poMedia.setPoMediaNo(TF_PONomor.getText());
+					poMedia.setKontrakId(kontrak.getKontrakId());
+					poMedia.setPekerjaanKementerian(TF_Klien.getText());
+					poMedia.setMasterMediaId(Integer.valueOf(cbId.getText()));
+					poMedia.setTanggalTayang(CL_Tanggal.getDate());
+					poMedia.setUkuran(TF_volume.getText());
+					poMedia.setHarga(new BigDecimal(TF_Harga.getText()));
+					poMedia.setPpn(new BigDecimal(TF_Ppn.getText()));
+					poMedia.setKeterangan(TA_Keterangan.getText());
+
+					if (TF_unggah.getText().length() > 0)
+						poMedia.setImage(TF_unggah.getText());
+					else
+						poMedia.setImage(null);
+
+					try
+					{
+						poMediaDAO.add(poMedia);
+						GetTableList();
+						RemoveRowPoMedia();
+						ClearPoMedia();
+					}
+					catch (Exception e3)
+					{
+						e3.printStackTrace();
+					}
 				}
 			}
 		});

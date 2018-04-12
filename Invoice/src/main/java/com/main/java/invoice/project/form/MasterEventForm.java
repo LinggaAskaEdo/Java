@@ -135,6 +135,7 @@ public class MasterEventForm extends JInternalFrame
 		});
 		btnHapus.setBounds(462, 344, 117, 25);
 		desktopPane.add(btnHapus);
+		btnHapus.setEnabled(false);
 
 		JButton btnSimpan = new JButton("Simpan");
 		btnSimpan.addActionListener(new ActionListener()

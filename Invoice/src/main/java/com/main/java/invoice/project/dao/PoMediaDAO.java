@@ -32,9 +32,6 @@ public class PoMediaDAO
             String query = "INSERT INTO PO_MEDIA(PO_MEDIA_NO, KONTRAK_ID, PEKERJAAN_KEMENTERIAN, MASTER_MEDIA_ID, TANGGAL_TAYANG" +
                     "UKURAN, HARGA, PPN, KETERANGAN, PPN_IMAGE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            File file = new File(poMedia.getImage());
-            FileInputStream inputStream = new FileInputStream(file);
-
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, poMedia.getPoMediaNo());
             preparedStatement.setInt(2, poMedia.getKontrakId());
@@ -45,7 +42,18 @@ public class PoMediaDAO
             preparedStatement.setBigDecimal(7, poMedia.getHarga());
             preparedStatement.setBigDecimal(8, poMedia.getPpn());
             preparedStatement.setString(9, poMedia.getKeterangan());
-            preparedStatement.setBinaryStream(10, inputStream, file.length());
+
+            if (poMedia.getImage() != null)
+            {
+                File file = new File(poMedia.getImage());
+                FileInputStream inputStream = new FileInputStream(file);
+
+                preparedStatement.setBinaryStream(10, inputStream, file.length());
+            }
+            else
+            {
+                preparedStatement.setBinaryStream(10, null);
+            }
         }
         catch (ClassNotFoundException | SQLException | FileNotFoundException e)
         {

@@ -171,7 +171,12 @@ public class MasterLegalitasForm extends JInternalFrame
 				MasterPerusahaan masterPerusahaan = new MasterPerusahaan();
 				masterPerusahaan.setCode(TF_KodePerusahaan.getText());
 				masterPerusahaan.setName(TF_NamaPerusahaan.getText());
-				masterPerusahaan.setImage(TF_Unggah.getText());
+
+				if (TF_Unggah.getText().length() > 0)
+					masterPerusahaan.setImage(TF_Unggah.getText());
+				else
+					masterPerusahaan.setImage(null);
+
 				masterPerusahaan.setAddress(TA_Alamat.getText());
 				masterPerusahaan.setNoNpwp(TF_Npwp.getText());
 				masterPerusahaan.setContactNumber(TF_Pic.getText());
@@ -204,7 +209,12 @@ public class MasterLegalitasForm extends JInternalFrame
 				MasterPerusahaan masterPerusahaan = new MasterPerusahaan();
 				masterPerusahaan.setCode(TF_KodePerusahaan.getText());
 				masterPerusahaan.setName(TF_NamaPerusahaan.getText());
-				masterPerusahaan.setImage(TF_Unggah.getText());
+
+				if (TF_Unggah.getText().length() > 0)
+					masterPerusahaan.setImage(TF_Unggah.getText());
+				else
+					masterPerusahaan.setImage(null);
+
 				masterPerusahaan.setAddress(TA_Alamat.getText());
 				masterPerusahaan.setNoNpwp(TF_Npwp.getText());
 				masterPerusahaan.setContactNumber(TF_Pic.getText());

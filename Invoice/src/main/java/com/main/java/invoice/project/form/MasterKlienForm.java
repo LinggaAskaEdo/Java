@@ -136,7 +136,6 @@ public class MasterKlienForm extends JInternalFrame
 		});
 		btnHapus.setBounds(462, 351, 117, 25);
 		desktopPane.add(btnHapus);
-
 		btnHapus.setEnabled(false);
 
 		JButton btnSimpan = new JButton("Simpan");

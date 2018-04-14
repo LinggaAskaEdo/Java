@@ -12,9 +12,12 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class KontrakForm extends JInternalFrame 
@@ -29,15 +32,18 @@ public class KontrakForm extends JInternalFrame
 	private JTextArea TA_AlamatPerusahaan;
 	private JTextField TF_Npwp;
 	private JTextField TF_NoKontrak;
-	private JTextField TF_NilaiKontrak;
-	private JTextField TF_Dpp;
-	private JTextField TF_Ppn;
-	private JTextField TF_Pph_23;
-	private JTextField TF_ResultDpp;
-	private JTextField TF_ResultPpn;
-	private JTextField TF_ResultPph_23;
-	private JTextField TF_ResultSP_2D;
+	private JFormattedTextField TF_NilaiKontrak;
+	private JFormattedTextField TF_Dpp;
+	private JFormattedTextField TF_Ppn;
+	private JFormattedTextField TF_Pph_23;
+	private JFormattedTextField TF_ResultDpp;
+	private JFormattedTextField TF_ResultPpn;
+	private JFormattedTextField TF_ResultPph_23;
+	private JFormattedTextField TF_ResultSP_2D;
 	private JComboBox CB_KodePerusahaan;
+	private JComboBox CB_ListKontrak;
+	private NumberFormat numformat = NumberFormat.getInstance();
+	private NumberFormatter numformatter;
 	KontrakDAO dao = new KontrakDAO();
 	private MasterLegalitasDAO masterLegalitasDAO = new MasterLegalitasDAO();
 	private String pattern = "-?\\d+";
@@ -63,7 +69,7 @@ public class KontrakForm extends JInternalFrame
 
 	KontrakForm()
 	{
-		addInternalFrameListener(new InternalFrameAdapter()
+		/*addInternalFrameListener(new InternalFrameAdapter()
 		{
 			@Override
 			public void internalFrameOpened(InternalFrameEvent e) 
@@ -73,16 +79,17 @@ public class KontrakForm extends JInternalFrame
 				System.out.println("newCode: " + newCode);
 				TF_NoKontrak.setText(newCode);
 			}
-		});
+		});*/
 		setResizable(false);
 		setTitle("Kontrak");
 		initializeForm();
-		ShowComboBoxPerusahaan();
-		ShowComboBoxKontrak();
+		/*ShowComboBoxPerusahaan();*/
 	}
 
 	private void initializeForm()
 	{
+		setCurrencyNow();
+
 		setClosable(true);
 		setBounds(100, 100, 630, 534);
 		getContentPane().setLayout(null);
@@ -138,7 +145,7 @@ public class KontrakForm extends JInternalFrame
 		lblSpd.setBounds(76, 431, 70, 15);
 		desktopPane.add(lblSpd);
 		
-		JLabel label = new JLabel("110 %");
+		JLabel label = new JLabel("100/110");
 		label.setBounds(158, 350, 52, 15);
 		desktopPane.add(label);
 		
@@ -244,108 +251,119 @@ public class KontrakForm extends JInternalFrame
 		projectId.setColumns(10);
 		projectId.setVisible(false);
 		
-		TF_NilaiKontrak = new JTextField();
+		TF_NilaiKontrak = new JFormattedTextField(numformatter);
 		TF_NilaiKontrak.addKeyListener(new KeyAdapter()
 		{
 			@Override
 			public void keyReleased(KeyEvent e)
 			{
-				TF_Dpp.setText(TF_NilaiKontrak.getText());
+				Long a = Long.valueOf(TF_NilaiKontrak.getText());
+				TF_Dpp.setValue(a);
 			}
 		});
 		TF_NilaiKontrak.setBounds(194, 319, 158, 19);
 		desktopPane.add(TF_NilaiKontrak);
-		TF_NilaiKontrak.setColumns(10);
+		TF_NilaiKontrak.setColumns(19);
+
+		setTypingTextField();
 
 		JDateChooser CL_tanggal = new JDateChooser();
 		CL_tanggal.setBounds(193, 287, 157, 20);
 		CL_tanggal.setDateFormatString("yyyy-MM-dd");
 		desktopPane.add(CL_tanggal);
 		
-		TF_Dpp = new JTextField();
+		TF_Dpp = new JFormattedTextField(numformatter);
 		TF_Dpp.addCaretListener(new CaretListener()
 		{
 			public void caretUpdate(CaretEvent arg0)
 			{
-				String getDpp = TF_Dpp.getText();
+				String getDpp = TF_Dpp.getText().replace(",","");
 
 				if (getDpp.matches(pattern))
 				{
-					Integer grdpp = Integer.parseInt(getDpp);
-					Integer redpp = (grdpp * 110)/100;
-					TF_ResultDpp.setText(String.valueOf(redpp));
-					TF_Ppn.setText(String.valueOf(redpp));
+
+					Long grdpp = Long.parseLong(getDpp);
+					Long redpp = (grdpp * 110)/100;
+
+					//TF_ResultDpp.setText(String.valueOf(redpp));
+					//TF_Ppn.setText(String.valueOf(redpp));
+					//TF_Pph_23.setText(String.valueOf(redpp));
+					TF_ResultDpp.setValue(redpp);
+					TF_Ppn.setValue(redpp);
+					TF_Pph_23.setValue(redpp);
 				}
 			}
 		});
 		TF_Dpp.setBounds(228, 348, 153, 19);
 		desktopPane.add(TF_Dpp);
-		TF_Dpp.setColumns(10);
+		TF_Dpp.setColumns(19);
 
-		TF_ResultDpp = new JTextField();
+		TF_ResultDpp = new JFormattedTextField(numformatter);
 		TF_ResultDpp.setBounds(422, 348, 148, 19);
 		desktopPane.add(TF_ResultDpp);
-		TF_ResultDpp.setColumns(10);
+		TF_ResultDpp.setColumns(19);
 		
-		TF_Ppn = new JTextField();
+		TF_Ppn = new JFormattedTextField(numformatter);
 		TF_Ppn.addCaretListener(new CaretListener()
 		{
 			public void caretUpdate(CaretEvent arg0)
 			{
-				String getPpn = TF_Ppn.getText();
+				String getPpn = TF_Ppn.getText().replace(",","");
 
 				if (getPpn.matches(pattern))
 				{
-					Integer grPpn = Integer.parseInt(getPpn);
-					Integer rePpn = (grPpn * 10)/100;
-					TF_ResultPpn.setText(String.valueOf(rePpn));
-					TF_Pph_23.setText(String.valueOf(rePpn));
+					Long grPpn = Long.parseLong(getPpn);
+					Long rePpn = (grPpn * 10)/100;
+					/*TF_ResultPpn.setText(String.valueOf(rePpn));*/
+					TF_ResultPpn.setValue(rePpn);
 				}
 			}
 		});
 		TF_Ppn.setBounds(228, 375, 153, 19);
 		desktopPane.add(TF_Ppn);
-		TF_Ppn.setColumns(10);
+		TF_Ppn.setColumns(19);
 		
-		TF_Pph_23 = new JTextField();
+		TF_Pph_23 = new JFormattedTextField(numformatter);
 		TF_Pph_23.addCaretListener(new CaretListener()
 		{
 			public void caretUpdate(CaretEvent arg0)
 			{
-				String getPph23 = TF_Pph_23.getText();
+				String getPph23 = TF_Pph_23.getText().replace(",","");
 
 				if (getPph23.matches(pattern))
 				{
-					Integer grPph23 = Integer.parseInt(getPph23);
-					Integer rePph23 = (grPph23 * 2)/100;
-					TF_ResultPph_23.setText(String.valueOf(rePph23));
+					Long grPph23 = Long.parseLong(getPph23);
+					Long rePph23 = (grPph23 * 2)/100;
+					/*TF_ResultPph_23.setText(String.valueOf(rePph23));*/
+					TF_ResultPph_23.setValue(rePph23);
 
-					String getDpp = TF_Dpp.getText();
-					Integer dpp = Integer.parseInt(getDpp);
+					String getResultDpp = TF_ResultDpp.getText().replace(",","");
+					Long dpp = Long.parseLong(getResultDpp);
 
-					Integer resultSp2D = dpp - rePph23;
-					TF_ResultSP_2D.setText(String.valueOf(resultSp2D));
+					Long resultSp2D = dpp - rePph23;
+					/*TF_ResultSP_2D.setText(String.valueOf(resultSp2D));*/
+					TF_ResultSP_2D.setValue(resultSp2D);
 				}
 			}
 		});
 		TF_Pph_23.setBounds(228, 402, 153, 19);
 		desktopPane.add(TF_Pph_23);
-		TF_Pph_23.setColumns(10);
+		TF_Pph_23.setColumns(19);
 		
-		TF_ResultPpn = new JTextField();
+		TF_ResultPpn = new JFormattedTextField(numformatter);
 		TF_ResultPpn.setBounds(422, 375, 148, 19);
 		desktopPane.add(TF_ResultPpn);
-		TF_ResultPpn.setColumns(10);
+		TF_ResultPpn.setColumns(19);
 		
-		TF_ResultPph_23 = new JTextField();
+		TF_ResultPph_23 = new JFormattedTextField(numformatter);
 		TF_ResultPph_23.setBounds(422, 402, 148, 19);
 		desktopPane.add(TF_ResultPph_23);
-		TF_ResultPph_23.setColumns(10);
+		TF_ResultPph_23.setColumns(19);
 		
-		TF_ResultSP_2D = new JTextField();
+		TF_ResultSP_2D = new JFormattedTextField(numformatter);
 		TF_ResultSP_2D.setBounds(422, 429, 148, 19);
 		desktopPane.add(TF_ResultSP_2D);
-		TF_ResultSP_2D.setColumns(10);
+		TF_ResultSP_2D.setColumns(19);
 		
 		JCheckBox chckbxPaid = new JCheckBox("Paid");
 		chckbxPaid.setBounds(469, 22, 101, 23);
@@ -355,7 +373,7 @@ public class KontrakForm extends JInternalFrame
 		lblListKontrak.setBounds(46, 26, 126, 15);
 		desktopPane.add(lblListKontrak);
 
-		JComboBox CB_ListKontrak = new JComboBox();
+		CB_ListKontrak = new JComboBox();
 		CB_ListKontrak.addItemListener(new ItemListener()
 		{
 			public void itemStateChanged(ItemEvent arg0)
@@ -404,10 +422,10 @@ public class KontrakForm extends JInternalFrame
 				kontrak.setProject(String.valueOf(CB_Project.getSelectedItem()));
 				kontrak.setDate(CL_tanggal.getDate());
 				kontrak.setNilaiKontrak(new BigDecimal(TF_NilaiKontrak.getText()));
-				kontrak.setDpp(new BigDecimal(TF_Dpp.getText()));
-				kontrak.setPpn(new BigDecimal(TF_ResultDpp.getText()));
-				kontrak.setPph23(new BigDecimal(TF_ResultPph_23.getText()));
-				kontrak.setSp2d(new BigDecimal(TF_ResultSP_2D.getText()));
+				kontrak.setDpp(new BigDecimal(TF_Dpp.getText().replace(",","")));
+				kontrak.setPpn(new BigDecimal(TF_ResultDpp.getText().replace(",","")));
+				kontrak.setPph23(new BigDecimal(TF_ResultPph_23.getText().replace(",","")));
+				kontrak.setSp2d(new BigDecimal(TF_ResultSP_2D.getText().replace(",","")));
 
 				if (chckbxPaid.isSelected())
 				{
@@ -457,6 +475,7 @@ public class KontrakForm extends JInternalFrame
 				CB_ListKontrak.setEnabled(true);
 				TF_NoKontrak.setEnabled(false);
 				TF_NoKontrak.setText("");
+				ShowComboBoxKontrak();
 			}
 		});
 		btnEdit.setBounds(46, 460, 117, 25);
@@ -468,7 +487,14 @@ public class KontrakForm extends JInternalFrame
 		listId.setText("");
 		TF_NoKontrak.setText("");
 		codeId.setText("");
-		TF_NilaiKontrak.setText("");
+		TF_NilaiKontrak.setValue(0);
+		TF_Dpp.setValue(0);
+		TF_Ppn.setValue(0);
+		TF_Pph_23.setValue(0);
+		TF_ResultDpp.setValue(0);
+		TF_ResultPpn.setValue(0);
+		TF_ResultPph_23.setValue(0);
+		TF_ResultSP_2D.setValue(0);
 	}
 
 	private void ShowComboBoxPerusahaan()
@@ -501,7 +527,7 @@ public class KontrakForm extends JInternalFrame
 			{
 				for (Kontrak anAllKontrak : allKontrak)
 				{
-					CB_KodePerusahaan.addItem(anAllKontrak.getNoKontrak());
+					CB_ListKontrak.addItem(anAllKontrak.getNoKontrak());
 				}
 			}
 		}
@@ -509,5 +535,42 @@ public class KontrakForm extends JInternalFrame
 		{
 			e1.printStackTrace();
 		}
+	}
+
+	private void setCurrencyNow()
+	{
+		//  set banyaknya angka akhir bilangan
+		numformat.setMaximumFractionDigits(0);
+
+		//  Deklarasikan NumberFormatter
+		numformatter = new NumberFormatter(numformat);
+		numformatter.setAllowsInvalid(false);
+	}
+
+	private void setTypingTextField()
+	{
+		//  Key Listener
+		TF_NilaiKontrak.addKeyListener(new KeyAdapter()
+		{
+			public void keyPressed(KeyEvent ke)
+			{
+				//  Jika terjadi penekanan tombol BACK_SPACE
+				if(ke.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+				{
+					String text = TF_NilaiKontrak.getText();
+					if(text.length() == 1)
+					{
+						TF_NilaiKontrak.setValue(0);
+						TF_Dpp.setValue(0);
+						TF_Ppn.setValue(0);
+						TF_Pph_23.setValue(0);
+						TF_ResultDpp.setValue(0);
+						TF_ResultPpn.setValue(0);
+						TF_ResultPph_23.setValue(0);
+						TF_ResultSP_2D.setValue(0);
+					}
+				}
+			}
+		});
 	}
 }

@@ -29,7 +29,9 @@ public class FundingForm extends JInternalFrame
 	private ButtonGroup buttonGroup;
 	private JTextArea TA_Keterangan;
 	private JComboBox CB_Reff;
-	FundingDAO dao = new FundingDAO();
+	private JRadioButton rdbtnKontrak;
+	private JRadioButton rdbtnMasterDana;
+	private FundingDAO dao = new FundingDAO();
 	private MasterDanaDAO masterDanaDAO = new MasterDanaDAO();
 	private KontrakDAO kontrakDAO = new KontrakDAO();
 
@@ -56,6 +58,7 @@ public class FundingForm extends JInternalFrame
 	{
 		setTitle("FUNDING");
 		initializeForm();
+		ShowComboBoxKontrakFunding();
 	}
 
 	public void initializeForm()
@@ -107,12 +110,13 @@ public class FundingForm extends JInternalFrame
 		TA_Keterangan.setBounds(173, 178, 294, 53);
 		desktopPane.add(TA_Keterangan);
 		
-		JRadioButton rdbtnKontrak = new JRadioButton("Kontrak");
+		rdbtnKontrak = new JRadioButton("Kontrak");
 		rdbtnKontrak.setActionCommand("1");
 		rdbtnKontrak.setBounds(173, 51, 93, 23);
+		rdbtnKontrak.setSelected(true);
 		desktopPane.add(rdbtnKontrak);
 		
-		JRadioButton rdbtnMasterDana = new JRadioButton("Master Dana");
+		rdbtnMasterDana = new JRadioButton("Master Dana");
 		rdbtnMasterDana.setActionCommand("2");
 		rdbtnMasterDana.setBounds(280, 51, 128, 23);
 		desktopPane.add(rdbtnMasterDana);
@@ -128,7 +132,6 @@ public class FundingForm extends JInternalFrame
 			{
 				if (buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1"))
 				{
-					System.out.println("AAA");
 					ShowComboBoxKontrakFunding();
 
 					Kontrak kontrak = new Kontrak();
@@ -139,7 +142,6 @@ public class FundingForm extends JInternalFrame
 				}
 				else
 				{
-					System.out.println("BBB");
 					ShowComboBoxDanaFunding();
 
 					String splitData = String.valueOf(CB_Reff.getSelectedItem());
@@ -156,6 +158,10 @@ public class FundingForm extends JInternalFrame
 		desktopPane.add(reffId);
 		reffId.setColumns(10);
 		reffId.setVisible(false);
+
+		FundingForm.RadioButtonActionListener actionListener = new FundingForm.RadioButtonActionListener();
+		rdbtnKontrak.addActionListener(actionListener);
+		rdbtnMasterDana.addActionListener(actionListener);
 		
 		JLabel lblUnggahDokumen = new JLabel("Unggah Dokumen");
 		lblUnggahDokumen.setBounds(39, 246, 128, 15);
@@ -254,6 +260,24 @@ public class FundingForm extends JInternalFrame
 			for (Kontrak anAllKontrak : allKontrak)
 			{
 				CB_Reff.addItem(anAllKontrak.getNoKontrak());
+			}
+		}
+	}
+
+	class RadioButtonActionListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent event)
+		{
+			JRadioButton button = (JRadioButton) event.getSource();
+
+			if (button == rdbtnKontrak)
+			{
+				ShowComboBoxKontrakFunding();
+			}
+			else
+			{
+				ShowComboBoxDanaFunding();
 			}
 		}
 	}

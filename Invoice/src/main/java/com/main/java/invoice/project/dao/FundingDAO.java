@@ -32,8 +32,6 @@ public class FundingDAO
             final String query = "INSERT INTO FUNDING(KONTAK_NAME, KONTRAK_ID, TANGGAL, NILAI, KETERANGAN, PPN_IMAGE, CHECK_REFF)" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-            File file = new File(funding.getImage());
-            FileInputStream inputStream = new FileInputStream(file);
 
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, funding.getKontakName());
@@ -41,7 +39,19 @@ public class FundingDAO
             preparedStatement.setString(3, currentDate);
             preparedStatement.setBigDecimal(4, funding.getNilai());
             preparedStatement.setString(5, funding.getKeterangan());
-            preparedStatement.setBinaryStream(6, inputStream, file.length());
+
+            if (funding.getImage() != null)
+            {
+                File file = new File(funding.getImage());
+                FileInputStream inputStream = new FileInputStream(file);
+
+                preparedStatement.setBinaryStream(6, inputStream, file.length());
+            }
+            else
+            {
+                preparedStatement.setBinaryStream(6, null);
+            }
+
             preparedStatement.setInt(7,funding.getCheckReff());
 
             preparedStatement.executeUpdate();

@@ -268,9 +268,6 @@ public class POMediaForm extends JInternalFrame
 					e2.printStackTrace();
 				}
 
-				System.out.println("kontrak: " + kontrak);
-				System.out.println("masterId: " + cbId.getText());
-
 				if (kontrak.getKontrakId() == null)
 				{
 					JOptionPane.showMessageDialog(null, "Simpan Gagal, Kontrak tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);

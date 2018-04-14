@@ -128,17 +128,10 @@ public class FundingForm extends JInternalFrame
 			{
 				if (buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1"))
 				{
+					System.out.println("AAA");
 					ShowComboBoxKontrakFunding();
-				}
-				else
-				{
-					ShowComboBoxDanaFunding();
-				}
 
-				if (buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1"))
-				{
 					Kontrak kontrak = new Kontrak();
-
 					kontrak.setNoKontrak(String.valueOf(CB_Reff.getSelectedItem()));
 					kontrak = kontrakDAO.GetKontrakById(kontrak);
 
@@ -146,6 +139,9 @@ public class FundingForm extends JInternalFrame
 				}
 				else
 				{
+					System.out.println("BBB");
+					ShowComboBoxDanaFunding();
+
 					String splitData = String.valueOf(CB_Reff.getSelectedItem());
 					MasterDana masterDana = masterDanaDAO.GetMasterDanaById(splitData);
 					reffId.setText(String.valueOf(masterDana.getMasterDanaId()));

@@ -217,25 +217,32 @@ public class POProduksiForm extends JInternalFrame
 					e2.printStackTrace();
 				}
 
-				poProduksi.setPoProduksiNo(TF_PONomor.getText());
-				poProduksi.setKontrakId(kontrak.getKontrakId());
-				poProduksi.setProduksi(TF_Produksi.getText());
-				poProduksi.setTanggal(CL_Tanggal.getDate());
-				poProduksi.setNilaiProduksi(new BigDecimal(TF_NilaiProduksi.getText()));
-				poProduksi.setKeterangan(TA_Keterangan.getText());
-				poProduksi.setImage(TF_Unggah.getText());
+				if (kontrak.getKontrakId() == null)
+				{
+					JOptionPane.showMessageDialog(null, "Simpan Gagal, Kontrak tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+					poProduksi.setPoProduksiNo(TF_PONomor.getText());
+					poProduksi.setKontrakId(kontrak.getKontrakId());
+					poProduksi.setProduksi(TF_Produksi.getText());
+					poProduksi.setTanggal(CL_Tanggal.getDate());
+					poProduksi.setNilaiProduksi(new BigDecimal(TF_NilaiProduksi.getText()));
+					poProduksi.setKeterangan(TA_Keterangan.getText());
+					poProduksi.setImage(TF_Unggah.getText());
 
-				try
-				{
-					dao.add(poProduksi);
+					try
+					{
+						dao.add(poProduksi);
+					}
+					catch (Exception e3)
+					{
+						e3.printStackTrace();
+					}
+					GetTableList();
+					RemoveRowPoProduksi();
+					ClearPoProduksi();
 				}
-				catch (Exception e3)
-				{
-					e3.printStackTrace();
-				}
-				GetTableList();
-				RemoveRowPoProduksi();
-				ClearPoProduksi();
 			}
 		});
 		btnSimpan.setBounds(418, 413, 117, 25);

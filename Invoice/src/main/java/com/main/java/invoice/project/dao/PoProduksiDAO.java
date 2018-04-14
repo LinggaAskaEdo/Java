@@ -32,9 +32,6 @@ public class PoProduksiDAO
             String query = "INSERT INTO PO_PRODUKSI(PO_PRODUKSI_NO, KONTRAK_ID, PRODUKSI, TANGGAL, NILAI_PRODUKSI, KETERANGAN, PPN_IMAGE)" +
                     "VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-            File file = new File(poProduksi.getImage());
-            FileInputStream inputStream = new FileInputStream(file);
-
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, poProduksi.getPoProduksiNo());
             preparedStatement.setInt(2, poProduksi.getKontrakId());
@@ -42,7 +39,18 @@ public class PoProduksiDAO
             preparedStatement.setString(4, currentDate);
             preparedStatement.setBigDecimal(5, poProduksi.getNilaiProduksi());
             preparedStatement.setString(6, poProduksi.getKeterangan());
-            preparedStatement.setBinaryStream(7, inputStream, file.length());
+
+            if (poProduksi.getImage() != null)
+            {
+                File file = new File(poProduksi.getImage());
+                FileInputStream inputStream = new FileInputStream(file);
+
+                preparedStatement.setBinaryStream(7, inputStream, file.length());
+            }
+            else
+            {
+                preparedStatement.setBinaryStream(7, null);
+            }
 
             preparedStatement.executeUpdate();
         }

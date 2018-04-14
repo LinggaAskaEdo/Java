@@ -320,30 +320,37 @@ public class POEventForm extends JInternalFrame
 					e2.printStackTrace();
 				}
 
-				poEvent.setPoEventNo(TF_PONomor.getText());
-				poEvent.setKontrakId(kontrak.getKontrakId());
-				poEvent.setKegiatan(TF_Kegiatan.getText());
-				poEvent.setTanggal(CL_Tanggal.getDate());
-				poEvent.setJumlah(new BigDecimal(TF_Jumlah.getText()));
-				poEvent.setKeterangan(TA_Keterangan.getText());
-				poEvent.setImage(TF_Unggah.getText());
-
-				try
+				if (kontrak.getKontrakId() == null)
 				{
-					dao.add(poEvent);
+					JOptionPane.showMessageDialog(null, "Simpan Gagal, Kontrak tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
 				}
-				catch (Exception e3)
+				else
 				{
-					e3.printStackTrace();
-				}
+					poEvent.setPoEventNo(TF_PONomor.getText());
+					poEvent.setKontrakId(kontrak.getKontrakId());
+					poEvent.setKegiatan(TF_Kegiatan.getText());
+					poEvent.setTanggal(CL_Tanggal.getDate());
+					poEvent.setJumlah(new BigDecimal(TF_Jumlah.getText()));
+					poEvent.setKeterangan(TA_Keterangan.getText());
+					poEvent.setImage(TF_Unggah.getText());
 
-				GetTableList_1();
-				RemoveRow_1();
-				GetTableList_2();
-				RemoveRow_2();
-				GetTableList_3();
-				RemoveRow_3();
-				ClearPoEvent();
+					try
+					{
+						dao.add(poEvent);
+					}
+					catch (Exception e3)
+					{
+						e3.printStackTrace();
+					}
+
+					GetTableList_1();
+					RemoveRow_1();
+					GetTableList_2();
+					RemoveRow_2();
+					GetTableList_3();
+					RemoveRow_3();
+					ClearPoEvent();
+				}
 			}
 		});
 		btnSimpan.setBounds(480, 628, 117, 25);
@@ -493,10 +500,18 @@ public class POEventForm extends JInternalFrame
 			{
 				String splitData = String.valueOf(tabelModel3.getValueAt(i,3));
 				masterDana = masterDanaDAO.GetMasterDanaById(splitData);
-				tagihanReimburse.setMasterDanaId(masterDana.getMasterDanaId());
 
-				tagihanReimburse.setKeterangan(String.valueOf(tabelModel3.getValueAt(i, 4)));
-				tagihanReimburse.setImage(String.valueOf(tabelModel3.getValueAt(i, 5)));
+				if (masterDana == null)
+				{
+					JOptionPane.showMessageDialog(null, "Tambah Gagal, Master Dana tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+					tagihanReimburse.setMasterDanaId(masterDana.getMasterDanaId());
+
+					tagihanReimburse.setKeterangan(String.valueOf(tabelModel3.getValueAt(i, 4)));
+					tagihanReimburse.setImage(String.valueOf(tabelModel3.getValueAt(i, 5)));
+				}
 
 				tagihanReimbursementDAO.add(tagihanReimburse);
 			}

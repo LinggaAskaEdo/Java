@@ -150,15 +150,23 @@ public class CostOperasionalForm extends JInternalFrame
 				{
 					String splitData = String.valueOf(CB_ReffSumbDana.getSelectedItem());
 					MasterDana masterDana = masterDanaDAO.GetMasterDanaById(splitData);
-					costOperasional.setMasterDanaId(masterDana.getMasterDanaId());
 
-					costOperasional.setPic(TB_Kontrak.getText());
-					costOperasional.setKeperluan(TA_Keperluan.getText());
-					costOperasional.setTanggalPemebelian(CL_Tanggal.getDate());
-					costOperasional.setImage(TB_Unggah.getText());
+					if (masterDana.getMasterDanaId() == null)
+					{
+						JOptionPane.showMessageDialog(null, "Simpan Gagal, Master Dana tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
+					}
+					else
+					{
+						costOperasional.setMasterDanaId(masterDana.getMasterDanaId());
 
-					dao.addCostOperasional(costOperasional);
-					ClearCost();
+						costOperasional.setPic(TB_Kontrak.getText());
+						costOperasional.setKeperluan(TA_Keperluan.getText());
+						costOperasional.setTanggalPemebelian(CL_Tanggal.getDate());
+						costOperasional.setImage(TB_Unggah.getText());
+
+						dao.addCostOperasional(costOperasional);
+						ClearCost();
+					}
 				}
 				catch (Exception e1)
 				{

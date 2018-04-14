@@ -32,9 +32,6 @@ public class PoEventDAO
             String query = "INSERT INTO PO_EVENT(PO_EVENT_NO, KONTRAK_ID, KEGIATAN, TANGGAL, JUMLAH, KETERANGAN, BUKTI)" +
                     "VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-            File file = new File(poEvent.getImage());
-            FileInputStream inputStream = new FileInputStream(file);
-
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, poEvent.getPoEventNo());
             preparedStatement.setInt(2, poEvent.getKontrakId());
@@ -42,7 +39,18 @@ public class PoEventDAO
             preparedStatement.setString(4, currentDate);
             preparedStatement.setBigDecimal(5, poEvent.getJumlah());
             preparedStatement.setString(6, poEvent.getKeterangan());
-            preparedStatement.setBinaryStream(7,inputStream,file.length());
+
+            if (poEvent.getImage() != null)
+            {
+                File file = new File(poEvent.getImage());
+                FileInputStream inputStream = new FileInputStream(file);
+
+                preparedStatement.setBinaryStream(7, inputStream, file.length());
+            }
+            else
+            {
+                preparedStatement.setBinaryStream(7, null);
+            }
 
             preparedStatement.executeUpdate();
         }

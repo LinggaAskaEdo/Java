@@ -32,15 +32,23 @@ public class CostOperasionalDAO
             final String query = "INSERT INTO COST_OPERASIONAL(MASTER_DANA_ID, PIC, KEPERLUAN, TANGGAL_PEMBELIAN, PPN_IMAGE)" +
                     "VALUES(?, ?, ?, ?, ?)";
 
-            File file = new File(costOperasional.getImage());
-            FileInputStream inputStream = new FileInputStream(file);
-
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setInt(1, costOperasional.getMasterDanaId());
             preparedStatement.setString(2, costOperasional.getPic());
             preparedStatement.setString(3, costOperasional.getKeperluan());
             preparedStatement.setString(4, currentDate);
-            preparedStatement.setBinaryStream(5, inputStream, file.length());
+
+            if (costOperasional.getImage() != null)
+            {
+                File file = new File(costOperasional.getImage());
+                FileInputStream inputStream = new FileInputStream(file);
+
+                preparedStatement.setBinaryStream(5, inputStream, file.length());
+            }
+            else
+            {
+                preparedStatement.setBinaryStream(5, null);
+            }
 
             preparedStatement.executeUpdate();
         }

@@ -144,33 +144,38 @@ public class CostOperasionalForm extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				CostOperasional costOperasional = new CostOperasional();
+				String splitData = String.valueOf(CB_ReffSumbDana.getSelectedItem());
+				MasterDana masterDana = masterDanaDAO.GetMasterDanaById(splitData);
 
-				try
+				if (masterDana.getMasterDanaId() == null)
 				{
-					String splitData = String.valueOf(CB_ReffSumbDana.getSelectedItem());
-					MasterDana masterDana = masterDanaDAO.GetMasterDanaById(splitData);
+					JOptionPane.showMessageDialog(null, "Simpan Gagal, Master Dana tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+					CostOperasional costOperasional = new CostOperasional();
 
-					if (masterDana.getMasterDanaId() == null)
-					{
-						JOptionPane.showMessageDialog(null, "Simpan Gagal, Master Dana tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
-					}
-					else
+					try
 					{
 						costOperasional.setMasterDanaId(masterDana.getMasterDanaId());
-
 						costOperasional.setPic(TB_Kontrak.getText());
 						costOperasional.setKeperluan(TA_Keperluan.getText());
 						costOperasional.setTanggalPemebelian(CL_Tanggal.getDate());
-						costOperasional.setImage(TB_Unggah.getText());
+
+						if (TB_Unggah.getText().length() > 0)
+							costOperasional.setImage(TB_Unggah.getText());
+						else
+							costOperasional.setImage(null);
 
 						dao.addCostOperasional(costOperasional);
 						ClearCost();
+
+						JOptionPane.showMessageDialog(null, "Simpan Berhasil", "", JOptionPane.INFORMATION_MESSAGE);
 					}
-				}
-				catch (Exception e1)
-				{
-					System.out.println(e1.getMessage());
+					catch (Exception e1)
+					{
+						System.out.println(e1.getMessage());
+					}
 				}
 			}
 		});

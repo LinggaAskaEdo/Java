@@ -194,33 +194,46 @@ public class FundingForm extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				Funding funding = new Funding();
-
-				try
+				if (reffId.getText() == null)
 				{
-					funding.setKontakName(TF_Nama.getText());
-
-					if (buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1"))
-					{
-						funding.setCheckReff(1);
-					}
-					else
-					{
-						funding.setCheckReff(0);
-					}
-
-					funding.setReff(Integer.valueOf(reffId.getText()));
-					funding.setTanggal(CL_Tanggal.getDate());
-					funding.setNilai(new BigDecimal(TF_Nilai.getText()));
-					funding.setKeterangan(TA_Keterangan.getText());
-					funding.setImage(TF_Unggah.getText());
-
-					dao.addFunding(funding);
-					ClearFunding();
+					JOptionPane.showMessageDialog(null, "Simpan Gagal, Reff tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
 				}
-				catch (Exception e1)
+				else
 				{
-					e1.printStackTrace();
+					Funding funding = new Funding();
+
+					try
+					{
+						funding.setKontakName(TF_Nama.getText());
+
+						if (buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1"))
+						{
+							funding.setCheckReff(1);
+						}
+						else
+						{
+							funding.setCheckReff(0);
+						}
+
+						funding.setReff(Integer.valueOf(reffId.getText()));
+						funding.setTanggal(CL_Tanggal.getDate());
+						funding.setNilai(new BigDecimal(TF_Nilai.getText()));
+						funding.setKeterangan(TA_Keterangan.getText());
+
+						if (TF_Unggah.getText().length() > 0)
+							funding.setImage(TF_Unggah.getText());
+						else
+							funding.setImage(null);
+
+						dao.addFunding(funding);
+						ClearFunding();
+
+						JOptionPane.showMessageDialog(null, "Simpan Berhasil", "", JOptionPane.INFORMATION_MESSAGE);
+					}
+					catch (Exception e1)
+					{
+						e1.printStackTrace();
+					}
 				}
 			}
 		});

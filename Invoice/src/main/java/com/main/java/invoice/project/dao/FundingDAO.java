@@ -52,7 +52,7 @@ public class FundingDAO
                 preparedStatement.setBinaryStream(6, null);
             }
 
-            preparedStatement.setInt(7,funding.getCheckReff());
+            preparedStatement.setInt(7, funding.getCheckReff());
 
             preparedStatement.executeUpdate();
         }

@@ -299,6 +299,8 @@ public class POMediaForm extends JInternalFrame
 						GetTableList();
 						RemoveRowPoMedia();
 						ClearPoMedia();
+
+						JOptionPane.showMessageDialog(null, "Simpan Berhasil", "", JOptionPane.INFORMATION_MESSAGE);
 					}
 					catch (Exception e3)
 					{

@@ -187,7 +187,7 @@ public class MasterLegalitasDAO
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
-            String query = "SELECT NAME, ADDRESS, NO_NPWP, CONTACT_NUMBER, NO_BANK_ACCOUNT, FEE_AGENCY FROM MASTER_PERUSAHAAN WHERE CODE  = ?" ;
+            String query = "SELECT NAME, ADDRESS, NO_NPWP, CONTACT_NUMBER, NO_BANK_ACCOUNT, FEE_AGENCY, CODE, MASTER_PERUSAHAAN_ID FROM MASTER_PERUSAHAAN WHERE CODE  = ?" ;
 
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, masterPerusahaan.getCode());
@@ -202,6 +202,8 @@ public class MasterLegalitasDAO
                 getMasterPerusahaan.setContactNumber(resultSet.getString(4));
                 getMasterPerusahaan.setNoBankAccount(resultSet.getString(5));
                 getMasterPerusahaan.setFeeAgency(resultSet.getString(6));
+                getMasterPerusahaan.setCode(resultSet.getString(7));
+                getMasterPerusahaan.setMasterPerusahaanId(resultSet.getInt(8));
             }
         }
         catch (ClassNotFoundException | SQLException e)

@@ -1,6 +1,7 @@
 package com.main.java.invoice.project.dao;
 
 import com.main.java.invoice.project.pojo.MasterClient;
+import com.main.java.invoice.project.pojo.MasterPerusahaan;
 import com.main.java.invoice.project.preference.StaticPreference;
 
 import java.sql.*;
@@ -77,6 +78,45 @@ public class MasterClientDAO
             String query = "SELECT MASTER_CLIENT_ID, NAME, ADDRESS, NO_NPWP, SATKER_PPK, INFORMATION FROM MASTER_CLIENT";
 
             statement = connect.createStatement();
+            resultSet = statement.executeQuery(query);
+
+            while (resultSet.next())
+            {
+                MasterClient masterClient = new MasterClient();
+                masterClient.setMasterClientId(resultSet.getInt(1));
+                masterClient.setName(resultSet.getString(2));
+                masterClient.setAddress(resultSet.getString(3));
+                masterClient.setNoNpwp(resultSet.getString(4));
+                masterClient.setSatkerPpk(resultSet.getString(5));
+                masterClient.setInformation(resultSet.getString(6));
+
+                allMasterClient.add(masterClient);
+            }
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            close();
+        }
+
+        return allMasterClient;
+    }
+
+    public List<MasterClient> GetAllMasterClientComboBox ()
+    {
+        List<MasterClient> allMasterClient = new ArrayList<>();
+
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
+
+            String query = "SELECT MASTER_CLIENT_ID, NAME, ADDRESS, NO_NPWP, SATKER_PPK, INFORMATION FROM MASTER_CLIENT";
+
+            statement = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             resultSet = statement.executeQuery(query);
 
             while (resultSet.next())

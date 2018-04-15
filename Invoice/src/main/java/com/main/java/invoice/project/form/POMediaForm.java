@@ -7,10 +7,14 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +25,7 @@ public class POMediaForm extends JInternalFrame
 	private JTextField TF_PONomor;
 	private JTextField TF_Klien;
 	private JTextField TF_volume;
-	private JTextField TF_Harga;
+	private JFormattedTextField TF_Harga;
 	private JTextField TF_Ppn;
 	private JTextField TF_unggah;
 	private JTextField TF_ReffKontrak;
@@ -33,6 +37,8 @@ public class POMediaForm extends JInternalFrame
 	private MasterMediaDAO masterMediaDAO = new MasterMediaDAO();
 	private TagihanMediaDAO tagihanMediaDAO = new TagihanMediaDAO();
 	private KontrakDAO kontrakDAO = new KontrakDAO();
+	private NumberFormat numformat = NumberFormat.getInstance();
+	private NumberFormatter numformatter;
 	int row = 0;
 
 	public static void main(String[] args)
@@ -65,6 +71,8 @@ public class POMediaForm extends JInternalFrame
 
 	public void initializeForm()
 	{
+		setCurrencyNow();
+
 		setClosable(true);
 		setBounds(100, 100, 630, 551);
 		getContentPane().setLayout(null);
@@ -157,7 +165,7 @@ public class POMediaForm extends JInternalFrame
 		desktopPane.add(TF_volume);
 		TF_volume.setColumns(10);
 		
-		TF_Harga = new JTextField();
+		TF_Harga = new JFormattedTextField(numformatter);
 		TF_Harga.setBounds(239, 217, 114, 19);
 		desktopPane.add(TF_Harga);
 		TF_Harga.setColumns(10);
@@ -284,7 +292,7 @@ public class POMediaForm extends JInternalFrame
 					poMedia.setMasterMediaId(Integer.valueOf(cbId.getText()));
 					poMedia.setTanggalTayang(CL_Tanggal.getDate());
 					poMedia.setUkuran(TF_volume.getText());
-					poMedia.setHarga(new BigDecimal(TF_Harga.getText()));
+					poMedia.setHarga(new BigDecimal(TF_Harga.getText().replace(",","")));
 					poMedia.setPpn(new BigDecimal(TF_Ppn.getText()));
 					poMedia.setKeterangan(TA_Keterangan.getText());
 
@@ -353,8 +361,15 @@ public class POMediaForm extends JInternalFrame
 			{
 				tagihanMedia.setPoMediaNo(TF_PONomor.getText());
 				tagihanMedia.setInvoiceMedia(String.valueOf(tabelModel.getValueAt(i,0)));
-				tagihanMedia.setTanggal((Date) tabelModel.getValueAt(i,1));
-				tagihanMedia.setNilaiTagihan((BigDecimal) tabelModel.getValueAt(i, 2));
+
+				DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				String current = String.valueOf(tabelModel.getValueAt(i,1));
+				Date newDate = simpleDateFormat.parse(current);
+				tagihanMedia.setTanggal(newDate);
+
+				String result = String.valueOf(tabelModel.getValueAt(i, 2));
+				Long value = Long.valueOf(result.replace(",",""));
+				tagihanMedia.setNilaiTagihan(BigDecimal.valueOf(value));
 
 				String splitData = String.valueOf(tabelModel.getValueAt(i,3));
 				MasterDana masterDana = masterDanaDAO.GetMasterDanaById(splitData);
@@ -385,7 +400,7 @@ public class POMediaForm extends JInternalFrame
 		TF_ReffKontrak.setText("");
 		TF_Klien.setText("");
 		TF_volume.setText("");
-		TF_Harga.setText("");
+		TF_Harga.setValue(0);
 		TF_Ppn.setText("");
 		TA_Keterangan.setText("");
 		TF_unggah.setText("");
@@ -409,5 +424,15 @@ public class POMediaForm extends JInternalFrame
 		{
 			e.printStackTrace();
 		}
+	}
+
+	private void setCurrencyNow()
+	{
+		//  set banyaknya angka akhir bilangan
+		numformat.setMaximumFractionDigits(0);
+
+		//  Deklarasikan NumberFormatter
+		numformatter = new NumberFormatter(numformat);
+		numformatter.setAllowsInvalid(false);
 	}
 }

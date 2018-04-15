@@ -14,6 +14,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class POEventForm extends JInternalFrame
@@ -432,8 +435,16 @@ public class POEventForm extends JInternalFrame
 			detailEvent.setJenis1(String.valueOf(tabelModel1.getValueAt(i, 3)));
 			detailEvent.setVol2((Integer) tabelModel1.getValueAt(i, 4));
 			detailEvent.setJenis2(String.valueOf(tabelModel1.getValueAt(i, 5)));
-			detailEvent.setHargaSatuan((BigDecimal) tabelModel1.getValueAt(i, 6));
-			detailEvent.setTotal((BigDecimal) tabelModel1.getValueAt(i, 7));
+
+			//detailEvent.setHargaSatuan((BigDecimal) tabelModel1.getValueAt(i, 6));
+			String result = String.valueOf(tabelModel1.getValueAt(i, 6));
+			Long value = Long.valueOf(result.replace(",",""));
+			detailEvent.setHargaSatuan(BigDecimal.valueOf(value));
+
+			//detailEvent.setTotal((BigDecimal) tabelModel1.getValueAt(i, 7));
+			String result1 = String.valueOf(tabelModel1.getValueAt(i, 7));
+			Long value1 = Long.valueOf(result1.replace(",",""));
+			detailEvent.setTotal(BigDecimal.valueOf(value1));
 
 			try
 			{
@@ -463,7 +474,11 @@ public class POEventForm extends JInternalFrame
 			detailReimburse.setPoEventNo(TF_PONomor.getText());
 			detailReimburse.setUraian(String.valueOf(tabelModel2.getValueAt(i, 0)));
 			detailReimburse.setDetail(String.valueOf(tabelModel2.getValueAt(i, 1)));
-			detailReimburse.setHarga((BigDecimal) tabelModel2.getValueAt(i, 2));
+
+			//detailReimburse.setHarga((BigDecimal) tabelModel2.getValueAt(i, 2));
+			String result = String.valueOf(tabelModel2.getValueAt(i, 2));
+			Long value = Long.valueOf(result.replace(",",""));
+			detailReimburse.setHarga(BigDecimal.valueOf(value));
 
 			try
 			{
@@ -494,7 +509,15 @@ public class POEventForm extends JInternalFrame
 			tagihanReimburse.setPoEventNo(TF_PONomor.getText());
 			tagihanReimburse.setPoNomor(String.valueOf(tabelModel3.getValueAt(i, 0)));
 			tagihanReimburse.setCatatan(String.valueOf(tabelModel3.getValueAt(i,1)));
-			tagihanReimburse.setTanggal((Date) tabelModel3.getValueAt(i, 2));
+
+			DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String current = String.valueOf(tabelModel3.getValueAt(i, 2));
+			try {
+				Date newDate = simpleDateFormat.parse(current);
+				tagihanReimburse.setTanggal(newDate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 
 			try
 			{

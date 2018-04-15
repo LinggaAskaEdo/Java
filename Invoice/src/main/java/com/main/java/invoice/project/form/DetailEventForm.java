@@ -3,8 +3,10 @@ package com.main.java.invoice.project.form;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
 
 import static com.main.java.invoice.project.form.POEventForm.tabelModel1;
 
@@ -15,11 +17,13 @@ public class DetailEventForm extends JInternalFrame
 	private JTextField TB_Detail;
 	private JTextField TF_Vol_1;
 	private JTextField TF_Vol_2;
-	private JTextField TF_HargaSatuan;
-	private JTextField TB_Total;
+	private JFormattedTextField TF_HargaSatuan;
+	private JFormattedTextField TB_Total;
 	private JComboBox CB_Uraian;
 	private ButtonGroup buttonGroupUp;
 	private ButtonGroup buttonGroupDown;
+	private NumberFormat numformat = NumberFormat.getInstance();
+	private NumberFormatter numformatter;
 	String data[] = new String[8];
 
 	public static void main(String[] args)
@@ -49,6 +53,8 @@ public class DetailEventForm extends JInternalFrame
 
 	public void initializeForm()
 	{
+		setCurrencyNow();
+
 		setClosable(true);
 		setBounds(100, 100, 630, 301);
 		getContentPane().setLayout(null);
@@ -156,12 +162,12 @@ public class DetailEventForm extends JInternalFrame
 		buttonGroupDown.add(rdbtnHr);
 		buttonGroupDown.add(rdbtnKl_1);
 		
-		TF_HargaSatuan = new JTextField();
+		TF_HargaSatuan = new JFormattedTextField(numformatter);
 		TF_HargaSatuan.setBounds(164, 153, 221, 19);
 		desktopPane.add(TF_HargaSatuan);
 		TF_HargaSatuan.setColumns(10);
 		
-		TB_Total = new JTextField();
+		TB_Total = new JFormattedTextField(numformatter);
 		TB_Total.setBounds(164, 184, 221, 19);
 		desktopPane.add(TB_Total);
 		TB_Total.setColumns(10);
@@ -204,5 +210,15 @@ public class DetailEventForm extends JInternalFrame
 		CB_Uraian.addItem("TIKET WISATA");
 		CB_Uraian.addItem("TRANSPORT");
 		CB_Uraian.addItem("LAIN-LAIN");
+	}
+
+	private void setCurrencyNow()
+	{
+		//  set banyaknya angka akhir bilangan
+		numformat.setMaximumFractionDigits(0);
+
+		//  Deklarasikan NumberFormatter
+		numformatter = new NumberFormatter(numformat);
+		numformatter.setAllowsInvalid(false);
 	}
 }

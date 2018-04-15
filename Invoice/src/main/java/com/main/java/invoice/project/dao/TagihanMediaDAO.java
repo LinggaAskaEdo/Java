@@ -32,16 +32,24 @@ public class TagihanMediaDAO
             String query = "INSERT INTO TAGIHAN_MEDIA(PO_MEDIA_NO, INVOICE_MEDIA, TANGGAL, NILAI_TAGIHAN, MASTER_MEDIA_ID, PPN_IMAGE)" +
                     "VALUES(?, ?, ?, ?, ?, ?)";
 
-            File file = new File(tagihanMediaList.getImage());
-            FileInputStream inputStream = new FileInputStream(file);
-
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, tagihanMediaList.getPoMediaNo());
             preparedStatement.setString(2, tagihanMediaList.getInvoiceMedia());
             preparedStatement.setString(3, currentDate);
             preparedStatement.setBigDecimal(4, tagihanMediaList.getNilaiTagihan());
             preparedStatement.setInt(5, tagihanMediaList.getMasterDanaId());
-            preparedStatement.setBinaryStream(6, inputStream, file.length());
+
+            if (tagihanMediaList.getImage() != null)
+            {
+                File file = new File(tagihanMediaList.getImage());
+                FileInputStream inputStream = new FileInputStream(file);
+
+                preparedStatement.setBinaryStream(6, inputStream, file.length());
+            }
+            else
+            {
+                preparedStatement.setBinaryStream(6, null);
+            }
 
             preparedStatement.executeUpdate();
         }

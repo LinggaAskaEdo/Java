@@ -2,17 +2,12 @@ package com.main.java.invoice.project.form;
 
 import java.awt.EventQueue;
 
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.BorderFactory;
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
+import java.text.NumberFormat;
+import javax.swing.text.NumberFormatter;
 
 import static com.main.java.invoice.project.form.POProduksiForm.tabelModel;
 
@@ -27,11 +22,13 @@ public class DetailProduksiForm extends JInternalFrame
 	private JTextField TF_Jenis;
 	private JTextField TF_Jumlah;
 	private JTextField TF_Barang_1;
-	private JTextField textField_7;
-	private JTextField TF_TotHarga_1;
+	private JFormattedTextField textField_7;
+	private JFormattedTextField TF_TotHarga_1;
 	private JTextField TF_Barang_2;
-	private JTextField TF_TotHarga_2;
+	private JFormattedTextField TF_TotHarga_2;
 	private JTextArea TA_Lokasi;
+	private NumberFormat numformat = NumberFormat.getInstance();
+	private NumberFormatter numformatter;
 	String data[] = new String[13];
 
 	public static void main(String[] args)
@@ -61,6 +58,8 @@ public class DetailProduksiForm extends JInternalFrame
 
 	public void initializeForm()
 	{
+		setCurrencyNow();
+
 		setClosable(true);
 		setBounds(100, 100, 630, 630);
 		getContentPane().setLayout(null);
@@ -177,12 +176,12 @@ public class DetailProduksiForm extends JInternalFrame
 		desktopPane.add(TF_Barang_1);
 		TF_Barang_1.setColumns(10);
 		
-		textField_7 = new JTextField();
+		textField_7 = new JFormattedTextField(numformatter);
 		textField_7.setBounds(194, 387, 114, 19);
 		desktopPane.add(textField_7);
 		textField_7.setColumns(10);
 		
-		TF_TotHarga_1 = new JTextField();
+		TF_TotHarga_1 = new JFormattedTextField(numformatter);
 		TF_TotHarga_1.setBounds(194, 418, 114, 19);
 		desktopPane.add(TF_TotHarga_1);
 		TF_TotHarga_1.setColumns(10);
@@ -192,7 +191,7 @@ public class DetailProduksiForm extends JInternalFrame
 		desktopPane.add(TF_Barang_2);
 		TF_Barang_2.setColumns(10);
 		
-		TF_TotHarga_2 = new JTextField();
+		TF_TotHarga_2 = new JFormattedTextField(numformatter);
 		TF_TotHarga_2.setBounds(194, 503, 162, 19);
 		desktopPane.add(TF_TotHarga_2);
 		TF_TotHarga_2.setColumns(10);
@@ -222,5 +221,15 @@ public class DetailProduksiForm extends JInternalFrame
 		});
 		btnTambah.setBounds(450, 547, 117, 25);
 		desktopPane.add(btnTambah);
+	}
+
+	private void setCurrencyNow()
+	{
+		//  set banyaknya angka akhir bilangan
+		numformat.setMaximumFractionDigits(0);
+
+		//  Deklarasikan NumberFormatter
+		numformatter = new NumberFormatter(numformat);
+		numformatter.setAllowsInvalid(false);
 	}
 }

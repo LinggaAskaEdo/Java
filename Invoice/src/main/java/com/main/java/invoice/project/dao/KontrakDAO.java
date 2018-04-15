@@ -80,7 +80,7 @@ public class KontrakDAO
             }
             else
             {
-                query = "UPDATE MASTER_DANA set MASTER_PERUSAHAAN_ID = ?, PROJECT = ?, DATE = ?, NILAI_KONTRAK = ?, DPP = ?, PPN = ?, PPH_23 = ?, SP_2D = ?, PAID = ?" +
+                query = "UPDATE KONTRAK set MASTER_PERUSAHAAN_ID = ?, PROJECT = ?, DATE = ?, NILAI_KONTRAK = ?, DPP = ?, PPN = ?, PPH_23 = ?, SP_2D = ?, PAID = ? " +
                         "WHERE NO_KONTRAK = ?";
 
                 preparedStatement = connect.prepareStatement(query);

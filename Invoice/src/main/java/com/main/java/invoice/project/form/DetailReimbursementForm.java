@@ -3,13 +3,10 @@ package com.main.java.invoice.project.form;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.text.NumberFormatter;
 
 import static com.main.java.invoice.project.form.POEventForm.tabelModel2;
 
@@ -18,7 +15,9 @@ public class DetailReimbursementForm extends JInternalFrame
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_Detail;
-	private JTextField TF_Harga;
+	private JFormattedTextField TF_Harga;
+	private NumberFormat numformat = NumberFormat.getInstance();
+	private NumberFormatter numformatter;
 	String data[] = new String[3];
 
 	public static void main(String[] args)
@@ -48,6 +47,8 @@ public class DetailReimbursementForm extends JInternalFrame
 
 	public void initializeForm()
 	{
+		setCurrencyNow();
+
 		setClosable(true);
 		setBounds(100, 100, 445, 202);
 		getContentPane().setLayout(null);
@@ -79,7 +80,7 @@ public class DetailReimbursementForm extends JInternalFrame
 		desktopPane.add(TF_Detail);
 		TF_Detail.setColumns(10);
 		
-		TF_Harga = new JTextField();
+		TF_Harga = new JFormattedTextField(numformatter);
 		TF_Harga.setBounds(149, 82, 233, 19);
 		desktopPane.add(TF_Harga);
 		TF_Harga.setColumns(10);
@@ -106,5 +107,15 @@ public class DetailReimbursementForm extends JInternalFrame
 		});
 		btnTambah.setBounds(265, 113, 117, 25);
 		desktopPane.add(btnTambah);
+	}
+
+	private void setCurrencyNow()
+	{
+		//  set banyaknya angka akhir bilangan
+		numformat.setMaximumFractionDigits(0);
+
+		//  Deklarasikan NumberFormatter
+		numformatter = new NumberFormatter(numformat);
+		numformatter.setAllowsInvalid(false);
 	}
 }

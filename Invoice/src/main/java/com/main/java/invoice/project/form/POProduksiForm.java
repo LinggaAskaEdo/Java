@@ -11,6 +11,7 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +19,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 
 public class POProduksiForm extends JInternalFrame
 {
@@ -26,12 +28,14 @@ public class POProduksiForm extends JInternalFrame
 	private JTable table;
 	private JTextField TF_PONomor;
 	private JTextField TF_ReffKontrak;
-	private JTextField TF_NilaiProduksi;
+	private JFormattedTextField TF_NilaiProduksi;
 	private JTextField TF_Unggah;
 	private JTextArea TA_Keterangan;
 	PoProduksiDAO dao = new PoProduksiDAO();
 	private DetailProduksiDAO detailProduksiDAO = new DetailProduksiDAO();
 	private KontrakDAO kontrakDAO = new KontrakDAO();
+	private NumberFormat numformat = NumberFormat.getInstance();
+	private NumberFormatter numformatter;
 	int row = 0;
 
 	public static void main(String[] args)
@@ -63,6 +67,8 @@ public class POProduksiForm extends JInternalFrame
 
 	public void initializeForm()
 	{
+		setCurrencyNow();
+
 		setClosable(true);
 		setBounds(100, 100, 630, 487);
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -161,7 +167,7 @@ public class POProduksiForm extends JInternalFrame
 		lblKeterangan.setBounds(45, 312, 107, 15);
 		desktopPane.add(lblKeterangan);
 		
-		TF_NilaiProduksi = new JTextField();
+		TF_NilaiProduksi = new JFormattedTextField(numformatter);
 		TF_NilaiProduksi.setBounds(197, 280, 254, 19);
 		desktopPane.add(TF_NilaiProduksi);
 		TF_NilaiProduksi.setColumns(10);
@@ -227,7 +233,7 @@ public class POProduksiForm extends JInternalFrame
 					poProduksi.setKontrakId(kontrak.getKontrakId());
 					poProduksi.setProduksi(TF_Produksi.getText());
 					poProduksi.setTanggal(CL_Tanggal.getDate());
-					poProduksi.setNilaiProduksi(new BigDecimal(TF_NilaiProduksi.getText()));
+					poProduksi.setNilaiProduksi(new BigDecimal(TF_NilaiProduksi.getText().replace(",","")));
 					poProduksi.setKeterangan(TA_Keterangan.getText());
 					poProduksi.setImage(TF_Unggah.getText());
 
@@ -294,10 +300,23 @@ public class POProduksiForm extends JInternalFrame
 			detailProduksi.setProduksiJenis(String.valueOf(tabelModel.getValueAt(i,6)));
 			detailProduksi.setProduksiJumlah(String.valueOf(tabelModel.getValueAt(i, 7)));
 			detailProduksi.setProduksiBarang(String.valueOf(tabelModel.getValueAt(i,8)));
-			detailProduksi.setProduksiHargaSatuan((BigDecimal) tabelModel.getValueAt(i, 9));
-			detailProduksi.setProduksiTotalHarga((BigDecimal) table.getValueAt(i, 10));
+
+			//detailProduksi.setProduksiHargaSatuan((BigDecimal) tabelModel.getValueAt(i, 9));
+			String result = String.valueOf(tabelModel.getValueAt(i, 9));
+			Long value = Long.valueOf(result.replace(",",""));
+			detailProduksi.setProduksiHargaSatuan(BigDecimal.valueOf(value));
+
+			//detailProduksi.setProduksiTotalHarga((BigDecimal) table.getValueAt(i, 10));
+			String result2 = String.valueOf(table.getValueAt(i, 10));
+			Long value2 = Long.valueOf(result2.replace(",",""));
+			detailProduksi.setProduksiTotalHarga(BigDecimal.valueOf(value2));
+
 			detailProduksi.setPostProduksiBarang(String.valueOf(tabelModel.getValueAt(i, 11)));
-			detailProduksi.setPostProduksiTotalHarga((BigDecimal) tabelModel.getValueAt(i, 12));
+
+			//detailProduksi.setPostProduksiTotalHarga((BigDecimal) tabelModel.getValueAt(i, 12));
+			String result3 = String.valueOf(tabelModel.getValueAt(i, 12));
+			Long value3 = Long.valueOf(result3.replace(",",""));
+			detailProduksi.setProduksiTotalHarga(BigDecimal.valueOf(value3));
 
 			try
 			{
@@ -323,8 +342,18 @@ public class POProduksiForm extends JInternalFrame
 		TF_PONomor.setText("");
 		TF_ReffKontrak.setText("");
 		TF_Produksi.setText("");
-		TF_NilaiProduksi.setText("");
+		TF_NilaiProduksi.setValue(0);
 		TA_Keterangan.setText("");
 		TF_Unggah.setText("");
+	}
+
+	private void setCurrencyNow()
+	{
+		//  set banyaknya angka akhir bilangan
+		numformat.setMaximumFractionDigits(0);
+
+		//  Deklarasikan NumberFormatter
+		numformatter = new NumberFormatter(numformat);
+		numformatter.setAllowsInvalid(false);
 	}
 }

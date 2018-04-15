@@ -6,10 +6,12 @@ import com.main.java.invoice.project.pojo.MasterDana;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class MasterDanaForm extends JInternalFrame
@@ -18,8 +20,10 @@ public class MasterDanaForm extends JInternalFrame
 	private JTextField TF_Nama;
 	private JTextField TF_noRek;
 	private JTextField TF_AtasNama;
-	private JTextField TF_Tunai;
+	private JFormattedTextField TF_Tunai;
 	private JTable table;
+	private NumberFormat numformat = NumberFormat.getInstance();
+	private NumberFormatter numformatter;
 	MasterDanaDAO dao = new MasterDanaDAO();
 	int row = 0;
 	String data[] = new String[4];
@@ -50,45 +54,47 @@ public class MasterDanaForm extends JInternalFrame
 
 	public void initializeForm()
 	{
+		setCurrencyNow();
+
 		setClosable(true);
 		setBounds(100, 100, 630, 339);
 		getContentPane().setLayout(null);
-		
+
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 		getContentPane().add(desktopPane);
 
 		JLabel lblNamaKantor = new JLabel("Nama Bank");
 		lblNamaKantor.setBounds(45, 28, 153, 15);
 		desktopPane.add(lblNamaKantor);
-		
+
 		JLabel lblNoRek = new JLabel("No. Rek");
 		lblNoRek.setBounds(45, 57, 70, 15);
 		desktopPane.add(lblNoRek);
-		
+
 		JLabel lblAtasNama = new JLabel("Atas Nama");
 		lblAtasNama.setBounds(45, 88, 103, 15);
 		desktopPane.add(lblAtasNama);
-		
+
 		JLabel lblCashtunai = new JLabel("Cash/Tunai");
 		lblCashtunai.setBounds(45, 119, 103, 15);
 		desktopPane.add(lblCashtunai);
-		
+
 		TF_Nama = new JTextField();
 		TF_Nama.setBounds(163, 26, 281, 19);
 		desktopPane.add(TF_Nama);
 		TF_Nama.setColumns(10);
-		
+
 		TF_noRek = new JTextField();
 		TF_noRek.setBounds(163, 55, 281, 19);
 		desktopPane.add(TF_noRek);
 		TF_noRek.setColumns(10);
-		
+
 		TF_AtasNama = new JTextField();
 		TF_AtasNama.setBounds(163, 86, 281, 19);
 		desktopPane.add(TF_AtasNama);
 		TF_AtasNama.setColumns(10);
-		
-		TF_Tunai = new JTextField();
+
+		TF_Tunai = new JFormattedTextField(numformatter);
 		TF_Tunai.setBounds(163, 117, 281, 19);
 		desktopPane.add(TF_Tunai);
 		TF_Tunai.setColumns(10);
@@ -100,7 +106,7 @@ public class MasterDanaForm extends JInternalFrame
 			masterDana.setNameBankAccount(TF_Nama.getText());
 			masterDana.setNoBankAccount(TF_noRek.getText());
 			masterDana.setNameAccount(TF_AtasNama.getText());
-			masterDana.setTotalCash(new BigDecimal(TF_Tunai.getText()));
+			masterDana.setTotalCash(new BigDecimal(TF_Tunai.getText().replace(",","")));
 
 			try
 			{
@@ -126,7 +132,7 @@ public class MasterDanaForm extends JInternalFrame
 			masterDana.setNameBankAccount(TF_Nama.getText());
 			masterDana.setNoBankAccount(TF_noRek.getText());
 			masterDana.setNameAccount(TF_AtasNama.getText());
-			masterDana.setTotalCash(new BigDecimal(TF_Tunai.getText()));
+			masterDana.setTotalCash(new BigDecimal(TF_Tunai.getText().replace(",","")));
 
 			if (!btnHapus.isEnabled())
 			{
@@ -136,7 +142,7 @@ public class MasterDanaForm extends JInternalFrame
 					data[0] = TF_Nama.getText();
 					data[1] = TF_noRek.getText();
 					data[2] = TF_AtasNama.getText();
-					data[3] = TF_Tunai.getText();
+					data[3] = TF_Tunai.getText().replace(",","");
 					tabelModel.insertRow(0, data);
 					clearDana();
 					TF_Nama.setEnabled(true);
@@ -154,7 +160,7 @@ public class MasterDanaForm extends JInternalFrame
 					data[0] = TF_Nama.getText();
 					data[1] = TF_noRek.getText();
 					data[2] = TF_AtasNama.getText();
-					data[3] = TF_Tunai.getText();
+					data[3] = TF_Tunai.getText().replace(",","");
 					tabelModel.removeRow(row);
 					tabelModel.insertRow(row, data);
 					clearDana();
@@ -250,7 +256,12 @@ public class MasterDanaForm extends JInternalFrame
 		TF_Nama.setText(tabelModel.getValueAt(row, 0).toString());
 		TF_noRek.setText(tabelModel.getValueAt(row, 1).toString());
 		TF_AtasNama.setText(tabelModel.getValueAt(row, 2).toString());
-		TF_Tunai.setText(tabelModel.getValueAt(row, 3).toString());
+
+		String value = tabelModel.getValueAt(row, 3).toString();
+		int dotIndex = value.lastIndexOf(".");
+		String name = value.substring(0, dotIndex);
+		Long a = Long.valueOf(name);
+		TF_Tunai.setValue(a);
 	}
 
 	private void clearDana()
@@ -259,5 +270,15 @@ public class MasterDanaForm extends JInternalFrame
 		TF_noRek.setText("");
 		TF_AtasNama.setText("");
 		TF_Tunai.setText("");
+	}
+
+	private void setCurrencyNow()
+	{
+		//  set banyaknya angka akhir bilangan
+		numformat.setMaximumFractionDigits(0);
+
+		//  Deklarasikan NumberFormatter
+		numformatter = new NumberFormatter(numformat);
+		numformatter.setAllowsInvalid(false);
 	}
 }

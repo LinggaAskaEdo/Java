@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import static com.main.java.invoice.project.form.POEventForm.tabelModel3;
@@ -139,7 +141,11 @@ public class TagihanReimbursementForm extends JInternalFrame
 			{
 				data[0] = TF_ReffPO.getText();
 				data[1] = TA_Catatan.getText();
-				data[2] = String.valueOf(CL_Tanggal.getDate());
+
+				DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				String dateNow = simpleDateFormat.format(CL_Tanggal.getDate());
+				data[2] = dateNow;
+
 				data[3] = String.valueOf(CB_SumberDana.getSelectedItem());
 				data[4] = TA_Keterangan.getText();
 				data[5] = TF_Unggah.getText();

@@ -5,10 +5,14 @@ import com.main.java.invoice.project.pojo.MasterDana;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import static com.main.java.invoice.project.form.POMediaForm.tabelModel;
@@ -17,12 +21,13 @@ public class TagihanMediaForm extends JInternalFrame
 {
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_Invoice;
-	private JTextField TF_Tagihan;
-	private JTable table;
+	private JFormattedTextField TF_Tagihan;
 	private JTextField TF_ReffPoMedia;
 	private JTextField TF_Unggah;
 	private JComboBox CB_SumberDana;
 	private MasterDanaDAO masterDanaDAO = new MasterDanaDAO();
+	private NumberFormat numformat = NumberFormat.getInstance();
+	private NumberFormatter numformatter;
 	String data[] = new String[5];
 
 	public static void main(String[] args)
@@ -53,6 +58,8 @@ public class TagihanMediaForm extends JInternalFrame
 
 	public void initializeForm()
 	{
+		setCurrencyNow();
+
 		setClosable(true);
 		setBounds(100, 100, 560, 303);
 		getContentPane().setLayout(null);
@@ -90,7 +97,7 @@ public class TagihanMediaForm extends JInternalFrame
 		CL_Tanggal.setDateFormatString("yyyy-MM-dd");
 		desktopPane.add(CL_Tanggal);
 		
-		TF_Tagihan = new JTextField();
+		TF_Tagihan = new JFormattedTextField(numformatter);
 		TF_Tagihan.setBounds(216, 122, 185, 19);
 		desktopPane.add(TF_Tagihan);
 		TF_Tagihan.setColumns(10);
@@ -139,7 +146,10 @@ public class TagihanMediaForm extends JInternalFrame
 			public void actionPerformed(ActionEvent arg0)
 			{
 				data[0] = TF_Invoice.getText();
-				data[1] = String.valueOf(CL_Tanggal.getDate());
+
+				DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				String dateNow = simpleDateFormat.format(CL_Tanggal.getDate());
+				data[1] = dateNow;
 				data[2] = TF_Tagihan.getText();
 				data[3] = String.valueOf(CB_SumberDana.getSelectedItem());
 				data[4] = TF_Unggah.getText();
@@ -169,5 +179,15 @@ public class TagihanMediaForm extends JInternalFrame
 		{
 			e.printStackTrace();
 		}
+	}
+
+	private void setCurrencyNow()
+	{
+		//  set banyaknya angka akhir bilangan
+		numformat.setMaximumFractionDigits(0);
+
+		//  Deklarasikan NumberFormatter
+		numformatter = new NumberFormatter(numformat);
+		numformatter.setAllowsInvalid(false);
 	}
 }

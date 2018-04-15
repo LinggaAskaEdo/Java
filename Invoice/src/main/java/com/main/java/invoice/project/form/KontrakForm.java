@@ -18,9 +18,9 @@ import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.Objects;
 
 public class KontrakForm extends JInternalFrame
 {
@@ -315,9 +315,8 @@ public class KontrakForm extends JInternalFrame
 
 				if (getDpp.matches(pattern))
 				{
-
 					Long grdpp = Long.parseLong(getDpp);
-					Long redpp = (grdpp * 110)/100;
+					Long redpp = (grdpp * 100)/110;
 
 					//TF_ResultDpp.setText(String.valueOf(redpp));
 					//TF_Ppn.setText(String.valueOf(redpp));
@@ -430,16 +429,18 @@ public class KontrakForm extends JInternalFrame
 					CB_Project.setActionCommand(kontrak.getProject());
 					CL_tanggal.setDate(kontrak.getDate());
 
-					if (kontrak.getNilaiKontrak() != null) {
+					if (kontrak.getNilaiKontrak() != null)
+					{
 						String value = kontrak.getNilaiKontrak().toString();
 						int dotIndex = value.lastIndexOf(".");
 						String name = value.substring(0, dotIndex);
 						Long a = Long.valueOf(name);
 						TF_NilaiKontrak.setValue(a);
-					} else {
+					}
+					else
+					{
 						TF_NilaiKontrak.setValue(0);
 					}
-
 				}
 				catch (Exception e2)
 				{
@@ -472,13 +473,17 @@ public class KontrakForm extends JInternalFrame
 				{
 					kontrak.setListKontrakId(null);
 				}
+
 				kontrak.setMasterPerusahaanId(Integer.valueOf(codeId.getText()));
 				kontrak.setProject(String.valueOf(CB_Project.getSelectedItem()));
 				kontrak.setDate(CL_tanggal.getDate());
 
-				if (TF_NilaiKontrak.getText().equals("")){
+				if (TF_NilaiKontrak.getText().equals(""))
+				{
 					kontrak.setNilaiKontrak(BigDecimal.valueOf(0));
-				} else {
+				}
+				else
+				{
 					kontrak.setNilaiKontrak(new BigDecimal(TF_NilaiKontrak.getText().replace(",","")));
 					kontrak.setDpp(new BigDecimal(TF_Dpp.getText().replace(",","")));
 					kontrak.setPpn(new BigDecimal(TF_ResultDpp.getText().replace(",","")));
@@ -498,13 +503,14 @@ public class KontrakForm extends JInternalFrame
 				if (TF_NoKontrak.isEnabled())
 				{
 					kontrak.setNoKontrak(TF_NoKontrak.getText());
+
 					try
 					{
 						if (kontrak.getNoKontrak().equals(""))
 						{
 							JOptionPane.showMessageDialog(null, "Simpan Gagal, No kontrak kosong", "", JOptionPane.ERROR_MESSAGE);
 						}
-						else if (kontrak.getMasterPerusahaanId().equals(""))
+						else if (kontrak.getMasterPerusahaanId() == null)
 						{
 							JOptionPane.showMessageDialog(null, "Simpan Gagal, Kode Perusahaan tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
 						}
@@ -534,12 +540,13 @@ public class KontrakForm extends JInternalFrame
 				{
 					try
 					{
-						kontrak.setNoKontrak(CB_ListKontrak.getSelectedItem().toString());
+						kontrak.setNoKontrak(Objects.requireNonNull(CB_ListKontrak.getSelectedItem()).toString());
+
 						if (kontrak.getNoKontrak().equals(""))
 						{
 							JOptionPane.showMessageDialog(null, "Update Gagal, No kontrak kosong", "", JOptionPane.ERROR_MESSAGE);
 						}
-						else if (kontrak.getMasterPerusahaanId().equals(""))
+						else if (kontrak.getMasterPerusahaanId() == null)
 						{
 							JOptionPane.showMessageDialog(null, "Update Gagal, Kode Perusahaan tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
 						}
@@ -686,19 +693,26 @@ public class KontrakForm extends JInternalFrame
 		});
 	}
 
-	class ActionHandler implements ActionListener {
+	class ActionHandler implements ActionListener
+	{
 		@Override
-		public void actionPerformed(ActionEvent event) {
+		public void actionPerformed(ActionEvent event)
+		{
 			checkBoxEdit = (JCheckBox) event.getSource();
-			if (checkBoxEdit.isSelected()) {
+
+			if (checkBoxEdit.isSelected())
+			{
 				CB_ListKontrak.setEnabled(true);
 				TF_NoKontrak.setEnabled(false);
 				TF_NoKontrak.setText("");
+
 				if (CB_ListKontrak.getSelectedItem() == null)
 				{
 					ShowComboBoxKontrak();
 				}
-			} else {
+			}
+			else
+			{
 				CB_ListKontrak.setEnabled(false);
 				CL_tanggal.cleanup();
 				TF_NilaiKontrak.setValue(0);

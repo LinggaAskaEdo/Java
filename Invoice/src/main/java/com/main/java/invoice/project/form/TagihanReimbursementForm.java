@@ -139,19 +139,36 @@ public class TagihanReimbursementForm extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				data[0] = TF_ReffPO.getText();
-				data[1] = TA_Catatan.getText();
+				try
+				{
+					MasterDana masterDana = masterDanaDAO.GetMasterDanaById(TF_ReffPO.getText());
 
-				DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-				String dateNow = simpleDateFormat.format(CL_Tanggal.getDate());
-				data[2] = dateNow;
+					if (masterDana.getMasterDanaId() == null)
+					{
+						JOptionPane.showMessageDialog(null, "Tambah Gagal, Master Dana tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
+					}
+					else
+					{
+						data[0] = TF_ReffPO.getText();
+						data[1] = TA_Catatan.getText();
 
-				data[3] = String.valueOf(CB_SumberDana.getSelectedItem());
-				data[4] = TA_Keterangan.getText();
-				data[5] = TF_Unggah.getText();
+						DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+						String dateNow = simpleDateFormat.format(CL_Tanggal.getDate());
+						data[2] = dateNow;
 
-				tabelModel3.insertRow(0, data);
-				dispose();
+						data[3] = String.valueOf(CB_SumberDana.getSelectedItem());
+						data[4] = TA_Keterangan.getText();
+						data[5] = TF_Unggah.getText();
+
+						tabelModel3.insertRow(0, data);
+						dispose();
+					}
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Tambah Gagal, Nomor PO tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		btnTambah.setBounds(413, 294, 117, 25);

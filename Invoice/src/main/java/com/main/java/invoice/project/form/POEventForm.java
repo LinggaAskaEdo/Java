@@ -335,7 +335,11 @@ public class POEventForm extends JInternalFrame
 					poEvent.setTanggal(CL_Tanggal.getDate());
 					poEvent.setJumlah(new BigDecimal(TF_Jumlah.getText()));
 					poEvent.setKeterangan(TA_Keterangan.getText());
-					poEvent.setImage(TF_Unggah.getText());
+
+					if (TF_Unggah.getText().length() > 0)
+						poEvent.setImage(TF_Unggah.getText());
+					else
+						poEvent.setImage(null);
 
 					try
 					{
@@ -353,6 +357,8 @@ public class POEventForm extends JInternalFrame
 					GetTableList_3();
 					RemoveRow_3();
 					ClearPoEvent();
+
+					JOptionPane.showMessageDialog(null, "Simpan Berhasil", "", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
@@ -502,7 +508,6 @@ public class POEventForm extends JInternalFrame
 	private void GetTableList_3()
 	{
 		TagihanReimburse tagihanReimburse = new TagihanReimburse();
-		MasterDana masterDana;
 
 		for (int i = 0; i < tabelModel3.getRowCount(); i++)
 		{
@@ -512,19 +517,23 @@ public class POEventForm extends JInternalFrame
 
 			DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String current = String.valueOf(tabelModel3.getValueAt(i, 2));
-			try {
+
+			try
+			{
 				Date newDate = simpleDateFormat.parse(current);
 				tagihanReimburse.setTanggal(newDate);
-			} catch (ParseException e) {
+			}
+			catch (ParseException e)
+			{
 				e.printStackTrace();
 			}
 
 			try
 			{
 				String splitData = String.valueOf(tabelModel3.getValueAt(i,3));
-				masterDana = masterDanaDAO.GetMasterDanaById(splitData);
+				MasterDana masterDana = masterDanaDAO.GetMasterDanaById(splitData);
 
-				if (masterDana == null)
+				if (masterDana.getMasterDanaId() == null)
 				{
 					JOptionPane.showMessageDialog(null, "Tambah Gagal, Master Dana tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
 				}
@@ -533,7 +542,11 @@ public class POEventForm extends JInternalFrame
 					tagihanReimburse.setMasterDanaId(masterDana.getMasterDanaId());
 
 					tagihanReimburse.setKeterangan(String.valueOf(tabelModel3.getValueAt(i, 4)));
-					tagihanReimburse.setImage(String.valueOf(tabelModel3.getValueAt(i, 5)));
+
+					if (tabelModel3.getValueAt(i, 5).toString().length() > 0)
+						tagihanReimburse.setImage(String.valueOf(tabelModel3.getValueAt(i, 5)));
+					else
+						tagihanReimburse.setImage(null);
 				}
 
 				tagihanReimbursementDAO.add(tagihanReimburse);

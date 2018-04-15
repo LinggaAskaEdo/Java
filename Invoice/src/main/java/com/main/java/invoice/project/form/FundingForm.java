@@ -196,7 +196,7 @@ public class FundingForm extends JInternalFrame
 			{
 				if (reffId.getText() == null)
 				{
-					JOptionPane.showMessageDialog(null, "Simpan Gagal, Reff tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Simpan Gagal, No. Reff tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
 				}
 				else
 				{

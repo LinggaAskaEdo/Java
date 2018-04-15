@@ -464,9 +464,12 @@ public class KontrakForm extends JInternalFrame
 			{
 				Kontrak kontrak = new Kontrak();
 
-				if (!listId.getText().isEmpty() || !listId.getText().equalsIgnoreCase("")) {
+				if (!listId.getText().isEmpty() || !listId.getText().equalsIgnoreCase(""))
+				{
 					kontrak.setListKontrakId(Integer.valueOf(listId.getText()));
-				} else {
+				}
+				else
+				{
 					kontrak.setListKontrakId(null);
 				}
 				kontrak.setMasterPerusahaanId(Integer.valueOf(codeId.getText()));

@@ -22,7 +22,7 @@ public class DetailProduksiDAO
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
-            String query = "INSERT INTO DETAIL_PRODUKSI(PO_PRODUKSI_ID, MEDIA, DURASI, HARI, LOKASI, PRE_PRODUKSI_URAIAN," +
+            String query = "INSERT INTO DETAIL_PRODUKSI(PO_PRODUKSI_NO, MEDIA, DURASI, HARI, LOKASI, PRE_PRODUKSI_URAIAN," +
                     "PRE_PRODUKSI_JENIS, PRODUKSI_JENIS, PRODUKSI_JUMLAH, PRODUKSI_BARANG, PRODUKSI_HARGA_SATUAN," +
                     "PRODUKSI_TOTAL_HARGA, POST_PRODUKSI_BARANG, POST_PRODUKSI_TOTAL_HARGA)" +
                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

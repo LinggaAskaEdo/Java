@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 
@@ -235,7 +236,11 @@ public class POProduksiForm extends JInternalFrame
 					poProduksi.setTanggal(CL_Tanggal.getDate());
 					poProduksi.setNilaiProduksi(new BigDecimal(TF_NilaiProduksi.getText().replace(",","")));
 					poProduksi.setKeterangan(TA_Keterangan.getText());
-					poProduksi.setImage(TF_Unggah.getText());
+
+					if (TF_Unggah.getText().length() > 0)
+						poProduksi.setImage(TF_Unggah.getText());
+					else
+						poProduksi.setImage(null);
 
 					try
 					{

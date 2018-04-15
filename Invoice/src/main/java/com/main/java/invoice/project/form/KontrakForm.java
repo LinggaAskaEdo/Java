@@ -47,6 +47,8 @@ public class KontrakForm extends JInternalFrame
 	private JComboBox CB_Project;
 	private NumberFormat numformat = NumberFormat.getInstance();
 	private NumberFormatter numformatter;
+	private JCheckBox checkBoxEdit;
+	private JDateChooser CL_tanggal;
 	KontrakDAO dao = new KontrakDAO();
 	private MasterLegalitasDAO masterLegalitasDAO = new MasterLegalitasDAO();
 	private MasterClientDAO masterClientDAO = new MasterClientDAO();
@@ -194,6 +196,32 @@ public class KontrakForm extends JInternalFrame
 		label_6.setBounds(399, 431, 19, 15);
 		desktopPane.add(label_6);
 
+		checkBoxEdit = new JCheckBox("Edit Kontrak");
+		checkBoxEdit.setBounds(469, 55, 117, 23);
+		checkBoxEdit.setSelected(false);
+		desktopPane.add(checkBoxEdit);
+
+		/*if (checkBoxEdit.isSelected()) {
+			CB_ListKontrak.setEnabled(true);
+			TF_NoKontrak.setEnabled(false);
+			TF_NoKontrak.setText("");
+			ShowComboBoxKontrak();
+		} else {
+			//CB_ListKontrak.setEnabled(false);
+			//TF_NoKontrak.setText("");
+			addInternalFrameListener(new InternalFrameAdapter()
+			{
+				@Override
+				public void internalFrameOpened(InternalFrameEvent e)
+				{
+					GeneralFunction generalFunction = new GeneralFunction();
+					String newCode = generalFunction.generateCodeName();
+					System.out.println("newCode: " + newCode);
+					TF_NoKontrak.setText(newCode);
+				}
+			});
+		}*/
+
 		CB_KodePerusahaan = new JComboBox();
 		CB_KodePerusahaan.addItemListener(new ItemListener()
 		{
@@ -273,7 +301,7 @@ public class KontrakForm extends JInternalFrame
 
 		setTypingTextField();
 
-		JDateChooser CL_tanggal = new JDateChooser();
+		CL_tanggal = new JDateChooser();
 		CL_tanggal.setBounds(193, 287, 157, 20);
 		CL_tanggal.setDateFormatString("yyyy-MM-dd");
 		desktopPane.add(CL_tanggal);
@@ -379,6 +407,9 @@ public class KontrakForm extends JInternalFrame
 		lblListKontrak.setBounds(46, 26, 126, 15);
 		desktopPane.add(lblListKontrak);
 
+		ActionListener actionListener = new ActionHandler();
+		checkBoxEdit.addActionListener(actionListener);
+
 		CB_ListKontrak = new JComboBox();
 		CB_ListKontrak.addItemListener(new ItemListener()
 		{
@@ -441,11 +472,16 @@ public class KontrakForm extends JInternalFrame
 				kontrak.setMasterPerusahaanId(Integer.valueOf(codeId.getText()));
 				kontrak.setProject(String.valueOf(CB_Project.getSelectedItem()));
 				kontrak.setDate(CL_tanggal.getDate());
-				kontrak.setNilaiKontrak(new BigDecimal(TF_NilaiKontrak.getText().replace(",","")));
-				kontrak.setDpp(new BigDecimal(TF_Dpp.getText().replace(",","")));
-				kontrak.setPpn(new BigDecimal(TF_ResultDpp.getText().replace(",","")));
-				kontrak.setPph23(new BigDecimal(TF_ResultPph_23.getText().replace(",","")));
-				kontrak.setSp2d(new BigDecimal(TF_ResultSP_2D.getText().replace(",","")));
+
+				if (TF_NilaiKontrak.getText().equals("")){
+					kontrak.setNilaiKontrak(BigDecimal.valueOf(0));
+				} else {
+					kontrak.setNilaiKontrak(new BigDecimal(TF_NilaiKontrak.getText().replace(",","")));
+					kontrak.setDpp(new BigDecimal(TF_Dpp.getText().replace(",","")));
+					kontrak.setPpn(new BigDecimal(TF_ResultDpp.getText().replace(",","")));
+					kontrak.setPph23(new BigDecimal(TF_ResultPph_23.getText().replace(",","")));
+					kontrak.setSp2d(new BigDecimal(TF_ResultSP_2D.getText().replace(",","")));
+				}
 
 				if (chckbxPaid.isSelected())
 				{
@@ -458,12 +494,33 @@ public class KontrakForm extends JInternalFrame
 
 				if (TF_NoKontrak.isEnabled())
 				{
+					kontrak.setNoKontrak(TF_NoKontrak.getText());
 					try
 					{
-						kontrak.setNoKontrak(TF_NoKontrak.getText());
-						dao.addUpdate(kontrak, 0);
-						clearkontrak();
-						TF_NoKontrak.setEnabled(true);
+						if (kontrak.getNoKontrak().equals(""))
+						{
+							JOptionPane.showMessageDialog(null, "Simpan Gagal, No kontrak kosong", "", JOptionPane.ERROR_MESSAGE);
+						}
+						else if (kontrak.getMasterPerusahaanId().equals(""))
+						{
+							JOptionPane.showMessageDialog(null, "Simpan Gagal, Kode Perusahaan tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
+						}
+						else if (kontrak.getProject().equals(""))
+						{
+							JOptionPane.showMessageDialog(null, "Simpan Gagal, Project tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
+						}
+						else if (kontrak.getNilaiKontrak().compareTo(BigDecimal.ZERO) == 0)
+						{
+							JOptionPane.showMessageDialog(null, "Simpan Gagal, Nilai kontrak kosong", "", JOptionPane.ERROR_MESSAGE);
+						}
+						else
+						{
+							System.out.println(kontrak);
+							dao.addUpdate(kontrak, 0);
+							clearkontrak();
+							TF_NoKontrak.setEnabled(true);
+							JOptionPane.showMessageDialog(null, "Simpan Berhasil", "", JOptionPane.INFORMATION_MESSAGE);
+						}
 					}
 					catch (Exception e2)
 					{
@@ -475,9 +532,30 @@ public class KontrakForm extends JInternalFrame
 					try
 					{
 						kontrak.setNoKontrak(CB_ListKontrak.getSelectedItem().toString());
-						dao.addUpdate(kontrak, 1);
-						clearkontrak();
-						TF_NoKontrak.setEnabled(true);
+						if (kontrak.getNoKontrak().equals(""))
+						{
+							JOptionPane.showMessageDialog(null, "Update Gagal, No kontrak kosong", "", JOptionPane.ERROR_MESSAGE);
+						}
+						else if (kontrak.getMasterPerusahaanId().equals(""))
+						{
+							JOptionPane.showMessageDialog(null, "Update Gagal, Kode Perusahaan tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
+						}
+						else if (kontrak.getProject().equals(""))
+						{
+							JOptionPane.showMessageDialog(null, "Update Gagal, Project tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
+						}
+						else if (kontrak.getNilaiKontrak().compareTo(BigDecimal.ZERO) == 0)
+						{
+							JOptionPane.showMessageDialog(null, "Update Gagal, Nilai kontrak kosong", "", JOptionPane.ERROR_MESSAGE);
+						}
+						else
+						{
+							dao.addUpdate(kontrak, 1);
+							clearkontrak();
+							TF_NoKontrak.setEnabled(true);
+
+							JOptionPane.showMessageDialog(null, "Update Berhasil", "", JOptionPane.INFORMATION_MESSAGE);
+						}
 					}
 					catch (Exception e3)
 					{
@@ -488,20 +566,6 @@ public class KontrakForm extends JInternalFrame
 		});
 		btnSimpan.setBounds(453, 460, 117, 25);
 		desktopPane.add(btnSimpan);
-
-		JButton btnEdit = new JButton("Edit");
-		btnEdit.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				CB_ListKontrak.setEnabled(true);
-				TF_NoKontrak.setEnabled(false);
-				TF_NoKontrak.setText("");
-				ShowComboBoxKontrak();
-			}
-		});
-		btnEdit.setBounds(46, 460, 117, 25);
-		desktopPane.add(btnEdit);
 	}
 
 	private void clearkontrak()
@@ -617,5 +681,30 @@ public class KontrakForm extends JInternalFrame
 				}
 			}
 		});
+	}
+
+	class ActionHandler implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			checkBoxEdit = (JCheckBox) event.getSource();
+			if (checkBoxEdit.isSelected()) {
+				CB_ListKontrak.setEnabled(true);
+				TF_NoKontrak.setEnabled(false);
+				TF_NoKontrak.setText("");
+				if (CB_ListKontrak.getSelectedItem() == null)
+				{
+					ShowComboBoxKontrak();
+				}
+			} else {
+				CB_ListKontrak.setEnabled(false);
+				CL_tanggal.cleanup();
+				TF_NilaiKontrak.setValue(0);
+				TF_NoKontrak.setEnabled(true);
+				GeneralFunction generalFunction = new GeneralFunction();
+				String newCode = generalFunction.generateCodeName();
+				System.out.println("newCode: " + newCode);
+				TF_NoKontrak.setText(newCode);
+			}
+		}
 	}
 }

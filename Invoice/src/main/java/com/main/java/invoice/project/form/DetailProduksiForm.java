@@ -164,6 +164,8 @@ public class DetailProduksiForm extends JInternalFrame
 		@SuppressWarnings("rawtypes")
 		JComboBox CB_Jenis = new JComboBox();
 		CB_Jenis.setBounds(194, 289, 162, 24);
+		CB_Jenis.addItem("MAN POWER");
+		CB_Jenis.addItem("EQUIPMENT");
 		desktopPane.add(CB_Jenis);
 		
 		TF_Jumlah = new JTextField();

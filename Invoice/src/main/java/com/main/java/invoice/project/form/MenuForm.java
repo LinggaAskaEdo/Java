@@ -1,6 +1,8 @@
 package com.main.java.invoice.project.form;
 
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -87,12 +89,13 @@ public class MenuForm extends JFrame
 		mnPurchaseOrder.add(mntmCostOperasional);
 
 		JMenu mnKontrak = new JMenu("Kontrak");
-		mnKontrak.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				kontrakActionPerformed(e);
+		mnKontrak.addMenuListener(new MenuListener() {
+			public void menuCanceled(MenuEvent arg0) {
+			}
+			public void menuDeselected(MenuEvent arg0) {
+			}
+			public void menuSelected(MenuEvent arg0) {
+				kontrakActionPerformed(arg0);
 			}
 		});
 		menuBar.add(mnKontrak);
@@ -136,12 +139,13 @@ public class MenuForm extends JFrame
 		//menuBar.add(mnAkun);
 
 		JMenu Laporan = new JMenu("Laporan");
-		Laporan.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				laporanActionPerformed(e);
+		Laporan.addMenuListener(new MenuListener() {
+			public void menuCanceled(MenuEvent arg0) {
+			}
+			public void menuDeselected(MenuEvent arg0) {
+			}
+			public void menuSelected(MenuEvent arg0) {
+				laporanActionPerformed(arg0);
 			}
 		});
 		menuBar.add(Laporan);
@@ -208,7 +212,7 @@ public class MenuForm extends JFrame
 		coo.setVisible(true);
 	}
 	
-	private void kontrakActionPerformed(MouseEvent e)
+	private void kontrakActionPerformed(MenuEvent e)
 	{
 		KontrakForm kon = new KontrakForm();
 		desktopPane.add(kon);
@@ -288,7 +292,7 @@ public class MenuForm extends JFrame
 		mad.setVisible(true);
 	}
 	
-	private void laporanActionPerformed(MouseEvent e)
+	private void laporanActionPerformed(MenuEvent e)
 	{
 		LaporanForm lap = new LaporanForm();
 		desktopPane.add(lap);

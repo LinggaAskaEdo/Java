@@ -273,10 +273,12 @@ public class FundingForm extends JInternalFrame
 
 			if (button == rdbtnKontrak)
 			{
+				CB_Reff.removeAllItems();
 				ShowComboBoxKontrakFunding();
 			}
 			else
 			{
+				CB_Reff.removeAllItems();
 				ShowComboBoxDanaFunding();
 			}
 		}

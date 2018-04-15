@@ -132,8 +132,6 @@ public class FundingForm extends JInternalFrame
 			{
 				if (buttonGroup.getSelection().getActionCommand().equalsIgnoreCase("1"))
 				{
-					ShowComboBoxKontrakFunding();
-
 					Kontrak kontrak = new Kontrak();
 					kontrak.setNoKontrak(String.valueOf(CB_Reff.getSelectedItem()));
 					kontrak = kontrakDAO.GetKontrakById(kontrak);
@@ -142,11 +140,11 @@ public class FundingForm extends JInternalFrame
 				}
 				else
 				{
-					ShowComboBoxDanaFunding();
-
 					String splitData = String.valueOf(CB_Reff.getSelectedItem());
-					MasterDana masterDana = masterDanaDAO.GetMasterDanaById(splitData);
-					reffId.setText(String.valueOf(masterDana.getMasterDanaId()));
+					if(splitData.matches("-")){
+						MasterDana masterDana = masterDanaDAO.GetMasterDanaById(splitData);
+						reffId.setText(String.valueOf(masterDana.getMasterDanaId()));
+					}
 				}
 			}
 		});

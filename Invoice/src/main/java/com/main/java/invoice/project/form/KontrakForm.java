@@ -201,27 +201,6 @@ public class KontrakForm extends JInternalFrame
 		checkBoxEdit.setSelected(false);
 		desktopPane.add(checkBoxEdit);
 
-		/*if (checkBoxEdit.isSelected()) {
-			CB_ListKontrak.setEnabled(true);
-			TF_NoKontrak.setEnabled(false);
-			TF_NoKontrak.setText("");
-			ShowComboBoxKontrak();
-		} else {
-			//CB_ListKontrak.setEnabled(false);
-			//TF_NoKontrak.setText("");
-			addInternalFrameListener(new InternalFrameAdapter()
-			{
-				@Override
-				public void internalFrameOpened(InternalFrameEvent e)
-				{
-					GeneralFunction generalFunction = new GeneralFunction();
-					String newCode = generalFunction.generateCodeName();
-					System.out.println("newCode: " + newCode);
-					TF_NoKontrak.setText(newCode);
-				}
-			});
-		}*/
-
 		CB_KodePerusahaan = new JComboBox();
 		CB_KodePerusahaan.addItemListener(new ItemListener()
 		{
@@ -292,7 +271,6 @@ public class KontrakForm extends JInternalFrame
 			{
 				Long a = Long.valueOf(TF_NilaiKontrak.getText().replace(",",""));
 				TF_Dpp.setValue(a);
-				//	TF_Dpp.setText(TF_NilaiKontrak.getText());
 			}
 		});
 		TF_NilaiKontrak.setBounds(194, 319, 158, 19);
@@ -318,9 +296,6 @@ public class KontrakForm extends JInternalFrame
 					Long grdpp = Long.parseLong(getDpp);
 					Long redpp = (grdpp * 100)/110;
 
-					//TF_ResultDpp.setText(String.valueOf(redpp));
-					//TF_Ppn.setText(String.valueOf(redpp));
-					//TF_Pph_23.setText(String.valueOf(redpp));
 					TF_ResultDpp.setValue(redpp);
 					TF_Ppn.setValue(redpp);
 					TF_Pph_23.setValue(redpp);
@@ -347,7 +322,6 @@ public class KontrakForm extends JInternalFrame
 				{
 					Long grPpn = Long.parseLong(getPpn);
 					Long rePpn = (grPpn * 10)/100;
-					/*TF_ResultPpn.setText(String.valueOf(rePpn));*/
 					TF_ResultPpn.setValue(rePpn);
 				}
 			}
@@ -367,14 +341,12 @@ public class KontrakForm extends JInternalFrame
 				{
 					Long grPph23 = Long.parseLong(getPph23);
 					Long rePph23 = (grPph23 * 2)/100;
-					/*TF_ResultPph_23.setText(String.valueOf(rePph23));*/
 					TF_ResultPph_23.setValue(rePph23);
 
 					String getResultDpp = TF_ResultDpp.getText().replace(",","");
 					Long dpp = Long.parseLong(getResultDpp);
 
 					Long resultSp2D = dpp - rePph23;
-					/*TF_ResultSP_2D.setText(String.valueOf(resultSp2D));*/
 					TF_ResultSP_2D.setValue(resultSp2D);
 				}
 			}
@@ -431,15 +403,37 @@ public class KontrakForm extends JInternalFrame
 
 					if (kontrak.getNilaiKontrak() != null)
 					{
-						String value = kontrak.getNilaiKontrak().toString();
-						int dotIndex = value.lastIndexOf(".");
-						String name = value.substring(0, dotIndex);
-						Long a = Long.valueOf(name);
+						String valueA = kontrak.getNilaiKontrak().toString();
+						int dotIndexA = valueA.lastIndexOf(".");
+						String nameA = valueA.substring(0, dotIndexA);
+						Long a = Long.valueOf(nameA);
 						TF_NilaiKontrak.setValue(a);
+						TF_Dpp.setValue(a);
+
+						String valueB = kontrak.getDpp().toString();
+						int dotIndexB = valueB.lastIndexOf(".");
+						String nameB = valueB.substring(0, dotIndexB);
+						Long b = Long.valueOf(nameB);
+						TF_ResultDpp.setValue(b);
+						TF_Ppn.setValue(b);
+						TF_Pph_23.setValue(b);
+
+						String valueE = kontrak.getSp2d().toString();
+						int dotIndexE = valueE.lastIndexOf(".");
+						String name = valueE.substring(0, dotIndexE);
+						Long e = Long.valueOf(name);
+						TF_ResultSP_2D.setValue(e);
 					}
 					else
 					{
 						TF_NilaiKontrak.setValue(0);
+						TF_Dpp.setValue(0);
+						TF_ResultDpp.setValue(0);
+						TF_Ppn.setValue(0);
+						TF_Pph_23.setValue(0);
+						TF_ResultPpn.setValue(0);
+						TF_ResultPph_23.setValue(0);
+						TF_ResultSP_2D.setValue(0);
 					}
 				}
 				catch (Exception e2)
@@ -485,8 +479,8 @@ public class KontrakForm extends JInternalFrame
 				else
 				{
 					kontrak.setNilaiKontrak(new BigDecimal(TF_NilaiKontrak.getText().replace(",","")));
-					kontrak.setDpp(new BigDecimal(TF_Dpp.getText().replace(",","")));
-					kontrak.setPpn(new BigDecimal(TF_ResultDpp.getText().replace(",","")));
+					kontrak.setDpp(new BigDecimal(TF_ResultDpp.getText().replace(",","")));
+					kontrak.setPpn(new BigDecimal(TF_ResultPpn.getText().replace(",","")));
 					kontrak.setPph23(new BigDecimal(TF_ResultPph_23.getText().replace(",","")));
 					kontrak.setSp2d(new BigDecimal(TF_ResultSP_2D.getText().replace(",","")));
 				}
@@ -524,7 +518,6 @@ public class KontrakForm extends JInternalFrame
 						}
 						else
 						{
-							System.out.println(kontrak);
 							dao.addUpdate(kontrak, 0);
 							clearkontrak();
 							TF_NoKontrak.setEnabled(true);
@@ -716,6 +709,13 @@ public class KontrakForm extends JInternalFrame
 				CB_ListKontrak.setEnabled(false);
 				CL_tanggal.cleanup();
 				TF_NilaiKontrak.setValue(0);
+				TF_Dpp.setValue(0);
+				TF_ResultDpp.setValue(0);
+				TF_Ppn.setValue(0);
+				TF_Pph_23.setValue(0);
+				TF_ResultPpn.setValue(0);
+				TF_ResultPph_23.setValue(0);
+				TF_ResultSP_2D.setValue(0);
 				TF_NoKontrak.setEnabled(true);
 				GeneralFunction generalFunction = new GeneralFunction();
 				String newCode = generalFunction.generateCodeName();

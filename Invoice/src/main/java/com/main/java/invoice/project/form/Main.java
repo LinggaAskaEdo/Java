@@ -14,6 +14,7 @@ public class Main
 		//if (sshFunction.getConfigBySsh())
 		if (true)
 		{
+			/*breakthrough authentification*/
 			StaticPreference.URL = "jdbc:mysql://localhost:3306/INVOICE_PROJECT";
 			StaticPreference.USERNAME = "dev";
 			StaticPreference.PASSWORD = "Password";

@@ -28,7 +28,7 @@ CREATE TABLE `COST_OPERASIONAL` (
   `PIC` varchar(45) DEFAULT NULL,
   `KEPERLUAN` varchar(150) DEFAULT NULL,
   `TANGGAL_PEMBELIAN` date DEFAULT NULL,
-  `PPN_IMAGE` blob,
+  `PPN_IMAGE` longblob,
   PRIMARY KEY (`COST_OPERASIONAL_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -149,7 +149,7 @@ CREATE TABLE `FUNDING` (
   `TANGGAL` date DEFAULT NULL,
   `NILAI` decimal(17,4) DEFAULT NULL,
   `KETERANGAN` varchar(150) DEFAULT NULL,
-  `PPN_IMAGE` blob,
+  `PPN_IMAGE` longblob,
   `CHECK_REFF` tinyint(1) NOT NULL,
   PRIMARY KEY (`FUNDING_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -315,7 +315,7 @@ CREATE TABLE `MASTER_PERUSAHAAN` (
   `MASTER_PERUSAHAAN_ID` int(11) NOT NULL AUTO_INCREMENT,
   `CODE` varchar(45) DEFAULT NULL,
   `NAME` varchar(45) DEFAULT NULL,
-  `PPN_IMAGE` blob,
+  `PPN_IMAGE` longblob,
   `ADDRESS` varchar(150) DEFAULT NULL,
   `NO_NPWP` varchar(45) DEFAULT NULL,
   `CONTACT_NUMBER` varchar(45) DEFAULT NULL,
@@ -376,7 +376,7 @@ CREATE TABLE `PO_EVENT` (
   `TANGGAL` date DEFAULT NULL,
   `JUMLAH` decimal(17,4) DEFAULT NULL,
   `KETERANGAN` varchar(150) DEFAULT NULL,
-  `BUKTI` blob,
+  `BUKTI` longblob,
   PRIMARY KEY (`PO_EVENT_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -408,7 +408,7 @@ CREATE TABLE `PO_MEDIA` (
   `HARGA` decimal(17,4) DEFAULT NULL,
   `PPN` decimal(17,4) DEFAULT NULL,
   `KETERANGAN` varchar(150) DEFAULT NULL,
-  `PPN_IMAGE` blob,
+  `PPN_IMAGE` longblob,
   PRIMARY KEY (`PO_MEDIA_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -437,7 +437,7 @@ CREATE TABLE `PO_PRODUKSI` (
   `TANGGAL` date DEFAULT NULL,
   `NILAI_PRODUKSI` decimal(17,4) DEFAULT NULL,
   `KETERANGAN` varchar(150) DEFAULT NULL,
-  `PPN_IMAGE` blob,
+  `PPN_IMAGE` longblob,
   PRIMARY KEY (`PO_PRODUKSI_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -465,7 +465,7 @@ CREATE TABLE `TAGIHAN_MEDIA` (
   `TANGGAL` date DEFAULT NULL,
   `NILAI_TAGIHAN` decimal(17,4) DEFAULT NULL,
   `MASTER_MEDIA_ID` int(11) NOT NULL,
-  `PPN_IMAGE` blob,
+  `PPN_IMAGE` longblob,
   PRIMARY KEY (`TAGIHAN_MEDIA_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -494,7 +494,7 @@ CREATE TABLE `TAGIHAN_REIMBURSE` (
   `TANGGAL` date DEFAULT NULL,
   `MASTER_MEDIA_ID` int(11) NOT NULL,
   `KETERANGAN` varchar(150) DEFAULT NULL,
-  `PPN_IMAGE` blob,
+  `PPN_IMAGE` longblob,
   PRIMARY KEY (`TAGIHAN_REIMBURSE_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;

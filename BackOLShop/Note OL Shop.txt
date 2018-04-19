@@ -1,0 +1,54 @@
+~Database
+name = BACK_OL_SHOP
+
+~Tables
+1. USER
+		*USER_ID			=	int (ai)
+		*USER_NAME			=	varchar
+		*USER_PASSWORD		=	varchar
+		*USER_EMAIL			=	varchar
+		*USER_TOKEN			=	varchar
+		*USER_HP			=	varchar
+		*USER_ADMIN			=	boolean
+		
+2. ITEM
+		*ITEM_ID			= 	int (ai)
+		*USER_ID			=	int
+		*ITEM_NAME			=	varchar
+		*ITEM_SIZE			=	varchar
+		*ITEM_DESC			=	varchar
+		*ITEM_STOCK			=	int
+		*ITEM_PRICE			=	int
+		*ITEM_WEIGHT		=	int
+		
+3. TRANSACTION
+		*TRANSACTION_ID		=	int (ai)
+		*USER_ID			= 	int
+		*CLIENT_ID			=	int
+		*TRANSACTION_CODE	=	varchar
+		*IS_TRANSFERED		=	boolean
+		*IS_CANCELED		=	boolean
+		*IS_DELIVERED		=	boolean
+		*INVOICE_NUMBER		=	varchar
+				
+4. CLIENT
+		*CLIENT_ID			=	int (ai)
+		*CLIENT_NAME		=	varchar
+		*CLIENT_HP			=	varchar
+		*CLIENT_ADDRESS		=	varchar
+		*CLIENT_BANK_NAME	=	varchar
+		*CLIENT_BANK_NUMBER	=	varchar
+		
+~FORMAT PEMESANAN UNTUK 1 ITEM
+#BELI#NAMA PEMBELI#NAMA BANK#REKENING BANK#ALAMAT LENGKAP#KODE POS#NEGARA#KODE BARANG-JUMLAH BARANG#
+
+contoh
+
+#BELI#Ateng kutil#BCA#13412412312#Jl. Kapt. Tendean blablabla#12410#NEGARA#BJ1-1#
+
+~FORMAT PEMESANAN UNTUK LEBIH DARI 1 ITEM
+#BELI#NAMA PEMBELI#NAMA BANK#REKENING BANK#ALAMAT LENGKAP#KODE POS#NEGARA#KODE BARANG-JUMLAH BARANG#
+
+contoh
+
+#BELI#Ateng kutil#BCA#13412412312#Jl. Kapt. Tendean blablabla#12410#NEGARA#BJ1-1#

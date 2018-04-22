@@ -4,14 +4,16 @@ SELECT f.FUNDING_ID,
 f.KONTAK_NAME,
 (CASE
 	WHEN f.CHECK_REFF = '1' THEN k.NO_KONTRAK
-    ELSE md.NAME_ACCOUNT END) AS REFF,
+    ELSE md.NAME_ACCOUNT END
+) AS REFF,
 f.TANGGAL,
 f.NILAI,
 f.KETERANGAN,
 f.PPN_IMAGE
 FROM FUNDING f
 LEFT JOIN KONTRAK k ON (f.KONTRAK_ID = k.KONTRAK_ID) AND (f.CHECK_REFF = 1)
-LEFT JOIN MASTER_DANA md ON (f.KONTRAK_ID = md.MASTER_DANA_ID) AND (f.CHECK_REFF = 0);
+LEFT JOIN MASTER_DANA md ON (f.KONTRAK_ID = md.MASTER_DANA_ID) AND (f.CHECK_REFF = 0)
+WHERE ;
 
 ================================================================================================================
 

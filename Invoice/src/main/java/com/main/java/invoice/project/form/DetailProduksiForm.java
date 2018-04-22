@@ -61,7 +61,8 @@ public class DetailProduksiForm extends JInternalFrame
 		setCurrencyNow();
 
 		setClosable(true);
-		setBounds(100, 100, 630, 630);
+		//setBounds(100, 100, 630, 630);
+		setBounds(100, 100, 540, 614);
 		getContentPane().setLayout(null);
 		
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -221,7 +222,8 @@ public class DetailProduksiForm extends JInternalFrame
 				dispose();
 			}
 		});
-		btnTambah.setBounds(450, 547, 117, 25);
+		//btnTambah.setBounds(450, 547, 117, 25);
+		btnTambah.setBounds(361, 534, 117, 25);
 		desktopPane.add(btnTambah);
 	}
 

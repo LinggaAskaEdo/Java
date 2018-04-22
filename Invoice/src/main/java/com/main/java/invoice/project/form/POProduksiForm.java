@@ -5,6 +5,7 @@ import com.main.java.invoice.project.dao.KontrakDAO;
 import com.main.java.invoice.project.dao.PoProduksiDAO;
 import com.main.java.invoice.project.pojo.DetailProduksi;
 import com.main.java.invoice.project.pojo.Kontrak;
+import com.main.java.invoice.project.pojo.MasterDana;
 import com.main.java.invoice.project.pojo.PoProduksi;
 import com.toedter.calendar.JDateChooser;
 
@@ -13,14 +14,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.*;
 
 public class POProduksiForm extends JInternalFrame
 {
@@ -28,11 +27,13 @@ public class POProduksiForm extends JInternalFrame
 	private JTextField TF_Produksi;
 	private JTable table;
 	private JTextField TF_PONomor;
-	private JTextField TF_ReffKontrak;
+	private JTextField reffId;
+	//private JTextField TF_ReffKontrak;
+	private JComboBox comboBoxReff;
 	private JFormattedTextField TF_NilaiProduksi;
 	private JTextField TF_Unggah;
 	private JTextArea TA_Keterangan;
-	PoProduksiDAO dao = new PoProduksiDAO();
+	private PoProduksiDAO dao = new PoProduksiDAO();
 	private DetailProduksiDAO detailProduksiDAO = new DetailProduksiDAO();
 	private KontrakDAO kontrakDAO = new KontrakDAO();
 	private NumberFormat numformat = NumberFormat.getInstance();
@@ -64,6 +65,7 @@ public class POProduksiForm extends JInternalFrame
 		initializeForm();
 		table.setModel(tabelModel);
 		Tabel(table, new int[]{120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120});
+		ShowComboBoxKontrak();
 	}
 
 	public void initializeForm()
@@ -110,10 +112,31 @@ public class POProduksiForm extends JInternalFrame
 		lblReffKontrak.setBounds(45, 57, 110, 15);
 		desktopPane.add(lblReffKontrak);
 		
-		TF_ReffKontrak = new JTextField();
-		TF_ReffKontrak.setBounds(197, 55, 254, 19);
-		desktopPane.add(TF_ReffKontrak);
-		TF_ReffKontrak.setColumns(10);
+		//TF_ReffKontrak = new JTextField();
+		//TF_ReffKontrak.setBounds(197, 55, 254, 19);
+		//desktopPane.add(TF_ReffKontrak);
+		//TF_ReffKontrak.setColumns(10);
+
+		/*reffId = new JTextField();
+		reffId.setBounds(463, 55, 44, 19);
+		desktopPane.add(reffId);
+		reffId.setColumns(10);
+		reffId.setVisible(false);*/
+
+		comboBoxReff = new JComboBox();
+		/*comboBoxReff.addItemListener(new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent arg0)
+			{
+				Kontrak kontrak = new Kontrak();
+				kontrak.setNoKontrak(String.valueOf(comboBoxReff.getSelectedItem()));
+				kontrak = kontrakDAO.GetKontrakById(kontrak);
+
+				reffId.setText(String.valueOf(kontrak.getKontrakId()));
+			}
+		});*/
+		comboBoxReff.setBounds(197, 53, 254, 24);
+		desktopPane.add(comboBoxReff);
 		
 		JButton btnPlus = new JButton("+");
 		btnPlus.addActionListener(new ActionListener()
@@ -216,7 +239,7 @@ public class POProduksiForm extends JInternalFrame
 
 				try
 				{
-					kontrak.setNoKontrak(TF_ReffKontrak.getText());
+					kontrak.setNoKontrak(String.valueOf(comboBoxReff.getSelectedItem()));
 					kontrak = kontrakDAO.GetKontrakById(kontrak);
 				}
 				catch (Exception e2)
@@ -256,7 +279,8 @@ public class POProduksiForm extends JInternalFrame
 				}
 			}
 		});
-		btnSimpan.setBounds(418, 413, 117, 25);
+		//btnSimpan.setBounds(418, 413, 117, 25);
+		btnSimpan.setBounds(474, 413, 117, 25);
 		desktopPane.add(btnSimpan);
 	}
 
@@ -334,6 +358,19 @@ public class POProduksiForm extends JInternalFrame
 		}
 	}
 
+	private void ShowComboBoxKontrak()
+	{
+		java.util.List<Kontrak> allKontrak = kontrakDAO.GetAllKontrakComboBox();
+
+		if (allKontrak.size() > 0)
+		{
+			for (Kontrak anAllKontrak : allKontrak)
+			{
+				comboBoxReff.addItem(anAllKontrak.getNoKontrak());
+			}
+		}
+	}
+
 	private void RemoveRowPoProduksi()
 	{
 		for (int i = 0; i < tabelModel.getRowCount(); i++)
@@ -345,7 +382,7 @@ public class POProduksiForm extends JInternalFrame
 	private void ClearPoProduksi()
 	{
 		TF_PONomor.setText("");
-		TF_ReffKontrak.setText("");
+		//TF_ReffKontrak.setText("");
 		TF_Produksi.setText("");
 		TF_NilaiProduksi.setValue(0);
 		TA_Keterangan.setText("");

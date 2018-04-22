@@ -26,11 +26,11 @@ public class POEventForm extends JInternalFrame
 	private JTable table2;
 	private JTable table3;
 	private JTextField TF_PONomor;
-	private JTextField TF_ReffKontrak;
 	private JTextField TF_Kegiatan;
 	private JTextField TF_Jumlah;
 	private JTextField TF_Unggah;
 	private JTextArea TA_Keterangan;
+	private JComboBox comboBoxReff;
 	PoEventDAO dao = new PoEventDAO();
 	private MasterDanaDAO masterDanaDAO = new MasterDanaDAO();
 	private DetailEventDAO detailEventDAO = new DetailEventDAO();
@@ -68,6 +68,7 @@ public class POEventForm extends JInternalFrame
 		Tabel(table2, new int[]{120, 300, 120});
 		table3.setModel(tabelModel3);
 		Tabel(table3, new int[]{120, 120, 120, 120, 120, 120});
+		ShowComboBoxKontrak();
 	}
 
 	public void initializeForm()
@@ -115,11 +116,10 @@ public class POEventForm extends JInternalFrame
 		TF_PONomor.setBounds(227, 26, 252, 19);
 		desktopPane.add(TF_PONomor);
 		TF_PONomor.setColumns(10);
-		
-		TF_ReffKontrak = new JTextField();
-		TF_ReffKontrak.setBounds(227, 57, 252, 19);
-		desktopPane.add(TF_ReffKontrak);
-		TF_ReffKontrak.setColumns(10);
+
+		comboBoxReff = new JComboBox();
+		comboBoxReff.setBounds(227, 54, 252, 24);
+		desktopPane.add(comboBoxReff);
 
 		JDateChooser CL_Tanggal = new JDateChooser();
 		CL_Tanggal.setBounds(227, 119, 158, 20);
@@ -312,7 +312,7 @@ public class POEventForm extends JInternalFrame
 				PoEvent poEvent = new PoEvent();
 				Kontrak kontrak = new Kontrak();
 
-				kontrak.setNoKontrak(TF_ReffKontrak.getText());
+				kontrak.setNoKontrak(String.valueOf(comboBoxReff.getSelectedItem()));
 
 				try
 				{
@@ -569,10 +569,23 @@ public class POEventForm extends JInternalFrame
 	private void ClearPoEvent()
 	{
 		TF_PONomor.setText("");
-		TF_ReffKontrak.setText("");
+		//TF_ReffKontrak.setText("");
 		TF_Kegiatan.setText("");
 		TF_Jumlah.setText("");
 		TA_Keterangan.setText("");
 		TF_Unggah.setText("");
+	}
+
+	private void ShowComboBoxKontrak()
+	{
+		java.util.List<Kontrak> allKontrak = kontrakDAO.GetAllKontrakComboBox();
+
+		if (allKontrak.size() > 0)
+		{
+			for (Kontrak anAllKontrak : allKontrak)
+			{
+				comboBoxReff.addItem(anAllKontrak.getNoKontrak());
+			}
+		}
 	}
 }

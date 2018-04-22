@@ -28,8 +28,9 @@ public class POMediaForm extends JInternalFrame
 	private JFormattedTextField TF_Harga;
 	private JTextField TF_Ppn;
 	private JTextField TF_unggah;
-	private JTextField TF_ReffKontrak;
+	//private JTextField TF_ReffKontrak;
 	private JTextArea TA_Keterangan;
+	private JComboBox comboBoxReff;
 	private JComboBox CB_NamaMedia;
 	private JTextField cbId;
 	private PoMediaDAO poMediaDAO = new PoMediaDAO();
@@ -67,6 +68,7 @@ public class POMediaForm extends JInternalFrame
 		table.setModel(tabelModel);
 		Tabel(table, new int[]{120, 120, 120, 120, 120});
 		ShowComboBoxPoMedia();
+		ShowComboBoxKontrak();
 	}
 
 	public void initializeForm()
@@ -189,10 +191,14 @@ public class POMediaForm extends JInternalFrame
 		lblReffKontrak.setBounds(45, 59, 176, 15);
 		desktopPane.add(lblReffKontrak);
 		
-		TF_ReffKontrak = new JTextField();
-		TF_ReffKontrak.setBounds(239, 57, 239, 19);
-		desktopPane.add(TF_ReffKontrak);
-		TF_ReffKontrak.setColumns(10);
+		//TF_ReffKontrak = new JTextField();
+		//TF_ReffKontrak.setBounds(239, 57, 239, 19);
+		//desktopPane.add(TF_ReffKontrak);
+		//TF_ReffKontrak.setColumns(10);
+
+		comboBoxReff = new JComboBox();
+		comboBoxReff.setBounds(239, 54, 239, 24);
+		desktopPane.add(comboBoxReff);
 		
 		JButton btnPlus = new JButton("+");
 		btnPlus.addActionListener(new ActionListener()
@@ -268,7 +274,7 @@ public class POMediaForm extends JInternalFrame
 
 				try
 				{
-					kontrak.setNoKontrak(TF_ReffKontrak.getText());
+					kontrak.setNoKontrak(String.valueOf(comboBoxReff.getSelectedItem()));
 					kontrak = kontrakDAO.GetKontrakById(kontrak);
 				}
 				catch (Exception e2)
@@ -397,7 +403,7 @@ public class POMediaForm extends JInternalFrame
 	private void ClearPoMedia()
 	{
 		TF_PONomor.setText("");
-		TF_ReffKontrak.setText("");
+		//TF_ReffKontrak.setText("");
 		TF_Klien.setText("");
 		TF_volume.setText("");
 		TF_Harga.setValue(0);
@@ -434,5 +440,18 @@ public class POMediaForm extends JInternalFrame
 		//  Deklarasikan NumberFormatter
 		numformatter = new NumberFormatter(numformat);
 		numformatter.setAllowsInvalid(false);
+	}
+
+	private void ShowComboBoxKontrak()
+	{
+		java.util.List<Kontrak> allKontrak = kontrakDAO.GetAllKontrakComboBox();
+
+		if (allKontrak.size() > 0)
+		{
+			for (Kontrak anAllKontrak : allKontrak)
+			{
+				comboBoxReff.addItem(anAllKontrak.getNoKontrak());
+			}
+		}
 	}
 }

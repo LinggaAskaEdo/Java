@@ -66,6 +66,8 @@ public class LaporanForm extends JInternalFrame
 		initializeForm();
 		ShowComboBoxClient();
 		ShowComboBoxPerusahaan();
+		comboBoxPt.setEnabled(false);
+		comboBoxClient.setEnabled(false);
 	}
 
 	public void initializeForm()
@@ -107,6 +109,7 @@ public class LaporanForm extends JInternalFrame
 				}
 				else if(Objects.equals(CB_Laporan.getSelectedItem(), "PO MEDIA REPORT"))
 				{
+					comboBoxClient.setEnabled(true);
 					comboBoxPt.setEnabled(false);
 				}
 				else if(Objects.equals(CB_Laporan.getSelectedItem(), "PO PRODUKSI REPORT"))
@@ -202,7 +205,7 @@ public class LaporanForm extends JInternalFrame
 							param.put("date", CL_Harian.getDate());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint);
+							JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -224,7 +227,7 @@ public class LaporanForm extends JInternalFrame
 							param.put("date2", CL_Bulanan_2.getDate());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint);
+							JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -248,7 +251,7 @@ public class LaporanForm extends JInternalFrame
 							param.put("date", CL_Harian.getDate());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint);
+							JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -270,7 +273,7 @@ public class LaporanForm extends JInternalFrame
 							param.put("date2", CL_Bulanan_2.getDate());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint);
+							JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -294,7 +297,7 @@ public class LaporanForm extends JInternalFrame
 							param.put("date", CL_Harian.getDate());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint);
+							JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -316,7 +319,7 @@ public class LaporanForm extends JInternalFrame
 							param.put("date2", CL_Bulanan_2.getDate());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint);
+							JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -340,7 +343,7 @@ public class LaporanForm extends JInternalFrame
 							param.put("date", CL_Harian.getDate());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint);
+							JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -362,7 +365,7 @@ public class LaporanForm extends JInternalFrame
 							param.put("date2", CL_Bulanan_2.getDate());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint);
+							JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -386,7 +389,7 @@ public class LaporanForm extends JInternalFrame
 							param.put("date", CL_Harian.getDate());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint);
+							JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -408,7 +411,7 @@ public class LaporanForm extends JInternalFrame
 							param.put("date2", CL_Bulanan_2.getDate());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint);
+							JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{

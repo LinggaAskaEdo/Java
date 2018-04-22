@@ -9,7 +9,7 @@ public class Response
     private String status;
     private String message;
 
-    Response()
+    public Response()
     {}
 
     public Response(String message)
@@ -19,8 +19,8 @@ public class Response
 
     public Response(String status, String message)
     {
-        this.message = message;
         this.status = status;
+        this.message = message;
     }
 
     public String getStatus()

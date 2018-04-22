@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PO_EVENT" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2bf30d61-999e-42ea-9e0f-2e5f74958988">
-	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="326"/>
+	<property name="ireport.y" value="264"/>
 	<parameter name="date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="perusahaan" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -31,7 +34,10 @@ FROM
     DETAIL_REIMBURSE dr ON pe.PO_EVENT_NO = dr.PO_EVENT_NO
         INNER JOIN
     TAGIHAN_REIMBURSE tr ON pe.PO_EVENT_NO = tr.PO_EVENT_NO
+        INNER JOIN
+    MASTER_PERUSAHAAN mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID
 WHERE
+    mp.NAME = $P{perusahaan} OR k.PROJECT = '' AND
     pe.TANGGAL = $P{date};]]>
 	</queryString>
 	<field name="PO_EVENT_ID" class="java.lang.Integer">

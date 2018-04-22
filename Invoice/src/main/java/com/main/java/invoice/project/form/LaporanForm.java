@@ -66,8 +66,6 @@ public class LaporanForm extends JInternalFrame
 		initializeForm();
 		ShowComboBoxClient();
 		ShowComboBoxPerusahaan();
-		comboBoxPt.setEnabled(false);
-		comboBoxClient.setEnabled(false);
 	}
 
 	public void initializeForm()
@@ -93,39 +91,8 @@ public class LaporanForm extends JInternalFrame
 		CB_Laporan.setBounds(130, 23, 370, 24);
 		desktopPane.add(CB_Laporan);
 
-		CB_Laporan.addItemListener(new ItemListener()
-		{
-			public void itemStateChanged(ItemEvent arg0)
-			{
-				if (Objects.equals(CB_Laporan.getSelectedItem(), "FUNDING REPORT") ||
-						Objects.equals(CB_Laporan.getSelectedItem(), "COST OPERATIONAL REPORT")){
-					comboBoxPt.setEnabled(false);
-					comboBoxClient.setEnabled(false);
-				}
-				else if(Objects.equals(CB_Laporan.getSelectedItem(), "PO EVENT REPORT"))
-				{
-					comboBoxPt.setEnabled(false);
-					comboBoxClient.setEnabled(false);
-				}
-				else if(Objects.equals(CB_Laporan.getSelectedItem(), "PO MEDIA REPORT"))
-				{
-					comboBoxClient.setEnabled(true);
-					comboBoxPt.setEnabled(false);
-				}
-				else if(Objects.equals(CB_Laporan.getSelectedItem(), "PO PRODUKSI REPORT"))
-				{
-					comboBoxPt.setEnabled(false);
-					comboBoxClient.setEnabled(false);
-				}
-				else
-				{
-					comboBoxPt.setEnabled(true);
-					comboBoxClient.setEnabled(true);
-				}
-			}
-		});
-
 		comboBoxClient = new JComboBox();
+		comboBoxClient.addItem("");
 		comboBoxClient.setBounds(130, 55, 370, 24);
 		desktopPane.add(comboBoxClient);
 
@@ -134,6 +101,7 @@ public class LaporanForm extends JInternalFrame
 		desktopPane.add(lblClient);
 
 		comboBoxPt = new JComboBox();
+		comboBoxPt.addItem("");
 		comboBoxPt.setBounds(130, 88, 370, 24);
 		desktopPane.add(comboBoxPt);
 
@@ -203,6 +171,7 @@ public class LaporanForm extends JInternalFrame
 							HashMap param = new HashMap();
 
 							param.put("date", CL_Harian.getDate());
+							param.put("perusahaan", comboBoxPt.getSelectedItem());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
 							JasperViewer.viewReport(JPrint, false);
@@ -225,6 +194,7 @@ public class LaporanForm extends JInternalFrame
 
 							param.put("date1", CL_Bulanan_1.getDate());
 							param.put("date2", CL_Bulanan_2.getDate());
+							param.put("perusahaan", comboBoxPt.getSelectedItem());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
 							JasperViewer.viewReport(JPrint, false);
@@ -249,6 +219,8 @@ public class LaporanForm extends JInternalFrame
 							HashMap param = new HashMap();
 
 							param.put("date", CL_Harian.getDate());
+							param.put("klien", comboBoxClient.getSelectedItem());
+							param.put("perusahaan", comboBoxPt.getSelectedItem());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
 							JasperViewer.viewReport(JPrint, false);
@@ -271,6 +243,8 @@ public class LaporanForm extends JInternalFrame
 
 							param.put("date1", CL_Bulanan_1.getDate());
 							param.put("date2", CL_Bulanan_2.getDate());
+							param.put("klien", comboBoxClient.getSelectedItem());
+							param.put("perusahaan", comboBoxPt.getSelectedItem());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
 							JasperViewer.viewReport(JPrint, false);
@@ -295,6 +269,7 @@ public class LaporanForm extends JInternalFrame
 							HashMap param = new HashMap();
 
 							param.put("date", CL_Harian.getDate());
+							param.put("perusahaan", comboBoxPt.getSelectedItem());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
 							JasperViewer.viewReport(JPrint, false);
@@ -317,6 +292,7 @@ public class LaporanForm extends JInternalFrame
 
 							param.put("date1", CL_Bulanan_1.getDate());
 							param.put("date2", CL_Bulanan_2.getDate());
+							param.put("perusahaan", comboBoxPt.getSelectedItem());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
 							JasperViewer.viewReport(JPrint, false);
@@ -341,6 +317,7 @@ public class LaporanForm extends JInternalFrame
 							HashMap param = new HashMap();
 
 							param.put("date", CL_Harian.getDate());
+							param.put("klien", comboBoxClient.getSelectedItem());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
 							JasperViewer.viewReport(JPrint, false);
@@ -363,6 +340,7 @@ public class LaporanForm extends JInternalFrame
 
 							param.put("date1", CL_Bulanan_1.getDate());
 							param.put("date2", CL_Bulanan_2.getDate());
+							param.put("klien", comboBoxClient.getSelectedItem());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
 							JasperViewer.viewReport(JPrint, false);

@@ -9,6 +9,9 @@
 	<parameter name="date2" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="perusahaan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
     pe.PO_EVENT_ID,
@@ -34,7 +37,10 @@ FROM
     DETAIL_REIMBURSE dr ON pe.PO_EVENT_NO = dr.PO_EVENT_NO
         INNER JOIN
     TAGIHAN_REIMBURSE tr ON pe.PO_EVENT_NO = tr.PO_EVENT_NO
+        INNER JOIN
+    MASTER_PERUSAHAAN mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID
 WHERE
+    mp.NAME = $P{perusahaan} OR k.PROJECT = '' AND
     pe.TANGGAL BETWEEN $P{date1} AND $P{date2};]]>
 	</queryString>
 	<field name="PO_EVENT_ID" class="java.lang.Integer">

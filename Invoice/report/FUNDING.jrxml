@@ -6,6 +6,9 @@
 	<parameter name="date" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="klien" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
     f.FUNDING_ID,
@@ -27,7 +30,11 @@ FROM
     MASTER_DANA md ON (f.KONTRAK_ID = md.MASTER_DANA_ID)
         AND (f.CHECK_REFF = 0)
 WHERE
-    f.TANGGAL = $P{date};]]>
+    (CASE
+        WHEN f.CHECK_REFF = '1' THEN k.PROJECT = $P{klien} OR k.PROJECT = $P{klien}
+        ELSE md.NAME_ACCOUNT = md.NAME_ACCOUNT
+    END)
+        AND f.TANGGAL = $P{date};]]>
 	</queryString>
 	<field name="FUNDING_ID" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -59,11 +66,6 @@ WHERE
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[FUNDING REPORT]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="562" y="37" width="240" height="20" uuid="55a01996-548c-40b4-9db0-a899b6e63c9a"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Keterangan]]></text>
 			</staticText>
 		</band>
 	</title>

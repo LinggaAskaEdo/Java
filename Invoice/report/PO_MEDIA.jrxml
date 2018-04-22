@@ -9,6 +9,9 @@
 	<parameter name="klien" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="perusahaan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
     k.NO_KONTRAK,
@@ -35,9 +38,12 @@ FROM
     MASTER_MEDIA mm ON pm.MASTER_MEDIA_ID = mm.MASTER_MEDIA_ID
         INNER JOIN
     TAGIHAN_MEDIA tm ON pm.PO_MEDIA_NO = tm.PO_MEDIA_NO
+        INNER JOIN
+    MASTER_PERUSAHAAN mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID
 WHERE
-    pm.PEKERJAAN_KEMENTERIAN = $P{klien}
-        AND pm.TANGGAL_TAYANG = $P{date};]]>
+    mp.NAME = $P{perusahaan} OR k.PROJECT = '' AND
+    pm.PEKERJAAN_KEMENTERIAN = $P{klien} AND
+    pm.TANGGAL_TAYANG = $P{date};]]>
 	</queryString>
 	<field name="NO_KONTRAK" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>

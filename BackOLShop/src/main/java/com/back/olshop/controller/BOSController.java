@@ -8,6 +8,7 @@ import com.back.olshop.constant.ApplicationStatus;
 import com.back.olshop.constant.MessagePreference;
 import com.back.olshop.model.Request;
 import com.back.olshop.model.Response;
+import com.back.olshop.model.User;
 import com.back.olshop.service.BOSService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,28 +31,48 @@ class BOSController
     @RequestMapping(value = "request", method = RequestMethod.POST)
     ResponseEntity<?> requestHandler(@RequestBody Request request)
     {
-        System.out.println("Request: " + request.toString());
+        log.debug("Request: {}", request.toString());
 
         if (request.getToken() != null && request.getMessage() != null)
         {
-            boolean tokenStatus = true; //validate token
+            //load user by token
+            User user = service.loadUserByToken(request.getToken());
 
-            if (tokenStatus)
+            if (user != null)
             {
-                boolean messageStatus = service.checkMessage(request.getMessage());
+                //check store open
+                boolean storeOpen = service.checkStoreOpen(user.getUserOpenTime(), user.getUserCloseTime());
 
-                if (messageStatus)
+                if (storeOpen)
                 {
-                    return new ResponseEntity<>(new Response(ApplicationStatus.SUCCESS.toString(), MessagePreference.MESSAGE_VALID_REQUEST), HttpStatus.OK);
+                    if (user.getUserToken() != null)
+                    {
+                        Response response = service.checkMessage(request.getMessage());
+
+                        return new ResponseEntity<>(response, HttpStatus.OK);
+
+                        /*if (messageStatus)
+                        {
+                            return new ResponseEntity<>(new Response(ApplicationStatus.SUCCESS.toString(), MessagePreference.MESSAGE_VALID_REQUEST), HttpStatus.OK);
+                        }
+                        else
+                        {
+                            return new ResponseEntity<>(new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST), HttpStatus.OK);
+                        }*/
+                    }
+                    else
+                    {
+                        return new ResponseEntity<>(new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_TOKEN), HttpStatus.OK);
+                    }
                 }
                 else
                 {
-                    return new ResponseEntity<>(new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST), HttpStatus.OK);
+                    return new ResponseEntity<>(new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_STORE_CLOSE), HttpStatus.OK);
                 }
             }
             else
             {
-                return new ResponseEntity<>(new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_TOKEN), HttpStatus.OK);
+                return new ResponseEntity<>(new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_USER), HttpStatus.OK);
             }
         }
         else

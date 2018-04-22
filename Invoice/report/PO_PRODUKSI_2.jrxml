@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PO_PRODUKSI" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="dfaa67a4-74f5-4382-9d9c-ca80c2ee20d4">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="18"/>
+	<property name="ireport.y" value="336"/>
+	<parameter name="date1" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date2" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+    pp.PO_PRODUKSI_ID,
+    pp.PO_PRODUKSI_NO,
+    k.NO_KONTRAK,
+    pp.PRODUKSI,
+    pp.TANGGAL,
+    pp.NILAI_PRODUKSI,
+    pp.KETERANGAN,
+    pp.PPN_IMAGE,
+    dp.*
+FROM
+    PO_PRODUKSI pp
+        INNER JOIN
+    KONTRAK k ON pp.KONTRAK_ID = k.KONTRAK_ID
+        INNER JOIN
+    DETAIL_PRODUKSI dp ON pp.PO_PRODUKSI_NO = dp.PO_PRODUKSI_NO
+WHERE
+    pp.TANGGAL BETWEEN $P{date1} AND $P{date2};]]>
+	</queryString>
+	<field name="PO_PRODUKSI_ID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PO_PRODUKSI_NO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NO_KONTRAK" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRODUKSI" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TANGGAL" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NILAI_PRODUKSI" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="KETERANGAN" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PPN_IMAGE" class="java.lang.Object">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DETAIL_PRODUKSI_ID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MEDIA" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DURASI" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="HARI" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="LOKASI" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRE_PRODUKSI_URAIAN" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRE_PRODUKSI_JENIS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRODUKSI_JENIS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRODUKSI_JUMLAH" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRODUKSI_BARANG" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRODUKSI_HARGA_SATUAN" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRODUKSI_TOTAL_HARGA" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="POST_PRODUKSI_BARANG" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="POST_PRODUKSI_TOTAL_HARGA" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="19" width="802" height="33" uuid="d93b0396-5909-45a8-9e8c-6649cbfa0e84"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PO PRODUKSI REPORT]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement x="22" y="8" width="82" height="20" uuid="3f866232-cb9f-4b3b-88e1-e41a21d62845"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Produksi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="104" y="8" width="8" height="20" uuid="f59ee432-868f-4861-8f45-ceb00ed5ee1e"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="112" y="8" width="236" height="20" uuid="859fce3d-0614-41f8-8341-321f011cda56"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{PO_PRODUKSI_NO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<rectangle>
+				<reportElement x="22" y="2" width="149" height="20" uuid="cb05aa65-fd91-4744-b69c-da2ca9edc9b4"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="171" y="2" width="115" height="20" uuid="1c165ab3-ca84-496a-9408-519508271f29"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="286" y="2" width="100" height="20" uuid="ef002244-3bf0-45a7-98a3-97d52a4216b6"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="386" y="2" width="100" height="20" uuid="7100e94b-54be-4c71-92ba-65eadf27557a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="486" y="2" width="289" height="20" uuid="c884322f-dd2d-4a5c-89de-112d0d1548ea"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="22" y="3" width="149" height="19" uuid="224f7ebc-04c6-4fac-a1f1-a32c40d4f26b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Kontrak]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="171" y="3" width="115" height="19" uuid="0f67944e-49cc-4ec8-b75c-da636c4c8774"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Produksi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="286" y="3" width="100" height="19" uuid="cc415c17-2676-43af-bd94-d48b8f724568"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tanggal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="386" y="3" width="100" height="19" uuid="277a1e45-7cc0-49a4-a44a-bfd89378ebb2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nilai]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="486" y="3" width="289" height="19" uuid="9749b2c2-71a3-486e-b35b-a86190260be1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Keterangan]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<rectangle>
+				<reportElement x="171" y="0" width="115" height="20" uuid="118e6cf9-a328-4115-af84-ea0d115a2a3f"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="286" y="0" width="100" height="20" uuid="64f11eab-3a7e-40e3-83c6-91576043d3e8"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="386" y="0" width="100" height="20" uuid="f772ec02-35ce-42fc-b046-9fe2202d888a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="486" y="0" width="289" height="20" uuid="80e35766-cb74-4c33-b362-c261edbc6b5e"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="22" y="0" width="149" height="20" uuid="18c5884a-1930-4310-afae-7fdc9c8a00ac"/>
+			</rectangle>
+			<textField>
+				<reportElement x="22" y="1" width="149" height="19" uuid="6f31b1c2-0bbc-4e19-9a82-5c2728bd528f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NO_KONTRAK}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="171" y="1" width="115" height="19" uuid="3154b243-7485-4841-95c2-586199f5ed8f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRODUKSI}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="286" y="1" width="100" height="19" uuid="47135b72-b205-4b74-ba7f-91f998a13bae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TANGGAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="386" y="1" width="100" height="19" uuid="2efe89f8-ea1c-4965-bcf5-e7cb352bbed4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NILAI_PRODUKSI}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="488" y="1" width="287" height="19" uuid="068f524f-aadc-42fb-8aa7-d2c8786793ab"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{KETERANGAN}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

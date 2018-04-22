@@ -99,7 +99,23 @@ public class LaporanForm extends JInternalFrame
 						Objects.equals(CB_Laporan.getSelectedItem(), "COST OPERATIONAL REPORT")){
 					comboBoxPt.setEnabled(false);
 					comboBoxClient.setEnabled(false);
-				} else {
+				}
+				else if(Objects.equals(CB_Laporan.getSelectedItem(), "PO EVENT REPORT"))
+				{
+					comboBoxPt.setEnabled(false);
+					comboBoxClient.setEnabled(false);
+				}
+				else if(Objects.equals(CB_Laporan.getSelectedItem(), "PO MEDIA REPORT"))
+				{
+					comboBoxPt.setEnabled(false);
+				}
+				else if(Objects.equals(CB_Laporan.getSelectedItem(), "PO PRODUKSI REPORT"))
+				{
+					comboBoxPt.setEnabled(false);
+					comboBoxClient.setEnabled(false);
+				}
+				else
+				{
 					comboBoxPt.setEnabled(true);
 					comboBoxClient.setEnabled(true);
 				}
@@ -174,7 +190,7 @@ public class LaporanForm extends JInternalFrame
 				{
 					if (buttonGroup.getSelection().getActionCommand().equals("1"))
 					{
-						fileName = "C:\\Program Files\\Invoice\\report\\poEventReport.jasper";
+						fileName = "C:\\Program Files\\Invoice\\report\\PO_EVENT.jasper";
 
 						try
 						{
@@ -195,7 +211,7 @@ public class LaporanForm extends JInternalFrame
 					}
 					else
 					{
-						fileName = "C:\\Program Files\\Invoice\\report\\poEventReport_2.jasper";
+						fileName = "C:\\Program Files\\Invoice\\report\\PO_EVENT_2.jasper";
 
 						try
 						{
@@ -204,8 +220,8 @@ public class LaporanForm extends JInternalFrame
 
 							HashMap param = new HashMap();
 
-							param.put("date_1", CL_Bulanan_1.getDate());
-							param.put("date_2", CL_Bulanan_2.getDate());
+							param.put("date1", CL_Bulanan_1.getDate());
+							param.put("date2", CL_Bulanan_2.getDate());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
 							JasperViewer.viewReport(JPrint);
@@ -215,45 +231,189 @@ public class LaporanForm extends JInternalFrame
 							e1.printStackTrace();
 						}
 					}
-				} else if (Objects.equals(CB_Laporan.getSelectedItem(), "COST OPERATIONAL REPORT")) {
-					fileName = "C:\\Program Files\\Invoice\\report\\COST_OPERATIONAL.jasper";
-					try
+				}
+				else if (Objects.equals(CB_Laporan.getSelectedItem(), "PO MEDIA REPORT"))
+				{
+					if (buttonGroup.getSelection().getActionCommand().equals("1"))
 					{
-						Class.forName("com.mysql.jdbc.Driver");
-						connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
+						fileName = "C:\\Program Files\\Invoice\\report\\PO_MEDIA.jasper";
 
-						HashMap param = new HashMap();
+						try
+						{
+							Class.forName("com.mysql.jdbc.Driver");
+							connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
-						param.put("date", CL_Harian.getDate());
+							HashMap param = new HashMap();
 
-						JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-						JasperViewer.viewReport(JPrint);
+							param.put("date", CL_Harian.getDate());
+
+							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperViewer.viewReport(JPrint);
+						}
+						catch (ClassNotFoundException | SQLException | JRException e1)
+						{
+							e1.printStackTrace();
+						}
 					}
-					catch (ClassNotFoundException | SQLException | JRException e1)
+					else
 					{
-						e1.printStackTrace();
+						fileName = "C:\\Program Files\\Invoice\\report\\PO_MEDIA_2.jasper";
+
+						try
+						{
+							Class.forName("com.mysql.jdbc.Driver");
+							connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
+
+							HashMap param = new HashMap();
+
+							param.put("date1", CL_Bulanan_1.getDate());
+							param.put("date2", CL_Bulanan_2.getDate());
+
+							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperViewer.viewReport(JPrint);
+						}
+						catch (ClassNotFoundException | SQLException | JRException e1)
+						{
+							e1.printStackTrace();
+						}
 					}
 				}
-				else
+				else if (Objects.equals(CB_Laporan.getSelectedItem(), "PO PRODUKSI REPORT"))
 				{
-					fileName = "C:\\Program Files\\Invoice\\report\\COST_OPERATIONAL_2.jasper";
-
-					try
+					if (buttonGroup.getSelection().getActionCommand().equals("1"))
 					{
-						Class.forName("com.mysql.jdbc.Driver");
-						connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
+						fileName = "C:\\Program Files\\Invoice\\report\\PO_PRODUKSI.jasper";
 
-						HashMap param = new HashMap();
+						try
+						{
+							Class.forName("com.mysql.jdbc.Driver");
+							connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
-						param.put("date1", CL_Bulanan_1.getDate());
-						param.put("date2", CL_Bulanan_2.getDate());
+							HashMap param = new HashMap();
 
-						JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-						JasperViewer.viewReport(JPrint);
+							param.put("date", CL_Harian.getDate());
+
+							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperViewer.viewReport(JPrint);
+						}
+						catch (ClassNotFoundException | SQLException | JRException e1)
+						{
+							e1.printStackTrace();
+						}
 					}
-					catch (ClassNotFoundException | SQLException | JRException e1)
+					else
 					{
-						e1.printStackTrace();
+						fileName = "C:\\Program Files\\Invoice\\report\\PO_PRODUKSI_2.jasper";
+
+						try
+						{
+							Class.forName("com.mysql.jdbc.Driver");
+							connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
+
+							HashMap param = new HashMap();
+
+							param.put("date1", CL_Bulanan_1.getDate());
+							param.put("date2", CL_Bulanan_2.getDate());
+
+							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperViewer.viewReport(JPrint);
+						}
+						catch (ClassNotFoundException | SQLException | JRException e1)
+						{
+							e1.printStackTrace();
+						}
+					}
+				}
+				else if (Objects.equals(CB_Laporan.getSelectedItem(), "FUNDING REPORT"))
+				{
+					if (buttonGroup.getSelection().getActionCommand().equals("1"))
+					{
+						fileName = "C:\\Program Files\\Invoice\\report\\FUNDING.jasper";
+
+						try
+						{
+							Class.forName("com.mysql.jdbc.Driver");
+							connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
+
+							HashMap param = new HashMap();
+
+							param.put("date", CL_Harian.getDate());
+
+							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperViewer.viewReport(JPrint);
+						}
+						catch (ClassNotFoundException | SQLException | JRException e1)
+						{
+							e1.printStackTrace();
+						}
+					}
+					else
+					{
+						fileName = "C:\\Program Files\\Invoice\\report\\FUNDING_2.jasper";
+
+						try
+						{
+							Class.forName("com.mysql.jdbc.Driver");
+							connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
+
+							HashMap param = new HashMap();
+
+							param.put("date1", CL_Bulanan_1.getDate());
+							param.put("date2", CL_Bulanan_2.getDate());
+
+							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperViewer.viewReport(JPrint);
+						}
+						catch (ClassNotFoundException | SQLException | JRException e1)
+						{
+							e1.printStackTrace();
+						}
+					}
+				}
+				else if (Objects.equals(CB_Laporan.getSelectedItem(), "COST OPERATIONAL REPORT"))
+				{
+					if (buttonGroup.getSelection().getActionCommand().equals("1"))
+					{
+						fileName = "C:\\Program Files\\Invoice\\report\\COST_OPERATIONAL.jasper";
+
+						try
+						{
+							Class.forName("com.mysql.jdbc.Driver");
+							connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
+
+							HashMap param = new HashMap();
+
+							param.put("date", CL_Harian.getDate());
+
+							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperViewer.viewReport(JPrint);
+						}
+						catch (ClassNotFoundException | SQLException | JRException e1)
+						{
+							e1.printStackTrace();
+						}
+					}
+					else
+					{
+						fileName = "C:\\Program Files\\Invoice\\report\\COST_OPERATIONAL_2.jasper";
+
+						try
+						{
+							Class.forName("com.mysql.jdbc.Driver");
+							connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
+
+							HashMap param = new HashMap();
+
+							param.put("date1", CL_Bulanan_1.getDate());
+							param.put("date2", CL_Bulanan_2.getDate());
+
+							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperViewer.viewReport(JPrint);
+						}
+						catch (ClassNotFoundException | SQLException | JRException e1)
+						{
+							e1.printStackTrace();
+						}
 					}
 				}
 			}

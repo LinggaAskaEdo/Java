@@ -105,4 +105,20 @@ public class User
     {
         this.userAdmin = userAdmin;
     }
+
+    @Override
+    public String toString()
+    {
+        return "User{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", userToken='" + userToken + '\'' +
+                ", userHp='" + userHp + '\'' +
+                ", userOpenTime=" + userOpenTime +
+                ", userCloseTime=" + userCloseTime +
+                ", userAdmin=" + userAdmin +
+                '}';
+    }
 }

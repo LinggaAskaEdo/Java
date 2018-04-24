@@ -13,9 +13,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class BOSSDao
+public class BOSDao
 {
-    private final Logger log = LoggerFactory.getLogger(BOSSDao.class);
+    private final Logger log = LoggerFactory.getLogger(BOSDao.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -24,7 +24,8 @@ public class BOSSDao
     {
         User user = null;
 
-        String query = "SELECT * FROM USER WHERE USER_TOKEN = ? LIMIT 1";
+        String query = "SELECT USER_ID, USER_NAME, USER_PASSWORD, USER_EMAIL, USER_TOKEN, USER_HP, USER_OPEN_TIME, USER_CLOSE_TIME, USER_ADMIN FROM USER " +
+                "WHERE USER_TOKEN = ? LIMIT 1";
 
         log.debug("Query loadUserByToken: {}", query);
 

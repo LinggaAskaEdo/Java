@@ -40,6 +40,8 @@ class BOSController
 
             if (user != null)
             {
+                log.debug("user: {}", user);
+
                 //check store open
                 boolean storeOpen = service.checkStoreOpen(user.getUserOpenTime(), user.getUserCloseTime());
 

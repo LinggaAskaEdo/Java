@@ -31,7 +31,7 @@ public class POEventForm extends JInternalFrame
 	private JTextField TF_Unggah;
 	private JTextArea TA_Keterangan;
 	private JComboBox comboBoxReff;
-	PoEventDAO dao = new PoEventDAO();
+	private PoEventDAO dao = new PoEventDAO();
 	private MasterDanaDAO masterDanaDAO = new MasterDanaDAO();
 	private DetailEventDAO detailEventDAO = new DetailEventDAO();
 	private DetailReimbursementDAO detailReimbursementDAO = new DetailReimbursementDAO();
@@ -344,21 +344,20 @@ public class POEventForm extends JInternalFrame
 					try
 					{
 						dao.add(poEvent);
+						GetTableList_1();
+						RemoveRow_1();
+						GetTableList_2();
+						RemoveRow_2();
+						GetTableList_3();
+						RemoveRow_3();
+						ClearPoEvent();
+
+						JOptionPane.showMessageDialog(null, "Simpan Berhasil", "", JOptionPane.INFORMATION_MESSAGE);
 					}
 					catch (Exception e3)
 					{
 						e3.printStackTrace();
 					}
-
-					GetTableList_1();
-					RemoveRow_1();
-					GetTableList_2();
-					RemoveRow_2();
-					GetTableList_3();
-					RemoveRow_3();
-					ClearPoEvent();
-
-					JOptionPane.showMessageDialog(null, "Simpan Berhasil", "", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});

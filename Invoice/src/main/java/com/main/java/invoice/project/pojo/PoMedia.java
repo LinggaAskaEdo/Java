@@ -1,7 +1,6 @@
 package com.main.java.invoice.project.pojo;
 
 import java.math.BigDecimal;
-import java.sql.Blob;
 import java.util.Date;
 
 public class PoMedia
@@ -107,20 +106,19 @@ public class PoMedia
     }
 
     @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("PoMedia{");
-        sb.append("poMediaId=").append(poMediaId);
-        sb.append(", poMediaNo='").append(poMediaNo).append('\'');
-        sb.append(", kontrakId=").append(kontrakId);
-        sb.append(", pekerjaanKementerian='").append(pekerjaanKementerian).append('\'');
-        sb.append(", masterMediaId=").append(masterMediaId);
-        sb.append(", tanggalTayang=").append(tanggalTayang);
-        sb.append(", ukuran='").append(ukuran).append('\'');
-        sb.append(", harga=").append(harga);
-        sb.append(", ppn=").append(ppn);
-        sb.append(", keterangan='").append(keterangan).append('\'');
-        sb.append(", image='").append(image).append('\'');
-        sb.append('}');
-        return sb.toString();
+    public String toString()
+    {
+        return "PoMedia{" + "poMediaId=" + poMediaId +
+                ", poMediaNo='" + poMediaNo + '\'' +
+                ", kontrakId=" + kontrakId +
+                ", pekerjaanKementerian='" + pekerjaanKementerian + '\'' +
+                ", masterMediaId=" + masterMediaId +
+                ", tanggalTayang=" + tanggalTayang +
+                ", ukuran='" + ukuran + '\'' +
+                ", harga=" + harga +
+                ", ppn=" + ppn +
+                ", keterangan='" + keterangan + '\'' +
+                ", image='" + image + '\'' +
+                '}';
     }
 }

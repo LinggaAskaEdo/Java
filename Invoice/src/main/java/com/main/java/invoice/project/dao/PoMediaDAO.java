@@ -29,8 +29,8 @@ public class PoMediaDAO
 
             String currentDate = dateFormat.format(poMedia.getTanggalTayang());
 
-            String query = "INSERT INTO PO_MEDIA(PO_MEDIA_NO, KONTRAK_ID, PEKERJAAN_KEMENTERIAN, MASTER_MEDIA_ID, TANGGAL_TAYANG" +
-                    "UKURAN, HARGA, PPN, KETERANGAN, PPN_IMAGE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO PO_MEDIA(PO_MEDIA_NO, KONTRAK_ID, PEKERJAAN_KEMENTERIAN, MASTER_MEDIA_ID, TANGGAL_TAYANG, UKURAN, HARGA, PPN, " +
+                    "KETERANGAN, PPN_IMAGE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, poMedia.getPoMediaNo());
@@ -54,6 +54,8 @@ public class PoMediaDAO
             {
                 preparedStatement.setBinaryStream(10, null);
             }
+
+            preparedStatement.executeUpdate();
         }
         catch (ClassNotFoundException | SQLException | FileNotFoundException e)
         {

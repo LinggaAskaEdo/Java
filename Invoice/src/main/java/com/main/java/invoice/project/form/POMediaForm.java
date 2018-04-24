@@ -381,7 +381,10 @@ public class POMediaForm extends JInternalFrame
 				MasterDana masterDana = masterDanaDAO.GetMasterDanaById(splitData);
 				tagihanMedia.setMasterDanaId(masterDana.getMasterDanaId());
 
-				tagihanMedia.setImage(String.valueOf(tabelModel.getValueAt(i, 4)));
+				if (String.valueOf(tabelModel.getValueAt(i, 4)).length() > 0)
+					tagihanMedia.setImage(String.valueOf(tabelModel.getValueAt(i, 4)));
+				else
+					tagihanMedia.setImage(null);
 
 				tagihanMediaDAO.add(tagihanMedia);
 			}

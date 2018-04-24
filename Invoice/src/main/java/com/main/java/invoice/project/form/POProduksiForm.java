@@ -268,14 +268,17 @@ public class POProduksiForm extends JInternalFrame
 					try
 					{
 						dao.add(poProduksi);
+						GetTableList();
+						RemoveRowPoProduksi();
+						ClearPoProduksi();
+
+						JOptionPane.showMessageDialog(null, "Simpan Berhasil", "", JOptionPane.INFORMATION_MESSAGE);
 					}
 					catch (Exception e3)
 					{
 						e3.printStackTrace();
 					}
-					GetTableList();
-					RemoveRowPoProduksi();
-					ClearPoProduksi();
+
 				}
 			}
 		});

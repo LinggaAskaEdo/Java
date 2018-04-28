@@ -4,6 +4,7 @@
 
 package com.back.olshop.model;
 
+import java.sql.Date;
 import java.sql.Time;
 
 public class User
@@ -13,6 +14,7 @@ public class User
     private String userPassword;
     private String userEmail;
     private String userToken;
+    private Date userTokenExpired;
     private String userHp;
     private Time userOpenTime;
     private Time userCloseTime;
@@ -68,6 +70,16 @@ public class User
         this.userToken = userToken;
     }
 
+    public Date getUserTokenExpired()
+    {
+        return userTokenExpired;
+    }
+
+    public void setUserTokenExpired(Date userTokenExpired)
+    {
+        this.userTokenExpired = userTokenExpired;
+    }
+
     public String getUserHp()
     {
         return userHp;
@@ -115,6 +127,7 @@ public class User
                 ", userPassword='" + userPassword + '\'' +
                 ", userEmail='" + userEmail + '\'' +
                 ", userToken='" + userToken + '\'' +
+                ", userTokenExpired=" + userTokenExpired +
                 ", userHp='" + userHp + '\'' +
                 ", userOpenTime=" + userOpenTime +
                 ", userCloseTime=" + userCloseTime +

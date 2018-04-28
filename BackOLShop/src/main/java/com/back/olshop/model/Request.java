@@ -6,8 +6,19 @@ package com.back.olshop.model;
 
 public class Request
 {
+    private String phone;
     private String token;
     private String message;
+
+    public String getPhone()
+    {
+        return phone;
+    }
+
+    public void setPhone(String phone)
+    {
+        this.phone = phone;
+    }
 
     public String getToken()
     {
@@ -33,7 +44,8 @@ public class Request
     public String toString()
     {
         return "Request{" +
-                "token='" + token + '\'' +
+                "phone='" + phone + '\'' +
+                ", token='" + token + '\'' +
                 ", message='" + message + '\'' +
                 '}';
     }

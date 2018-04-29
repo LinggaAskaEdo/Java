@@ -61,8 +61,8 @@ public class BOSService
 
     public Response checkMessage(Request request)
     {
-        String message = request.getMessage();
         String token = request.getToken();
+        String message = request.getMessage();
 
         log.debug("token: {}, message: {}", token, message);
 
@@ -104,8 +104,6 @@ public class BOSService
 
     private Response validationBuyMessage(String token, String[] data)
     {
-        Response response = new Response();
-
         try
         {
             if (data[2] != null && data[2].trim().equalsIgnoreCase(CountryCode.COUNTRY_CODE_INDONESIA))
@@ -121,8 +119,8 @@ public class BOSService
                         log.debug("Data[{}]: {}", i, String.valueOf(data[i]));
                     }
 
-                    if (data.length - 1 != 9 && data[1] == null && data[2] == null && data[3] == null && data[4] == null && data[5] == null && data[6] == null
-                            && data[7] == null && data[8] == null && data[9] == null)
+                    if (data.length - 1 != 9 || data[3] == null || data[4] == null || data[5] == null || data[6] == null || data[7] == null
+                            || data[8] == null || data[9] == null)
                     {
                         return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
                     }
@@ -136,33 +134,45 @@ public class BOSService
                         String province = data[8].trim();
                         String order = data[9].trim();
 
-                        if (name != null && name.equalsIgnoreCase(""))
+                        if (name.equalsIgnoreCase(""))
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_NAME);
                         }
-                        else if (bankName != null && bankName.equalsIgnoreCase(""))
+                        else if (bankName.equalsIgnoreCase(""))
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_BANK_NAME);
                         }
-                        else if (bankAccountNumber != null && bankAccountNumber.equalsIgnoreCase(""))
+                        else if (bankAccountNumber.equalsIgnoreCase(""))
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_BANK_ACCOUNT_NUMBER);
                         }
-                        else if (address != null && address.equalsIgnoreCase(""))
+                        else if (bankAccountNumber.matches(".*[a-zA-Z].*"))
+                        {
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_INVALID_BANK_ACCOUNT_NUMBER);
+                        }
+                        else if (address.equalsIgnoreCase(""))
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_ADDRESS);
                         }
-                        else if (district != null && district.equalsIgnoreCase(""))
+                        else if (district.equalsIgnoreCase(""))
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_DISTRICT);
                         }
-                        else if (province != null && province.equalsIgnoreCase(""))
+                        else if (province.equalsIgnoreCase(""))
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_PROVINCE);
                         }
-                        else if (order != null && order.equalsIgnoreCase(""))
+                        else if (checkRegion(district, province))
+                        {
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_UNKNOWN_REGION);
+                        }
+                        else if (order.equalsIgnoreCase(""))
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_ORDER);
+                        }
+                        else if (checkFormatOrder(order))
+                        {
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_INVALID_ORDER);
                         }
                         else
                         {
@@ -192,8 +202,7 @@ public class BOSService
                         log.debug("Data[{}]: {}", i, String.valueOf(data[i]));
                     }
 
-                    if (data.length - 1 != 7 && data[1] == null && data[2] == null && data[3] == null && data[4] == null && data[5] == null && data[6] == null
-                            && data[7] == null)
+                    if (data.length - 1 != 7 || data[3] == null || data[4] == null || data[5] == null || data[6] == null || data[7] == null)
                     {
                         return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
                     }
@@ -205,25 +214,33 @@ public class BOSService
                         String address = data[6].trim();
                         String order = data[7].trim();
 
-                        if (name != null && name.equalsIgnoreCase(""))
+                        if (name.equalsIgnoreCase(""))
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_NAME);
                         }
-                        else if (bankName != null && bankName.equalsIgnoreCase(""))
+                        else if (bankName.equalsIgnoreCase(""))
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_BANK_NAME);
                         }
-                        else if (bankAccountNumber != null && bankAccountNumber.equalsIgnoreCase(""))
+                        else if (bankAccountNumber.equalsIgnoreCase(""))
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_BANK_ACCOUNT_NUMBER);
                         }
-                        else if (address != null && address.equalsIgnoreCase(""))
+                        else if (bankAccountNumber.matches(".*[a-zA-Z].*"))
+                        {
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_INVALID_BANK_ACCOUNT_NUMBER);
+                        }
+                        else if (address.equalsIgnoreCase(""))
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_ADDRESS);
                         }
-                        else if (order != null && order.equalsIgnoreCase(""))
+                        else if (order.equalsIgnoreCase(""))
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_ORDER);
+                        }
+                        else if (checkFormatOrder(order))
+                        {
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_INVALID_ORDER);
                         }
                         else
                         {
@@ -242,19 +259,66 @@ public class BOSService
             }
             else
             {
-                response.setStatus(ApplicationStatus.FAILED.toString());
-                response.setMessage(MessagePreference.MESSAGE_UNKNOWN_COUNTRY);
+                return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_UNKNOWN_COUNTRY);
             }
         }
         catch (Exception e)
         {
             log.error("Error when validationBuyMessage: {}", e.getMessage());
 
-            response.setStatus(ApplicationStatus.FAILED.toString());
-            response.setMessage(MessagePreference.MESSAGE_INVALID_REQUEST);
+            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
+        }
+    }
+
+    private boolean checkRegion(String district, String province)
+    {
+        return dao.checkRegion(district, province) > 0;
+    }
+
+    private boolean checkFormatOrder(String order)
+    {
+        boolean status = true;
+
+        try
+        {
+            int separator = order.indexOf(',');
+
+            if (separator >= 0)
+            {
+                String[] arrOrders = order.split(",");
+
+                for (String arrOrder : arrOrders)
+                {
+                    log.debug("arrOrders: {}", arrOrder);
+
+                    String[] orders = arrOrder.split("-");
+
+                    log.debug("arrOrder[0]: {}, arrOrder[1]: {}, arrOrder[2]: {}", orders[0].trim(), orders[1].trim(), orders[2].trim());
+
+                    if (orders[0] != null && orders[1] != null && orders[2] != null)
+                    {
+                        status = true;
+                    }
+                }
+            }
+            else
+            {
+                String[] arrOrder = order.split("-");
+
+                log.debug("arrOrder[0]: {}, arrOrder[1]: {}, arrOrder[2]: {}", arrOrder[0].trim(), arrOrder[1].trim(), arrOrder[2].trim());
+
+                if (arrOrder[0] != null && arrOrder[1] != null && arrOrder[2] != null)
+                {
+                    status = false;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error on checkFormatOrder: {}", e.getMessage());
         }
 
-        return response;
+        return status;
     }
 
     private Response validationCheckMessage(String token, String[] data)

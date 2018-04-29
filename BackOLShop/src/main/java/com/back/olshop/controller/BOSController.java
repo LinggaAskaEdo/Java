@@ -36,7 +36,7 @@ class BOSController
     {
         log.debug("Request: {}", request.toString());
 
-        if (request.getPhone()!= null && request.getToken() != null && request.getMessage() != null)
+        if (request.getPhone() != null && request.getToken() != null && request.getMessage() != null)
         {
             //load user by token
             User user = service.loadUserByToken(request.getToken());
@@ -54,7 +54,8 @@ class BOSController
                 log.debug("isExpired: {}", tokenExpired);
                 log.debug("storeOpen: {}", storeOpen);
 
-                if (tokenExpired)
+                //if (tokenExpired)
+                if (false)
                 {
                     return new ResponseEntity<>(new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_TOKEN_EXPIRED), HttpStatus.OK);
                 }

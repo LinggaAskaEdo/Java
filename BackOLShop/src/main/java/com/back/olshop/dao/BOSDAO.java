@@ -35,9 +35,29 @@ public class BOSDAO
         }
         catch (Exception e)
         {
-            log.error("ERROR when loadUserByToken: " + e.getMessage());
+            log.error("ERROR when loadUserByToken: ", e.getMessage());
         }
 
         return user;
+    }
+
+    public Integer checkRegion(String district, String province)
+    {
+        Integer result = 0;
+        
+        String query = "SELECT COUNT(*) FROM EXPEDITION_IN WHERE EXPEDITION_IN_DISTRICT LIKE ? AND EXPEDITION_IN_PROVINCE LIKE ?";
+        
+        log.debug("Query checkRegion: {}", query);
+        
+        try
+        {
+            result = jdbcTemplate.queryForObject(query, new String[] { "'%" + district + "%'", "'%" + province + "%'" }, Integer.class);
+        }
+        catch (Exception e)
+        {
+            log.error("ERROR when checkRegion: {}", e.getMessage());
+        }
+        
+        return result;
     }
 }

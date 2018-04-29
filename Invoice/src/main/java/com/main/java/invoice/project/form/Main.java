@@ -15,7 +15,7 @@ public class Main
 		if (true)
 		{
 			/*breakthrough authentification*/
-			StaticPreference.URL = "jdbc:mysql://localhost:3306/INVOICE_PROJECT";
+			StaticPreference.URL = "jdbc:mysql://localhost:3306/INVOICE_PROJECT?autoReconnect=true&useSSL=false";
 			StaticPreference.USERNAME = "dev";
 			StaticPreference.PASSWORD = "Password";
 

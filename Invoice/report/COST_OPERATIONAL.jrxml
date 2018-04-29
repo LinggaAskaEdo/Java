@@ -27,6 +27,9 @@
 	<parameter name="date" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/dery/workspace/Java/Invoice/report/"]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
     CO.COST_OPERASIONAL_ID,
@@ -173,6 +176,16 @@ WHERE
 				<reportElement x="684" y="6" width="111" height="20" uuid="6b480b5f-8ed2-4e22-80b8-d813d979c689"/>
 				<textFieldExpression><![CDATA[$F{TANGGAL_PEMBELIAN}]]></textFieldExpression>
 			</textField>
+		</band>
+		<band height="110">
+			<subreport>
+				<reportElement x="16" y="4" width="775" height="100" uuid="e9396335-c293-4a34-a49d-a6eed3416272"/>
+				<subreportParameter name="ID">
+					<subreportParameterExpression><![CDATA[$F{COST_OPERASIONAL_ID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "COST_OPERATIONAL_IMAGE.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</detail>
 	<columnFooter>

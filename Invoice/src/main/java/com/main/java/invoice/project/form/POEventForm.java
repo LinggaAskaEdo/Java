@@ -436,9 +436,15 @@ public class POEventForm extends JInternalFrame
 			detailEvent.setPoEventNo(TF_PONomor.getText());
 			detailEvent.setUraian(String.valueOf(tabelModel1.getValueAt(i, 0)));
 			detailEvent.setDetail(String.valueOf(tabelModel1.getValueAt(i, 1)));
-			detailEvent.setVol1((Integer) tabelModel1.getValueAt(i, 2));
+
+			String vol1 = String.valueOf(tabelModel1.getValueAt(i, 2));
+			detailEvent.setVol1(Integer.parseInt(vol1));
+
 			detailEvent.setJenis1(String.valueOf(tabelModel1.getValueAt(i, 3)));
-			detailEvent.setVol2((Integer) tabelModel1.getValueAt(i, 4));
+
+			String vol2 = String.valueOf(tabelModel1.getValueAt(i, 4));
+			detailEvent.setVol2(Integer.parseInt(vol2));
+
 			detailEvent.setJenis2(String.valueOf(tabelModel1.getValueAt(i, 5)));
 
 			//detailEvent.setHargaSatuan((BigDecimal) tabelModel1.getValueAt(i, 6));

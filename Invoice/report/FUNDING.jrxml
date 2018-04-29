@@ -9,6 +9,9 @@
 	<parameter name="klien" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/dery/workspace/Java/Invoice/report/"]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
     f.FUNDING_ID,
@@ -165,6 +168,16 @@ WHERE
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{KETERANGAN}]]></textFieldExpression>
 			</textField>
+		</band>
+		<band height="110">
+			<subreport>
+				<reportElement x="16" y="4" width="775" height="100" uuid="c58ad345-825a-4761-8b9b-08c47f43e6d0"/>
+				<subreportParameter name="ID">
+					<subreportParameterExpression><![CDATA[$F{FUNDING_ID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "FUNDING_IMAGE.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</detail>
 	<columnFooter>

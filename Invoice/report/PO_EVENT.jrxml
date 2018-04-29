@@ -9,6 +9,9 @@
 	<parameter name="perusahaan" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/dery/workspace/Java/Invoice/report/"]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
     pe.PO_EVENT_ID,
@@ -413,6 +416,13 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$F{HARG}]]></textFieldExpression>
 			</textField>
+		</band>
+		<band height="110">
+			<subreport>
+				<reportElement x="16" y="4" width="775" height="100" uuid="fd4bcc57-99fd-4ee5-91ac-1dc899ef832b"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "PO_EVENT_IMAGE.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</detail>
 	<columnFooter>

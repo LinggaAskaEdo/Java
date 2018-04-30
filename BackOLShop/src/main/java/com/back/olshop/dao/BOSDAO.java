@@ -60,4 +60,24 @@ public class BOSDAO
         
         return result;
     }
+
+    public Integer checkItem(Integer userId, String codeName, String size)
+    {
+        Integer result = 0;
+
+        String query = "SELECT ITEM_STOCK FROM ITEM WHERE USER_ID = ? AND ITEM_CODE = ? AND ITEM_SIZE = ?";
+
+        log.debug("Query checkItem: {}", query);
+
+        try
+        {
+            result = jdbcTemplate.queryForObject(query, new Object[] { userId, codeName, size }, Integer.class);
+        }
+        catch (Exception e)
+        {
+            log.error("ERROR when checkItem: {}", e.getMessage());
+        }
+
+        return result;
+    }
 }

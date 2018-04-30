@@ -66,7 +66,7 @@ class BOSController
                 }
                 else
                 {
-                    Response response = service.checkMessage(request);
+                    Response response = service.checkMessage(user, request);
 
                     return new ResponseEntity<>(response, HttpStatus.OK);
 

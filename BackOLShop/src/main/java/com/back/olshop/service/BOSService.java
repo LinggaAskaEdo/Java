@@ -59,7 +59,7 @@ public class BOSService
         return hoursNow >= hourUserOpenTime && hoursNow < hourUserCloseTime;
     }
 
-    public Response checkMessage(Request request)
+    public Response checkMessage(User user, Request request)
     {
         String token = request.getToken();
         String message = request.getMessage();
@@ -84,7 +84,7 @@ public class BOSService
             }
             else if (data[1] != null && data[1].trim().equalsIgnoreCase(MessageType.MESSAGE_TYPE_CHECK))
             {
-                response = validationCheckMessage(token, data);
+                response = validationCheckMessage(user.getUserId(), data);
             }
             else
             {
@@ -176,6 +176,10 @@ public class BOSService
                         }
                         else
                         {
+                            /*check existing item*/
+
+                            /*generate number*/
+
                             String orderMessage = generateOrderMessage(name, bankName, bankAccountNumber);
 
                             return new Response(ApplicationStatus.SUCCESS.toString(), orderMessage);
@@ -321,16 +325,42 @@ public class BOSService
         return status;
     }
 
-    private Response validationCheckMessage(String token, String[] data)
+    private Response validationCheckMessage(Integer userId, String[] data)
     {
         Response response = new Response();
 
         try
         {
-            if (data.length - 1 == 3 && data[1] != null && data[2] != null && data[3] != null)
+            if (data.length - 1 == 3 || data[1] != null || data[2] != null || data[3] != null)
             {
                 /*check data from database*/
+                String keyword = data[1].trim();
+                String codeName = data[2].trim();
+                String size = data[3].trim();
 
+                log.debug("keyword: {}, codeName: {}, size: {}", keyword, codeName, size);
+
+                Integer totalItem = dao.checkItem(userId, codeName, size);
+
+                if (totalItem == 1)
+                {
+                    String message = "Code item: " + codeName + ", size: " + size + ", there is 1 item";
+
+                    response.setStatus(ApplicationStatus.SUCCESS.toString());
+                    response.setMessage(message);
+                }
+                else if (totalItem > 1)
+                {
+                    String message = "Code item: " + codeName + ", size: " + size + ", there are " + totalItem + " items";
+
+                    response.setStatus(ApplicationStatus.SUCCESS.toString());
+                    response.setMessage(message);
+                }
+                else
+                {
+                    response.setStatus(ApplicationStatus.SUCCESS.toString());
+                    response.setMessage(MessagePreference.MESSAGE_ERROR_EMPTY_ITEM);
+                }
             }
         }
         catch (Exception e)

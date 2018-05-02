@@ -9,6 +9,7 @@ import com.back.olshop.constant.CountryCode;
 import com.back.olshop.constant.MessagePreference;
 import com.back.olshop.constant.MessageType;
 import com.back.olshop.dao.BOSDAO;
+import com.back.olshop.model.Item;
 import com.back.olshop.model.Request;
 import com.back.olshop.model.Response;
 import com.back.olshop.model.User;
@@ -19,13 +20,17 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 @Service
 public class BOSService
 {
     private final Logger log = LoggerFactory.getLogger(BOSService.class);
+
+    private List<Item> itemList = new ArrayList<>();
 
     @Autowired
     private BOSDAO dao;
@@ -73,14 +78,14 @@ public class BOSService
 
             String[] data = message.split("#");
 
-            for (int i = 0; i < data.length; i++)
+            /*for (int i = 0; i < data.length; i++)
             {
                 log.debug("Data[{}]: {}", i, String.valueOf(data[i]));
-            }
+            }*/
 
             if (data[1] != null && data[1].trim().equalsIgnoreCase(MessageType.MESSAGE_TYPE_BUY))
             {
-                response = validationBuyMessage(token, data);
+                response = validationBuyMessage(user.getUserId(), data);
             }
             else if (data[1] != null && data[1].trim().equalsIgnoreCase(MessageType.MESSAGE_TYPE_CHECK))
             {
@@ -102,7 +107,7 @@ public class BOSService
         }
     }
 
-    private Response validationBuyMessage(String token, String[] data)
+    private Response validationBuyMessage(Integer userId, String[] data)
     {
         try
         {
@@ -114,10 +119,10 @@ public class BOSService
                 {
                     log.debug("Data length: {}", data.length);
 
-                    for (int i = 0; i < data.length; i++)
+                    /*for (int i = 0; i < data.length; i++)
                     {
                         log.debug("Data[{}]: {}", i, String.valueOf(data[i]));
-                    }
+                    }*/
 
                     if (data.length - 1 != 9 || data[3] == null || data[4] == null || data[5] == null || data[6] == null || data[7] == null
                             || data[8] == null || data[9] == null)
@@ -170,19 +175,19 @@ public class BOSService
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_ORDER);
                         }
-                        else if (checkFormatOrder(order))
+                        /*else if (checkFormatOrder(order))
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_INVALID_ORDER);
-                        }
+                        }*/
                         else
                         {
                             /*check existing item*/
-
                             /*generate number*/
 
-                            String orderMessage = generateOrderMessage(name, bankName, bankAccountNumber);
+                            //String orderMessage = generateOrderMessage(name, bankName, bankAccountNumber);
 
-                            return new Response(ApplicationStatus.SUCCESS.toString(), orderMessage);
+                            //return new Response(ApplicationStatus.SUCCESS.toString(), orderMessage);
+                            return processOrder(userId, order);
                         }
                     }
                 }
@@ -274,6 +279,100 @@ public class BOSService
         }
     }
 
+    private Response processOrder(Integer userId, String order)
+    {
+        try
+        {
+            int separator = order.indexOf(',');
+
+            if (separator >= 0)
+            {
+                String[] arrOrders = order.split(",");
+
+                for (String arrOrder : arrOrders)
+                {
+                    log.debug("arrOrders: {}", arrOrder);
+
+                    String[] orders = arrOrder.split("-");
+
+                    log.debug("orders[0]: {}, orders[1]: {}, orders[2]: {}", orders[0].trim(), orders[1].trim(), orders[2].trim());
+
+                    if (orders[0] != null && orders[1] != null && orders[2] != null)
+                    {
+                        String codeItem = orders[0].trim();
+                        String sizeItem = orders[1].trim();
+                        int totalItem = Integer.parseInt(orders[2].trim());
+
+                        boolean status = dao.checkItem(userId, codeItem, sizeItem, totalItem);
+
+                        /*TODO
+                        * 1. After checking stock, automatically update stock */
+
+                        if (status)
+                        {
+                            Item item = new Item();
+                            item.setItemCode(orders[0]);
+                            item.setItemSize(orders[1]);
+                            item.setItemTotal(Integer.parseInt(orders[2]));
+                            itemList.add(item);
+                        }
+                        else
+                        {
+                            itemList.clear();
+
+                            String message = "Item with code: " + codeItem + " and size: " + sizeItem + ", not available";
+
+                            return new Response(ApplicationStatus.FAILED.toString(), message);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                String[] arrOrder = order.split("-");
+
+                log.debug("arrOrder[0]: {}, arrOrder[1]: {}, arrOrder[2]: {}", arrOrder[0].trim(), arrOrder[1].trim(), arrOrder[2].trim());
+
+                if (arrOrder[0] != null && arrOrder[1] != null && arrOrder[2] != null)
+                {
+                    String codeItem = arrOrder[0].trim();
+                    String sizeItem = arrOrder[1].trim();
+                    int totalItem = Integer.parseInt(arrOrder[2].trim());
+
+                    boolean status = dao.checkItem(userId, codeItem, sizeItem, totalItem);
+
+                    if (status)
+                    {
+                        Item item = new Item();
+                        item.setItemCode(arrOrder[0]);
+                        item.setItemSize(arrOrder[1]);
+                        item.setItemTotal(Integer.parseInt(arrOrder[2]));
+                        itemList.add(item);
+                    }
+                    else
+                    {
+                        itemList.clear();
+
+                        String message = "Item with code: " + arrOrder[0] + " and size: " + arrOrder[1] + ", not available";
+
+                        return new Response(ApplicationStatus.FAILED.toString(), message);
+                    }
+                }
+            }
+
+            /*TODO
+            * 1. */
+
+            return new Response(ApplicationStatus.SUCCESS.toString(), MessagePreference.MESSAGE_PROCESS_ORDER);
+        }
+        catch (Exception e)
+        {
+            log.error("Error on processOrder: {}", e.getMessage());
+
+            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
+        }
+    }
+
     private boolean checkRegion(String district, String province)
     {
         return dao.checkRegion(district, province) > 0;
@@ -297,7 +396,7 @@ public class BOSService
 
                     String[] orders = arrOrder.split("-");
 
-                    log.debug("arrOrder[0]: {}, arrOrder[1]: {}, arrOrder[2]: {}", orders[0].trim(), orders[1].trim(), orders[2].trim());
+                    log.debug("orders[0]: {}, orders[1]: {}, orders[2]: {}", orders[0].trim(), orders[1].trim(), orders[2].trim());
 
                     if (orders[0] != null && orders[1] != null && orders[2] != null)
                     {

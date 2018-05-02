@@ -28,6 +28,9 @@ public class MessagePreference
     public static final String MESSAGE_ERROR_EMPTY_COUNTRY = "Country can't be empty";
     public static final String MESSAGE_ERROR_EMPTY_ORDER = "Order can't be empty";
     public static final String MESSAGE_ERROR_INVALID_ORDER = "Invalid format order";
+    public static final String MESSAGE_ERROR_EMPTY_ITEM2 = "";
 
     public static final String MESSAGE_ERROR_EMPTY_ITEM = "Can't find item with that code & size";
+
+    public static final String MESSAGE_PROCESS_ORDER = "Your order will be process";
 }

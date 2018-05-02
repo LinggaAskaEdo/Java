@@ -433,7 +433,7 @@ public class LaporanForm extends JInternalFrame
 					if (buttonGroup.getSelection().getActionCommand().equals("1"))
 					{
 						fileName = "C:\\Program Files\\Invoice\\report\\COST_OPERATIONAL.jasper";
-						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\COST_OPERATIONAL_IMAGES.jasper";
+						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\COST_OPERASIONAL_IMAGES.jasper";
 
 						try
 						{
@@ -463,7 +463,7 @@ public class LaporanForm extends JInternalFrame
 					else
 					{
 						fileName = "C:\\Program Files\\Invoice\\report\\COST_OPERATIONAL_2.jasper";
-						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\COST_OPERATIONAL_IMAGES.jasper";
+						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\COST_OPERASIONAL_IMAGES.jasper";
 
 						try
 						{

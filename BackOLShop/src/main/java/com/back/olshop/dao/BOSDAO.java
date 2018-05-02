@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.support.TransactionTemplate;
 
 @Repository
 public class BOSDAO
@@ -19,6 +20,9 @@ public class BOSDAO
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private TransactionTemplate transactionTemplate;
 
     public User loadUserByToken(String token)
     {
@@ -72,6 +76,26 @@ public class BOSDAO
         try
         {
             result = jdbcTemplate.queryForObject(query, new Object[] { userId, codeName, size }, Integer.class);
+        }
+        catch (Exception e)
+        {
+            log.error("ERROR when checkItem: {}", e.getMessage());
+        }
+
+        return result;
+    }
+
+    public boolean checkItem(Integer userId, String codeName, String size, int total)
+    {
+        boolean result = false;
+
+        String query = "SELECT ((SELECT ITEM_STOCK FROM ITEM WHERE USER_ID = ? AND ITEM_CODE = ? AND ITEM_SIZE = ?) >= ?)";
+
+        log.debug("Query checkItem: {}", query);
+
+        try
+        {
+            result = jdbcTemplate.queryForObject(query, new Object[] { userId, codeName, size, total }, Boolean.class);
         }
         catch (Exception e)
         {

@@ -12,6 +12,9 @@
 	<parameter name="perusahaan" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="klien" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
     pp.PO_PRODUKSI_ID,
@@ -32,7 +35,7 @@ FROM
         INNER JOIN
     MASTER_PERUSAHAAN mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID
 WHERE
-    mp.NAME = $P{perusahaan} OR k.PROJECT = '' AND
+    mp.NAME = $P{perusahaan} OR k.PROJECT = $P{klien} AND
     pp.TANGGAL BETWEEN $P{date1} AND $P{date2};]]>
 	</queryString>
 	<field name="PO_PRODUKSI_ID" class="java.lang.Integer">

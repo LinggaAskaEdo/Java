@@ -348,7 +348,7 @@ public class POProduksiForm extends JInternalFrame
 			//detailProduksi.setPostProduksiTotalHarga((BigDecimal) tabelModel.getValueAt(i, 12));
 			String result3 = String.valueOf(tabelModel.getValueAt(i, 12));
 			Long value3 = Long.valueOf(result3.replace(",",""));
-			detailProduksi.setProduksiTotalHarga(BigDecimal.valueOf(value3));
+			detailProduksi.setPostProduksiTotalHarga(BigDecimal.valueOf(value3));
 
 			try
 			{

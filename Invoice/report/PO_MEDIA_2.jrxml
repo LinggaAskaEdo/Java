@@ -44,8 +44,7 @@ FROM
         INNER JOIN
     MASTER_PERUSAHAAN mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID
 WHERE
-    mp.NAME = $P{perusahaan} OR k.PROJECT = '' AND
-    pm.PEKERJAAN_KEMENTERIAN = $P{klien} AND
+    mp.NAME = $P{perusahaan} OR k.PROJECT = $P{klien} AND
     pm.TANGGAL_TAYANG BETWEEN $P{date1} AND $P{date2};]]>
 	</queryString>
 	<field name="NO_KONTRAK" class="java.lang.String">

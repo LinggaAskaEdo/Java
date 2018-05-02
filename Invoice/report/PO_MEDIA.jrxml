@@ -2,8 +2,8 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PO_MEDIA" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="34d06b41-133e-4a97-ba86-5af0d09524c4">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="329"/>
-	<parameter name="date" class="java.util.Date">
+	<property name="ireport.y" value="309"/>
+	<parameter name="date1" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="klien" class="java.lang.String">
@@ -11,9 +11,6 @@
 	</parameter>
 	<parameter name="perusahaan" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\Program Files\Invoice\report\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
@@ -44,9 +41,8 @@ FROM
         INNER JOIN
     MASTER_PERUSAHAAN mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID
 WHERE
-    mp.NAME = $P{perusahaan} OR k.PROJECT = '' AND
-    pm.PEKERJAAN_KEMENTERIAN = $P{klien} AND
-    pm.TANGGAL_TAYANG = $P{date};]]>
+    mp.NAME = $P{perusahaan} OR k.PROJECT = $P{klien} AND
+    pm.TANGGAL_TAYANG = $P{date1};]]>
 	</queryString>
 	<field name="NO_KONTRAK" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -299,7 +295,7 @@ WHERE
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="26" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<rectangle>
 				<reportElement x="506" y="0" width="152" height="20" uuid="3650d902-3cfe-4917-a262-aaad220cfc5b"/>
 			</rectangle>
@@ -324,16 +320,6 @@ WHERE
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{NILAI_TAGIHAN}]]></textFieldExpression>
 			</textField>
-		</band>
-		<band height="110">
-			<subreport>
-				<reportElement x="16" y="4" width="775" height="100" uuid="dcbe4b00-070f-4250-873c-d836a4c5653e"/>
-				<subreportParameter name="ID">
-					<subreportParameterExpression><![CDATA[$F{PO_MEDIA_ID}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "PO_MEDIA_IMAGE.jasper"]]></subreportExpression>
-			</subreport>
 		</band>
 	</detail>
 	<columnFooter>

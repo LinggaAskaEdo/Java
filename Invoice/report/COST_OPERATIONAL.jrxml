@@ -24,11 +24,8 @@
 		</box>
 	</style>
 	<subDataset name="Table Dataset 1" uuid="5d3f3d5b-5609-4075-9807-d9bd4c152a57"/>
-	<parameter name="date" class="java.util.Date">
+	<parameter name="date1" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\Program Files\Invoice\report\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
@@ -45,7 +42,7 @@ FROM
         JOIN
     MASTER_DANA AS MD ON CO.MASTER_DANA_ID = MD.MASTER_DANA_ID
 WHERE
-    CO.TANGGAL_PEMBELIAN = $P{date};]]>
+    CO.TANGGAL_PEMBELIAN = $P{date1};]]>
 	</queryString>
 	<field name="COST_OPERASIONAL_ID" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -176,16 +173,6 @@ WHERE
 				<reportElement x="684" y="6" width="111" height="20" uuid="6b480b5f-8ed2-4e22-80b8-d813d979c689"/>
 				<textFieldExpression><![CDATA[$F{TANGGAL_PEMBELIAN}]]></textFieldExpression>
 			</textField>
-		</band>
-		<band height="110">
-			<subreport>
-				<reportElement x="16" y="4" width="775" height="100" uuid="e9396335-c293-4a34-a49d-a6eed3416272"/>
-				<subreportParameter name="ID">
-					<subreportParameterExpression><![CDATA[$F{COST_OPERASIONAL_ID}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "COST_OPERATIONAL_IMAGE.jasper"]]></subreportExpression>
-			</subreport>
 		</band>
 	</detail>
 	<columnFooter>

@@ -21,6 +21,7 @@ import com.main.java.invoice.project.pojo.MasterPerusahaan;
 import com.main.java.invoice.project.preference.StaticPreference;
 import com.toedter.calendar.JDateChooser;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
@@ -156,12 +157,16 @@ public class LaporanForm extends JInternalFrame
 			public void actionPerformed(ActionEvent e)
 			{
 				String fileName;
+				String fileNameImage_1;
+				String fileNameImage_2;
 
 				if (Objects.equals(CB_Laporan.getSelectedItem(), "PO EVENT REPORT"))
 				{
 					if (buttonGroup.getSelection().getActionCommand().equals("1"))
 					{
 						fileName = "C:\\Program Files\\Invoice\\report\\PO_EVENT.jasper";
+						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\PO_EVENT_IMAGES.jasper";
+						fileNameImage_2 = "C:\\Program Files\\Invoice\\report\\TAGIHAN_REIMBURESMENT_IMAGES.jasper";
 
 						try
 						{
@@ -170,11 +175,22 @@ public class LaporanForm extends JInternalFrame
 
 							HashMap param = new HashMap();
 
-							param.put("date", CL_Harian.getDate());
+							param.put("date1", CL_Harian.getDate());
+							param.put("date2", CL_Harian.getDate());
 							param.put("perusahaan", comboBoxPt.getSelectedItem());
+							param.put("klien", comboBoxClient.getSelectedItem());
 
-							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint, false);
+							JasperPrint jPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperPrint jPrint2 = JasperFillManager.fillReport(fileNameImage_1, param, connect);
+							JasperPrint jPrint3 = JasperFillManager.fillReport(fileNameImage_2, param, connect);
+
+							JasperPrint linked = multipageLinking(jPrint, jPrint2);
+							JasperPrint firstsecondlinked = multipageLinking(linked, jPrint3);
+
+							JasperViewer.viewReport(firstsecondlinked, false);
+
+							//JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							//JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -184,6 +200,8 @@ public class LaporanForm extends JInternalFrame
 					else
 					{
 						fileName = "C:\\Program Files\\Invoice\\report\\PO_EVENT_2.jasper";
+						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\PO_EVENT_IMAGES.jasper";
+						fileNameImage_2 = "C:\\Program Files\\Invoice\\report\\TAGIHAN_REIMBURESMENT_IMAGES.jasper";
 
 						try
 						{
@@ -195,9 +213,19 @@ public class LaporanForm extends JInternalFrame
 							param.put("date1", CL_Bulanan_1.getDate());
 							param.put("date2", CL_Bulanan_2.getDate());
 							param.put("perusahaan", comboBoxPt.getSelectedItem());
+							param.put("klien", comboBoxClient.getSelectedItem());
 
-							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint, false);
+							JasperPrint jPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperPrint jPrint2 = JasperFillManager.fillReport(fileNameImage_1, param, connect);
+							JasperPrint jPrint3 = JasperFillManager.fillReport(fileNameImage_2, param, connect);
+
+							JasperPrint linked = multipageLinking(jPrint, jPrint2);
+							JasperPrint firstsecondlinked = multipageLinking(linked, jPrint3);
+
+							JasperViewer.viewReport(firstsecondlinked, false);
+
+							//JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							//JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -210,6 +238,8 @@ public class LaporanForm extends JInternalFrame
 					if (buttonGroup.getSelection().getActionCommand().equals("1"))
 					{
 						fileName = "C:\\Program Files\\Invoice\\report\\PO_MEDIA.jasper";
+						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\PO_MEDIA_IMAGES.jasper";
+						fileNameImage_2 = "C:\\Program Files\\Invoice\\report\\TAGIHAN_MEDIA_IMAGES.jasper";
 
 						try
 						{
@@ -218,12 +248,22 @@ public class LaporanForm extends JInternalFrame
 
 							HashMap param = new HashMap();
 
-							param.put("date", CL_Harian.getDate());
+							param.put("date1", CL_Harian.getDate());
+							param.put("date2", CL_Harian.getDate());
 							param.put("klien", comboBoxClient.getSelectedItem());
 							param.put("perusahaan", comboBoxPt.getSelectedItem());
 
-							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint, false);
+							JasperPrint jPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperPrint jPrint2 = JasperFillManager.fillReport(fileNameImage_1, param, connect);
+							JasperPrint jPrint3 = JasperFillManager.fillReport(fileNameImage_2, param, connect);
+
+							JasperPrint linked = multipageLinking(jPrint, jPrint2);
+							JasperPrint firstsecondlinked = multipageLinking(linked, jPrint3);
+
+							JasperViewer.viewReport(firstsecondlinked, false);
+
+							//JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							//JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -233,6 +273,8 @@ public class LaporanForm extends JInternalFrame
 					else
 					{
 						fileName = "C:\\Program Files\\Invoice\\report\\PO_MEDIA_2.jasper";
+						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\PO_MEDIA_IMAGES.jasper";
+						fileNameImage_2 = "C:\\Program Files\\Invoice\\report\\TAGIHAN_MEDIA_IMAGES.jasper";
 
 						try
 						{
@@ -246,8 +288,17 @@ public class LaporanForm extends JInternalFrame
 							param.put("klien", comboBoxClient.getSelectedItem());
 							param.put("perusahaan", comboBoxPt.getSelectedItem());
 
-							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint, false);
+							JasperPrint jPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperPrint jPrint2 = JasperFillManager.fillReport(fileNameImage_1, param, connect);
+							JasperPrint jPrint3 = JasperFillManager.fillReport(fileNameImage_2, param, connect);
+
+							JasperPrint linked = multipageLinking(jPrint, jPrint2);
+							JasperPrint firstsecondlinked = multipageLinking(linked, jPrint3);
+
+							JasperViewer.viewReport(firstsecondlinked, false);
+
+							//JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							//JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -260,6 +311,7 @@ public class LaporanForm extends JInternalFrame
 					if (buttonGroup.getSelection().getActionCommand().equals("1"))
 					{
 						fileName = "C:\\Program Files\\Invoice\\report\\PO_PRODUKSI.jasper";
+						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\PO_PRODUKSI_IMAGES.jasper";
 
 						try
 						{
@@ -268,11 +320,20 @@ public class LaporanForm extends JInternalFrame
 
 							HashMap param = new HashMap();
 
-							param.put("date", CL_Harian.getDate());
+							param.put("date1", CL_Harian.getDate());
+							param.put("date2", CL_Harian.getDate());
+							param.put("klien", comboBoxClient.getSelectedItem());
 							param.put("perusahaan", comboBoxPt.getSelectedItem());
 
-							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint, false);
+							JasperPrint jPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperPrint jPrint2 = JasperFillManager.fillReport(fileNameImage_1, param, connect);
+
+							JasperPrint firstsecondlinked = multipageLinking(jPrint, jPrint2);
+
+							JasperViewer.viewReport(firstsecondlinked, false);
+
+							//JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							//JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -282,6 +343,7 @@ public class LaporanForm extends JInternalFrame
 					else
 					{
 						fileName = "C:\\Program Files\\Invoice\\report\\PO_PRODUKSI_2.jasper";
+						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\PO_PRODUKSI_IMAGES.jasper";
 
 						try
 						{
@@ -292,6 +354,7 @@ public class LaporanForm extends JInternalFrame
 
 							param.put("date1", CL_Bulanan_1.getDate());
 							param.put("date2", CL_Bulanan_2.getDate());
+							param.put("klien", comboBoxClient.getSelectedItem());
 							param.put("perusahaan", comboBoxPt.getSelectedItem());
 
 							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
@@ -308,6 +371,7 @@ public class LaporanForm extends JInternalFrame
 					if (buttonGroup.getSelection().getActionCommand().equals("1"))
 					{
 						fileName = "C:\\Program Files\\Invoice\\report\\FUNDING.jasper";
+						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\FUNDING_IMAGES.jasper";
 
 						try
 						{
@@ -316,11 +380,19 @@ public class LaporanForm extends JInternalFrame
 
 							HashMap param = new HashMap();
 
-							param.put("date", CL_Harian.getDate());
+							param.put("date1", CL_Harian.getDate());
+							param.put("date2", CL_Harian.getDate());
 							param.put("klien", comboBoxClient.getSelectedItem());
 
-							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint, false);
+							JasperPrint jPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperPrint jPrint2 = JasperFillManager.fillReport(fileNameImage_1, param, connect);
+
+							JasperPrint firstsecondlinked = multipageLinking(jPrint, jPrint2);
+
+							JasperViewer.viewReport(firstsecondlinked, false);
+
+							//JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							//JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -330,6 +402,7 @@ public class LaporanForm extends JInternalFrame
 					else
 					{
 						fileName = "C:\\Program Files\\Invoice\\report\\FUNDING_2.jasper";
+						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\FUNDING_IMAGES.jasper";
 
 						try
 						{
@@ -342,8 +415,15 @@ public class LaporanForm extends JInternalFrame
 							param.put("date2", CL_Bulanan_2.getDate());
 							param.put("klien", comboBoxClient.getSelectedItem());
 
-							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint, false);
+							JasperPrint jPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperPrint jPrint2 = JasperFillManager.fillReport(fileNameImage_1, param, connect);
+
+							JasperPrint firstsecondlinked = multipageLinking(jPrint, jPrint2);
+
+							JasperViewer.viewReport(firstsecondlinked, false);
+
+							//JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							//JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -356,6 +436,7 @@ public class LaporanForm extends JInternalFrame
 					if (buttonGroup.getSelection().getActionCommand().equals("1"))
 					{
 						fileName = "C:\\Program Files\\Invoice\\report\\COST_OPERATIONAL.jasper";
+						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\COST_OPERATIONAL_IMAGES.jasper";
 
 						try
 						{
@@ -364,10 +445,18 @@ public class LaporanForm extends JInternalFrame
 
 							HashMap param = new HashMap();
 
-							param.put("date", CL_Harian.getDate());
+							param.put("date1", CL_Harian.getDate());
+							param.put("date2", CL_Harian.getDate());
 
-							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint, false);
+							JasperPrint jPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperPrint jPrint2 = JasperFillManager.fillReport(fileNameImage_1, param, connect);
+
+							JasperPrint firstsecondlinked = multipageLinking(jPrint, jPrint2);
+
+							JasperViewer.viewReport(firstsecondlinked, false);
+
+							//JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							//JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -377,6 +466,7 @@ public class LaporanForm extends JInternalFrame
 					else
 					{
 						fileName = "C:\\Program Files\\Invoice\\report\\COST_OPERATIONAL_2.jasper";
+						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\COST_OPERATIONAL_IMAGES.jasper";
 
 						try
 						{
@@ -388,8 +478,15 @@ public class LaporanForm extends JInternalFrame
 							param.put("date1", CL_Bulanan_1.getDate());
 							param.put("date2", CL_Bulanan_2.getDate());
 
-							JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperViewer.viewReport(JPrint, false);
+							JasperPrint jPrint = JasperFillManager.fillReport(fileName, param, connect);
+							JasperPrint jPrint2 = JasperFillManager.fillReport(fileNameImage_1, param, connect);
+
+							JasperPrint firstsecondlinked = multipageLinking(jPrint, jPrint2);
+
+							JasperViewer.viewReport(firstsecondlinked, false);
+
+							//JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
+							//JasperViewer.viewReport(JPrint, false);
 						}
 						catch (ClassNotFoundException | SQLException | JRException e1)
 						{
@@ -455,7 +552,7 @@ public class LaporanForm extends JInternalFrame
 			{
 				for (MasterPerusahaan anAllMasterPerusahaan : allMasterPerusahaan)
 				{
-					comboBoxPt.addItem(anAllMasterPerusahaan.getCode());
+					comboBoxPt.addItem(anAllMasterPerusahaan.getName());
 				}
 			}
 		}
@@ -463,5 +560,14 @@ public class LaporanForm extends JInternalFrame
 		{
 			e.printStackTrace();
 		}
+	}
+
+	private JasperPrint multipageLinking(JasperPrint page1, JasperPrint page2) {
+
+		List pages = page2.getPages();
+		for (int i = 0; i < pages.size(); i++) {
+			page1.addPage((JRPrintPage) pages.get(i));
+		}
+		return page1;
 	}
 }

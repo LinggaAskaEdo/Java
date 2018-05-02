@@ -3,14 +3,14 @@
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="264"/>
-	<parameter name="date" class="java.util.Date">
+	<parameter name="date1" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="perusahaan" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\Program Files\Invoice\report\"]]></defaultValueExpression>
+	<parameter name="klien" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
@@ -40,8 +40,8 @@ FROM
         INNER JOIN
     MASTER_PERUSAHAAN mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID
 WHERE
-    mp.NAME = $P{perusahaan} OR k.PROJECT = '' AND
-    pe.TANGGAL = $P{date};]]>
+    mp.NAME = $P{perusahaan} OR k.PROJECT = $P{klien} AND
+    pe.TANGGAL = $P{date1};]]>
 	</queryString>
 	<field name="PO_EVENT_ID" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -416,13 +416,6 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$F{HARG}]]></textFieldExpression>
 			</textField>
-		</band>
-		<band height="110">
-			<subreport>
-				<reportElement x="16" y="4" width="775" height="100" uuid="fd4bcc57-99fd-4ee5-91ac-1dc899ef832b"/>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "PO_EVENT_IMAGE.jasper"]]></subreportExpression>
-			</subreport>
 		</band>
 	</detail>
 	<columnFooter>

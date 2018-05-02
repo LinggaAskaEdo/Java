@@ -3,14 +3,11 @@
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="date" class="java.util.Date">
+	<parameter name="date1" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="klien" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\Program Files\Invoice\report\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
@@ -34,10 +31,10 @@ FROM
         AND (f.CHECK_REFF = 0)
 WHERE
     (CASE
-        WHEN f.CHECK_REFF = '1' THEN k.PROJECT = $P{klien} OR k.PROJECT = $P{klien}
+        WHEN f.CHECK_REFF = '1' THEN k.PROJECT = $P{klien} OR k.PROJECT = ''
         ELSE md.NAME_ACCOUNT = md.NAME_ACCOUNT
     END)
-        AND f.TANGGAL = $P{date};]]>
+        AND f.TANGGAL = $P{date1};]]>
 	</queryString>
 	<field name="FUNDING_ID" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -127,7 +124,7 @@ WHERE
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="23" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<rectangle>
 				<reportElement x="424" y="0" width="136" height="20" uuid="a60aa809-c23a-44c9-999d-3ba540cfbf6c"/>
 			</rectangle>
@@ -168,16 +165,6 @@ WHERE
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{KETERANGAN}]]></textFieldExpression>
 			</textField>
-		</band>
-		<band height="110">
-			<subreport>
-				<reportElement x="16" y="4" width="775" height="100" uuid="c58ad345-825a-4761-8b9b-08c47f43e6d0"/>
-				<subreportParameter name="ID">
-					<subreportParameterExpression><![CDATA[$F{FUNDING_ID}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "FUNDING_IMAGE.jasper"]]></subreportExpression>
-			</subreport>
 		</band>
 	</detail>
 	<columnFooter>

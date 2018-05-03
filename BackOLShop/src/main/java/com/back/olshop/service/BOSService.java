@@ -101,7 +101,7 @@ public class BOSService
         }
         catch (Exception e)
         {
-            log.error("Error when checkMessage: {}", e.getMessage());
+            log.error("Error when checkMessage: {}", e);
 
             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
         }
@@ -193,7 +193,7 @@ public class BOSService
                 }
                 catch (Exception e)
                 {
-                    log.error("Error when validationBuyMessage IN: {}", e.getMessage());
+                    log.error("Error when validationBuyMessage IN: {}", e);
 
                     return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
                 }
@@ -247,21 +247,23 @@ public class BOSService
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_ORDER);
                         }
-                        else if (checkFormatOrder(order))
+                        /*else if (checkFormatOrder(order))
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_INVALID_ORDER);
-                        }
+                        }*/
                         else
                         {
-                            String orderMessage = generateOrderMessage(name, bankName, bankAccountNumber);
+                            return processOrder(userId, order);
 
-                            return new Response(ApplicationStatus.SUCCESS.toString(), orderMessage);
+                            //String orderMessage = generateOrderMessage(name, bankName, bankAccountNumber);
+
+                            //return new Response(ApplicationStatus.SUCCESS.toString(), orderMessage);
                         }
                     }
                 }
                 catch (Exception e)
                 {
-                    log.error("Error when validationBuyMessage IN: {}", e.getMessage());
+                    log.error("Error when validationBuyMessage IN: {}", e);
 
                     return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
                 }
@@ -273,7 +275,7 @@ public class BOSService
         }
         catch (Exception e)
         {
-            log.error("Error when validationBuyMessage: {}", e.getMessage());
+            log.error("Error when validationBuyMessage: {}", e);
 
             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
         }
@@ -292,9 +294,7 @@ public class BOSService
                 for (String arrOrder : arrOrders)
                 {
                     log.debug("arrOrders: {}", arrOrder);
-
                     String[] orders = arrOrder.split("-");
-
                     log.debug("orders[0]: {}, orders[1]: {}, orders[2]: {}", orders[0].trim(), orders[1].trim(), orders[2].trim());
 
                     if (orders[0] != null && orders[1] != null && orders[2] != null)
@@ -303,21 +303,48 @@ public class BOSService
                         String sizeItem = orders[1].trim();
                         int totalItem = Integer.parseInt(orders[2].trim());
 
-                        boolean status = dao.checkItem(userId, codeItem, sizeItem, totalItem);
+                        //boolean status = dao.checkItem(userId, codeItem, sizeItem, totalItem);
+
+                        Item item = dao.getItem(userId, codeItem, sizeItem);
+                        log.debug("Item: {}", item.toString());
 
                         /*TODO
-                        * 1. After checking stock, automatically update stock */
+                         * 1. After checking stock, automatically update stock
+                         * */
+                        //boolean statusUpdateStock = dao.updateStock(userId, codeItem, sizeItem, totalItem);
 
-                        if (status)
+                        //if (status)
+                        if (item != null && item.getItemStock() >= totalItem)
                         {
-                            Item item = new Item();
-                            item.setItemCode(orders[0]);
-                            item.setItemSize(orders[1]);
-                            item.setItemTotal(Integer.parseInt(orders[2]));
-                            itemList.add(item);
+                            int newStock = item.getItemStock() - totalItem;
+
+                            Item newItem = new Item();
+                            newItem.setUserId(userId);
+                            newItem.setItemCode(codeItem);
+                            newItem.setItemSize(sizeItem);
+                            newItem.setItemTotal(totalItem);
+                            newItem.setItemTotalOld(newStock);
+                            itemList.add(newItem);
+
+                            dao.updateStock(userId, codeItem, sizeItem, newStock);
                         }
                         else
                         {
+                            /*return the stock*/
+                            if (itemList.size() > 0)
+                            {
+                                log.debug("AAA");
+
+                                for (Item itemStocks : itemList)
+                                {
+                                    log.debug("userId: {}, itemCode: {}, itemSize: {}, itemTotal: {}, itemTotalOld: {}", itemStocks.getUserId(), itemStocks.getItemCode(),
+                                            itemStocks.getItemSize(), itemStocks.getItemTotal(), itemStocks.getItemTotalOld());
+
+                                    dao.updateStock(itemStocks.getUserId(), itemStocks.getItemCode(), itemStocks.getItemSize(),
+                                            itemStocks.getItemTotal() + itemStocks.getItemTotalOld());
+                                }
+                            }
+
                             itemList.clear();
 
                             String message = "Item with code: " + codeItem + " and size: " + sizeItem + ", not available";
@@ -339,15 +366,24 @@ public class BOSService
                     String sizeItem = arrOrder[1].trim();
                     int totalItem = Integer.parseInt(arrOrder[2].trim());
 
-                    boolean status = dao.checkItem(userId, codeItem, sizeItem, totalItem);
+                    //boolean status = dao.checkItem(userId, codeItem, sizeItem, totalItem);
+                    Item item = dao.getItem(userId, codeItem, sizeItem);
+                    log.debug("Item: {}", item.toString());
 
-                    if (status)
+                    //if (status)
+                    if (item != null && item.getItemStock() >= totalItem)
                     {
-                        Item item = new Item();
-                        item.setItemCode(arrOrder[0]);
-                        item.setItemSize(arrOrder[1]);
-                        item.setItemTotal(Integer.parseInt(arrOrder[2]));
-                        itemList.add(item);
+                        int newStock = item.getItemStock() - totalItem;
+
+                        Item newItem = new Item();
+                        newItem.setUserId(userId);
+                        newItem.setItemCode(codeItem);
+                        newItem.setItemSize(sizeItem);
+                        newItem.setItemTotal(totalItem);
+                        newItem.setItemTotalOld(newStock);
+                        itemList.add(newItem);
+
+                        dao.updateStock(userId, codeItem, sizeItem, newStock);
                     }
                     else
                     {
@@ -361,13 +397,13 @@ public class BOSService
             }
 
             /*TODO
-            * 1. */
+            * 1. Save data to all database related*/
 
             return new Response(ApplicationStatus.SUCCESS.toString(), MessagePreference.MESSAGE_PROCESS_ORDER);
         }
         catch (Exception e)
         {
-            log.error("Error on processOrder: {}", e.getMessage());
+            log.error("Error on processOrder: {}", e);
 
             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
         }
@@ -378,7 +414,7 @@ public class BOSService
         return dao.checkRegion(district, province) > 0;
     }
 
-    private boolean checkFormatOrder(String order)
+    /*private boolean checkFormatOrder(String order)
     {
         boolean status = true;
 
@@ -422,7 +458,7 @@ public class BOSService
         }
 
         return status;
-    }
+    }*/
 
     private Response validationCheckMessage(Integer userId, String[] data)
     {
@@ -464,7 +500,7 @@ public class BOSService
         }
         catch (Exception e)
         {
-            log.error("Error when validationCheckMessage: {}", e.getMessage());
+            log.error("Error when validationCheckMessage: {}", e);
 
             response.setStatus(ApplicationStatus.FAILED.toString());
             response.setMessage(MessagePreference.MESSAGE_INVALID_REQUEST);
@@ -473,8 +509,8 @@ public class BOSService
         return response;
     }
 
-    private String generateOrderMessage(String name, String bankName, String bankAccountNumber)
+    /*private String generateOrderMessage(String name, String bankName, String bankAccountNumber)
     {
         return "Pesanan anda akan diproses";
-    }
+    }*/
 }

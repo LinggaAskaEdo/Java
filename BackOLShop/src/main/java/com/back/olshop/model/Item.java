@@ -17,6 +17,7 @@ public class Item
     private int itemPrice;
     private int itemWeight;
     private int itemTotal;
+    private int itemTotalOld;
 
     public Integer getItemId()
     {
@@ -128,6 +129,16 @@ public class Item
         this.itemTotal = itemTotal;
     }
 
+    public int getItemTotalOld()
+    {
+        return itemTotalOld;
+    }
+
+    public void setItemTotalOld(int itemTotalOld)
+    {
+        this.itemTotalOld = itemTotalOld;
+    }
+
     @Override
     public String toString()
     {
@@ -143,6 +154,7 @@ public class Item
                 ", itemPrice=" + itemPrice +
                 ", itemWeight=" + itemWeight +
                 ", itemTotal=" + itemTotal +
+                ", itemTotalOld=" + itemTotalOld +
                 '}';
     }
 }

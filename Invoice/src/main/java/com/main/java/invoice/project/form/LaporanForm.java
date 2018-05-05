@@ -1,24 +1,30 @@
 package com.main.java.invoice.project.form;
 
+import com.main.java.invoice.project.dao.FundingReportDAO;
 import com.main.java.invoice.project.dao.MasterClientDAO;
 import com.main.java.invoice.project.dao.MasterLegalitasDAO;
+import com.main.java.invoice.project.pojo.FundingReport;
 import com.main.java.invoice.project.pojo.MasterClient;
 import com.main.java.invoice.project.pojo.MasterPerusahaan;
 import com.main.java.invoice.project.preference.StaticPreference;
 import com.toedter.calendar.JDateChooser;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -38,6 +44,7 @@ public class LaporanForm extends JInternalFrame
 	private JDateChooser CL_Bulanan_2 = new JDateChooser();
 	private MasterClientDAO masterClientDAO = new MasterClientDAO();
 	private MasterLegalitasDAO masterLegalitasDAO = new MasterLegalitasDAO();
+	private FundingReportDAO fundingReportDAO = new FundingReportDAO();
 
 	public static void main(String[] args)
 	{
@@ -367,22 +374,29 @@ public class LaporanForm extends JInternalFrame
 				{
 					if (buttonGroup.getSelection().getActionCommand().equals("1"))
 					{
-						fileName = "C:\\Program Files\\Invoice\\report\\FUNDING.jasper";
-						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\FUNDING_IMAGES.jasper";
+						String klien = String.valueOf(comboBoxClient.getSelectedItem());
+						Date date = CL_Harian.getDate();
+
+						List<FundingReport> allDataFunding = fundingReportDAO.GetAllFundingReport(klien, date, date);
+						List<FundingReport> allDataImage = fundingReportDAO.GetAllFundingReport(klien, date, date);
+
+						JRBeanCollectionDataSource beanColDataSource1 = new JRBeanCollectionDataSource(allDataFunding);
+						JRBeanCollectionDataSource beanColDataSource2 = new JRBeanCollectionDataSource(allDataImage);
 
 						try
 						{
-							Class.forName("com.mysql.jdbc.Driver");
-							connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
+							InputStream inputStream = new FileInputStream("C:\\Program Files\\Invoice\\report\\FUNDING.jrxml");
+							JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
+							JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+
+							InputStream inputStream_1 = new FileInputStream("C:\\Program Files\\Invoice\\report\\FUNDING_IMAGES.jrxml");
+							JasperDesign jasperDesign_1 = JRXmlLoader.load(inputStream_1);
+							JasperReport jasperReport_1 = JasperCompileManager.compileReport(jasperDesign_1);
 
 							HashMap param = new HashMap();
 
-							param.put("date1", CL_Harian.getDate());
-							param.put("date2", CL_Harian.getDate());
-							param.put("klien", comboBoxClient.getSelectedItem());
-
-							JasperPrint jPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperPrint jPrint2 = JasperFillManager.fillReport(fileNameImage_1, param, connect);
+							JasperPrint jPrint = JasperFillManager.fillReport(jasperReport, param, beanColDataSource1);
+							JasperPrint jPrint2 = JasperFillManager.fillReport(jasperReport_1, param, beanColDataSource2);
 
 							JasperPrint firstsecondlinked = multipageLinking(jPrint, jPrint2);
 
@@ -391,7 +405,7 @@ public class LaporanForm extends JInternalFrame
 							//JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
 							//JasperViewer.viewReport(JPrint, false);
 						}
-						catch (ClassNotFoundException | SQLException | JRException e1)
+						catch (FileNotFoundException | JRException e1)
 						{
 							e1.printStackTrace();
 						}

@@ -3,41 +3,8 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="klien" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="date1" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="date2" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[SELECT
-    f.FUNDING_ID,
-    f.KONTAK_NAME,
-    (CASE
-        WHEN f.CHECK_REFF = '1' THEN k.NO_KONTRAK
-        ELSE md.NAME_ACCOUNT
-    END) AS REFF,
-    f.TANGGAL,
-    f.NILAI,
-    f.KETERANGAN,
-    f.PPN_IMAGE
-FROM
-    FUNDING f
-        LEFT JOIN
-    KONTRAK k ON (f.KONTRAK_ID = k.KONTRAK_ID)
-        AND (f.CHECK_REFF = 1)
-        LEFT JOIN
-    MASTER_DANA md ON (f.KONTRAK_ID = md.MASTER_DANA_ID)
-        AND (f.CHECK_REFF = 0)
-WHERE
-(CASE
-        WHEN f.CHECK_REFF = '1' THEN k.PROJECT = $P{klien} OR k.PROJECT = ''
-        ELSE md.NAME_ACCOUNT = md.NAME_ACCOUNT
-    END) AND
-    f.TANGGAL BETWEEN $P{date1} AND $P{date2};]]>
+		<![CDATA[]]>
 	</queryString>
 	<field name="FUNDING_ID" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -55,7 +22,7 @@ WHERE
 	<field name="KETERANGAN" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PPN_IMAGE" class="java.io.InputStream">
+	<field name="imageFunding" class="java.sql.Blob">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -65,7 +32,7 @@ WHERE
 		<band height="609" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="555" height="609" uuid="d71f3260-497d-4060-a170-23575b9c73c9"/>
-				<imageExpression><![CDATA[$F{PPN_IMAGE}]]></imageExpression>
+				<imageExpression class="java.io.InputStream"><![CDATA[$F{imageFunding}.getBinaryStream()]]></imageExpression>
 			</image>
 		</band>
 	</detail>

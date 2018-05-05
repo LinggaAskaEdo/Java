@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <configuration scan="true" scanPeriod="5 seconds">
+
+    <property name="LOG_PATH" value="/var/log/bos" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -9,24 +12,26 @@
         </encoder>
     </appender>
 
-    <appender name="bos" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/var/log/bos/bos.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
+    <appender name="BOS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/bos.log</file>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</pattern>
         </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/bos.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
     </appender>
 
-    <appender name="bos-sql" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/var/log/bos/bos-sql.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
+    <appender name="BOS-SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/bos-sql.log</file>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</pattern>
         </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/bos-sql.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
     </appender>
 
     <root level="INFO">
@@ -34,11 +39,11 @@
     </root>
 
     <logger name="com.back.olshop" level="DEBUG" additivity="false">
-        <appender-ref ref="bos"/>
+        <appender-ref ref="BOS"/>
     </logger>
 
     <logger name="com.back.olshop.dao" level="DEBUG" additivity="false">
-        <appender-ref ref="bos-sql"/>
+        <appender-ref ref="BOS-SQL"/>
     </logger>
 
 </configuration>

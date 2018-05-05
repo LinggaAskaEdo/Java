@@ -4,6 +4,7 @@
 
 package com.back.olshop.dao;
 
+import com.back.olshop.model.Item;
 import com.back.olshop.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +29,8 @@ public class BOSDAO
     {
         User user = null;
 
-        String query = "SELECT USER_ID, USER_NAME, USER_PASSWORD, USER_EMAIL, USER_TOKEN, USER_TOKEN_EXPIRED, USER_HP, USER_OPEN_TIME, USER_CLOSE_TIME, USER_ADMIN FROM USER " +
-                "WHERE USER_TOKEN = ? LIMIT 1";
+        String query = "SELECT USER_ID, USER_NAME, USER_PASSWORD, USER_EMAIL, USER_TOKEN, USER_TOKEN_EXPIRED, USER_HP, USER_OPEN_TIME, USER_CLOSE_TIME, USER_ADMIN " +
+                "FROM USER WHERE USER_TOKEN = ? LIMIT 1";
 
         log.debug("Query loadUserByToken: {}", query);
 
@@ -39,7 +40,7 @@ public class BOSDAO
         }
         catch (Exception e)
         {
-            log.error("ERROR when loadUserByToken: ", e.getMessage());
+            log.error("ERROR when loadUserByToken: ", e);
         }
 
         return user;
@@ -59,7 +60,7 @@ public class BOSDAO
         }
         catch (Exception e)
         {
-            log.error("ERROR when checkRegion: {}", e.getMessage());
+            log.error("ERROR when checkRegion: {}", e);
         }
         
         return result;
@@ -79,7 +80,7 @@ public class BOSDAO
         }
         catch (Exception e)
         {
-            log.error("ERROR when checkItem: {}", e.getMessage());
+            log.error("ERROR when checkItem: {}", e);
         }
 
         return result;
@@ -99,9 +100,46 @@ public class BOSDAO
         }
         catch (Exception e)
         {
-            log.error("ERROR when checkItem: {}", e.getMessage());
+            log.error("ERROR when checkItem: {}", e);
         }
 
         return result;
+    }
+
+    public Item getItem(Integer userId, String codeItem, String sizeItem)
+    {
+        Item item = null;
+
+        String query = "SELECT ITEM_ID, USER_ID, ITEM_CODE, ITEM_NAME, ITEM_PICTURE, ITEM_SIZE, ITEM_DESC, ITEM_STOCK, ITEM_PRICE, ITEM_WEIGHT " +
+                "FROM ITEM WHERE USER_ID = ? AND ITEM_CODE = ? AND ITEM_SIZE = ?";
+
+        log.debug("Query getItem: {}", query);
+
+        try
+        {
+            item = jdbcTemplate.queryForObject(query, new Object[] { userId, codeItem, sizeItem }, new BeanPropertyRowMapper<>(Item.class));
+        }
+        catch (Exception e)
+        {
+            log.error("ERROR when getItem: ", e);
+        }
+
+        return item;
+    }
+
+    public void updateStock(Integer userId, String codeItem, String sizeItem, int newStock)
+    {
+        String query = "UPDATE ITEM SET ITEM_STOCK = ? WHERE USER_ID = ? AND ITEM_CODE = ? AND ITEM_SIZE = ?";
+
+        log.debug("Query updateStock: {}", query);
+
+        try
+        {
+            jdbcTemplate.update(query, newStock, userId, codeItem, sizeItem);
+        }
+        catch (Exception e)
+        {
+            log.error("ERROR when updateStock: ", e);
+        }
     }
 }

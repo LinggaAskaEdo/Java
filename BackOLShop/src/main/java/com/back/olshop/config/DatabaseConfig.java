@@ -35,7 +35,6 @@ public class DatabaseConfig
         return new DataSourceTransactionManager(dataSource);
     }
 
-
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource)
     {

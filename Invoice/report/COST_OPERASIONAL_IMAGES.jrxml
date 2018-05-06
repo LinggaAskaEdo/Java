@@ -3,52 +3,31 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="179"/>
-	<parameter name="date1" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="date2" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[SELECT
-    CO.COST_OPERASIONAL_ID,
-    CO.MASTER_DANA_ID,
-    CO.PIC,
-    CO.KEPERLUAN,
-    CO.TANGGAL_PEMBELIAN,
-    CO.PPN_IMAGE,
-    MD.NAME_BANK_ACCOUNT,
-    MD.NO_BANK_ACCOUNT
-FROM
-    COST_OPERASIONAL AS CO
-        JOIN
-    MASTER_DANA AS MD ON CO.MASTER_DANA_ID = MD.MASTER_DANA_ID
-WHERE
-    CO.TANGGAL_PEMBELIAN BETWEEN $P{date1} AND $P{date2};
-]]>
+		<![CDATA[]]>
 	</queryString>
-	<field name="COST_OPERASIONAL_ID" class="java.lang.Integer">
+	<field name="costOperasionalId" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="MASTER_DANA_ID" class="java.lang.Integer">
+	<field name="masterDanaId" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PIC" class="java.lang.String">
+	<field name="pic" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="KEPERLUAN" class="java.lang.String">
+	<field name="keperluan" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="TANGGAL_PEMBELIAN" class="java.sql.Date">
+	<field name="tanggalPembelian" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PPN_IMAGE" class="java.io.InputStream">
+	<field name="imageCostOperasional" class="java.sql.Blob">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="NAME_BANK_ACCOUNT" class="java.lang.String">
+	<field name="namaBankAkun" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="NO_BANK_ACCOUNT" class="java.lang.String">
+	<field name="noBankAkun" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -58,7 +37,7 @@ WHERE
 		<band height="609" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="555" height="609" uuid="ae246148-53d9-4f3e-b48d-8526c827cc1d"/>
-				<imageExpression><![CDATA[$F{PPN_IMAGE}]]></imageExpression>
+				<imageExpression class="java.io.InputStream"><![CDATA[$F{imageCostOperasional}.getBinaryStream()]]></imageExpression>
 			</image>
 		</band>
 	</detail>

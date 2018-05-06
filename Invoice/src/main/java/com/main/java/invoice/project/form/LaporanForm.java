@@ -1,8 +1,10 @@
 package com.main.java.invoice.project.form;
 
+import com.main.java.invoice.project.dao.CostOperasionalReportDAO;
 import com.main.java.invoice.project.dao.FundingReportDAO;
 import com.main.java.invoice.project.dao.MasterClientDAO;
 import com.main.java.invoice.project.dao.MasterLegalitasDAO;
+import com.main.java.invoice.project.pojo.CostOperasionalReport;
 import com.main.java.invoice.project.pojo.FundingReport;
 import com.main.java.invoice.project.pojo.MasterClient;
 import com.main.java.invoice.project.pojo.MasterPerusahaan;
@@ -45,6 +47,7 @@ public class LaporanForm extends JInternalFrame
 	private MasterClientDAO masterClientDAO = new MasterClientDAO();
 	private MasterLegalitasDAO masterLegalitasDAO = new MasterLegalitasDAO();
 	private FundingReportDAO fundingReportDAO = new FundingReportDAO();
+	private CostOperasionalReportDAO costOperasionalReportDAO = new CostOperasionalReportDAO();
 
 	public static void main(String[] args)
 	{
@@ -377,8 +380,8 @@ public class LaporanForm extends JInternalFrame
 						String klien = String.valueOf(comboBoxClient.getSelectedItem());
 						Date date = CL_Harian.getDate();
 
-						List<FundingReport> allDataFunding = fundingReportDAO.GetAllFundingReport(klien, date);
-						List<FundingReport> allDataImage = fundingReportDAO.GetAllFundingReport(klien, date);
+						List<FundingReport> allDataFunding = fundingReportDAO.GetAllFundingReportHarian(klien, date);
+						List<FundingReport> allDataImage = fundingReportDAO.GetAllFundingReportHarian(klien, date);
 
 						JRBeanCollectionDataSource beanColDataSource1 = new JRBeanCollectionDataSource(allDataFunding, false);
 						JRBeanCollectionDataSource beanColDataSource2 = new JRBeanCollectionDataSource(allDataImage, false);
@@ -392,10 +395,6 @@ public class LaporanForm extends JInternalFrame
 							InputStream inputStream_1 = new FileInputStream("C:\\Program Files\\Invoice\\report\\FUNDING_IMAGES.jrxml");
 							JasperDesign jasperDesign_1 = JRXmlLoader.load(inputStream_1);
 							JasperReport jasperReport_1 = JasperCompileManager.compileReport(jasperDesign_1);
-
-							HashMap param = new HashMap();
-
-							//JasperFillManager.fillReportToFile("C:\\Program Files\\Invoice\\report\\FUNDING.jrxml", param, beanColDataSource1);
 
 							JasperPrint jPrint = JasperFillManager.fillReport(jasperReport, null, beanColDataSource1);
 							JasperPrint jPrint2 = JasperFillManager.fillReport(jasperReport_1, null, beanColDataSource2);
@@ -414,22 +413,28 @@ public class LaporanForm extends JInternalFrame
 					}
 					else
 					{
-						fileName = "C:\\Program Files\\Invoice\\report\\FUNDING_2.jasper";
-						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\FUNDING_IMAGES.jasper";
+						String klien = String.valueOf(comboBoxClient.getSelectedItem());
+						Date date1 = CL_Bulanan_1.getDate();
+						Date date2 = CL_Bulanan_2.getDate();
+
+						List<FundingReport> allDataFunding = fundingReportDAO.GetAllFundingReportBulanan(klien, date1, date2);
+						List<FundingReport> allDataImage = fundingReportDAO.GetAllFundingReportBulanan(klien, date1, date2);
+
+						JRBeanCollectionDataSource beanColDataSource1 = new JRBeanCollectionDataSource(allDataFunding, false);
+						JRBeanCollectionDataSource beanColDataSource2 = new JRBeanCollectionDataSource(allDataImage, false);
 
 						try
 						{
-							Class.forName("com.mysql.jdbc.Driver");
-							connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
+							InputStream inputStream = new FileInputStream("C:\\Program Files\\Invoice\\report\\FUNDING_2.jrxml");
+							JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
+							JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
 
-							HashMap param = new HashMap();
+							InputStream inputStream_1 = new FileInputStream("C:\\Program Files\\Invoice\\report\\FUNDING_IMAGES.jrxml");
+							JasperDesign jasperDesign_1 = JRXmlLoader.load(inputStream_1);
+							JasperReport jasperReport_1 = JasperCompileManager.compileReport(jasperDesign_1);
 
-							param.put("date1", CL_Bulanan_1.getDate());
-							param.put("date2", CL_Bulanan_2.getDate());
-							param.put("klien", comboBoxClient.getSelectedItem());
-
-							JasperPrint jPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperPrint jPrint2 = JasperFillManager.fillReport(fileNameImage_1, param, connect);
+							JasperPrint jPrint = JasperFillManager.fillReport(jasperReport, null, beanColDataSource1);
+							JasperPrint jPrint2 = JasperFillManager.fillReport(jasperReport_1, null, beanColDataSource2);
 
 							JasperPrint firstsecondlinked = multipageLinking(jPrint, jPrint2);
 
@@ -438,7 +443,7 @@ public class LaporanForm extends JInternalFrame
 							//JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
 							//JasperViewer.viewReport(JPrint, false);
 						}
-						catch (ClassNotFoundException | SQLException | JRException e1)
+						catch (FileNotFoundException | JRException e1)
 						{
 							e1.printStackTrace();
 						}
@@ -448,21 +453,26 @@ public class LaporanForm extends JInternalFrame
 				{
 					if (buttonGroup.getSelection().getActionCommand().equals("1"))
 					{
-						fileName = "C:\\Program Files\\Invoice\\report\\COST_OPERATIONAL.jasper";
-						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\COST_OPERASIONAL_IMAGES.jasper";
+						Date date = CL_Harian.getDate();
+
+						List<CostOperasionalReport> allDataFunding = costOperasionalReportDAO.GetAllCostOperasionalReportHarian(date);
+						List<CostOperasionalReport> allDataImage = costOperasionalReportDAO.GetAllCostOperasionalReportHarian(date);
+
+						JRBeanCollectionDataSource beanColDataSource1 = new JRBeanCollectionDataSource(allDataFunding, false);
+						JRBeanCollectionDataSource beanColDataSource2 = new JRBeanCollectionDataSource(allDataImage, false);
 
 						try
 						{
-							Class.forName("com.mysql.jdbc.Driver");
-							connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
+							InputStream inputStream = new FileInputStream("C:\\Program Files\\Invoice\\report\\COST_OPERATIONAL.jrxml");
+							JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
+							JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
 
-							HashMap param = new HashMap();
+							InputStream inputStream_1 = new FileInputStream("C:\\Program Files\\Invoice\\report\\COST_OPERASIONAL_IMAGES.jrxml");
+							JasperDesign jasperDesign_1 = JRXmlLoader.load(inputStream_1);
+							JasperReport jasperReport_1 = JasperCompileManager.compileReport(jasperDesign_1);
 
-							param.put("date1", CL_Harian.getDate());
-							param.put("date2", CL_Harian.getDate());
-
-							JasperPrint jPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperPrint jPrint2 = JasperFillManager.fillReport(fileNameImage_1, param, connect);
+							JasperPrint jPrint = JasperFillManager.fillReport(jasperReport, null, beanColDataSource1);
+							JasperPrint jPrint2 = JasperFillManager.fillReport(jasperReport_1, null, beanColDataSource2);
 
 							JasperPrint firstsecondlinked = multipageLinking(jPrint, jPrint2);
 
@@ -471,28 +481,34 @@ public class LaporanForm extends JInternalFrame
 							//JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
 							//JasperViewer.viewReport(JPrint, false);
 						}
-						catch (ClassNotFoundException | SQLException | JRException e1)
+						catch (FileNotFoundException | JRException e1)
 						{
 							e1.printStackTrace();
 						}
 					}
 					else
 					{
-						fileName = "C:\\Program Files\\Invoice\\report\\COST_OPERATIONAL_2.jasper";
-						fileNameImage_1 = "C:\\Program Files\\Invoice\\report\\COST_OPERASIONAL_IMAGES.jasper";
+						Date date1 = CL_Bulanan_1.getDate();
+						Date date2 = CL_Bulanan_1.getDate();
+
+						List<CostOperasionalReport> allDataFunding = costOperasionalReportDAO.GetAllCostOperasionalReportBulanan(date1, date2);
+						List<CostOperasionalReport> allDataImage = costOperasionalReportDAO.GetAllCostOperasionalReportBulanan(date1, date2);
+
+						JRBeanCollectionDataSource beanColDataSource1 = new JRBeanCollectionDataSource(allDataFunding, false);
+						JRBeanCollectionDataSource beanColDataSource2 = new JRBeanCollectionDataSource(allDataImage, false);
 
 						try
 						{
-							Class.forName("com.mysql.jdbc.Driver");
-							connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
+							InputStream inputStream = new FileInputStream("C:\\Program Files\\Invoice\\report\\COST_OPERATIONAL_2.jrxml");
+							JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
+							JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
 
-							HashMap param = new HashMap();
+							InputStream inputStream_1 = new FileInputStream("C:\\Program Files\\Invoice\\report\\COST_OPERASIONAL_IMAGES.jrxml");
+							JasperDesign jasperDesign_1 = JRXmlLoader.load(inputStream_1);
+							JasperReport jasperReport_1 = JasperCompileManager.compileReport(jasperDesign_1);
 
-							param.put("date1", CL_Bulanan_1.getDate());
-							param.put("date2", CL_Bulanan_2.getDate());
-
-							JasperPrint jPrint = JasperFillManager.fillReport(fileName, param, connect);
-							JasperPrint jPrint2 = JasperFillManager.fillReport(fileNameImage_1, param, connect);
+							JasperPrint jPrint = JasperFillManager.fillReport(jasperReport, null, beanColDataSource1);
+							JasperPrint jPrint2 = JasperFillManager.fillReport(jasperReport_1, null, beanColDataSource2);
 
 							JasperPrint firstsecondlinked = multipageLinking(jPrint, jPrint2);
 
@@ -501,7 +517,7 @@ public class LaporanForm extends JInternalFrame
 							//JasperPrint JPrint = JasperFillManager.fillReport(fileName, param, connect);
 							//JasperViewer.viewReport(JPrint, false);
 						}
-						catch (ClassNotFoundException | SQLException | JRException e1)
+						catch (FileNotFoundException | JRException e1)
 						{
 							e1.printStackTrace();
 						}

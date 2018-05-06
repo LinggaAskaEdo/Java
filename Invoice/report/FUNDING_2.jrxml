@@ -3,59 +3,23 @@
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="date1" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="date2" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="klien" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[SELECT
-    f.FUNDING_ID,
-    f.KONTAK_NAME,
-    (CASE
-        WHEN f.CHECK_REFF = '1' THEN k.NO_KONTRAK
-        ELSE md.NAME_ACCOUNT
-    END) AS REFF,
-    f.TANGGAL,
-    f.NILAI,
-    f.KETERANGAN,
-    f.PPN_IMAGE
-FROM
-    FUNDING f
-        LEFT JOIN
-    KONTRAK k ON (f.KONTRAK_ID = k.KONTRAK_ID)
-        AND (f.CHECK_REFF = 1)
-        LEFT JOIN
-    MASTER_DANA md ON (f.KONTRAK_ID = md.MASTER_DANA_ID)
-        AND (f.CHECK_REFF = 0)
-WHERE
-(CASE
-        WHEN f.CHECK_REFF = '1' THEN k.PROJECT = $P{klien} OR k.PROJECT = ''
-        ELSE md.NAME_ACCOUNT = md.NAME_ACCOUNT
-    END) AND
-    f.TANGGAL BETWEEN $P{date1} AND $P{date2};]]>
+		<![CDATA[]]>
 	</queryString>
-	<field name="FUNDING_ID" class="java.lang.Integer">
+	<field name="fundingId" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="KONTAK_NAME" class="java.lang.String">
+	<field name="kontrakName" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="REFF" class="java.lang.String"/>
-	<field name="TANGGAL" class="java.sql.Date">
+	<field name="reff" class="java.lang.String"/>
+	<field name="tanggal" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="NILAI" class="java.math.BigDecimal">
+	<field name="nilai" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="KETERANGAN" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="PPN_IMAGE" class="java.lang.Object">
+	<field name="keterangan" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -146,27 +110,27 @@ WHERE
 			<textField>
 				<reportElement x="22" y="0" width="125" height="20" uuid="73dd4d54-4588-4992-be6b-f4361ec7620d"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{KONTAK_NAME}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{kontrakName}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="154" y="0" width="132" height="20" uuid="d60ce6be-720e-48de-80bc-222192901e7c"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{REFF}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{reff}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="293" y="0" width="127" height="20" uuid="002907d7-120f-4c43-ac5b-3bee50c09bfa"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{TANGGAL}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tanggal}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="427" y="0" width="132" height="20" uuid="f06008af-2731-4594-87a2-1fcf71f42eee"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{NILAI}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nilai}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="564" y="0" width="221" height="20" uuid="235c2b88-d264-4855-a255-3752969b0be6"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{KETERANGAN}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{keterangan}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

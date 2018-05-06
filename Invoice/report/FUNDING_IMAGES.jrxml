@@ -33,7 +33,7 @@
 		<band height="609" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="555" height="609" uuid="d71f3260-497d-4060-a170-23575b9c73c9"/>
-				<imageExpression><![CDATA[$F{imageFunding}.getBinaryStream()]]></imageExpression>
+				<imageExpression class="java.io.InputStream"><![CDATA[$F{imageFunding}.getBinaryStream()]]></imageExpression>
 			</image>
 		</band>
 	</detail>

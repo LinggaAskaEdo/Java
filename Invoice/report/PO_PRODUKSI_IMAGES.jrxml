@@ -3,105 +3,73 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="179"/>
-	<parameter name="perusahaan" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="klien" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="date1" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="date2" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[SELECT
-    pp.PO_PRODUKSI_ID,
-    pp.PO_PRODUKSI_NO,
-    k.NO_KONTRAK,
-    pp.PRODUKSI,
-    pp.TANGGAL,
-    pp.NILAI_PRODUKSI,
-    pp.KETERANGAN,
-    pp.PPN_IMAGE,
-    dp.*
-FROM
-    PO_PRODUKSI pp
-        INNER JOIN
-    KONTRAK k ON pp.KONTRAK_ID = k.KONTRAK_ID
-        INNER JOIN
-    DETAIL_PRODUKSI dp ON pp.PO_PRODUKSI_NO = dp.PO_PRODUKSI_NO
-        INNER JOIN
-    MASTER_PERUSAHAAN mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID
-WHERE
-    mp.NAME = $P{perusahaan} OR k.PROJECT = $P{klien} AND
-    pp.TANGGAL BETWEEN $P{date1} AND $P{date2};]]>
+		<![CDATA[]]>
 	</queryString>
-	<field name="PO_PRODUKSI_ID" class="java.lang.Integer">
+	<field name="poProduksiId" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PO_PRODUKSI_NO" class="java.lang.String">
+	<field name="poProduksiNo" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="NO_KONTRAK" class="java.lang.String">
+	<field name="noKontrak" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PRODUKSI" class="java.lang.String">
+	<field name="produksi" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="TANGGAL" class="java.sql.Date">
+	<field name="tanggal" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="NILAI_PRODUKSI" class="java.math.BigDecimal">
+	<field name="nilaiProduksi" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="KETERANGAN" class="java.lang.String">
+	<field name="keterangan" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PPN_IMAGE" class="java.io.InputStream">
+	<field name="imagePoProduksi" class="java.sql.Blob">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="DETAIL_PRODUKSI_ID" class="java.lang.Integer">
+	<field name="detailProduksiId" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="MEDIA" class="java.lang.String">
+	<field name="media" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="DURASI" class="java.lang.String">
+	<field name="durasi" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="HARI" class="java.lang.String">
+	<field name="hari" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="LOKASI" class="java.lang.String">
+	<field name="lokasi" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PRE_PRODUKSI_URAIAN" class="java.lang.String">
+	<field name="preProduksiUraian" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PRE_PRODUKSI_JENIS" class="java.lang.String">
+	<field name="preProduksiJenis" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PRODUKSI_JENIS" class="java.lang.String">
+	<field name="produksiJenis" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PRODUKSI_JUMLAH" class="java.lang.String">
+	<field name="produksiJumlah" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PRODUKSI_BARANG" class="java.lang.String">
+	<field name="produksiBarang" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PRODUKSI_HARGA_SATUAN" class="java.math.BigDecimal">
+	<field name="produksiHargaSatuan" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PRODUKSI_TOTAL_HARGA" class="java.math.BigDecimal">
+	<field name="produksiTotalHarga" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="POST_PRODUKSI_BARANG" class="java.lang.String">
+	<field name="postProduksiBarang" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="POST_PRODUKSI_TOTAL_HARGA" class="java.math.BigDecimal">
+	<field name="postProduksiTotalHarga" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -111,7 +79,7 @@ WHERE
 		<band height="609" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="555" height="609" uuid="f162661e-62cd-45b6-ab61-5023735fc7cc"/>
-				<imageExpression><![CDATA[$F{PPN_IMAGE}]]></imageExpression>
+				<imageExpression class="java.io.InputStream"><![CDATA[$F{imagePoProduksi}.getBinaryStream()]]></imageExpression>
 			</image>
 		</band>
 	</detail>

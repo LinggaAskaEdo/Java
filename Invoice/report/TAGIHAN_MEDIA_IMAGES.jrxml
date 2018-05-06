@@ -3,94 +3,52 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="178"/>
-	<parameter name="perusahaan" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="klien" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="date1" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="date2" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[SELECT
-    k.NO_KONTRAK,
-    mm.MEDIA_NAME,
-    pm.PO_MEDIA_ID,
-    pm.PO_MEDIA_NO,
-    pm.PEKERJAAN_KEMENTERIAN,
-    pm.TANGGAL_TAYANG,
-    pm.UKURAN,
-    pm.HARGA,
-    pm.PPN,
-    pm.KETERANGAN,
-    pm.PPN_IMAGE AS IMAGE,
-    tm.TAGIHAN_MEDIA_ID,
-    tm.INVOICE_MEDIA,
-    tm.TANGGAL,
-    tm.NILAI_TAGIHAN,
-    tm.PPN_IMAGE
-FROM
-    PO_MEDIA pm
-        INNER JOIN
-    KONTRAK k ON pm.KONTRAK_ID = k.KONTRAK_ID
-        INNER JOIN
-    MASTER_MEDIA mm ON pm.MASTER_MEDIA_ID = mm.MASTER_MEDIA_ID
-        INNER JOIN
-    TAGIHAN_MEDIA tm ON pm.PO_MEDIA_NO = tm.PO_MEDIA_NO
-        INNER JOIN
-    MASTER_PERUSAHAAN mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID
-WHERE
-    mp.NAME = $P{perusahaan} OR k.PROJECT = $P{klien} AND
-    pm.TANGGAL_TAYANG BETWEEN $P{date1} AND $P{date2};]]>
+		<![CDATA[]]>
 	</queryString>
-	<field name="NO_KONTRAK" class="java.lang.String">
+	<field name="noKontrak" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="MEDIA_NAME" class="java.lang.String">
+	<field name="mediaName" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PO_MEDIA_ID" class="java.lang.Integer">
+	<field name="poMediaId" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PO_MEDIA_NO" class="java.lang.String">
+	<field name="poMediaNo" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PEKERJAAN_KEMENTERIAN" class="java.lang.String">
+	<field name="pekerjaanKementerian" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="TANGGAL_TAYANG" class="java.sql.Date">
+	<field name="tanggalTayang" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="UKURAN" class="java.lang.String">
+	<field name="ukuran" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="HARGA" class="java.math.BigDecimal">
+	<field name="harga" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PPN" class="java.math.BigDecimal">
+	<field name="ppn" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="KETERANGAN" class="java.lang.String">
+	<field name="keterangan" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="IMAGE" class="java.lang.Object"/>
-	<field name="TAGIHAN_MEDIA_ID" class="java.lang.Integer">
+	<field name="tagihanMediaId" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="INVOICE_MEDIA" class="java.lang.String">
+	<field name="invoiceMedia" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="TANGGAL" class="java.sql.Date">
+	<field name="tanggal" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="NILAI_TAGIHAN" class="java.math.BigDecimal">
+	<field name="nilaiTagihan" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PPN_IMAGE" class="java.io.InputStream">
+	<field name="imageTagihanMedia" class="java.sql.Blob">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -100,7 +58,7 @@ WHERE
 		<band height="609" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="555" height="609" uuid="3c9c6873-ebf9-4535-a48a-32f326c925c0"/>
-				<imageExpression><![CDATA[$F{PPN_IMAGE}]]></imageExpression>
+				<imageExpression class="java.io.InputStream"><![CDATA[$F{imageTagihanMedia}.getBinaryStream()]]></imageExpression>
 			</image>
 		</band>
 	</detail>

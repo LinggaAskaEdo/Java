@@ -3,102 +3,70 @@
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="386"/>
-	<parameter name="date1" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="perusahaan" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="klien" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[SELECT
-    pp.PO_PRODUKSI_ID,
-    pp.PO_PRODUKSI_NO,
-    k.NO_KONTRAK,
-    pp.PRODUKSI,
-    pp.TANGGAL,
-    pp.NILAI_PRODUKSI,
-    pp.KETERANGAN,
-    pp.PPN_IMAGE,
-    dp.*
-FROM
-    PO_PRODUKSI pp
-        INNER JOIN
-    KONTRAK k ON pp.KONTRAK_ID = k.KONTRAK_ID
-        INNER JOIN
-    DETAIL_PRODUKSI dp ON pp.PO_PRODUKSI_NO = dp.PO_PRODUKSI_NO
-        INNER JOIN
-    MASTER_PERUSAHAAN mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID
-WHERE
-    mp.NAME = $P{perusahaan} OR k.PROJECT = $P{klien} AND
-    pp.TANGGAL = $P{date1};]]>
+		<![CDATA[]]>
 	</queryString>
-	<field name="PO_PRODUKSI_ID" class="java.lang.Integer">
+	<field name="poProduksiId" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PO_PRODUKSI_NO" class="java.lang.String">
+	<field name="poProduksiNo" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="NO_KONTRAK" class="java.lang.String">
+	<field name="noKontrak" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PRODUKSI" class="java.lang.String">
+	<field name="produksi" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="TANGGAL" class="java.sql.Date">
+	<field name="tanggal" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="NILAI_PRODUKSI" class="java.math.BigDecimal">
+	<field name="nilaiProduksi" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="KETERANGAN" class="java.lang.String">
+	<field name="keterangan" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PPN_IMAGE" class="java.lang.Object">
+	<field name="detailProduksiId" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="DETAIL_PRODUKSI_ID" class="java.lang.Integer">
+	<field name="media" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="MEDIA" class="java.lang.String">
+	<field name="durasi" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="DURASI" class="java.lang.String">
+	<field name="hari" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="HARI" class="java.lang.String">
+	<field name="lokasi" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="LOKASI" class="java.lang.String">
+	<field name="preProduksiUraian" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PRE_PRODUKSI_URAIAN" class="java.lang.String">
+	<field name="preProduksiJenis" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PRE_PRODUKSI_JENIS" class="java.lang.String">
+	<field name="produksiJenis" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PRODUKSI_JENIS" class="java.lang.String">
+	<field name="produksiJumlah" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PRODUKSI_JUMLAH" class="java.lang.String">
+	<field name="produksiBarang" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PRODUKSI_BARANG" class="java.lang.String">
+	<field name="produksiHargaSatuan" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PRODUKSI_HARGA_SATUAN" class="java.math.BigDecimal">
+	<field name="produksiTotalHarga" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PRODUKSI_TOTAL_HARGA" class="java.math.BigDecimal">
+	<field name="postProduksiBarang" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="POST_PRODUKSI_BARANG" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="POST_PRODUKSI_TOTAL_HARGA" class="java.math.BigDecimal">
+	<field name="postProduksiTotalHarga" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -192,32 +160,32 @@ WHERE
 			<textField>
 				<reportElement x="112" y="8" width="236" height="20" uuid="859fce3d-0614-41f8-8341-321f011cda56"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{PO_PRODUKSI_NO}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{poProduksiNo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="112" y="28" width="236" height="20" uuid="1a52b53b-e31b-48b8-ade8-e154e48d12cd"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{NO_KONTRAK}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{noKontrak}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="112" y="48" width="236" height="20" uuid="58201e19-6f54-432a-88fd-907fda52a2c3"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{PRODUKSI}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{produksi}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="112" y="68" width="236" height="20" uuid="ad4f442e-b6ff-472b-8e26-4f00169d3b5f"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{NILAI_PRODUKSI}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nilaiProduksi}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="112" y="88" width="417" height="20" uuid="91d1c4fc-ecf2-42d6-bb66-83b2d29c715d"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{KETERANGAN}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{keterangan}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="112" y="125" width="236" height="20" uuid="115a534e-f547-4773-8f28-1030d9b6b5d0"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{TANGGAL}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tanggal}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="104" y="165" width="8" height="20" uuid="8f150b55-ed91-4548-bd04-3c43ec43f436"/>
@@ -270,22 +238,22 @@ WHERE
 			<textField>
 				<reportElement x="112" y="165" width="215" height="20" uuid="0818b589-3c27-4e07-b015-58809dde6ee5"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{MEDIA}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{media}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="112" y="186" width="100" height="20" uuid="66a8572c-e4d9-4ab8-b353-fce28ade9fb8"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{DURASI}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{durasi}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="112" y="206" width="100" height="20" uuid="b250f443-cddb-42a1-8373-0d8a51bec624"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{HARI}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{hari}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="438" y="165" width="324" height="61" uuid="90ff5d27-c218-41c9-a359-a57b7e1ea938"/>
 				<textElement verticalAlignment="Top"/>
-				<textFieldExpression><![CDATA[$F{LOKASI}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{lokasi}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -434,56 +402,56 @@ WHERE
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{PRE_PRODUKSI_URAIAN}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{preProduksiUraian}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="112" y="1" width="100" height="18" uuid="2f8d2f81-7c56-4044-a49c-d3f6d00b73f8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{PRE_PRODUKSI_JENIS}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{preProduksiJenis}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="212" y="1" width="90" height="18" uuid="b41a6a05-6067-4859-97d5-f4c8a2ae80bb"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{PRODUKSI_JENIS}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{produksiJenis}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="302" y="1" width="96" height="18" uuid="91eb8971-f68d-469a-a495-34017c6db42c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{PRODUKSI_JUMLAH}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{produksiJumlah}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="398" y="1" width="90" height="18" uuid="ffcbaec9-06e7-49dd-9bea-c1df52918e7d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{PRODUKSI_BARANG}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{produksiBarang}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="489" y="0" width="99" height="19" uuid="73642313-6b43-4b90-ba33-29173f3e8846"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{PRODUKSI_HARGA_SATUAN}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{produksiHargaSatuan}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="589" y="0" width="89" height="19" uuid="ca3a534f-ddaa-4d91-b9da-735b49132dff"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{POST_PRODUKSI_BARANG}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{postProduksiBarang}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="678" y="1" width="100" height="18" uuid="8ea52670-b4aa-45c6-b00d-0baa99e09118"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{POST_PRODUKSI_TOTAL_HARGA}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{postProduksiTotalHarga}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FUNDING_IMAGES" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f500a4e2-e8e9-43b7-8587-cd1619dfb630">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
@@ -6,20 +7,20 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="FUNDING_ID" class="java.lang.Integer">
+	<field name="fundingId" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="KONTAK_NAME" class="java.lang.String">
+	<field name="kontrakName" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="REFF" class="java.lang.String"/>
-	<field name="TANGGAL" class="java.sql.Date">
+	<field name="reff" class="java.lang.String"/>
+	<field name="tanggal" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="NILAI" class="java.math.BigDecimal">
+	<field name="nilai" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="KETERANGAN" class="java.lang.String">
+	<field name="keterangan" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="imageFunding" class="java.sql.Blob">
@@ -32,7 +33,7 @@
 		<band height="609" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="555" height="609" uuid="d71f3260-497d-4060-a170-23575b9c73c9"/>
-				<imageExpression class="java.io.InputStream"><![CDATA[$F{imageFunding}.getBinaryStream()]]></imageExpression>
+				<imageExpression><![CDATA[$F{imageFunding}.getBinaryStream()]]></imageExpression>
 			</image>
 		</band>
 	</detail>

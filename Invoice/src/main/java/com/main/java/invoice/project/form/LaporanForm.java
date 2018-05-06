@@ -377,11 +377,11 @@ public class LaporanForm extends JInternalFrame
 						String klien = String.valueOf(comboBoxClient.getSelectedItem());
 						Date date = CL_Harian.getDate();
 
-						List<FundingReport> allDataFunding = fundingReportDAO.GetAllFundingReport(klien, date, date);
-						List<FundingReport> allDataImage = fundingReportDAO.GetAllFundingReport(klien, date, date);
+						List<FundingReport> allDataFunding = fundingReportDAO.GetAllFundingReport(klien, date);
+						List<FundingReport> allDataImage = fundingReportDAO.GetAllFundingReport(klien, date);
 
-						JRBeanCollectionDataSource beanColDataSource1 = new JRBeanCollectionDataSource(allDataFunding);
-						JRBeanCollectionDataSource beanColDataSource2 = new JRBeanCollectionDataSource(allDataImage);
+						JRBeanCollectionDataSource beanColDataSource1 = new JRBeanCollectionDataSource(allDataFunding, false);
+						JRBeanCollectionDataSource beanColDataSource2 = new JRBeanCollectionDataSource(allDataImage, false);
 
 						try
 						{
@@ -395,8 +395,10 @@ public class LaporanForm extends JInternalFrame
 
 							HashMap param = new HashMap();
 
-							JasperPrint jPrint = JasperFillManager.fillReport(jasperReport, param, beanColDataSource1);
-							JasperPrint jPrint2 = JasperFillManager.fillReport(jasperReport_1, param, beanColDataSource2);
+							//JasperFillManager.fillReportToFile("C:\\Program Files\\Invoice\\report\\FUNDING.jrxml", param, beanColDataSource1);
+
+							JasperPrint jPrint = JasperFillManager.fillReport(jasperReport, null, beanColDataSource1);
+							JasperPrint jPrint2 = JasperFillManager.fillReport(jasperReport_1, null, beanColDataSource2);
 
 							JasperPrint firstsecondlinked = multipageLinking(jPrint, jPrint2);
 

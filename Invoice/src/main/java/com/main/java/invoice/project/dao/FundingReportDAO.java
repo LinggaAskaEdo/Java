@@ -20,10 +20,10 @@ public class FundingReportDAO
     private ResultSet resultSet = null;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public List<FundingReport> GetAllFundingReport (String klien, Date date1, Date date2)
+    public List<FundingReport> GetAllFundingReport (String klien, Date date1)
     {
         List<FundingReport> allFundingReport = new ArrayList<>();
-        String parameter = "";
+        String parameter;
 
         try
         {
@@ -31,13 +31,15 @@ public class FundingReportDAO
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
             String currentDate1 = dateFormat.format(date1);
-            String currentDate2 = dateFormat.format(date2);
 
-            if(! klien.equals("")) {
+            if (! klien.equals(""))
+            {
                 parameter = "(CASE WHEN f.CHECK_REFF = '1' THEN k.PROJECT = " +klien+ " ELSE md.NAME_ACCOUNT = md.NAME_ACCOUNT " +
-                        "END) AND f.TANGGAL BETWEEN " +currentDate1+" AND "+currentDate2;
-            } else {
-                parameter = "f.TANGGAL = " +currentDate1+" AND "+currentDate2;
+                        "END) AND f.TANGGAL = " + currentDate1;
+            }
+            else
+            {
+                parameter = "f.TANGGAL = '" + currentDate1 + "'";
             }
 
             String query = "SELECT " +
@@ -50,7 +52,7 @@ public class FundingReportDAO
                     "f.TANGGAL, " +
                     "f.NILAI, " +
                     "f.KETERANGAN, " +
-                    "TO_BASE64(f.IMAGEFUNDING)" +
+                    "TO_BASE64(f.PPN_IMAGE)" +
                     "FROM " +
                     "FUNDING AS f " +
                     "LEFT JOIN " +
@@ -59,7 +61,7 @@ public class FundingReportDAO
                     "LEFT JOIN " +
                     "MASTER_DANA AS md ON (f.KONTRAK_ID = md.MASTER_DANA_ID) " +
                     "AND (f.CHECK_REFF = 0) " +
-                    "WHERE "+parameter+";";
+                    "WHERE " + parameter + ";";
 
             statement = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             resultSet = statement.executeQuery(query);

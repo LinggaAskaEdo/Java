@@ -20,16 +20,15 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class BOSService
 {
+    private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private final Logger log = LoggerFactory.getLogger(BOSService.class);
-
+    private String countryCode, district, province;
+    private int totalWeight, totalPrice, totalShipping;
     private List<Item> itemList = new ArrayList<>();
 
     @Autowired
@@ -115,6 +114,8 @@ public class BOSService
             {
                 log.debug("Process order from: {}", data[2]);
 
+                countryCode = CountryCode.COUNTRY_CODE_INDONESIA;
+
                 try
                 {
                     log.debug("Data length: {}", data.length);
@@ -135,8 +136,8 @@ public class BOSService
                         String bankName = data[4].trim();
                         String bankAccountNumber = data[5].trim();
                         String address = data[6].trim();
-                        String district = data[7].trim();
-                        String province = data[8].trim();
+                        district = data[7].trim();
+                        province = data[8].trim();
                         String order = data[9].trim();
 
                         if (name.equalsIgnoreCase(""))
@@ -175,18 +176,8 @@ public class BOSService
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_ORDER);
                         }
-                        /*else if (checkFormatOrder(order))
-                        {
-                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_INVALID_ORDER);
-                        }*/
                         else
                         {
-                            /*check existing item*/
-                            /*generate number*/
-
-                            //String orderMessage = generateOrderMessage(name, bankName, bankAccountNumber);
-
-                            //return new Response(ApplicationStatus.SUCCESS.toString(), orderMessage);
                             return processOrder(userId, order);
                         }
                     }
@@ -202,14 +193,16 @@ public class BOSService
             {
                 log.debug("Process order from: {}", data[2]);
 
+                countryCode = data[2];
+
                 try
                 {
                     log.debug("Data length: {}", data.length);
 
-                    for (int i = 0; i < data.length; i++)
+                    /*for (int i = 0; i < data.length; i++)
                     {
                         log.debug("Data[{}]: {}", i, String.valueOf(data[i]));
-                    }
+                    }*/
 
                     if (data.length - 1 != 7 || data[3] == null || data[4] == null || data[5] == null || data[6] == null || data[7] == null)
                     {
@@ -247,17 +240,9 @@ public class BOSService
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_ORDER);
                         }
-                        /*else if (checkFormatOrder(order))
-                        {
-                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_INVALID_ORDER);
-                        }*/
                         else
                         {
                             return processOrder(userId, order);
-
-                            //String orderMessage = generateOrderMessage(name, bankName, bankAccountNumber);
-
-                            //return new Response(ApplicationStatus.SUCCESS.toString(), orderMessage);
                         }
                     }
                 }
@@ -303,17 +288,9 @@ public class BOSService
                         String sizeItem = orders[1].trim();
                         int totalItem = Integer.parseInt(orders[2].trim());
 
-                        //boolean status = dao.checkItem(userId, codeItem, sizeItem, totalItem);
-
                         Item item = dao.getItem(userId, codeItem, sizeItem);
                         log.debug("Item: {}", item.toString());
 
-                        /*TODO
-                         * 1. After checking stock, automatically update stock
-                         * */
-                        //boolean statusUpdateStock = dao.updateStock(userId, codeItem, sizeItem, totalItem);
-
-                        //if (status)
                         if (item != null && item.getItemStock() >= totalItem)
                         {
                             int newStock = item.getItemStock() - totalItem;
@@ -324,6 +301,8 @@ public class BOSService
                             newItem.setItemSize(sizeItem);
                             newItem.setItemTotal(totalItem);
                             newItem.setItemTotalOld(newStock);
+                            newItem.setItemPrice(item.getItemPrice());
+                            newItem.setItemWeight(item.getItemWeight());
                             itemList.add(newItem);
 
                             dao.updateStock(userId, codeItem, sizeItem, newStock);
@@ -366,11 +345,9 @@ public class BOSService
                     String sizeItem = arrOrder[1].trim();
                     int totalItem = Integer.parseInt(arrOrder[2].trim());
 
-                    //boolean status = dao.checkItem(userId, codeItem, sizeItem, totalItem);
                     Item item = dao.getItem(userId, codeItem, sizeItem);
                     log.debug("Item: {}", item.toString());
 
-                    //if (status)
                     if (item != null && item.getItemStock() >= totalItem)
                     {
                         int newStock = item.getItemStock() - totalItem;
@@ -381,6 +358,8 @@ public class BOSService
                         newItem.setItemSize(sizeItem);
                         newItem.setItemTotal(totalItem);
                         newItem.setItemTotalOld(newStock);
+                        newItem.setItemPrice(item.getItemPrice());
+                        newItem.setItemWeight(item.getItemWeight());
                         itemList.add(newItem);
 
                         dao.updateStock(userId, codeItem, sizeItem, newStock);
@@ -397,7 +376,21 @@ public class BOSService
             }
 
             /*TODO
-            * 1. Save data to all database related*/
+            * 1. Generate transaction code
+            * 2. Count total weight, price & shipping price
+            * 2. Save data to all database related
+            * 3. Clear list
+            * */
+
+            String transactionNumber = generateTransactionNumber();
+            log.debug("transactionNumber: {}", transactionNumber);
+
+            countAllTotal(countryCode, itemList);
+            log.debug("totalWeight: {}", totalWeight);
+            log.debug("totalPrice: {}", totalPrice);
+            log.debug("totalShipping: {}", totalShipping);
+
+            itemList.clear();
 
             return new Response(ApplicationStatus.SUCCESS.toString(), MessagePreference.MESSAGE_PROCESS_ORDER);
         }
@@ -409,56 +402,74 @@ public class BOSService
         }
     }
 
+    private void countAllTotal(String countryCode, List<Item> itemList)
+    {
+        for (Item item : itemList)
+        {
+            totalWeight += item.getItemWeight() * item.getItemTotal();
+            totalPrice += item.getItemPrice() * item.getItemTotal();
+        }
+
+        if (countryCode.equalsIgnoreCase(CountryCode.COUNTRY_CODE_INDONESIA))
+        {
+            totalShipping = dao.countShippingIn(totalWeight, district, province);
+        }
+        else if (Arrays.asList(CountryCode.countryArrays).contains(countryCode))
+        {
+            totalShipping = dao.countShippingOut(totalWeight);
+        }
+    }
+
+    private String generateTransactionNumber()
+    {
+        /*Format transaction number
+        * 1. Header
+        * 2. Year: only last 2 digit number
+        * 3. Month: 2 digit number
+        * 4. Date: 2 digit number
+        * 5. Hour: 2 digit number
+        * 6. Minute: 2 digit number
+        * 7. Unique: 3 digit alphanumeric
+        * */
+
+        String header = "INV";
+        String separator = "//";
+
+        Calendar now = Calendar.getInstance();
+        String strYear = String.valueOf(now.get(Calendar.YEAR));
+        String strMonth = String.valueOf(now.get(Calendar.MONTH));
+        String strDay = String.valueOf(now.get(Calendar.DAY_OF_MONTH));
+        String strHour = String.valueOf(now.get(Calendar.HOUR_OF_DAY));
+        String strMinute = String.valueOf(now.get(Calendar.MINUTE));
+
+        return header + separator +
+                strYear.substring(strYear.length() - 2) +
+                (strMonth.length() == 2 ? strMonth : "0" + strMonth) +
+                (strDay.length() == 2 ? strDay : "0" + strDay) +
+                (strHour.length() == 2 ? strHour : "0" + strHour) +
+                (strMinute.length() == 2 ? strMinute : "0" + strMinute) +
+                separator + generateRandomString();
+    }
+
+    private String generateRandomString()
+    {
+        int count = 3;
+        
+        StringBuilder builder = new StringBuilder();
+
+        while (count-- != 0)
+        {
+            int character = (int)(Math.random() * ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+        }
+
+        return builder.toString();
+    }
+
     private boolean checkRegion(String district, String province)
     {
         return dao.checkRegion(district, province) > 0;
     }
-
-    /*private boolean checkFormatOrder(String order)
-    {
-        boolean status = true;
-
-        try
-        {
-            int separator = order.indexOf(',');
-
-            if (separator >= 0)
-            {
-                String[] arrOrders = order.split(",");
-
-                for (String arrOrder : arrOrders)
-                {
-                    log.debug("arrOrders: {}", arrOrder);
-
-                    String[] orders = arrOrder.split("-");
-
-                    log.debug("orders[0]: {}, orders[1]: {}, orders[2]: {}", orders[0].trim(), orders[1].trim(), orders[2].trim());
-
-                    if (orders[0] != null && orders[1] != null && orders[2] != null)
-                    {
-                        status = true;
-                    }
-                }
-            }
-            else
-            {
-                String[] arrOrder = order.split("-");
-
-                log.debug("arrOrder[0]: {}, arrOrder[1]: {}, arrOrder[2]: {}", arrOrder[0].trim(), arrOrder[1].trim(), arrOrder[2].trim());
-
-                if (arrOrder[0] != null && arrOrder[1] != null && arrOrder[2] != null)
-                {
-                    status = false;
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            log.error("Error on checkFormatOrder: {}", e.getMessage());
-        }
-
-        return status;
-    }*/
 
     private Response validationCheckMessage(Integer userId, String[] data)
     {
@@ -508,9 +519,4 @@ public class BOSService
 
         return response;
     }
-
-    /*private String generateOrderMessage(String name, String bankName, String bankAccountNumber)
-    {
-        return "Pesanan anda akan diproses";
-    }*/
 }

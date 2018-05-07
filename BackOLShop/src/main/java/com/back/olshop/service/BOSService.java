@@ -20,14 +20,12 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class BOSService
 {
+    private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private final Logger log = LoggerFactory.getLogger(BOSService.class);
 
     private List<Item> itemList = new ArrayList<>();
@@ -196,10 +194,10 @@ public class BOSService
                 {
                     log.debug("Data length: {}", data.length);
 
-                    for (int i = 0; i < data.length; i++)
+                    /*for (int i = 0; i < data.length; i++)
                     {
                         log.debug("Data[{}]: {}", i, String.valueOf(data[i]));
-                    }
+                    }*/
 
                     if (data.length - 1 != 7 || data[3] == null || data[4] == null || data[5] == null || data[6] == null || data[7] == null)
                     {
@@ -370,7 +368,8 @@ public class BOSService
 
             /*TODO
             * 1. Generate transaction code
-            * 2. Save data to all database related*/
+            * 2. Save data to all database related
+            * */
 
             String transactionNumber = generateTransactionNumber();
 
@@ -384,30 +383,48 @@ public class BOSService
         }
     }
 
-    String generateTransactionNumber()
+    private String generateTransactionNumber()
     {
         /*Format transaction number
-        * 1. Unique: 3 digit alphanumeric
+        * 1. Header
         * 2. Year: only last 2 digit number
         * 3. Month: 2 digit number
         * 4. Date: 2 digit number
         * 5. Hour: 2 digit number
         * 6. Minute: 2 digit number
+        * 7. Unique: 3 digit alphanumeric
         * */
 
-        Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
-        int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
-        int day = now.get(Calendar.DAY_OF_MONTH);
-        int hour = now.get(Calendar.HOUR_OF_DAY);
-        int minute = now.get(Calendar.MINUTE);
+        String header = "INV";
+        String separator = "//";
 
+        Calendar now = Calendar.getInstance();
+        String strYear = String.valueOf(now.get(Calendar.YEAR));
+        String strMonth = String.valueOf(now.get(Calendar.MONTH));
+        String strDay = String.valueOf(now.get(Calendar.DAY_OF_MONTH));
+        String strHour = String.valueOf(now.get(Calendar.HOUR_OF_DAY));
+        String strMinute = String.valueOf(now.get(Calendar.MINUTE));
+
+        return header + separator +
+                strYear.substring(strYear.length() - 2) +
+                (strMonth.length() == 2 ? strMonth : "0" + strMonth) +
+                (strDay.length() == 2 ? strDay : "0" + strDay) +
+                (strHour.length() == 2 ? strHour : "0" + strHour) +
+                (strMinute.length() == 2 ? strMinute : "0" + strMinute) +
+                separator + generateRandomString();
+    }
+
+    private String generateRandomString()
+    {
+        int count = 3;
+        
         StringBuilder builder = new StringBuilder();
-        builder.append(year);
-        builder.append(month);
-        builder.append(day);
-        builder.append(hour);
-        builder.append(minute);
+
+        while (count-- != 0)
+        {
+            int character = (int)(Math.random() * ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+        }
 
         return builder.toString();
     }
@@ -465,9 +482,4 @@ public class BOSService
 
         return response;
     }
-
-    /*private String generateOrderMessage(String name, String bankName, String bankAccountNumber)
-    {
-        return "Pesanan anda akan diproses";
-    }*/
 }

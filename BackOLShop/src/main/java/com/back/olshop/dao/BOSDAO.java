@@ -86,7 +86,7 @@ public class BOSDAO
         return result;
     }
 
-    public boolean checkItem(Integer userId, String codeName, String size, int total)
+    /*public boolean checkItem(Integer userId, String codeName, String size, int total)
     {
         boolean result = false;
 
@@ -104,7 +104,7 @@ public class BOSDAO
         }
 
         return result;
-    }
+    }*/
 
     public Item getItem(Integer userId, String codeItem, String sizeItem)
     {

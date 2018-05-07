@@ -175,18 +175,8 @@ public class BOSService
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_ORDER);
                         }
-                        /*else if (checkFormatOrder(order))
-                        {
-                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_INVALID_ORDER);
-                        }*/
                         else
                         {
-                            /*check existing item*/
-                            /*generate number*/
-
-                            //String orderMessage = generateOrderMessage(name, bankName, bankAccountNumber);
-
-                            //return new Response(ApplicationStatus.SUCCESS.toString(), orderMessage);
                             return processOrder(userId, order);
                         }
                     }
@@ -247,17 +237,9 @@ public class BOSService
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_ORDER);
                         }
-                        /*else if (checkFormatOrder(order))
-                        {
-                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_INVALID_ORDER);
-                        }*/
                         else
                         {
                             return processOrder(userId, order);
-
-                            //String orderMessage = generateOrderMessage(name, bankName, bankAccountNumber);
-
-                            //return new Response(ApplicationStatus.SUCCESS.toString(), orderMessage);
                         }
                     }
                 }
@@ -303,17 +285,9 @@ public class BOSService
                         String sizeItem = orders[1].trim();
                         int totalItem = Integer.parseInt(orders[2].trim());
 
-                        //boolean status = dao.checkItem(userId, codeItem, sizeItem, totalItem);
-
                         Item item = dao.getItem(userId, codeItem, sizeItem);
                         log.debug("Item: {}", item.toString());
 
-                        /*TODO
-                         * 1. After checking stock, automatically update stock
-                         * */
-                        //boolean statusUpdateStock = dao.updateStock(userId, codeItem, sizeItem, totalItem);
-
-                        //if (status)
                         if (item != null && item.getItemStock() >= totalItem)
                         {
                             int newStock = item.getItemStock() - totalItem;
@@ -366,11 +340,9 @@ public class BOSService
                     String sizeItem = arrOrder[1].trim();
                     int totalItem = Integer.parseInt(arrOrder[2].trim());
 
-                    //boolean status = dao.checkItem(userId, codeItem, sizeItem, totalItem);
                     Item item = dao.getItem(userId, codeItem, sizeItem);
                     log.debug("Item: {}", item.toString());
 
-                    //if (status)
                     if (item != null && item.getItemStock() >= totalItem)
                     {
                         int newStock = item.getItemStock() - totalItem;
@@ -397,7 +369,10 @@ public class BOSService
             }
 
             /*TODO
-            * 1. Save data to all database related*/
+            * 1. Generate transaction code
+            * 2. Save data to all database related*/
+
+            String transactionNumber = generateTransactionNumber();
 
             return new Response(ApplicationStatus.SUCCESS.toString(), MessagePreference.MESSAGE_PROCESS_ORDER);
         }
@@ -409,56 +384,38 @@ public class BOSService
         }
     }
 
+    String generateTransactionNumber()
+    {
+        /*Format transaction number
+        * 1. Unique: 3 digit alphanumeric
+        * 2. Year: only last 2 digit number
+        * 3. Month: 2 digit number
+        * 4. Date: 2 digit number
+        * 5. Hour: 2 digit number
+        * 6. Minute: 2 digit number
+        * */
+
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
+        int day = now.get(Calendar.DAY_OF_MONTH);
+        int hour = now.get(Calendar.HOUR_OF_DAY);
+        int minute = now.get(Calendar.MINUTE);
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(year);
+        builder.append(month);
+        builder.append(day);
+        builder.append(hour);
+        builder.append(minute);
+
+        return builder.toString();
+    }
+
     private boolean checkRegion(String district, String province)
     {
         return dao.checkRegion(district, province) > 0;
     }
-
-    /*private boolean checkFormatOrder(String order)
-    {
-        boolean status = true;
-
-        try
-        {
-            int separator = order.indexOf(',');
-
-            if (separator >= 0)
-            {
-                String[] arrOrders = order.split(",");
-
-                for (String arrOrder : arrOrders)
-                {
-                    log.debug("arrOrders: {}", arrOrder);
-
-                    String[] orders = arrOrder.split("-");
-
-                    log.debug("orders[0]: {}, orders[1]: {}, orders[2]: {}", orders[0].trim(), orders[1].trim(), orders[2].trim());
-
-                    if (orders[0] != null && orders[1] != null && orders[2] != null)
-                    {
-                        status = true;
-                    }
-                }
-            }
-            else
-            {
-                String[] arrOrder = order.split("-");
-
-                log.debug("arrOrder[0]: {}, arrOrder[1]: {}, arrOrder[2]: {}", arrOrder[0].trim(), arrOrder[1].trim(), arrOrder[2].trim());
-
-                if (arrOrder[0] != null && arrOrder[1] != null && arrOrder[2] != null)
-                {
-                    status = false;
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            log.error("Error on checkFormatOrder: {}", e.getMessage());
-        }
-
-        return status;
-    }*/
 
     private Response validationCheckMessage(Integer userId, String[] data)
     {

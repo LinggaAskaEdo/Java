@@ -46,7 +46,7 @@ public class PoMediaReportDAO
             }
             else
             {
-                parameter = "pp.TANGGAL = '" + currentDate1 + "'";
+                parameter = "pm.TANGGAL_TAYANG = '" + currentDate1 + "'";
             }
 
             String query = "SELECT " +

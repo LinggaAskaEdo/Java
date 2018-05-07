@@ -3,116 +3,73 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="178"/>
-	<parameter name="perusahaan" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="klien" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="date1" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="date2" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[SELECT
-    pe.PO_EVENT_ID,
-    pe.PO_EVENT_NO,
-    k.NO_KONTRAK,
-    pe.KEGIATAN,
-    pe.TANGGAL,
-    pe.JUMLAH,
-    pe.KETERANGAN,
-    pe.BUKTI,
-    de.*,
-    dr.URAIAN AS URAIA,
-    dr.DETAIL AS DETAI,
-    dr.HARGA AS HARG,
-    tr.*
-FROM
-    PO_EVENT pe
-        INNER JOIN
-    KONTRAK k ON pe.KONTRAK_ID = k.NO_KONTRAK
-        INNER JOIN
-    DETAIL_EVENT de ON pe.PO_EVENT_NO = de.PO_EVENT_NO
-        INNER JOIN
-    DETAIL_REIMBURSE dr ON pe.PO_EVENT_NO = dr.PO_EVENT_NO
-        INNER JOIN
-    TAGIHAN_REIMBURSE tr ON pe.PO_EVENT_NO = tr.PO_EVENT_NO
-        INNER JOIN
-    MASTER_PERUSAHAAN mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID
-WHERE
-    mp.NAME = $P{perusahaan} OR k.PROJECT = $P{klien} AND
-    pe.TANGGAL BETWEEN $P{date1} AND $P{date2};]]>
+		<![CDATA[]]>
 	</queryString>
-	<field name="PO_EVENT_ID" class="java.lang.Integer">
+	<field name="poEventId" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PO_EVENT_NO" class="java.lang.String">
+	<field name="poEventNo" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="NO_KONTRAK" class="java.lang.String">
+	<field name="noKontrak" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="KEGIATAN" class="java.lang.String">
+	<field name="kegiatan" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="TANGGAL" class="java.sql.Date">
+	<field name="tanggal" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="JUMLAH" class="java.math.BigDecimal">
+	<field name="jumlah" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="KETERANGAN" class="java.lang.String">
+	<field name="keterangan" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="BUKTI" class="java.io.InputStream">
+	<field name="bukti" class="java.sql.Blob">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="DETAIL_EVENT_ID" class="java.lang.Integer">
+	<field name="detailEventId" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="URAIAN" class="java.lang.String">
+	<field name="uraian" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="DETAIL" class="java.lang.String">
+	<field name="detail" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="VOL_1" class="java.lang.Integer">
+	<field name="vol1" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="JENIS_1" class="java.lang.String">
+	<field name="jenis1" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="VOL_2" class="java.lang.Integer">
+	<field name="vol2" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="JENIS_2" class="java.lang.String">
+	<field name="jenis2" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="HARGA_SATUAN" class="java.math.BigDecimal">
+	<field name="hargaSatuan" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="TOTAL" class="java.math.BigDecimal">
+	<field name="total" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="URAIA" class="java.lang.String"/>
-	<field name="DETAI" class="java.lang.String"/>
-	<field name="HARG" class="java.math.BigDecimal"/>
-	<field name="TAGIHAN_REIMBURSE_ID" class="java.lang.Integer">
+	<field name="uraianDr" class="java.lang.String"/>
+	<field name="detailDr" class="java.lang.String"/>
+	<field name="hargaDr" class="java.lang.String"/>
+	<field name="tagihanReimbuseIdTr" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PO_NOMOR" class="java.lang.String">
+	<field name="poNomorTr" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="CATATAN" class="java.lang.String">
+	<field name="catatanTr" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="MASTER_MEDIA_ID" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="PPN_IMAGE" class="java.lang.Object">
+	<field name="masterMediaId" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -122,7 +79,7 @@ WHERE
 		<band height="609" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="555" height="609" uuid="7d306a8f-18ff-4d3b-b325-c539251d0b88"/>
-				<imageExpression><![CDATA[$F{BUKTI}]]></imageExpression>
+				<imageExpression class="java.io.InputStream"><![CDATA[$F{bukti}.getBinaryStream()]]></imageExpression>
 			</image>
 		</band>
 	</detail>

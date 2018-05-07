@@ -3,113 +3,70 @@
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="264"/>
-	<parameter name="date1" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="perusahaan" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="klien" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[SELECT
-    pe.PO_EVENT_ID,
-    pe.PO_EVENT_NO,
-    k.NO_KONTRAK,
-    pe.KEGIATAN,
-    pe.TANGGAL,
-    pe.JUMLAH,
-    pe.KETERANGAN,
-    pe.BUKTI,
-    de.*,
-    dr.URAIAN AS URAIA,
-    dr.DETAIL AS DETAI,
-    dr.HARGA AS HARG,
-    tr.*
-FROM
-    PO_EVENT pe
-        INNER JOIN
-    KONTRAK k ON pe.KONTRAK_ID = k.NO_KONTRAK
-        INNER JOIN
-    DETAIL_EVENT de ON pe.PO_EVENT_NO = de.PO_EVENT_NO
-        INNER JOIN
-    DETAIL_REIMBURSE dr ON pe.PO_EVENT_NO = dr.PO_EVENT_NO
-        INNER JOIN
-    TAGIHAN_REIMBURSE tr ON pe.PO_EVENT_NO = tr.PO_EVENT_NO
-        INNER JOIN
-    MASTER_PERUSAHAAN mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID
-WHERE
-    mp.NAME = $P{perusahaan} OR k.PROJECT = $P{klien} AND
-    pe.TANGGAL = $P{date1};]]>
+		<![CDATA[]]>
 	</queryString>
-	<field name="PO_EVENT_ID" class="java.lang.Integer">
+	<field name="poEventId" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PO_EVENT_NO" class="java.lang.String">
+	<field name="poEventNo" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="NO_KONTRAK" class="java.lang.String">
+	<field name="noKontrak" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="KEGIATAN" class="java.lang.String">
+	<field name="kegiatan" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="TANGGAL" class="java.sql.Date">
+	<field name="tanggal" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="JUMLAH" class="java.math.BigDecimal">
+	<field name="jumlah" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="KETERANGAN" class="java.lang.String">
+	<field name="keterangan" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="BUKTI" class="java.lang.Object">
+	<field name="detailEventId" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="DETAIL_EVENT_ID" class="java.lang.Integer">
+	<field name="uraian" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="URAIAN" class="java.lang.String">
+	<field name="detail" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="DETAIL" class="java.lang.String">
+	<field name="vol1" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="VOL_1" class="java.lang.Integer">
+	<field name="jenis1" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="JENIS_1" class="java.lang.String">
+	<field name="vol2" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="VOL_2" class="java.lang.Integer">
+	<field name="jenis2" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="JENIS_2" class="java.lang.String">
+	<field name="hargaSatuan" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="HARGA_SATUAN" class="java.math.BigDecimal">
+	<field name="total" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="TOTAL" class="java.math.BigDecimal">
+	<field name="uraianDr" class="java.lang.String"/>
+	<field name="detailDr" class="java.lang.String"/>
+	<field name="hargaDr" class="java.lang.String"/>
+	<field name="tagihanReimbuseIdTr" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="URAIA" class="java.lang.String"/>
-	<field name="DETAI" class="java.lang.String"/>
-	<field name="HARG" class="java.math.BigDecimal"/>
-	<field name="TAGIHAN_REIMBURSE_ID" class="java.lang.Integer">
+	<field name="poNomorTr" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="PO_NOMOR" class="java.lang.String">
+	<field name="catatanTr" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="CATATAN" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="MASTER_MEDIA_ID" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="PPN_IMAGE" class="java.lang.Object">
+	<field name="masterMediaId" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -203,32 +160,32 @@ WHERE
 			<textField>
 				<reportElement x="122" y="9" width="251" height="20" uuid="f9f4c913-eb11-477e-a219-30f485f04ac0"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{PO_EVENT_NO}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{poEventNo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="122" y="29" width="251" height="20" uuid="f871b485-37d8-47fa-9b86-ba9cdadafbc1"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{NO_KONTRAK}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{noKontrak}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="122" y="49" width="251" height="20" uuid="7c8981e7-1c3b-446d-83d8-3a0655c9187c"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{KEGIATAN}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{kegiatan}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="122" y="69" width="251" height="20" uuid="2cf4356d-e234-4321-afd5-88af1ab07777"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{JUMLAH}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{jumlah}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="122" y="89" width="251" height="20" uuid="2f2b1180-0a22-4813-a6a0-75afa18d522f"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{KETERANGAN}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{keterangan}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="122" y="126" width="251" height="20" uuid="c8f8c892-5c97-4295-ae6f-e0885ef44f90"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{TANGGAL}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tanggal}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -351,70 +308,70 @@ WHERE
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{URAIAN}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{uraian}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="110" y="2" width="100" height="18" uuid="cb69a239-3d21-469d-a5d9-15e4ec767b93"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{DETAIL}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{detail}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="210" y="2" width="34" height="18" uuid="6ce698a9-1890-4239-8969-55f3e852e86f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{VOL_1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{vol1}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="244" y="2" width="52" height="18" uuid="9e9dba99-62ca-442a-9957-39e913d5949d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{JENIS_1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{jenis1}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="296" y="2" width="34" height="18" uuid="970f128f-dc60-4dca-9456-49babe0d1e59"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{VOL_2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{vol2}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="330" y="2" width="46" height="18" uuid="55faabe1-31a9-4647-8023-f2618a90f6e3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{JENIS_2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{jenis2}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="378" y="2" width="98" height="18" uuid="dd5a48de-966a-44a7-bc4b-1221eca886c1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{HARGA_SATUAN}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{hargaSatuan}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="478" y="2" width="99" height="18" uuid="2bc91643-8896-4c5c-9d8d-75823d1de4d2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{URAIA}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{uraianDr}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="577" y="0" width="100" height="18" uuid="84a35203-826c-4ee6-ae1d-9eca255084c3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{DETAI}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{detailDr}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="678" y="2" width="99" height="16" uuid="afc7664a-3dde-478e-967b-4946e7672d15"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{HARG}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{hargaDr}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

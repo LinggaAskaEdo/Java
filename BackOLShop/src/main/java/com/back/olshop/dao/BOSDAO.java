@@ -142,4 +142,44 @@ public class BOSDAO
             log.error("ERROR when updateStock: ", e);
         }
     }
+
+    public int countShippingIn(int totalWeight, String district, String province)
+    {
+        int total = 0;
+
+        String query = "UPDATE ITEM SET ITEM_STOCK = ? WHERE USER_ID = ? AND ITEM_CODE = ? AND ITEM_SIZE = ?";
+
+        log.debug("Query countShippingIn: {}", query);
+
+        try
+        {
+            //total = jdbcTemplate.update(query, newStock, userId, codeItem, sizeItem);
+        }
+        catch (Exception e)
+        {
+            log.error("ERROR when countShippingIn: ", e);
+        }
+
+        return total;
+    }
+
+    public int countShippingOut(int totalWeight)
+    {
+        int total = 0;
+
+        String query = "UPDATE ITEM SET ITEM_STOCK = ? WHERE USER_ID = ? AND ITEM_CODE = ? AND ITEM_SIZE = ?";
+
+        log.debug("Query countShippingOut: {}", query);
+
+        try
+        {
+            //total = jdbcTemplate.update(query, newStock, userId, codeItem, sizeItem);
+        }
+        catch (Exception e)
+        {
+            log.error("ERROR when countShippingOut: ", e);
+        }
+
+        return total;
+    }
 }

@@ -27,7 +27,8 @@ public class BOSService
 {
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private final Logger log = LoggerFactory.getLogger(BOSService.class);
-
+    private String countryCode, district, province;
+    private int totalWeight, totalPrice, totalShipping;
     private List<Item> itemList = new ArrayList<>();
 
     @Autowired
@@ -113,6 +114,8 @@ public class BOSService
             {
                 log.debug("Process order from: {}", data[2]);
 
+                countryCode = CountryCode.COUNTRY_CODE_INDONESIA;
+
                 try
                 {
                     log.debug("Data length: {}", data.length);
@@ -133,8 +136,8 @@ public class BOSService
                         String bankName = data[4].trim();
                         String bankAccountNumber = data[5].trim();
                         String address = data[6].trim();
-                        String district = data[7].trim();
-                        String province = data[8].trim();
+                        district = data[7].trim();
+                        province = data[8].trim();
                         String order = data[9].trim();
 
                         if (name.equalsIgnoreCase(""))
@@ -189,6 +192,8 @@ public class BOSService
             else if (data[2] != null && Arrays.asList(CountryCode.countryArrays).contains(data[2].trim()))
             {
                 log.debug("Process order from: {}", data[2]);
+
+                countryCode = data[2];
 
                 try
                 {
@@ -296,6 +301,8 @@ public class BOSService
                             newItem.setItemSize(sizeItem);
                             newItem.setItemTotal(totalItem);
                             newItem.setItemTotalOld(newStock);
+                            newItem.setItemPrice(item.getItemPrice());
+                            newItem.setItemWeight(item.getItemWeight());
                             itemList.add(newItem);
 
                             dao.updateStock(userId, codeItem, sizeItem, newStock);
@@ -351,6 +358,8 @@ public class BOSService
                         newItem.setItemSize(sizeItem);
                         newItem.setItemTotal(totalItem);
                         newItem.setItemTotalOld(newStock);
+                        newItem.setItemPrice(item.getItemPrice());
+                        newItem.setItemWeight(item.getItemWeight());
                         itemList.add(newItem);
 
                         dao.updateStock(userId, codeItem, sizeItem, newStock);
@@ -368,10 +377,20 @@ public class BOSService
 
             /*TODO
             * 1. Generate transaction code
+            * 2. Count total weight, price & shipping price
             * 2. Save data to all database related
+            * 3. Clear list
             * */
 
             String transactionNumber = generateTransactionNumber();
+            log.debug("transactionNumber: {}", transactionNumber);
+
+            countAllTotal(countryCode, itemList);
+            log.debug("totalWeight: {}", totalWeight);
+            log.debug("totalPrice: {}", totalPrice);
+            log.debug("totalShipping: {}", totalShipping);
+
+            itemList.clear();
 
             return new Response(ApplicationStatus.SUCCESS.toString(), MessagePreference.MESSAGE_PROCESS_ORDER);
         }
@@ -380,6 +399,24 @@ public class BOSService
             log.error("Error on processOrder: {}", e);
 
             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
+        }
+    }
+
+    private void countAllTotal(String countryCode, List<Item> itemList)
+    {
+        for (Item item : itemList)
+        {
+            totalWeight += item.getItemWeight() * item.getItemTotal();
+            totalPrice += item.getItemPrice() * item.getItemTotal();
+        }
+
+        if (countryCode.equalsIgnoreCase(CountryCode.COUNTRY_CODE_INDONESIA))
+        {
+            totalShipping = dao.countShippingIn(totalWeight, district, province);
+        }
+        else if (Arrays.asList(CountryCode.countryArrays).contains(countryCode))
+        {
+            totalShipping = dao.countShippingOut(totalWeight);
         }
     }
 

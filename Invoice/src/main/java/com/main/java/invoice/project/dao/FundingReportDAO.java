@@ -34,8 +34,8 @@ public class FundingReportDAO
 
             if (! klien.equals(""))
             {
-                parameter = "(CASE WHEN f.CHECK_REFF = '1' THEN k.PROJECT = '" +klien+ "' ELSE md.NAME_ACCOUNT = md.NAME_ACCOUNT " +
-                        "END) AND f.TANGGAL = " + currentDate1;
+                parameter = "(CASE WHEN f.CHECK_REFF = 1 THEN k.PROJECT = '" + klien + "' ELSE md.NAME_ACCOUNT = md.NAME_ACCOUNT " +
+                        "END) AND f.TANGGAL = '" + currentDate1 + "'";
             }
             else
             {
@@ -46,7 +46,7 @@ public class FundingReportDAO
                     "f.FUNDING_ID, " +
                     "f.KONTAK_NAME, " +
                     "(CASE " +
-                    "WHEN f.CHECK_REFF = '1' THEN k.NO_KONTRAK " +
+                    "WHEN f.CHECK_REFF = 1 THEN k.NO_KONTRAK " +
                     "ELSE md.NAME_ACCOUNT " +
                     "END) AS REFF, " +
                     "f.TANGGAL, " +
@@ -56,11 +56,9 @@ public class FundingReportDAO
                     "FROM " +
                     "FUNDING AS f " +
                     "LEFT JOIN " +
-                    "KONTRAK AS k ON (f.KONTRAK_ID = k.KONTRAK_ID) " +
-                    "AND (f.CHECK_REFF = 1) " +
+                    "KONTRAK AS k ON ((f.KONTRAK_ID = k.KONTRAK_ID) AND (f.CHECK_REFF = 1)) " +
                     "LEFT JOIN " +
-                    "MASTER_DANA AS md ON (f.KONTRAK_ID = md.MASTER_DANA_ID) " +
-                    "AND (f.CHECK_REFF = 0) " +
+                    "MASTER_DANA AS md ON ((f.KONTRAK_ID = md.MASTER_DANA_ID) AND (f.CHECK_REFF = 0)) " +
                     "WHERE " + parameter + ";";
 
             statement = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -111,7 +109,7 @@ public class FundingReportDAO
 
             if (! klien.equals(""))
             {
-                parameter = "(CASE WHEN f.CHECK_REFF = '1' THEN k.PROJECT = '" +klien+ "' ELSE md.NAME_ACCOUNT = md.NAME_ACCOUNT " +
+                parameter = "(CASE WHEN f.CHECK_REFF = 1 THEN k.PROJECT = '" + klien + "' ELSE md.NAME_ACCOUNT = md.NAME_ACCOUNT " +
                         "END) AND f.TANGGAL BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
             }
             else
@@ -123,7 +121,7 @@ public class FundingReportDAO
                     "f.FUNDING_ID, " +
                     "f.KONTAK_NAME, " +
                     "(CASE " +
-                    "WHEN f.CHECK_REFF = '1' THEN k.NO_KONTRAK " +
+                    "WHEN f.CHECK_REFF = 1 THEN k.NO_KONTRAK " +
                     "ELSE md.NAME_ACCOUNT " +
                     "END) AS REFF, " +
                     "f.TANGGAL, " +
@@ -133,11 +131,9 @@ public class FundingReportDAO
                     "FROM " +
                     "FUNDING AS f " +
                     "LEFT JOIN " +
-                    "KONTRAK AS k ON (f.KONTRAK_ID = k.KONTRAK_ID) " +
-                    "AND (f.CHECK_REFF = 1) " +
+                    "KONTRAK AS k ON ((f.KONTRAK_ID = k.KONTRAK_ID) AND (f.CHECK_REFF = 1)) " +
                     "LEFT JOIN " +
-                    "MASTER_DANA AS md ON (f.KONTRAK_ID = md.MASTER_DANA_ID) " +
-                    "AND (f.CHECK_REFF = 0) " +
+                    "MASTER_DANA AS md ON ((f.KONTRAK_ID = md.MASTER_DANA_ID) AND (f.CHECK_REFF = 0)) " +
                     "WHERE " + parameter + ";";
 
             statement = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);

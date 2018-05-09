@@ -542,7 +542,7 @@ public class LaporanForm extends JInternalFrame
 					else
 					{
 						Date date1 = CL_Bulanan_1.getDate();
-						Date date2 = CL_Bulanan_1.getDate();
+						Date date2 = CL_Bulanan_2.getDate();
 
 						List<CostOperasionalReport> allDataCostOperasional = costOperasionalReportDAO.GetAllCostOperasionalReportBulanan(date1, date2);
 						List<CostOperasionalReport> allDataImage = costOperasionalReportDAO.GetAllCostOperasionalReportBulanan(date1, date2);

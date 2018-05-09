@@ -2,7 +2,6 @@ package com.main.java.invoice.project.form;
 
 import com.main.java.invoice.project.dao.*;
 import com.main.java.invoice.project.pojo.*;
-import com.main.java.invoice.project.preference.StaticPreference;
 import com.toedter.calendar.JDateChooser;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -18,10 +17,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -651,8 +647,10 @@ public class LaporanForm extends JInternalFrame
 	private JasperPrint multipageLinking(JasperPrint page1, JasperPrint page2) {
 
 		List pages = page2.getPages();
-		for (int i = 0; i < pages.size(); i++) {
-			page1.addPage((JRPrintPage) pages.get(i));
+
+		for (Object page : pages)
+		{
+			page1.addPage((JRPrintPage) page);
 		}
 		return page1;
 	}

@@ -1,5 +1,7 @@
 package com.main.java.invoice.project.pojo;
 
+import java.io.ByteArrayInputStream;
+
 /**
  * Created by dery on 5/8/18.
  */
@@ -245,7 +247,7 @@ public class PoEventReport
         return imageTr;
     }
 
-    public void setImageTr(String imageTr) {
+    public void setImageTr(ByteArrayInputStream imageTr) {
         this.imageTr = imageTr;
     }
 }

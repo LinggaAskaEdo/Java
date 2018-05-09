@@ -56,7 +56,8 @@ public class BOSDAO
         
         try
         {
-            result = jdbcTemplate.queryForObject(query, new String[] { "'%" + district + "%'", "'%" + province + "%'" }, Integer.class);
+            result = jdbcTemplate.queryForObject(query, new String[] { "'" + district + "'", "'" + province + "'" }, Integer.class);
+            //result = jdbcTemplate.queryForObject(query, new String[] { "'%" + district + "%'", "'%" + province + "%'" }, Integer.class);
         }
         catch (Exception e)
         {
@@ -85,26 +86,6 @@ public class BOSDAO
 
         return result;
     }
-
-    /*public boolean checkItem(Integer userId, String codeName, String size, int total)
-    {
-        boolean result = false;
-
-        String query = "SELECT ((SELECT ITEM_STOCK FROM ITEM WHERE USER_ID = ? AND ITEM_CODE = ? AND ITEM_SIZE = ?) >= ?)";
-
-        log.debug("Query checkItem: {}", query);
-
-        try
-        {
-            result = jdbcTemplate.queryForObject(query, new Object[] { userId, codeName, size, total }, Boolean.class);
-        }
-        catch (Exception e)
-        {
-            log.error("ERROR when checkItem: {}", e);
-        }
-
-        return result;
-    }*/
 
     public Item getItem(Integer userId, String codeItem, String sizeItem)
     {
@@ -181,5 +162,10 @@ public class BOSDAO
         }
 
         return total;
+    }
+
+    public boolean isSupportBest(String district, String province)
+    {
+
     }
 }

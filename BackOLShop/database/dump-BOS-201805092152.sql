@@ -1,8 +1,6 @@
-CREATE DATABASE  IF NOT EXISTS `BOS` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `BOS`;
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.22, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: BOS
+-- Host: localhost    Database: BOS
 -- ------------------------------------------------------
 -- Server version	5.7.22-log
 
@@ -26,15 +24,14 @@ DROP TABLE IF EXISTS `CLIENT`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `CLIENT` (
   `CLIENT_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `CLIENT_COUNTRY` varchar(45) NOT NULL,
   `CLIENT_NAME` varchar(45) NOT NULL,
   `CLIENT_HP` varchar(45) NOT NULL,
   `CLIENT_BANK_NAME` varchar(45) NOT NULL,
   `CLIENT_BANK_NUMBER` varchar(45) NOT NULL,
   `CLIENT_ADDRESS` varchar(150) NOT NULL,
-  `CLIENT_CITY` varchar(45) NOT NULL,
-  `CLIENT_DISTRICT` varchar(45) NOT NULL,
-  `CLIENT_PROVINCE` varchar(45) NOT NULL,
-  `CLIENT_COUNTRY` varchar(45) NOT NULL,
+  `CLIENT_DISTRICTS` varchar(45) DEFAULT NULL,
+  `CLIENT_PROVINCE` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`CLIENT_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -120,18 +117,19 @@ DROP TABLE IF EXISTS `ITEM`;
 CREATE TABLE `ITEM` (
   `ITEM_ID` int(11) NOT NULL AUTO_INCREMENT,
   `USER_ID` int(11) NOT NULL,
+  `ITEM_CODE` varchar(5) NOT NULL,
   `ITEM_NAME` varchar(45) NOT NULL,
   `ITEM_PICTURE` varchar(150) DEFAULT NULL,
-  `ITEM_SIZE` varchar(2) DEFAULT NULL,
+  `ITEM_SIZE` varchar(2) NOT NULL,
   `ITEM_DESC` varchar(500) DEFAULT NULL,
-  `ITEM_STOCK` int(11) DEFAULT NULL,
+  `ITEM_STOCK` int(11) NOT NULL,
   `ITEM_PRICE` int(11) NOT NULL,
-  `ITEM_WEIGHT` int(11) DEFAULT NULL,
+  `ITEM_WEIGHT` int(11) NOT NULL,
   PRIMARY KEY (`ITEM_ID`),
   UNIQUE KEY `ITEM_NAME_UNIQUE` (`ITEM_NAME`),
   KEY `USER_FK_idx` (`USER_ID`),
   CONSTRAINT `FK_USER_ITEM` FOREIGN KEY (`USER_ID`) REFERENCES `USER` (`USER_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -140,6 +138,7 @@ CREATE TABLE `ITEM` (
 
 LOCK TABLES `ITEM` WRITE;
 /*!40000 ALTER TABLE `ITEM` DISABLE KEYS */;
+INSERT INTO `ITEM` VALUES (1,1,'LAC','Leafs Art CT',NULL,'S','• Modern fit • Front Large screenprint • Exterior woven label',2,425000,1),(2,1,'RGD','Rangda',NULL,'S','• Modern fit • Front chest screenprint • Exterior woven label',0,425000,1);
 /*!40000 ALTER TABLE `ITEM` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -188,6 +187,7 @@ CREATE TABLE `TRANSACTION` (
   `IS_CANCELED` tinyint(4) DEFAULT NULL,
   `IS_DELIVERED` tinyint(4) DEFAULT NULL,
   `INVOICE_NUMBER` varchar(45) DEFAULT NULL,
+  `SHIPPING_TYPE` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`TRANSACTION_ID`),
   UNIQUE KEY `TRANSACTION_NUMBER_UNIQUE` (`TRANSACTION_NUMBER`),
   KEY `FK_USER_TRANSACTION_idx` (`USER_ID`),
@@ -235,9 +235,39 @@ CREATE TABLE `USER` (
 
 LOCK TABLES `USER` WRITE;
 /*!40000 ALTER TABLE `USER` DISABLE KEYS */;
-INSERT INTO `USER` VALUES (1,'AskaCool','xxx','lemp.otis@gmail.com','093f8b8afbe3','2018-04-27','085715025257','09:00:00.000','15:00:00.000',1);
+INSERT INTO `USER` VALUES (1,'AskaCool','xxx','lemp.otis@gmail.com','093f8b8afbe3','2018-04-29','085715025257','09:00:00.000','15:00:00.000',1);
 /*!40000 ALTER TABLE `USER` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'BOS'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `COUNT_SHIPPING_IN_PROC` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`dev`@`%` PROCEDURE `COUNT_SHIPPING_IN_PROC`(IN weight INT(11), 
+	IN district VARCHAR(45), IN province VARCHAR(25))
+BEGIN
+	SELECT 
+		CASE WHEN (weight > 6)
+			THEN EXPEDITION_IN_PRICE_REG
+			ELSE EXPEDITION_IN_PRICE_CARGO
+        END AS PRICE
+    FROM BOS.EXPEDITION_IN
+    WHERE EXPEDITION_IN_DISTRICT LIKE district AND EXPEDITION_IN_PROVINCE LIKE province;    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -248,4 +278,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-28  7:36:17
+-- Dump completed on 2018-05-09 21:52:26

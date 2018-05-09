@@ -10,24 +10,6 @@ repositories {
     maven { url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/" }
 }
 
-/*def jarBaseName= 'invoice'
-def distributionFolder = 'invoice'
-def configFiles = ['invoice.sh', 'README'] as Set
-
-jar {
-    doFirst {
-        manifest {
-            if (!configurations.compile.isEmpty()) {
-                attributes(
-                        'Class-Path': configurations.compile.collect{it.toURI().toString()}.join(' '),
-                        'Main-Class': 'com.main.java.invoice.project.Main')
-            }
-        }
-    }
-    baseName = jarBaseName
-    exclude configFiles
-}*/
-
 dependencies {
     //MySql
     compile("mysql:mysql-connector-java:5.1.40")
@@ -43,6 +25,9 @@ dependencies {
 
     //JasperReport
     compile("net.sf.jasperreports:jasperreports:5.6.0")
+
+    //Apache common
+    compile("commons-codec:commons-codec:1.11")
 }
 
 // Task "distZip" added by plugin "java-library-distribution":
@@ -54,32 +39,5 @@ jar {
 
     manifest {
         attributes 'Main-Class': 'com.main.java.invoice.project.form.Main', 'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
-    }
-    // How-to add class path:
-    //     https://stackoverflow.com/questions/22659463/add-classpath-in-manifest-using-gradle
-    //     https://gist.github.com/simon04/6865179
+    }//gist.github.com/simon04/6865179
 }
-
-/*task copyFilesToPackage << {
-    copy {
-        //from('src/main/resources')
-        from 'build/libs/' + jarBaseName + '.jar'
-        into 'build/' + distributionFolder + '/lib'
-    }
-
-    copy {
-        from('src/main/resources') {
-            include configFiles
-        }
-        into 'build/' + distributionFolder
-    }
-}*/
-
-/*task zipPackage(type: Zip, dependsOn: 'copyFilesToPackage') {
-    from 'build/' + distributionFolder
-    baseName distributionFolder
-}*/
-
-/*
-build.dependsOn zipPackage
-zipPackage.mustRunAfter check*/

@@ -1,7 +1,16 @@
-~Database
+** Account **
+
+Paket VPS			:	Bisnis (backolshop.com)
+Hostname			:	root
+Status				:	executing
+Operating System	:	Ubuntu 16.04 64bit
+IP Address			:	185.201.8.192
+Root password		:	IQnm2ZUJ
+
+** Database **
 name = BACK_OL_SHOP
 
-~Tables
+** Tables **
 1. USER
 		*USER_ID			=	int (ai)
 		*USER_NAME			=	varchar
@@ -39,24 +48,31 @@ name = BACK_OL_SHOP
 		*CLIENT_BANK_NAME	=	varchar
 		*CLIENT_BANK_NUMBER	=	varchar
 
-================================================================================================================
-
-1. Format pesanan dari dalam negeri
-
-a. 1 barang
+** Format pesanan dari dalam negeri **
+1 barang
 #BELI#KODE NEGARA#NAMA PEMBELI#NAMA BANK#REKENING BANK#ALAMAT LENGKAP#KECAMATAN#PROPINSI#KODE-UKURAN-JUMLAH BARANG#
 
-b. > 1 barang
+> 1 barang
 #BELI#KODE NEGARA#NAMA PEMBELI#NAMA BANK#REKENING BANK#ALAMAT LENGKAP#KECAMATAN#PROPINSI#KODE-UKURAN-JUMLAH BARANG, KODE-UKURAN-JUMLAH BARANG#
 
-2. Format pesanan dari luar negeri
-
-a. 1 barang
+** Format pesanan dari luar negeri **
+1 barang
 #BELI#KODE NEGARA#NAMA PEMBELI#NAMA BANK#REKENING BANK#ALAMAT LENGKAP#KODE-UKURAN-JUMLAH BARANG#
 
-b. > 1 barang
+> 1 barang
 #BELI#KODE NEGARA#NAMA PEMBELI#NAMA BANK#REKENING BANK#ALAMAT LENGKAP#KODE-UKURAN-JUMLAH BARANG, KODE-UKURAN-JUMLAH BARANG#
 
-3. Format cek stock barang
+** Format cek stock barang **
 #CEK#KODE BARANG#UKURAN# --> akan mengeluarkan jumlah barang sesuai ukuran
 (LATER!!!) #CEK#KODE BARANG# --> akan mengeluarkan jumlah barang semua ukuran
+
+** Trik Transaksi **
+- Generate 3 angka unik dari total pembayaran, maksimum 999
+
+"Mohon di transfer sesuai totalan berikut dengan kode unik yang diberikan. Ini memudahkan kami dalam pengecekan transferan. Dan mengenai nominal kode unik. Seluruh kode unik tersebut akan kami total dan kami sedekahkan setiap bulannya. Mohon maaf kurang lebihnya."
+
+- Nambah satu format pemesanan untuk REG/BEST
+- Minta CARGO kurang dari 7 kg, paksa jadi REG (Kargo minimal 7kg)
+- Minta BEST ga support BEST daerahnya, paksa ke REG
+- Berat berapa pun sesuai dengan permintaan
+- Pengiriman luar negeri dilebihkan 10 ribu dari harga

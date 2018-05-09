@@ -4,10 +4,7 @@
 
 package com.back.olshop.service;
 
-import com.back.olshop.constant.ApplicationStatus;
-import com.back.olshop.constant.CountryCode;
-import com.back.olshop.constant.MessagePreference;
-import com.back.olshop.constant.MessageType;
+import com.back.olshop.constant.*;
 import com.back.olshop.dao.BOSDAO;
 import com.back.olshop.model.Item;
 import com.back.olshop.model.Request;
@@ -20,7 +17,10 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 
 @Service
 public class BOSService
@@ -30,6 +30,7 @@ public class BOSService
     private String countryCode, district, province;
     private int totalWeight, totalPrice, totalShipping;
     private List<Item> itemList = new ArrayList<>();
+    private String shippingType;
 
     @Autowired
     private BOSDAO dao;
@@ -178,6 +179,22 @@ public class BOSService
                         }
                         else
                         {
+                            try
+                            {
+                                if (data[10] != null && Arrays.asList(ShippingType.shippingArrays).contains(data[10].trim()))
+                                {
+                                    shippingType = data[10].trim();
+                                }
+                                else
+                                {
+                                    return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_SHIPPING_TYPE);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                shippingType = ShippingType.SHIPPING_TYPE_REG;
+                            }
+
                             return processOrder(userId, order);
                         }
                     }
@@ -389,6 +406,20 @@ public class BOSService
             log.debug("totalWeight: {}", totalWeight);
             log.debug("totalPrice: {}", totalPrice);
             log.debug("totalShipping: {}", totalShipping);
+
+            if (shippingType.equalsIgnoreCase(ShippingType.SHIPPING_TYPE_CARGO) && totalWeight < 7)
+            {
+                shippingType = ShippingType.SHIPPING_TYPE_REG;
+            }
+            else if (shippingType.equalsIgnoreCase(ShippingType.SHIPPING_TYPE_BEST))
+            {
+                if (dao.isSupportBest(district, province))
+                {
+
+                }
+            }
+
+            log.debug("shippingType: {}", shippingType);
 
             itemList.clear();
 

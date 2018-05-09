@@ -13,6 +13,7 @@ public class MessagePreference
     //public static final String MESSAGE_INVALID_TOKEN = "Sorry, invalid token";
     public static final String MESSAGE_STORE_CLOSE = "Sorry, the store is still closed";
     public static final String MESSAGE_INVALID_KEYWORD = "Wrong keywords, please input BELI";
+    public static final String MESSAGE_INVALID_SHIPPING_TYPE = "Unknown shipping type";
     public static final String MESSAGE_UNKNOWN_KEYWORD = "Sorry, Unknown keywords !!!";
     public static final String MESSAGE_UNKNOWN_COUNTRY = "Sorry, Unknown country code !!!";
     public static final String MESSAGE_UNKNOWN_REGION = "Sorry, Unknown region !!!";
@@ -33,4 +34,6 @@ public class MessagePreference
     public static final String MESSAGE_ERROR_EMPTY_ITEM = "Can't find item with that code & size";
 
     public static final String MESSAGE_PROCESS_ORDER = "Your order will be process";
+
+
 }

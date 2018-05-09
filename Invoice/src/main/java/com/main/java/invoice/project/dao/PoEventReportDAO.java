@@ -1,9 +1,10 @@
 package com.main.java.invoice.project.dao;
 
 import com.main.java.invoice.project.pojo.PoEventReport;
-import com.main.java.invoice.project.pojo.PoMediaReport;
 import com.main.java.invoice.project.preference.StaticPreference;
+import org.apache.commons.codec.binary.Base64;
 
+import java.io.ByteArrayInputStream;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class PoEventReportDAO
         {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
-            String parameter = "";
+            String parameter;
             String currentDate1 = dateFormat.format(date);
 
             if(!perusahaan.equals("") && klien.equals(""))
@@ -79,15 +80,15 @@ public class PoEventReportDAO
                     "TO_BASE64(tr.PPN_IMAGE) AS IMAGE_TR " +
                     "FROM " +
                     "PO_EVENT pe " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "KONTRAK k ON pe.KONTRAK_ID = k.NO_KONTRAK " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "DETAIL_EVENT de ON pe.PO_EVENT_NO = de.PO_EVENT_NO " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "DETAIL_REIMBURSE dr ON pe.PO_EVENT_NO = dr.PO_EVENT_NO " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "TAGIHAN_REIMBURSE tr ON pe.PO_EVENT_NO = tr.PO_EVENT_NO " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "MASTER_PERUSAHAAN mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID " +
                     "WHERE "+parameter+";";
 
@@ -123,7 +124,8 @@ public class PoEventReportDAO
                 poEventReport.setTanggalTr(resultSet.getString(24));
                 poEventReport.setMasterMediaId(resultSet.getString(25));
                 poEventReport.setKeteranganTr(resultSet.getString(26));
-                poEventReport.setImageTr(resultSet.getString(27));
+                //poEventReport.setImageTr(resultSet.getString(27));
+                poEventReport.setImageTr(new ByteArrayInputStream(Base64.decodeBase64(resultSet.getString(27).getBytes())));
 
                 allPoEventReport.add(poEventReport);
             }
@@ -148,7 +150,7 @@ public class PoEventReportDAO
         {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
-            String parameter = "";
+            String parameter;
             String currentDate1 = dateFormat.format(date1);
             String currentDate2 = dateFormat.format(date2);
 
@@ -199,15 +201,15 @@ public class PoEventReportDAO
                     "tr.PPN_IMAGE AS IMAGE_TR " +
                     "FROM " +
                     "PO_EVENT pe " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "KONTRAK k ON pe.KONTRAK_ID = k.NO_KONTRAK " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "DETAIL_EVENT de ON pe.PO_EVENT_NO = de.PO_EVENT_NO " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "DETAIL_REIMBURSE dr ON pe.PO_EVENT_NO = dr.PO_EVENT_NO " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "TAGIHAN_REIMBURSE tr ON pe.PO_EVENT_NO = tr.PO_EVENT_NO " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "MASTER_PERUSAHAAN mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID " +
                     "WHERE "+parameter+";";
 
@@ -243,7 +245,8 @@ public class PoEventReportDAO
                 poEventReport.setTanggalTr(resultSet.getString(24));
                 poEventReport.setMasterMediaId(resultSet.getString(25));
                 poEventReport.setKeteranganTr(resultSet.getString(26));
-                poEventReport.setImageTr(resultSet.getString(27));
+                //poEventReport.setImageTr(resultSet.getString(27));
+                poEventReport.setImageTr(new ByteArrayInputStream(Base64.decodeBase64(resultSet.getString(27).getBytes())));
 
                 allPoEventReport.add(poEventReport);
             }

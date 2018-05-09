@@ -27,7 +27,7 @@
 	<field name="keterangan" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="bukti" class="java.sql.Blob">
+	<field name="bukti" class="java.io.InputStream">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="detailEventId" class="java.lang.String">
@@ -79,7 +79,8 @@
 		<band height="609" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="555" height="609" uuid="7d306a8f-18ff-4d3b-b325-c539251d0b88"/>
-				<imageExpression class="java.io.InputStream"><![CDATA[$F{bukti}.getBinaryStream()]]></imageExpression>
+				<!--<imageExpression class="java.io.InputStream"><![CDATA[$F{bukti}.getBinaryStream()]]></imageExpression>-->
+				<imageExpression class="java.io.InputStream"><![CDATA[new java.io.ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64($F{bukti}.getBytes()))]]></imageExpression>
 			</image>
 		</band>
 	</detail>

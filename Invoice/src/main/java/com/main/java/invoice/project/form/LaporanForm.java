@@ -13,6 +13,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -150,6 +152,38 @@ public class LaporanForm extends JInternalFrame
 		RadioButtonActionListener actionListener = new RadioButtonActionListener();
 		rdbtnHarian.addActionListener(actionListener);
 		rdbtnBulanan.addActionListener(actionListener);
+
+		CB_Laporan.addItemListener(new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent arg0)
+			{
+				if (CB_Laporan.getSelectedItem().equals("PO EVENT REPORT"))
+				{
+					comboBoxClient.setEnabled(true);
+					comboBoxPt.setEnabled(true);
+				}
+				else if (CB_Laporan.getSelectedItem().equals("PO MEDIA REPORT"))
+				{
+					comboBoxClient.setEnabled(true);
+					comboBoxPt.setEnabled(true);
+				}
+				else if (CB_Laporan.getSelectedItem().equals("PO PRODUKSI REPORT"))
+				{
+					comboBoxClient.setEnabled(true);
+					comboBoxPt.setEnabled(true);
+				}
+				else if (CB_Laporan.getSelectedItem().equals("FUNDING REPORT"))
+				{
+					comboBoxClient.setEnabled(true);
+					comboBoxPt.setEnabled(false);
+				}
+				else if (CB_Laporan.getSelectedItem().equals("COST OPERATIONAL REPORT"))
+				{
+					comboBoxClient.setEnabled(false);
+					comboBoxPt.setEnabled(false);
+				}
+			}
+		});
 
 		JButton btnCetak = new JButton("Cetak");
 		btnCetak.addActionListener(new ActionListener()

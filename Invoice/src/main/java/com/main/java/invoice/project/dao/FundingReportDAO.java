@@ -127,7 +127,7 @@ public class FundingReportDAO
                     "f.TANGGAL, " +
                     "f.NILAI, " +
                     "f.KETERANGAN, " +
-                    "f.PPN_IMAGE" +
+                    "f.PPN_IMAGE " +
                     "FROM " +
                     "FUNDING AS f " +
                     "LEFT JOIN " +

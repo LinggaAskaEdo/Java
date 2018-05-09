@@ -35,15 +35,15 @@ public class PoEventReportDAO
 
             if(!perusahaan.equals("") && klien.equals(""))
             {
-                parameter = "mp.NAME = "+perusahaan+" AND pe.TANGGAL = '" + currentDate1 + "'";
+                parameter = "mp.NAME = '"+perusahaan+"' AND pe.TANGGAL = '" + currentDate1 + "'";
             }
             else if (perusahaan.equals("") && !klien.equals(""))
             {
-                parameter = "k.PROJECT = "+klien+" AND pe.TANGGAL = '" + currentDate1 + "'";
+                parameter = "k.PROJECT = '"+klien+"' AND pe.TANGGAL = '" + currentDate1 + "'";
             }
             else if (!perusahaan.equals("") && !klien.equals(""))
             {
-                parameter = "mp.NAME = "+perusahaan+" OR k.PROJECT = "+klien+" AND pe.TANGGAL = '" + currentDate1 + "'";
+                parameter = "mp.NAME = '"+perusahaan+"' OR k.PROJECT = '"+klien+"' AND pe.TANGGAL = '" + currentDate1 + "'";
             }
             else
             {
@@ -58,7 +58,7 @@ public class PoEventReportDAO
                     "pe.TANGGAL, " +
                     "pe.JUMLAH, " +
                     "pe.KETERANGAN, " +
-                    "TO_BASE64(pe.BUKTI), " +
+                    "pe.BUKTI, " +
                     "de.DETAIL_EVENT_ID, " +
                     "de.URAIAN, " +
                     "de.DETAIL, " +
@@ -81,7 +81,7 @@ public class PoEventReportDAO
                     "FROM " +
                     "PO_EVENT pe " +
                     "    LEFT JOIN " +
-                    "KONTRAK k ON pe.KONTRAK_ID = k.NO_KONTRAK " +
+                    "KONTRAK k ON pe.KONTRAK_ID = k.KONTRAK_ID " +
                     "    LEFT JOIN " +
                     "DETAIL_EVENT de ON pe.PO_EVENT_NO = de.PO_EVENT_NO " +
                     "    LEFT JOIN " +
@@ -164,15 +164,15 @@ public class PoEventReportDAO
 
             if(!perusahaan.equals("") && klien.equals(""))
             {
-                parameter = "mp.NAME = "+perusahaan+" AND pe.TANGGAL BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
+                parameter = "mp.NAME = '"+perusahaan+"' AND pe.TANGGAL BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
             }
             else if (perusahaan.equals("") && !klien.equals(""))
             {
-                parameter = "k.PROJECT = "+klien+" AND pe.TANGGAL BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
+                parameter = "k.PROJECT = '"+klien+"' AND pe.TANGGAL BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
             }
             else if (!perusahaan.equals("") && !klien.equals(""))
             {
-                parameter = "mp.NAME = "+perusahaan+" OR k.PROJECT = "+klien+" AND pe.TANGGAL BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
+                parameter = "mp.NAME = '"+perusahaan+"' OR k.PROJECT = '"+klien+"' AND pe.TANGGAL BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
             }
             else
             {
@@ -210,7 +210,7 @@ public class PoEventReportDAO
                     "FROM " +
                     "PO_EVENT pe " +
                     "    LEFT JOIN " +
-                    "KONTRAK k ON pe.KONTRAK_ID = k.NO_KONTRAK " +
+                    "KONTRAK k ON pe.KONTRAK_ID = k.KONTRAK_ID " +
                     "    LEFT JOIN " +
                     "DETAIL_EVENT de ON pe.PO_EVENT_NO = de.PO_EVENT_NO " +
                     "    LEFT JOIN " +

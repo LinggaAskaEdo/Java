@@ -34,7 +34,7 @@ public class FundingReportDAO
 
             if (! klien.equals(""))
             {
-                parameter = "(CASE WHEN f.CHECK_REFF = '1' THEN k.PROJECT = " +klien+ " ELSE md.NAME_ACCOUNT = md.NAME_ACCOUNT " +
+                parameter = "(CASE WHEN f.CHECK_REFF = '1' THEN k.PROJECT = '" +klien+ "' ELSE md.NAME_ACCOUNT = md.NAME_ACCOUNT " +
                         "END) AND f.TANGGAL = " + currentDate1;
             }
             else
@@ -111,7 +111,7 @@ public class FundingReportDAO
 
             if (! klien.equals(""))
             {
-                parameter = "(CASE WHEN f.CHECK_REFF = '1' THEN k.PROJECT = " +klien+ " ELSE md.NAME_ACCOUNT = md.NAME_ACCOUNT " +
+                parameter = "(CASE WHEN f.CHECK_REFF = '1' THEN k.PROJECT = '" +klien+ "' ELSE md.NAME_ACCOUNT = md.NAME_ACCOUNT " +
                         "END) AND f.TANGGAL BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
             }
             else

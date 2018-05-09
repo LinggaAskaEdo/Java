@@ -34,15 +34,15 @@ public class PoProduksiReportDAO
 
             if(!perusahaan.equals("") && klien.equals(""))
             {
-                parameter = "mp.NAME = "+perusahaan+" AND pp.TANGGAL = '" + currentDate1 + "'";
+                parameter = "mp.NAME = '"+perusahaan+"' AND pp.TANGGAL = '" + currentDate1 + "'";
             }
             else if (perusahaan.equals("") && !klien.equals(""))
             {
-                parameter = "k.PROJECT = "+klien+" AND pp.TANGGAL = '" + currentDate1 + "'";
+                parameter = "k.PROJECT = '"+klien+"' AND pp.TANGGAL = '" + currentDate1 + "'";
             }
             else if (!perusahaan.equals("") && !klien.equals(""))
             {
-                parameter = "mp.NAME = " +perusahaan+ " AND k.PROJECT = "+klien+" AND pp.TANGGAL = '" + currentDate1 + "'";
+                parameter = "mp.NAME = '" +perusahaan+ "' AND k.PROJECT = '"+klien+"' AND pp.TANGGAL = '" + currentDate1 + "'";
             }
             else
             {
@@ -144,15 +144,15 @@ public class PoProduksiReportDAO
 
             if(!perusahaan.equals("") && klien.equals(""))
             {
-                parameter = "mp.NAME = "+perusahaan+" AND pp.TANGGAL BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
+                parameter = "mp.NAME = '"+perusahaan+"' AND pp.TANGGAL BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
             }
             else if (perusahaan.equals("") && !klien.equals(""))
             {
-                parameter = "k.PROJECT = "+klien+" AND pp.TANGGAL BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
+                parameter = "k.PROJECT = '"+klien+"' AND pp.TANGGAL BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
             }
             else if (!perusahaan.equals("") && !klien.equals(""))
             {
-                parameter = "mp.NAME = " +perusahaan+ " AND k.PROJECT = "+klien+" AND pp.TANGGAL BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
+                parameter = "mp.NAME = '" +perusahaan+ "' AND k.PROJECT = '"+klien+"' AND pp.TANGGAL BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
             }
             else
             {

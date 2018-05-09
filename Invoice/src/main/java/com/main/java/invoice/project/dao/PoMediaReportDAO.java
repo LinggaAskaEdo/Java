@@ -34,15 +34,15 @@ public class PoMediaReportDAO
 
             if(!perusahaan.equals("") && klien.equals(""))
             {
-                parameter = "mp.NAME = "+perusahaan+" AND pm.TANGGAL_TAYANG = '" + currentDate1 + "'";
+                parameter = "mp.NAME = '"+perusahaan+"' AND pm.TANGGAL_TAYANG = '" + currentDate1 + "'";
             }
             else if (perusahaan.equals("") && !klien.equals(""))
             {
-                parameter = "k.PROJECT = "+klien+" AND pm.TANGGAL_TAYANG = '" + currentDate1 + "'";
+                parameter = "k.PROJECT = '"+klien+"' AND pm.TANGGAL_TAYANG = '" + currentDate1 + "'";
             }
             else if (!perusahaan.equals("") && !klien.equals(""))
             {
-                parameter = "mp.NAME = "+perusahaan+" AND k.PROJECT = "+klien+" AND pm.TANGGAL_TAYANG = '" + currentDate1 + "'";
+                parameter = "mp.NAME = '"+perusahaan+"' AND k.PROJECT = '"+klien+"' AND pm.TANGGAL_TAYANG = '" + currentDate1 + "'";
             }
             else
             {
@@ -139,15 +139,15 @@ public class PoMediaReportDAO
 
             if(!perusahaan.equals("") && klien.equals(""))
             {
-                parameter = "mp.NAME = "+perusahaan+" AND pm.TANGGAL_TAYANG BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
+                parameter = "mp.NAME = '"+perusahaan+"' AND pm.TANGGAL_TAYANG BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
             }
             else if (perusahaan.equals("") && !klien.equals(""))
             {
-                parameter = "k.PROJECT = "+klien+" AND pm.TANGGAL_TAYANG BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
+                parameter = "k.PROJECT = '"+klien+"' AND pm.TANGGAL_TAYANG BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
             }
             else if (!perusahaan.equals("") && !klien.equals(""))
             {
-                parameter = "mp.NAME = "+perusahaan+" AND k.PROJECT = "+klien+" AND pm.TANGGAL_TAYANG BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
+                parameter = "mp.NAME = '"+perusahaan+"' AND k.PROJECT = '"+klien+"' AND pm.TANGGAL_TAYANG BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";
             }
             else
             {

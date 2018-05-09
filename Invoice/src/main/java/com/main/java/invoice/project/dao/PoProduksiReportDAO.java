@@ -57,7 +57,7 @@ public class PoProduksiReportDAO
                     "pp.TANGGAL, " +
                     "pp.NILAI_PRODUKSI, " +
                     "pp.KETERANGAN, " +
-                    "TO_BASE64(pp.PPN_IMAGE), " +
+                    "pp.PPN_IMAGE, " +
                     "dp.DETAIL_PRODUKSI_ID, " +
                     "dp.MEDIA, " +
                     "dp.DURASI, " +
@@ -95,7 +95,12 @@ public class PoProduksiReportDAO
                 poProduksiReport.setTanggal(resultSet.getString(5));
                 poProduksiReport.setNilaiProduksi(resultSet.getString(6));
                 poProduksiReport.setKeterangan(resultSet.getString(7));
-                poProduksiReport.setImagePoProduksi(resultSet.getString(8));
+
+                if (resultSet.getBlob(8) != null)
+                {
+                    poProduksiReport.setImagePoProduksi(resultSet.getBlob(8));
+                }
+
                 poProduksiReport.setDetailProduksiId(resultSet.getString(9));
                 poProduksiReport.setMedia(resultSet.getString(10));
                 poProduksiReport.setDurasi(resultSet.getString(11));
@@ -162,7 +167,7 @@ public class PoProduksiReportDAO
                     "pp.TANGGAL, " +
                     "pp.NILAI_PRODUKSI, " +
                     "pp.KETERANGAN, " +
-                    "TO_BASE64(pp.PPN_IMAGE), " +
+                    "pp.PPN_IMAGE, " +
                     "dp.DETAIL_PRODUKSI_ID, " +
                     "dp.MEDIA, " +
                     "dp.DURASI, " +
@@ -200,7 +205,12 @@ public class PoProduksiReportDAO
                 poProduksiReport.setTanggal(resultSet.getString(5));
                 poProduksiReport.setNilaiProduksi(resultSet.getString(6));
                 poProduksiReport.setKeterangan(resultSet.getString(7));
-                poProduksiReport.setImagePoProduksi(resultSet.getString(8));
+
+                if (resultSet.getBlob(8) != null)
+                {
+                    poProduksiReport.setImagePoProduksi(resultSet.getBlob(8));
+                }
+
                 poProduksiReport.setDetailProduksiId(resultSet.getString(9));
                 poProduksiReport.setMedia(resultSet.getString(10));
                 poProduksiReport.setDurasi(resultSet.getString(11));

@@ -60,12 +60,12 @@ public class PoMediaReportDAO
                      "pm.HARGA, " +
                      "pm.PPN, " +
                      "pm.KETERANGAN, " +
-                     "TO_BASE64(pm.PPN_IMAGE) AS IMAGE, " +
+                     "pm.PPN_IMAGE AS IMAGE, " +
                      "tm.TAGIHAN_MEDIA_ID, " +
                      "tm.INVOICE_MEDIA, " +
                      "tm.TANGGAL, " +
                      "tm.NILAI_TAGIHAN, " +
-                     "TO_BASE64(tm.PPN_IMAGE) " +
+                     "tm.PPN_IMAGE " +
                     "FROM " +
                      "PO_MEDIA pm " +
                      "    INNER JOIN " +
@@ -94,12 +94,22 @@ public class PoMediaReportDAO
                 poMediaReport.setHarga(resultSet.getString(8));
                 poMediaReport.setPpn(resultSet.getString(9));
                 poMediaReport.setKeterangan(resultSet.getString(10));
-                poMediaReport.setImagePoMedia(resultSet.getString(11));
+
+                if (resultSet.getBlob(11) != null)
+                {
+                    poMediaReport.setImagePoMedia(resultSet.getBlob(11));
+                }
+
                 poMediaReport.setTagihanMediaId(resultSet.getString(12));
                 poMediaReport.setInvoiceMedia(resultSet.getString(13));
                 poMediaReport.setTanggal(resultSet.getString(14));
                 poMediaReport.setNilaiTagihan(resultSet.getString(15));
-                poMediaReport.setImageTagihanMedia(resultSet.getString(16));
+
+                if (resultSet.getBlob(16) != null)
+                {
+                    poMediaReport.setImageTagihanMedia(resultSet.getBlob(16));
+                }
+
                 allPoMediaReport.add(poMediaReport);
             }
         }
@@ -155,12 +165,12 @@ public class PoMediaReportDAO
                     "pm.HARGA, " +
                     "pm.PPN, " +
                     "pm.KETERANGAN, " +
-                    "TO_BASE64(pm.PPN_IMAGE) AS IMAGE, " +
+                    "pm.PPN_IMAGE AS IMAGE, " +
                     "tm.TAGIHAN_MEDIA_ID, " +
                     "tm.INVOICE_MEDIA, " +
                     "tm.TANGGAL, " +
                     "tm.NILAI_TAGIHAN, " +
-                    "TO_BASE64(tm.PPN_IMAGE) " +
+                    "tm.PPN_IMAGE " +
                     "FROM " +
                     "PO_MEDIA pm " +
                     "    INNER JOIN " +
@@ -189,12 +199,22 @@ public class PoMediaReportDAO
                 poMediaReport.setHarga(resultSet.getString(8));
                 poMediaReport.setPpn(resultSet.getString(9));
                 poMediaReport.setKeterangan(resultSet.getString(10));
-                poMediaReport.setImagePoMedia(resultSet.getString(11));
+
+                if (resultSet.getBlob(11) != null)
+                {
+                    poMediaReport.setImagePoMedia(resultSet.getBlob(11));
+                }
+
                 poMediaReport.setTagihanMediaId(resultSet.getString(12));
                 poMediaReport.setInvoiceMedia(resultSet.getString(13));
                 poMediaReport.setTanggal(resultSet.getString(14));
                 poMediaReport.setNilaiTagihan(resultSet.getString(15));
-                poMediaReport.setImageTagihanMedia(resultSet.getString(16));
+
+                if (resultSet.getBlob(16) != null)
+                {
+                    poMediaReport.setImageTagihanMedia(resultSet.getBlob(16));
+                }
+
                 allPoMediaReport.add(poMediaReport);
             }
         }

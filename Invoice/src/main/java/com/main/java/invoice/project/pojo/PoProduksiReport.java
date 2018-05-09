@@ -1,5 +1,7 @@
 package com.main.java.invoice.project.pojo;
 
+import java.sql.Blob;
+
 /**
  * Created by dery on 5/7/18.
  */
@@ -12,7 +14,7 @@ public class PoProduksiReport
     private String tanggal;
     private String nilaiProduksi;
     private String keterangan;
-    private String imagePoProduksi;
+    private Blob imagePoProduksi;
     private String detailProduksiId;
     private String media;
     private String durasi;
@@ -87,11 +89,11 @@ public class PoProduksiReport
         this.keterangan = keterangan;
     }
 
-    public String getImagePoProduksi() {
+    public Blob getImagePoProduksi() {
         return imagePoProduksi;
     }
 
-    public void setImagePoProduksi(String imagePoProduksi) {
+    public void setImagePoProduksi(Blob imagePoProduksi) {
         this.imagePoProduksi = imagePoProduksi;
     }
 

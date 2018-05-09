@@ -1,5 +1,7 @@
 package com.main.java.invoice.project.pojo;
 
+import java.sql.Blob;
+
 /**
  * Created by dery on 5/7/18.
  */
@@ -15,12 +17,12 @@ public class PoMediaReport
     private String harga;
     private String ppn;
     private String keterangan;
-    private String imagePoMedia;
+    private Blob imagePoMedia;
     private String tagihanMediaId;
     private String invoiceMedia;
     private String tanggal;
     private String nilaiTagihan;
-    private String imageTagihanMedia;
+    private Blob imageTagihanMedia;
 
     public String getNoKontrak() {
         return noKontrak;
@@ -102,11 +104,11 @@ public class PoMediaReport
         this.keterangan = keterangan;
     }
 
-    public String getImagePoMedia() {
+    public Blob getImagePoMedia() {
         return imagePoMedia;
     }
 
-    public void setImagePoMedia(String imagePoMedia) {
+    public void setImagePoMedia(Blob imagePoMedia) {
         this.imagePoMedia = imagePoMedia;
     }
 
@@ -142,11 +144,11 @@ public class PoMediaReport
         this.nilaiTagihan = nilaiTagihan;
     }
 
-    public String getImageTagihanMedia() {
+    public Blob getImageTagihanMedia() {
         return imageTagihanMedia;
     }
 
-    public void setImageTagihanMedia(String imageTagihanMedia) {
+    public void setImageTagihanMedia(Blob imageTagihanMedia) {
         this.imageTagihanMedia = imageTagihanMedia;
     }
 }

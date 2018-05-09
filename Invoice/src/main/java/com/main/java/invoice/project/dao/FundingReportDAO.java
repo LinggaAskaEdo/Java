@@ -52,7 +52,7 @@ public class FundingReportDAO
                     "f.TANGGAL, " +
                     "f.NILAI, " +
                     "f.KETERANGAN, " +
-                    "TO_BASE64(f.PPN_IMAGE)" +
+                    "f.PPN_IMAGE" +
                     "FROM " +
                     "FUNDING AS f " +
                     "LEFT JOIN " +
@@ -75,7 +75,11 @@ public class FundingReportDAO
                 fundingReport.setTanggal(resultSet.getString(4));
                 fundingReport.setNilai(resultSet.getString(5));
                 fundingReport.setKeterangan(resultSet.getString(6));
-                fundingReport.setImageFunding(resultSet.getString(7));
+
+                if (resultSet.getBlob(7) != null)
+                {
+                    fundingReport.setImageFunding(resultSet.getBlob(7));
+                }
 
                 allFundingReport.add(fundingReport);
             }
@@ -125,7 +129,7 @@ public class FundingReportDAO
                     "f.TANGGAL, " +
                     "f.NILAI, " +
                     "f.KETERANGAN, " +
-                    "TO_BASE64(f.PPN_IMAGE)" +
+                    "f.PPN_IMAGE" +
                     "FROM " +
                     "FUNDING AS f " +
                     "LEFT JOIN " +
@@ -148,7 +152,11 @@ public class FundingReportDAO
                 fundingReport.setTanggal(resultSet.getString(4));
                 fundingReport.setNilai(resultSet.getString(5));
                 fundingReport.setKeterangan(resultSet.getString(6));
-                fundingReport.setImageFunding(resultSet.getString(7));
+
+                if (resultSet.getBlob(7) != null)
+                {
+                    fundingReport.setImageFunding(resultSet.getBlob(7));
+                }
 
                 allFundingReport.add(fundingReport);
             }

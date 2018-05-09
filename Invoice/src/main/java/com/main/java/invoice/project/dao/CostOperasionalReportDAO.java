@@ -37,7 +37,7 @@ public class CostOperasionalReportDAO
                     "CO.PIC, " +
                     "CO.KEPERLUAN, " +
                     "CO.TANGGAL_PEMBELIAN, " +
-                    "TO_BASE64(CO.PPN_IMAGE), " +
+                    "CO.PPN_IMAGE, " +
                     "MD.NAME_BANK_ACCOUNT, " +
                     "MD.NO_BANK_ACCOUNT " +
                     "FROM " +
@@ -57,7 +57,12 @@ public class CostOperasionalReportDAO
                 costOperasionalReport.setMasterDanaId(resultSet.getString(2));
                 costOperasionalReport.setKeperluan(resultSet.getString(3));
                 costOperasionalReport.setTanggalPembelian(resultSet.getString(4));
-                costOperasionalReport.setImageCostOperasional(resultSet.getString(5));
+
+                if (resultSet.getBlob(5) != null)
+                {
+                    costOperasionalReport.setImageCostOperasional(resultSet.getBlob(5));
+                }
+
                 costOperasionalReport.setNamaBankAkun(resultSet.getString(6));
                 costOperasionalReport.setNoBankAkun(resultSet.getString(7));
 
@@ -93,7 +98,7 @@ public class CostOperasionalReportDAO
                     "CO.PIC, " +
                     "CO.KEPERLUAN, " +
                     "CO.TANGGAL_PEMBELIAN, " +
-                    "TO_BASE64(CO.PPN_IMAGE), " +
+                    "CO.PPN_IMAGE, " +
                     "MD.NAME_BANK_ACCOUNT, " +
                     "MD.NO_BANK_ACCOUNT " +
                     "FROM " +
@@ -113,7 +118,12 @@ public class CostOperasionalReportDAO
                 costOperasionalReport.setMasterDanaId(resultSet.getString(2));
                 costOperasionalReport.setKeperluan(resultSet.getString(3));
                 costOperasionalReport.setTanggalPembelian(resultSet.getString(4));
-                costOperasionalReport.setImageCostOperasional(resultSet.getString(5));
+
+                if (resultSet.getBlob(5) != null)
+                {
+                    costOperasionalReport.setImageCostOperasional(resultSet.getBlob(5));
+                }
+
                 costOperasionalReport.setNamaBankAkun(resultSet.getString(6));
                 costOperasionalReport.setNoBankAkun(resultSet.getString(7));
 

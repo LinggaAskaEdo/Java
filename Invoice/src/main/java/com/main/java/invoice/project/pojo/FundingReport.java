@@ -1,5 +1,7 @@
 package com.main.java.invoice.project.pojo;
 
+import java.sql.Blob;
+
 /**
  * Created by dery on 5/5/18.
  */
@@ -11,7 +13,7 @@ public class FundingReport
     private String tanggal;
     private String nilai;
     private String keterangan;
-    private String imageFunding;
+    private Blob imageFunding;
 
     public String getFundingId() {
         return fundingId;
@@ -61,11 +63,11 @@ public class FundingReport
         this.keterangan = keterangan;
     }
 
-    public String getImageFunding() {
+    public Blob getImageFunding() {
         return imageFunding;
     }
 
-    public void setImageFunding(String imageFunding) {
+    public void setImageFunding(Blob imageFunding) {
         this.imageFunding = imageFunding;
     }
 }

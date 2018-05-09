@@ -1,5 +1,7 @@
 package com.main.java.invoice.project.pojo;
 
+import java.sql.Blob;
+
 /**
  * Created by dery on 5/6/18.
  */
@@ -10,7 +12,7 @@ public class CostOperasionalReport
     private String pic;
     private String keperluan;
     private String tanggalPembelian;
-    private String imageCostOperasional;
+    private Blob imageCostOperasional;
     private String namaBankAkun;
     private String noBankAkun;
 
@@ -54,11 +56,11 @@ public class CostOperasionalReport
         this.tanggalPembelian = tanggalPembelian;
     }
 
-    public String getImageCostOperasional() {
+    public Blob getImageCostOperasional() {
         return imageCostOperasional;
     }
 
-    public void setImageCostOperasional(String imageCostOperasional) {
+    public void setImageCostOperasional(Blob imageCostOperasional) {
         this.imageCostOperasional = imageCostOperasional;
     }
 

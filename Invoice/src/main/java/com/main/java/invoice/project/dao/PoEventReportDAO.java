@@ -77,7 +77,7 @@ public class PoEventReportDAO
                     "tr.TANGGAL AS TANGGAL_TR, " +
                     "tr.MASTER_MEDIA_ID, " +
                     "tr.KETERANGAN, " +
-                    "TO_BASE64(tr.PPN_IMAGE) AS IMAGE_TR " +
+                    "tr.PPN_IMAGE AS IMAGE_TR " +
                     "FROM " +
                     "PO_EVENT pe " +
                     "    LEFT JOIN " +
@@ -105,7 +105,12 @@ public class PoEventReportDAO
                 poEventReport.setTanggal(resultSet.getString(5));
                 poEventReport.setJumlah(resultSet.getString(6));
                 poEventReport.setKeterangan(resultSet.getString(7));
-                poEventReport.setBukti(resultSet.getString(8));
+
+                if (resultSet.getBlob(8) != null)
+                {
+                    poEventReport.setBukti(resultSet.getBlob(8));
+                }
+
                 poEventReport.setDetailEventId(resultSet.getString(9));
                 poEventReport.setUraian(resultSet.getString(10));
                 poEventReport.setDetail(resultSet.getString(11));
@@ -124,8 +129,11 @@ public class PoEventReportDAO
                 poEventReport.setTanggalTr(resultSet.getString(24));
                 poEventReport.setMasterMediaId(resultSet.getString(25));
                 poEventReport.setKeteranganTr(resultSet.getString(26));
-                //poEventReport.setImageTr(resultSet.getString(27));
-                poEventReport.setImageTr(new ByteArrayInputStream(Base64.decodeBase64(resultSet.getString(27).getBytes())));
+
+                if (resultSet.getBlob(27) != null)
+                {
+                    poEventReport.setImageTr(resultSet.getBlob(27));
+                }
 
                 allPoEventReport.add(poEventReport);
             }
@@ -226,7 +234,12 @@ public class PoEventReportDAO
                 poEventReport.setTanggal(resultSet.getString(5));
                 poEventReport.setJumlah(resultSet.getString(6));
                 poEventReport.setKeterangan(resultSet.getString(7));
-                poEventReport.setBukti(resultSet.getString(8));
+
+                if (resultSet.getBlob(8) != null)
+                {
+                    poEventReport.setBukti(resultSet.getBlob(8));
+                }
+
                 poEventReport.setDetailEventId(resultSet.getString(9));
                 poEventReport.setUraian(resultSet.getString(10));
                 poEventReport.setDetail(resultSet.getString(11));
@@ -245,8 +258,11 @@ public class PoEventReportDAO
                 poEventReport.setTanggalTr(resultSet.getString(24));
                 poEventReport.setMasterMediaId(resultSet.getString(25));
                 poEventReport.setKeteranganTr(resultSet.getString(26));
-                //poEventReport.setImageTr(resultSet.get(27));
-                poEventReport.setImageTr(new ByteArrayInputStream(Base64.decodeBase64(resultSet.getString(27).getBytes())));
+
+                if (resultSet.getBlob(27) != null)
+                {
+                    poEventReport.setImageTr(resultSet.getBlob(27));
+                }
 
                 allPoEventReport.add(poEventReport);
             }

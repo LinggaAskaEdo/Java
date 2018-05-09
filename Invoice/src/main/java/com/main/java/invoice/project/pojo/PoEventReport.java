@@ -2,6 +2,7 @@ package com.main.java.invoice.project.pojo;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.sql.Blob;
 
 /**
  * Created by dery on 5/8/18.
@@ -15,7 +16,7 @@ public class PoEventReport
     private String tanggal;
     private String jumlah;
     private String keterangan;
-    private String bukti;
+    private Blob bukti;
     private String detailEventId;
     private String uraian;
     private String detail;
@@ -34,7 +35,7 @@ public class PoEventReport
     private String tanggalTr;
     private String masterMediaId;
     private String keteranganTr;
-    private InputStream imageTr;
+    private Blob imageTr;
 
     public String getNoKontrak() {
         return noKontrak;
@@ -92,11 +93,11 @@ public class PoEventReport
         this.keterangan = keterangan;
     }
 
-    public String getBukti() {
+    public Blob getBukti() {
         return bukti;
     }
 
-    public void setBukti(String bukti) {
+    public void setBukti(Blob bukti) {
         this.bukti = bukti;
     }
 
@@ -244,11 +245,11 @@ public class PoEventReport
         this.keteranganTr = keteranganTr;
     }
 
-    public InputStream getImageTr() {
+    public Blob getImageTr() {
         return imageTr;
     }
 
-    public void setImageTr(InputStream imageTr) {
+    public void setImageTr(Blob imageTr) {
         this.imageTr = imageTr;
     }
 }

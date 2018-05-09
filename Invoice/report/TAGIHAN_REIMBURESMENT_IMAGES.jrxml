@@ -69,7 +69,7 @@
 	<field name="masterMediaId" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="imageTr" class="java.io.InputStream">
+	<field name="imageTr" class="java.sql.Blob">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -79,7 +79,9 @@
 		<band height="609" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="555" height="609" uuid="b1aa6ebc-da3d-4fb7-bf2b-c75a62a4f88e"/>
-				<imageExpression class="java.awt.Image"><![CDATA[$F{imageTr}]]></imageExpression>
+				<imageExpression class="java.io.InputStream"><![CDATA[$F{imageTr}.getBinaryStream()]]></imageExpression>
+				<!--<imageExpression class="java.awt.Image"><![CDATA[$F{imageTr}]]></imageExpression>-->
+				<!--<imageExpression class="java.io.InputStream"><![CDATA[new java.io.ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64($F{imageTr}.getBytes()))]]></imageExpression>-->
 			</image>
 		</band>
 	</detail>

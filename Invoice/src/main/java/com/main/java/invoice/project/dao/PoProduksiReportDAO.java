@@ -74,11 +74,11 @@ public class PoProduksiReportDAO
                     "dp.POST_PRODUKSI_TOTAL_HARGA " +
                     "FROM " +
                     "PO_PRODUKSI AS pp " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "KONTRAK AS k ON pp.KONTRAK_ID = k.KONTRAK_ID " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "DETAIL_PRODUKSI AS dp ON pp.PO_PRODUKSI_NO = dp.PO_PRODUKSI_NO " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "MASTER_PERUSAHAAN AS mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID " +
                     "WHERE "+parameter+";";
 
@@ -184,11 +184,11 @@ public class PoProduksiReportDAO
                     "dp.POST_PRODUKSI_TOTAL_HARGA " +
                     "FROM " +
                     "PO_PRODUKSI AS pp " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "KONTRAK AS k ON pp.KONTRAK_ID = k.KONTRAK_ID " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "DETAIL_PRODUKSI AS dp ON pp.PO_PRODUKSI_NO = dp.PO_PRODUKSI_NO " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "MASTER_PERUSAHAAN AS mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID " +
                     "WHERE "+parameter+";";
 

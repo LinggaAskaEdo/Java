@@ -6,7 +6,7 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name=" noKontrak" class="java.lang.String">
+	<field name="noKontrak" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="mediaName" class="java.lang.String">

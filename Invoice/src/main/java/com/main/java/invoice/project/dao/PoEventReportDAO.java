@@ -98,9 +98,9 @@ public class PoEventReportDAO
             while (resultSet.next())
             {
                 PoEventReport poEventReport = new PoEventReport();
-                poEventReport.setNoKontrak(resultSet.getString(1));
-                poEventReport.setPoEventId(resultSet.getString(2));
-                poEventReport.setPoEventNo(resultSet.getString(3));
+                poEventReport.setPoEventId(resultSet.getString(1));
+                poEventReport.setPoEventNo(resultSet.getString(2));
+                poEventReport.setNoKontrak(resultSet.getString(3));
                 poEventReport.setKegiatan(resultSet.getString(4));
                 poEventReport.setTanggal(resultSet.getString(5));
                 poEventReport.setJumlah(resultSet.getString(6));
@@ -227,9 +227,9 @@ public class PoEventReportDAO
             while (resultSet.next())
             {
                 PoEventReport poEventReport = new PoEventReport();
-                poEventReport.setNoKontrak(resultSet.getString(1));
-                poEventReport.setPoEventId(resultSet.getString(2));
-                poEventReport.setPoEventNo(resultSet.getString(3));
+                poEventReport.setPoEventId(resultSet.getString(1));
+                poEventReport.setPoEventNo(resultSet.getString(2));
+                poEventReport.setNoKontrak(resultSet.getString(3));
                 poEventReport.setKegiatan(resultSet.getString(4));
                 poEventReport.setTanggal(resultSet.getString(5));
                 poEventReport.setJumlah(resultSet.getString(6));

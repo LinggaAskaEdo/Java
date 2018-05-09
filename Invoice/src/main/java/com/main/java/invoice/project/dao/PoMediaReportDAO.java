@@ -68,13 +68,13 @@ public class PoMediaReportDAO
                      "tm.PPN_IMAGE " +
                     "FROM " +
                      "PO_MEDIA pm " +
-                     "    INNER JOIN " +
+                     "    LEFT JOIN " +
                      "KONTRAK k ON pm.KONTRAK_ID = k.KONTRAK_ID " +
-                     "    INNER JOIN " +
+                     "    LEFT JOIN " +
                      "MASTER_MEDIA mm ON pm.MASTER_MEDIA_ID = mm.MASTER_MEDIA_ID " +
-                     "    INNER JOIN " +
+                     "    LEFT JOIN " +
                      "TAGIHAN_MEDIA tm ON pm.PO_MEDIA_NO = tm.PO_MEDIA_NO " +
-                     "    INNER JOIN " +
+                     "    LEFT JOIN " +
                      "MASTER_PERUSAHAAN mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID " +
                     "WHERE "+parameter+";";
 
@@ -173,13 +173,13 @@ public class PoMediaReportDAO
                     "tm.PPN_IMAGE " +
                     "FROM " +
                     "PO_MEDIA pm " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "KONTRAK k ON pm.KONTRAK_ID = k.KONTRAK_ID " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "MASTER_MEDIA mm ON pm.MASTER_MEDIA_ID = mm.MASTER_MEDIA_ID " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "TAGIHAN_MEDIA tm ON pm.PO_MEDIA_NO = tm.PO_MEDIA_NO " +
-                    "    INNER JOIN " +
+                    "    LEFT JOIN " +
                     "MASTER_PERUSAHAAN mp ON k.MASTER_PERUSAHAAN_ID = mp.MASTER_PERUSAHAAN_ID " +
                     "WHERE "+parameter+";";
 

@@ -42,7 +42,7 @@ public class CostOperasionalReportDAO
                     "MD.NO_BANK_ACCOUNT " +
                     "FROM " +
                     "    COST_OPERASIONAL AS CO " +
-                    "JOIN " +
+                    "LEFT JOIN " +
                     "    MASTER_DANA AS MD ON CO.MASTER_DANA_ID = MD.MASTER_DANA_ID " +
                     "WHERE " +
                     "    CO.TANGGAL_PEMBELIAN = '" + currentDate1 + "'";
@@ -103,7 +103,7 @@ public class CostOperasionalReportDAO
                     "MD.NO_BANK_ACCOUNT " +
                     "FROM " +
                     "    COST_OPERASIONAL AS CO " +
-                    "JOIN " +
+                    "LEFT JOIN " +
                     "    MASTER_DANA AS MD ON CO.MASTER_DANA_ID = MD.MASTER_DANA_ID " +
                     "WHERE " +
                     "    CO.TANGGAL_PEMBELIAN BETWEEN '" + currentDate1 + "' AND '" + currentDate2 + "'";

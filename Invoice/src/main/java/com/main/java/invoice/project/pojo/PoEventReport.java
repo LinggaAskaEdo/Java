@@ -33,7 +33,7 @@ public class PoEventReport
     private String tanggalTr;
     private String masterMediaId;
     private String keteranganTr;
-    private String imageTr;
+    private ByteArrayInputStream imageTr;
 
     public String getNoKontrak() {
         return noKontrak;
@@ -243,7 +243,7 @@ public class PoEventReport
         this.keteranganTr = keteranganTr;
     }
 
-    public String getImageTr() {
+    public ByteArrayInputStream getImageTr() {
         return imageTr;
     }
 

@@ -1,6 +1,7 @@
 package com.main.java.invoice.project.pojo;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 /**
  * Created by dery on 5/8/18.
@@ -33,7 +34,7 @@ public class PoEventReport
     private String tanggalTr;
     private String masterMediaId;
     private String keteranganTr;
-    private ByteArrayInputStream imageTr;
+    private InputStream imageTr;
 
     public String getNoKontrak() {
         return noKontrak;
@@ -243,11 +244,11 @@ public class PoEventReport
         this.keteranganTr = keteranganTr;
     }
 
-    public ByteArrayInputStream getImageTr() {
+    public InputStream getImageTr() {
         return imageTr;
     }
 
-    public void setImageTr(ByteArrayInputStream imageTr) {
+    public void setImageTr(InputStream imageTr) {
         this.imageTr = imageTr;
     }
 }

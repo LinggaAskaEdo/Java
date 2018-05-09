@@ -245,7 +245,7 @@ public class PoEventReportDAO
                 poEventReport.setTanggalTr(resultSet.getString(24));
                 poEventReport.setMasterMediaId(resultSet.getString(25));
                 poEventReport.setKeteranganTr(resultSet.getString(26));
-                //poEventReport.setImageTr(resultSet.getString(27));
+                //poEventReport.setImageTr(resultSet.get(27));
                 poEventReport.setImageTr(new ByteArrayInputStream(Base64.decodeBase64(resultSet.getString(27).getBytes())));
 
                 allPoEventReport.add(poEventReport);

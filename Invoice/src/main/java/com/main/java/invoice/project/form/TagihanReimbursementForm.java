@@ -139,7 +139,7 @@ public class TagihanReimbursementForm extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				try
+				/*try
 				{
 					MasterDana masterDana = masterDanaDAO.GetMasterDanaById(TF_ReffPO.getText());
 
@@ -148,7 +148,7 @@ public class TagihanReimbursementForm extends JInternalFrame
 						JOptionPane.showMessageDialog(null, "Tambah Gagal, Master Dana tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
 					}
 					else
-					{
+					{*/
 						data[0] = TF_ReffPO.getText();
 						data[1] = TA_Catatan.getText();
 
@@ -162,13 +162,13 @@ public class TagihanReimbursementForm extends JInternalFrame
 
 						tabelModel3.insertRow(0, data);
 						dispose();
-					}
+					/*}
 				}
 				catch (Exception e)
 				{
 					e.printStackTrace();
 					JOptionPane.showMessageDialog(null, "Tambah Gagal, Nomor PO tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
-				}
+				}*/
 			}
 		});
 		btnTambah.setBounds(413, 294, 117, 25);

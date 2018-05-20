@@ -4,6 +4,8 @@
 
 package com.back.olshop.dao;
 
+import com.back.olshop.constant.ShippingType;
+import com.back.olshop.model.Client;
 import com.back.olshop.model.Item;
 import com.back.olshop.model.User;
 import org.slf4j.Logger;
@@ -11,10 +13,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
 
 @Repository
+@Transactional
 public class BOSDAO
 {
     private final Logger log = LoggerFactory.getLogger(BOSDAO.class);
@@ -22,8 +29,8 @@ public class BOSDAO
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private TransactionTemplate transactionTemplate;
+    /*@Autowired
+    private TransactionTemplate transactionTemplate;*/
 
     public User loadUserByToken(String token)
     {
@@ -50,13 +57,14 @@ public class BOSDAO
     {
         Integer result = 0;
         
-        String query = "SELECT COUNT(*) FROM EXPEDITION_IN WHERE EXPEDITION_IN_DISTRICT LIKE ? AND EXPEDITION_IN_PROVINCE LIKE ?";
+        String query = "SELECT COUNT(*) FROM EXPEDITION_IN WHERE EXPEDITION_IN_DISTRICT = ? AND EXPEDITION_IN_PROVINCE = ?";
         
         log.debug("Query checkRegion: {}", query);
         
         try
         {
-            result = jdbcTemplate.queryForObject(query, new String[] { "'" + district + "'", "'" + province + "'" }, Integer.class);
+            result = jdbcTemplate.queryForObject(query, new String[] { district, province }, Integer.class);
+            //result = jdbcTemplate.queryForObject(query, new String[] { "'" + district + "'", "'" + province + "'" }, Integer.class);
             //result = jdbcTemplate.queryForObject(query, new String[] { "'%" + district + "%'", "'%" + province + "%'" }, Integer.class);
         }
         catch (Exception e)
@@ -124,17 +132,36 @@ public class BOSDAO
         }
     }
 
-    public int countShippingIn(int totalWeight, String district, String province)
+    public Integer countShippingIn(String district, String province, String shippingType)
     {
-        int total = 0;
+        Integer total = 0;
 
-        String query = "UPDATE ITEM SET ITEM_STOCK = ? WHERE USER_ID = ? AND ITEM_CODE = ? AND ITEM_SIZE = ?";
+        String colName;
+
+        switch (shippingType)
+        {
+            case ShippingType.SHIPPING_TYPE_REG :
+                colName = "EXPEDITION_IN_PRICE_REG";
+                break;
+            case ShippingType.SHIPPING_TYPE_BEST :
+                colName = "EXPEDITION_IN_PRICE_BEST";
+                break;
+            case ShippingType.SHIPPING_TYPE_CARGO :
+                colName = "EXPEDITION_IN_PRICE_CARGO";
+                break;
+            default :
+                colName = "EXPEDITION_IN_PRICE_REG";
+        }
+
+        String query = "SELECT " + colName + " FROM EXPEDITION_IN WHERE EXPEDITION_IN_DISTRICT = ? AND EXPEDITION_IN_PROVINCE = ? LIMIT 1";
 
         log.debug("Query countShippingIn: {}", query);
 
         try
         {
-            //total = jdbcTemplate.update(query, newStock, userId, codeItem, sizeItem);
+            total = jdbcTemplate.queryForObject(query, new String[] { district, province }, Integer.class);
+            //total = jdbcTemplate.queryForObject(query, new String[] { "'" + district + "'", "'" + province + "'" }, Integer.class);
+            //total = jdbcTemplate.queryForObject(query, new String[]{ "'%" + district + "%'", "'%" + province + "%'" }, new BeanPropertyRowMapper<>(Integer.class));
         }
         catch (Exception e)
         {
@@ -144,17 +171,17 @@ public class BOSDAO
         return total;
     }
 
-    public int countShippingOut(int totalWeight)
+    public Integer countShippingOut(String countryCode)
     {
-        int total = 0;
+        Integer total = 0;
 
-        String query = "UPDATE ITEM SET ITEM_STOCK = ? WHERE USER_ID = ? AND ITEM_CODE = ? AND ITEM_SIZE = ?";
+        String query = "SELECT EXPEDITION_OUT_PRICE FROM EXPEDITION_OUT WHERE EXPEDITION_OUT_COUNTRY_CODE = ?";
 
         log.debug("Query countShippingOut: {}", query);
 
         try
         {
-            //total = jdbcTemplate.update(query, newStock, userId, codeItem, sizeItem);
+            total = jdbcTemplate.queryForObject(query, new String[] { countryCode }, Integer.class);
         }
         catch (Exception e)
         {
@@ -166,6 +193,127 @@ public class BOSDAO
 
     public boolean isSupportBest(String district, String province)
     {
+        boolean result = false;
 
+        String query = "SELECT (EXPEDITION_IN_PRICE_BEST > 0) FROM EXPEDITION_IN WHERE EXPEDITION_IN_DISTRICT = ? AND EXPEDITION_IN_PROVINCE = ? LIMIT 1";
+
+        log.debug("Query isSupportBest: {}", query);
+
+        try
+        {
+            result = jdbcTemplate.queryForObject(query, new String[] { district, province }, Boolean.class);
+            //result = jdbcTemplate.queryForObject(query, new String[] { "'" + district + "'", "'" + province + "'" }, Boolean.class);
+            //result = jdbcTemplate.queryForObject(query, new String[] { "'%" + district + "%'", "'%" + province + "%'" }, Boolean.class);
+        }
+        catch (Exception e)
+        {
+            log.error("ERROR when isSupportBest: {}", e);
+        }
+
+        return result;
+    }
+
+    public int saveClient(Client client)
+    {
+        int resultId = 0;
+
+        try
+        {
+            SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
+            jdbcInsert.withTableName("CLIENT").usingGeneratedKeyColumns("CLIENT_ID");
+
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("CLIENT_COUNTRY", client.getClientCountry());
+            parameters.put("CLIENT_NAME", client.getClientName());
+            parameters.put("CLIENT_HP", client.getClientHp());
+            parameters.put("CLIENT_BANK_NAME", client.getClientBankName());
+            parameters.put("CLIENT_BANK_NUMBER", client.getClientBankNumber());
+            parameters.put("CLIENT_ADDRESS", client.getClientAddress());
+            parameters.put("CLIENT_DISTRICTS", client.getClientDistricts());
+            parameters.put("CLIENT_PROVINCE", client.getClientProvince());
+
+            log.debug("saveClient: {}", jdbcInsert.getInsertString());
+
+            // execute insert
+            Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
+
+            resultId = key.intValue();
+        }
+        catch (Exception e)
+        {
+            log.error("ERROR when saveClient: {}", e);
+        }
+
+        return resultId;
+    }
+
+    public int saveTransaction(Integer userId, int clientId, String transactionNumber, String shippingType, Integer totalShipping, int unique)
+    {
+        int resultId = 0;
+
+        try
+        {
+            SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
+            jdbcInsert.withTableName("TRANSACTION").usingGeneratedKeyColumns("TRANSACTION_ID");
+
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("USER_ID", userId);
+            parameters.put("CLIENT_ID", clientId);
+            parameters.put("TRANSACTION_NUMBER", transactionNumber);
+            parameters.put("TRANSACTION_DATE", new Date());
+            parameters.put("IS_TRANSFERED", false);
+            parameters.put("IS_CANCELED", false);
+            parameters.put("IS_DELIVERED", false);
+            parameters.put("INVOICE_NUMBER", "");
+            parameters.put("SHIPPING_TYPE", shippingType);
+            parameters.put("SHIPPING_TOTAL", totalShipping);
+            parameters.put("UNIQUE_NUMBER", unique);
+
+            log.debug("saveTransaction: {}", jdbcInsert.getInsertString());
+
+            // execute insert
+            Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
+
+            resultId = key.intValue();
+        }
+        catch (Exception e)
+        {
+            log.error("ERROR when saveTransaction: {}", e);
+        }
+
+        return resultId;
+    }
+
+    public List<Integer> saveOrder(int transactionId, List<Item> itemList)
+    {
+        List<Integer> resultIds = new ArrayList<>();
+
+        for (Item item : itemList)
+        {
+            try
+            {
+                SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
+                jdbcInsert.withTableName("ORDER").usingGeneratedKeyColumns("ORDER_ID");
+
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("ITEM_ID", item.getItemId());
+                parameters.put("TRANSACTION_ID", transactionId);
+                parameters.put("TOTAL_ITEM", item.getItemTotal());
+                parameters.put("TOTAL_PRICE", item.getItemTotal() * item.getItemPrice());
+
+                log.debug("saveOrder: {}", jdbcInsert.getInsertString());
+
+                // execute insert
+                Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
+
+                resultIds.add(key.intValue());
+            }
+            catch (Exception e)
+            {
+                log.error("ERROR when saveOrder: {}", e);
+            }
+        }
+
+        return resultIds;
     }
 }

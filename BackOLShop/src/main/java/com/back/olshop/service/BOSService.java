@@ -6,10 +6,7 @@ package com.back.olshop.service;
 
 import com.back.olshop.constant.*;
 import com.back.olshop.dao.BOSDAO;
-import com.back.olshop.model.Item;
-import com.back.olshop.model.Request;
-import com.back.olshop.model.Response;
-import com.back.olshop.model.User;
+import com.back.olshop.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +14,16 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class BOSService
 {
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private final Logger log = LoggerFactory.getLogger(BOSService.class);
-    private String countryCode, district, province;
-    private int totalWeight, totalPrice, totalShipping;
+    //private String countryCode, district, province;
+    private int totalWeight, totalPrice;
+    private Integer totalShipping;
     private List<Item> itemList = new ArrayList<>();
     private String shippingType;
 
@@ -66,6 +61,7 @@ public class BOSService
 
     public Response checkMessage(User user, Request request)
     {
+        String phoneNumber = request.getPhone();
         String token = request.getToken();
         String message = request.getMessage();
 
@@ -85,7 +81,7 @@ public class BOSService
 
             if (data[1] != null && data[1].trim().equalsIgnoreCase(MessageType.MESSAGE_TYPE_BUY))
             {
-                response = validationBuyMessage(user.getUserId(), data);
+                response = validationBuyMessage(user.getUserId(), data, phoneNumber);
             }
             else if (data[1] != null && data[1].trim().equalsIgnoreCase(MessageType.MESSAGE_TYPE_CHECK))
             {
@@ -107,15 +103,19 @@ public class BOSService
         }
     }
 
-    private Response validationBuyMessage(Integer userId, String[] data)
+    private Response validationBuyMessage(Integer userId, String[] data, String phoneNumber)
     {
         try
         {
+            Client client = new Client();
+
             if (data[2] != null && data[2].trim().equalsIgnoreCase(CountryCode.COUNTRY_CODE_INDONESIA))
             {
                 log.debug("Process order from: {}", data[2]);
 
-                countryCode = CountryCode.COUNTRY_CODE_INDONESIA;
+                //set client country
+                client.setClientCountry(CountryCode.COUNTRY_CODE_INDONESIA);
+                //countryCode = CountryCode.COUNTRY_CODE_INDONESIA;
 
                 try
                 {
@@ -137,8 +137,8 @@ public class BOSService
                         String bankName = data[4].trim();
                         String bankAccountNumber = data[5].trim();
                         String address = data[6].trim();
-                        district = data[7].trim();
-                        province = data[8].trim();
+                        String district = data[7].trim();
+                        String province = data[8].trim();
                         String order = data[9].trim();
 
                         if (name.equalsIgnoreCase(""))
@@ -169,7 +169,7 @@ public class BOSService
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_PROVINCE);
                         }
-                        else if (checkRegion(district, province))
+                        else if (!checkRegion(district, province))
                         {
                             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_UNKNOWN_REGION);
                         }
@@ -195,7 +195,16 @@ public class BOSService
                                 shippingType = ShippingType.SHIPPING_TYPE_REG;
                             }
 
-                            return processOrder(userId, order);
+                            //set another client field
+                            client.setClientName(name);
+                            client.setClientHp(phoneNumber);
+                            client.setClientBankName(bankName);
+                            client.setClientBankNumber(bankAccountNumber);
+                            client.setClientAddress(address);
+                            client.setClientDistricts(district);
+                            client.setClientProvince(province);
+
+                            return processOrder(userId, order, client);
                         }
                     }
                 }
@@ -210,7 +219,9 @@ public class BOSService
             {
                 log.debug("Process order from: {}", data[2]);
 
-                countryCode = data[2];
+                //set client country
+                client.setClientCountry(data[2]);
+                //countryCode = data[2];
 
                 try
                 {
@@ -259,7 +270,14 @@ public class BOSService
                         }
                         else
                         {
-                            return processOrder(userId, order);
+                            //set another client field
+                            client.setClientName(name);
+                            client.setClientHp(phoneNumber);
+                            client.setClientBankName(bankName);
+                            client.setClientBankNumber(bankAccountNumber);
+                            client.setClientAddress(address);
+
+                            return processOrder(userId, order, client);
                         }
                     }
                 }
@@ -283,7 +301,7 @@ public class BOSService
         }
     }
 
-    private Response processOrder(Integer userId, String order)
+    private Response processOrder(Integer userId, String order, Client client)
     {
         try
         {
@@ -314,6 +332,7 @@ public class BOSService
 
                             Item newItem = new Item();
                             newItem.setUserId(userId);
+                            newItem.setItemId(item.getItemId());
                             newItem.setItemCode(codeItem);
                             newItem.setItemSize(sizeItem);
                             newItem.setItemTotal(totalItem);
@@ -327,20 +346,7 @@ public class BOSService
                         else
                         {
                             /*return the stock*/
-                            if (itemList.size() > 0)
-                            {
-                                log.debug("AAA");
-
-                                for (Item itemStocks : itemList)
-                                {
-                                    log.debug("userId: {}, itemCode: {}, itemSize: {}, itemTotal: {}, itemTotalOld: {}", itemStocks.getUserId(), itemStocks.getItemCode(),
-                                            itemStocks.getItemSize(), itemStocks.getItemTotal(), itemStocks.getItemTotalOld());
-
-                                    dao.updateStock(itemStocks.getUserId(), itemStocks.getItemCode(), itemStocks.getItemSize(),
-                                            itemStocks.getItemTotal() + itemStocks.getItemTotalOld());
-                                }
-                            }
-
+                            returnStocks();
                             itemList.clear();
 
                             String message = "Item with code: " + codeItem + " and size: " + sizeItem + ", not available";
@@ -371,6 +377,7 @@ public class BOSService
 
                         Item newItem = new Item();
                         newItem.setUserId(userId);
+                        newItem.setItemId(item.getItemId());
                         newItem.setItemCode(codeItem);
                         newItem.setItemSize(sizeItem);
                         newItem.setItemTotal(totalItem);
@@ -392,7 +399,7 @@ public class BOSService
                 }
             }
 
-            /*TODO
+            /*
             * 1. Generate transaction code
             * 2. Count total weight, price & shipping price
             * 2. Save data to all database related
@@ -402,10 +409,9 @@ public class BOSService
             String transactionNumber = generateTransactionNumber();
             log.debug("transactionNumber: {}", transactionNumber);
 
-            countAllTotal(countryCode, itemList);
+            countTotalWeightPrice(client.getClientCountry(), itemList);
             log.debug("totalWeight: {}", totalWeight);
             log.debug("totalPrice: {}", totalPrice);
-            log.debug("totalShipping: {}", totalShipping);
 
             if (shippingType.equalsIgnoreCase(ShippingType.SHIPPING_TYPE_CARGO) && totalWeight < 7)
             {
@@ -413,13 +419,51 @@ public class BOSService
             }
             else if (shippingType.equalsIgnoreCase(ShippingType.SHIPPING_TYPE_BEST))
             {
-                if (dao.isSupportBest(district, province))
+                if (dao.isSupportBest(client.getClientDistricts(), client.getClientProvince()))
                 {
-
+                    shippingType = ShippingType.SHIPPING_TYPE_BEST;
+                }
+                else
+                {
+                    shippingType = ShippingType.SHIPPING_TYPE_REG;
                 }
             }
 
             log.debug("shippingType: {}", shippingType);
+
+            if (client.getClientCountry().equalsIgnoreCase(CountryCode.COUNTRY_CODE_INDONESIA))
+            {
+                totalShipping = dao.countShippingIn(client.getClientDistricts(), client.getClientProvince(), shippingType);
+            }
+            else if (Arrays.asList(CountryCode.countryArrays).contains(client.getClientCountry()))
+            {
+                totalShipping = dao.countShippingOut(client.getClientCountry());
+            }
+
+            log.debug("totalShipping: {}", totalShipping);
+
+            if (totalShipping <= 0 || totalShipping == null)
+            {
+                returnStocks();
+
+                return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_FAILED_COUNT);
+            }
+
+            //generate 3 unique number
+            int unique = getRandomNumberInRange();
+            totalShipping = totalShipping + unique;
+
+            /*
+            save everything to database
+            1. Save into table client
+            2. Save into table transaction
+            3. Save into table order*/
+            int clientId = dao.saveClient(client);
+            log.debug("clientId: {}", clientId);
+            int transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType, totalShipping, unique);
+            log.debug("transactionId: {}", transactionId);
+            List<Integer> orderId = dao.saveOrder(transactionId, itemList);
+            log.debug("orderId: {}", orderId);
 
             itemList.clear();
 
@@ -429,25 +473,56 @@ public class BOSService
         {
             log.error("Error on processOrder: {}", e);
 
-            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
+            returnStocks();
+            itemList.clear();
+
+            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_PROCESS);
         }
     }
 
-    private void countAllTotal(String countryCode, List<Item> itemList)
+    private int getRandomNumberInRange()
+    {
+        boolean status = true;
+        int min = 100;
+        int max = 999;
+        int unique = 0;
+
+        while (status)
+        {
+            Random r = new Random();
+            unique = r.ints(min, (max + 1)).findFirst().getAsInt();
+
+            if (!String.valueOf(unique).contains("0"))
+            {
+                log.debug("unique number: {}", unique);
+                status = false;
+            }
+        }
+
+        return unique;
+    }
+
+    private void returnStocks()
+    {
+        if (itemList.size() > 0)
+        {
+            for (Item itemStocks : itemList)
+            {
+                log.debug("userId: {}, itemCode: {}, itemSize: {}, itemTotal: {}, itemTotalOld: {}", itemStocks.getUserId(), itemStocks.getItemCode(),
+                        itemStocks.getItemSize(), itemStocks.getItemTotal(), itemStocks.getItemTotalOld());
+
+                dao.updateStock(itemStocks.getUserId(), itemStocks.getItemCode(), itemStocks.getItemSize(),
+                        itemStocks.getItemTotal() + itemStocks.getItemTotalOld());
+            }
+        }
+    }
+
+    private void countTotalWeightPrice(String countryCode, List<Item> itemList)
     {
         for (Item item : itemList)
         {
             totalWeight += item.getItemWeight() * item.getItemTotal();
             totalPrice += item.getItemPrice() * item.getItemTotal();
-        }
-
-        if (countryCode.equalsIgnoreCase(CountryCode.COUNTRY_CODE_INDONESIA))
-        {
-            totalShipping = dao.countShippingIn(totalWeight, district, province);
-        }
-        else if (Arrays.asList(CountryCode.countryArrays).contains(countryCode))
-        {
-            totalShipping = dao.countShippingOut(totalWeight);
         }
     }
 

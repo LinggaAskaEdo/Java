@@ -6,34 +6,29 @@ package com.back.olshop.constant;
 
 public class MessagePreference
 {
-    public static final String MESSAGE_VALID_REQUEST = "Your order will be process";
-    public static final String MESSAGE_INVALID_REQUEST = "Sorry, invalid format request";
-    public static final String MESSAGE_BAD_REQUEST = "Sorry, bad request !!!";
-    public static final String MESSAGE_INVALID_USER = "Can't find user with that token, please check your credential";
-    //public static final String MESSAGE_INVALID_TOKEN = "Sorry, invalid token";
-    public static final String MESSAGE_STORE_CLOSE = "Sorry, the store is still closed";
-    public static final String MESSAGE_INVALID_KEYWORD = "Wrong keywords, please input BELI";
-    public static final String MESSAGE_INVALID_SHIPPING_TYPE = "Unknown shipping type";
-    public static final String MESSAGE_UNKNOWN_KEYWORD = "Sorry, Unknown keywords !!!";
-    public static final String MESSAGE_UNKNOWN_COUNTRY = "Sorry, Unknown country code !!!";
-    public static final String MESSAGE_UNKNOWN_REGION = "Sorry, Unknown region !!!";
-    public static final String MESSAGE_TOKEN_EXPIRED = "Sorry, your license is outdated";
+    public static final String MESSAGE_BAD_REQUEST = "Maaf, format permintaan tidak dikenal !!!";
+    public static final String MESSAGE_TOKEN_EXPIRED = "Maaf, lisensi Anda sudah usang !!!";
+    public static final String MESSAGE_STORE_CLOSE = "Maaf, toko masih tutup";
 
-    public static final String MESSAGE_ERROR_EMPTY_NAME = "Name can't be empty";
-    public static final String MESSAGE_ERROR_EMPTY_BANK_NAME = "Bank name can't be empty";
-    public static final String MESSAGE_ERROR_EMPTY_BANK_ACCOUNT_NUMBER = "Bank account number can't be empty";
-    public static final String MESSAGE_ERROR_INVALID_BANK_ACCOUNT_NUMBER = "Invalid bank account number";
-    public static final String MESSAGE_ERROR_EMPTY_ADDRESS = "Address can't be empty";
-    public static final String MESSAGE_ERROR_EMPTY_DISTRICT = "District can't be empty";
-    public static final String MESSAGE_ERROR_EMPTY_PROVINCE = "Province can't be empty";
-    public static final String MESSAGE_ERROR_EMPTY_COUNTRY = "Country can't be empty";
-    public static final String MESSAGE_ERROR_EMPTY_ORDER = "Order can't be empty";
-    public static final String MESSAGE_ERROR_INVALID_ORDER = "Invalid format order";
-    public static final String MESSAGE_ERROR_EMPTY_ITEM2 = "";
+    public static final String MESSAGE_INVALID_USER = "Tidak dapat menemukan pengguna dengan token itu, periksa kredensial Anda !!!";
+    public static final String MESSAGE_INVALID_REQUEST = "Maaf, format permintaan tidak valid !!!";
+    public static final String MESSAGE_INVALID_SHIPPING_TYPE = "Maaf, jenis pengiriman tidak valid !!!";
 
-    public static final String MESSAGE_ERROR_EMPTY_ITEM = "Can't find item with that code & size";
+    public static final String MESSAGE_UNKNOWN_KEYWORD = "Maaf, kata kunci tidak dikenal !!!";
+    public static final String MESSAGE_UNKNOWN_COUNTRY = "Maaf, kode negara tidak dikenal !!!";
+    public static final String MESSAGE_UNKNOWN_REGION = "Maaf, wilayah tidak dikenal !!!";
 
-    public static final String MESSAGE_PROCESS_ORDER = "Your order will be process";
+    public static final String MESSAGE_ERROR_INVALID_BANK_ACCOUNT_NUMBER = "Nomor rekening bank tidak valid !!!";
+    public static final String MESSAGE_ERROR_EMPTY_NAME = "Nama tidak boleh kosong";
+    public static final String MESSAGE_ERROR_EMPTY_BANK_NAME = "Nama bank tidak boleh kosong";
+    public static final String MESSAGE_ERROR_EMPTY_BANK_ACCOUNT_NUMBER = "Nomor rekening bank tidak boleh kosong";
+    public static final String MESSAGE_ERROR_EMPTY_ADDRESS = "Alamat tidak boleh kosong";
+    public static final String MESSAGE_ERROR_EMPTY_DISTRICT = "Kecamatan tidak boleh kosong";
+    public static final String MESSAGE_ERROR_EMPTY_PROVINCE = "Provinsi tidak boleh kosong";
+    public static final String MESSAGE_ERROR_EMPTY_ORDER = "Pesanan tidak boleh kosong";
+    public static final String MESSAGE_ERROR_EMPTY_ITEM = "Tidak dapat menemukan item dengan kode & ukuran itu";
+    public static final String MESSAGE_ERROR_PROCESS = "Maaf, terjadi kegagalan pada sistem";
 
-
+    public static final String MESSAGE_FAILED_COUNT = "Gagal menghitung biaya pengiriman";
+    public static final String MESSAGE_PROCESS_ORDER = "Pesanan anda akan segera diproses";
 }

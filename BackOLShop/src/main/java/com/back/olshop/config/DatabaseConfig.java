@@ -29,11 +29,11 @@ public class DatabaseConfig
         return dataSource;
     }
 
-    @Bean
+    /*@Bean
     public DataSourceTransactionManager transactionManager(DataSource dataSource)
     {
         return new DataSourceTransactionManager(dataSource);
-    }
+    }*/
 
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource)
@@ -44,9 +44,9 @@ public class DatabaseConfig
         return jdbcTemplate;
     }
 
-    @Bean
+    /*@Bean
     public TransactionTemplate transactionTemplate(DataSourceTransactionManager transactionManager)
     {
         return new TransactionTemplate(transactionManager);
-    }
+    }*/
 }

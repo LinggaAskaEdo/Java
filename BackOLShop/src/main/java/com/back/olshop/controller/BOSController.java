@@ -66,17 +66,6 @@ class BOSController
                     Response response = service.checkMessage(user, request);
 
                     return new ResponseEntity<>(response, HttpStatus.OK);
-
-                    /*if (user.getUserToken() != null)
-                    {
-                        Response response = service.checkMessage(request);
-
-                        return new ResponseEntity<>(response, HttpStatus.OK);
-                    }
-                    else
-                    {
-                        return new ResponseEntity<>(new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_TOKEN), HttpStatus.OK);
-                    }*/
                 }
             }
             else

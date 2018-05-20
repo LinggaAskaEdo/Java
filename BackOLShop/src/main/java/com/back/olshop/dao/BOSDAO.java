@@ -16,12 +16,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Repository
-@Transactional
+//@Transactional
 public class BOSDAO
 {
     private final Logger log = LoggerFactory.getLogger(BOSDAO.class);
@@ -213,29 +214,29 @@ public class BOSDAO
         return result;
     }
 
-    public int saveClient(Client client)
+    public Integer saveClient(Client client)
     {
-        int resultId = 0;
+        Integer resultId = 0;
 
         try
         {
-            SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-            jdbcInsert.withTableName("CLIENT").usingGeneratedKeyColumns("CLIENT_ID");
+            SimpleJdbcInsert clientJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
+            clientJdbcInsert.withTableName("CLIENT").usingGeneratedKeyColumns("CLIENT_ID");
 
-            Map<String, Object> parameters = new HashMap<>();
-            parameters.put("CLIENT_COUNTRY", client.getClientCountry());
-            parameters.put("CLIENT_NAME", client.getClientName());
-            parameters.put("CLIENT_HP", client.getClientHp());
-            parameters.put("CLIENT_BANK_NAME", client.getClientBankName());
-            parameters.put("CLIENT_BANK_NUMBER", client.getClientBankNumber());
-            parameters.put("CLIENT_ADDRESS", client.getClientAddress());
-            parameters.put("CLIENT_DISTRICTS", client.getClientDistricts());
-            parameters.put("CLIENT_PROVINCE", client.getClientProvince());
+            Map<String, Object> clientParameters = new HashMap<>();
+            clientParameters.put("CLIENT_COUNTRY", client.getClientCountry());
+            clientParameters.put("CLIENT_NAME", client.getClientName());
+            clientParameters.put("CLIENT_HP", client.getClientHp());
+            clientParameters.put("CLIENT_BANK_NAME", client.getClientBankName());
+            clientParameters.put("CLIENT_BANK_NUMBER", client.getClientBankNumber());
+            clientParameters.put("CLIENT_ADDRESS", client.getClientAddress());
+            clientParameters.put("CLIENT_DISTRICTS", client.getClientDistricts());
+            clientParameters.put("CLIENT_PROVINCE", client.getClientProvince());
 
-            log.debug("saveClient: {}", jdbcInsert.getInsertString());
+            log.debug("saveClient: {}", clientJdbcInsert.getInsertString());
 
             // execute insert
-            Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
+            Number key = clientJdbcInsert.executeAndReturnKey(new MapSqlParameterSource(clientParameters));
 
             resultId = key.intValue();
         }
@@ -247,32 +248,32 @@ public class BOSDAO
         return resultId;
     }
 
-    public int saveTransaction(Integer userId, int clientId, String transactionNumber, String shippingType, Integer totalShipping, int unique)
+    public Integer saveTransaction(Integer userId, int clientId, String transactionNumber, String shippingType, Integer totalShipping, int unique)
     {
-        int resultId = 0;
+        Integer resultId = 0;
 
         try
         {
-            SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-            jdbcInsert.withTableName("TRANSACTION").usingGeneratedKeyColumns("TRANSACTION_ID");
+            SimpleJdbcInsert transactionJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
+            transactionJdbcInsert.withTableName("TRANSACTION").usingGeneratedKeyColumns("TRANSACTION_ID");
 
-            Map<String, Object> parameters = new HashMap<>();
-            parameters.put("USER_ID", userId);
-            parameters.put("CLIENT_ID", clientId);
-            parameters.put("TRANSACTION_NUMBER", transactionNumber);
-            parameters.put("TRANSACTION_DATE", new Date());
-            parameters.put("IS_TRANSFERED", false);
-            parameters.put("IS_CANCELED", false);
-            parameters.put("IS_DELIVERED", false);
-            parameters.put("INVOICE_NUMBER", "");
-            parameters.put("SHIPPING_TYPE", shippingType);
-            parameters.put("SHIPPING_TOTAL", totalShipping);
-            parameters.put("UNIQUE_NUMBER", unique);
+            Map<String, Object> transactionParameters = new HashMap<>();
+            transactionParameters.put("USER_ID", userId);
+            transactionParameters.put("CLIENT_ID", clientId);
+            transactionParameters.put("TRANSACTION_NUMBER", transactionNumber);
+            transactionParameters.put("TRANSACTION_DATE", new Date());
+            transactionParameters.put("IS_TRANSFERED", false);
+            transactionParameters.put("IS_CANCELED", false);
+            transactionParameters.put("IS_DELIVERED", false);
+            transactionParameters.put("INVOICE_NUMBER", "");
+            transactionParameters.put("SHIPPING_TYPE", shippingType);
+            transactionParameters.put("SHIPPING_TOTAL", totalShipping);
+            transactionParameters.put("UNIQUE_NUMBER", unique);
 
-            log.debug("saveTransaction: {}", jdbcInsert.getInsertString());
+            log.debug("saveTransaction: {}", transactionJdbcInsert.getInsertString());
 
             // execute insert
-            Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
+            Number key = transactionJdbcInsert.executeAndReturnKey(new MapSqlParameterSource(transactionParameters));
 
             resultId = key.intValue();
         }
@@ -284,36 +285,33 @@ public class BOSDAO
         return resultId;
     }
 
-    public List<Integer> saveOrder(int transactionId, List<Item> itemList)
+    public Integer saveOrder(int transactionId, Item item)
     {
-        List<Integer> resultIds = new ArrayList<>();
+        Integer resultId = 0;
 
-        for (Item item : itemList)
+        try
         {
-            try
-            {
-                SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-                jdbcInsert.withTableName("ORDER").usingGeneratedKeyColumns("ORDER_ID");
+            SimpleJdbcInsert ordersJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
+            ordersJdbcInsert.withTableName("ORDERS").usingGeneratedKeyColumns("ORDERS_ID");
 
-                Map<String, Object> parameters = new HashMap<>();
-                parameters.put("ITEM_ID", item.getItemId());
-                parameters.put("TRANSACTION_ID", transactionId);
-                parameters.put("TOTAL_ITEM", item.getItemTotal());
-                parameters.put("TOTAL_PRICE", item.getItemTotal() * item.getItemPrice());
+            Map<String, Object> ordersParameters = new HashMap<>();
+            ordersParameters.put("ITEM_ID", item.getItemId());
+            ordersParameters.put("TRANSACTION_ID", transactionId);
+            ordersParameters.put("TOTAL_ITEM", item.getItemTotal());
+            ordersParameters.put("TOTAL_PRICE", item.getItemTotal() * item.getItemPrice());
 
-                log.debug("saveOrder: {}", jdbcInsert.getInsertString());
+            log.debug("saveOrder: {}", ordersJdbcInsert.getInsertString());
 
-                // execute insert
-                Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
+            // execute insert
+            Number key = ordersJdbcInsert.executeAndReturnKey(new MapSqlParameterSource(ordersParameters));
 
-                resultIds.add(key.intValue());
-            }
-            catch (Exception e)
-            {
-                log.error("ERROR when saveOrder: {}", e);
-            }
+            resultId = key.intValue();
+        }
+        catch (Exception e)
+        {
+            log.error("ERROR when saveOrder: {}", e);
         }
 
-        return resultIds;
+        return resultId;
     }
 }

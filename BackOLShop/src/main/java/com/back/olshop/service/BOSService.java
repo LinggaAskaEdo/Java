@@ -458,12 +458,17 @@ public class BOSService
             1. Save into table client
             2. Save into table transaction
             3. Save into table order*/
-            int clientId = dao.saveClient(client);
+            Integer clientId = dao.saveClient(client);
             log.debug("clientId: {}", clientId);
-            int transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType, totalShipping, unique);
+
+            Integer transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType, totalShipping, unique);
             log.debug("transactionId: {}", transactionId);
-            List<Integer> orderId = dao.saveOrder(transactionId, itemList);
-            log.debug("orderId: {}", orderId);
+
+            for (Item item : itemList)
+            {
+                Integer orderId = dao.saveOrder(transactionId, item);
+                log.debug("orderId: {}", orderId);
+            }
 
             itemList.clear();
 

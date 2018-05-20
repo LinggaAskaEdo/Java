@@ -17,9 +17,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 //@Transactional
@@ -235,7 +233,6 @@ public class BOSDAO
 
             log.debug("saveClient: {}", clientJdbcInsert.getInsertString());
 
-            // execute insert
             Number key = clientJdbcInsert.executeAndReturnKey(new MapSqlParameterSource(clientParameters));
 
             resultId = key.intValue();
@@ -272,7 +269,6 @@ public class BOSDAO
 
             log.debug("saveTransaction: {}", transactionJdbcInsert.getInsertString());
 
-            // execute insert
             Number key = transactionJdbcInsert.executeAndReturnKey(new MapSqlParameterSource(transactionParameters));
 
             resultId = key.intValue();
@@ -285,33 +281,36 @@ public class BOSDAO
         return resultId;
     }
 
-    public Integer saveOrder(int transactionId, Item item)
+    public List<Integer> saveOrder(int transactionId, List<Item> itemList)
     {
-        Integer resultId = 0;
+        List<Integer> resultIds = new ArrayList<>();
 
-        try
+        for (Item item : itemList)
         {
-            SimpleJdbcInsert ordersJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-            ordersJdbcInsert.withTableName("ORDERS").usingGeneratedKeyColumns("ORDERS_ID");
+            try
+            {
+                SimpleJdbcInsert ordersJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
+                ordersJdbcInsert.withTableName("ORDERS").usingGeneratedKeyColumns("ORDERS_ID");
 
-            Map<String, Object> ordersParameters = new HashMap<>();
-            ordersParameters.put("ITEM_ID", item.getItemId());
-            ordersParameters.put("TRANSACTION_ID", transactionId);
-            ordersParameters.put("TOTAL_ITEM", item.getItemTotal());
-            ordersParameters.put("TOTAL_PRICE", item.getItemTotal() * item.getItemPrice());
+                Map<String, Object> ordersParameters = new HashMap<>();
+                ordersParameters.put("ITEM_ID", item.getItemId());
+                ordersParameters.put("TRANSACTION_ID", transactionId);
+                ordersParameters.put("TOTAL_ITEM", item.getItemTotal());
+                ordersParameters.put("TOTAL_PRICE", item.getItemTotal() * item.getItemPrice());
 
-            log.debug("saveOrder: {}", ordersJdbcInsert.getInsertString());
+                log.debug("saveOrder: {}", ordersJdbcInsert.getInsertString());
 
-            // execute insert
-            Number key = ordersJdbcInsert.executeAndReturnKey(new MapSqlParameterSource(ordersParameters));
+                Number key = ordersJdbcInsert.executeAndReturnKey(new MapSqlParameterSource(ordersParameters));
 
-            resultId = key.intValue();
+                Integer resultId = key.intValue();
+                resultIds.add(resultId);
+            }
+            catch (Exception e)
+            {
+                log.error("ERROR when saveOrder: {}", e);
+            }
         }
-        catch (Exception e)
-        {
-            log.error("ERROR when saveOrder: {}", e);
-        }
 
-        return resultId;
+        return resultIds;
     }
 }

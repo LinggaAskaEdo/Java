@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.NumberFormat;
 import java.util.*;
 
 @Service
@@ -349,7 +350,7 @@ public class BOSService
                             returnStocks();
                             itemList.clear();
 
-                            String message = "Item with code: " + codeItem + " and size: " + sizeItem + ", not available";
+                            String message = "Item dengan kode: " + codeItem + " dan ukuran: " + sizeItem + ", tersisa " + item.getItemStock() + " buah";
 
                             return new Response(ApplicationStatus.FAILED.toString(), message);
                         }
@@ -392,7 +393,7 @@ public class BOSService
                     {
                         itemList.clear();
 
-                        String message = "Item with code: " + arrOrder[0] + " and size: " + arrOrder[1] + ", not available";
+                        String message = "Item with code: " + arrOrder[0] + " and size: " + arrOrder[1] + ", tersisa " + item.getItemStock() + " buah";
 
                         return new Response(ApplicationStatus.FAILED.toString(), message);
                     }
@@ -465,11 +466,8 @@ public class BOSService
             Integer transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType, totalShipping, unique);
             log.debug("transactionId: {}", transactionId);
 
-            for (Item item : itemList)
-            {
-                Integer orderId = dao.saveOrder(transactionId, item);
-                log.debug("orderId: {}", orderId);
-            }
+            List<Integer> orderIds = dao.saveOrder(transactionId, itemList);
+            log.debug("orderId: {}", orderIds);
 
             String message = generateMessage(client, transactionNumber, totalPrice + totalShipping, itemList);
 
@@ -506,9 +504,10 @@ public class BOSService
             i++;
         }
         builder.append(separator);
-        builder.append("Total biaya + ongkir: ").append(total).append(separator).append(separator);
-        builder.append("Mohon di transfer sesuai totalan berikut dengan kode unik yang diberikan. Ini memudahkan kami dalam pengecekan transferan. " +
-                "Dan mengenai nominal kode unik. Seluruh kode unik tersebut akan kami total dan kami sedekahkan setiap bulannya. Mohon maaf kurang lebihnya.");
+        builder.append("Total biaya + ongkir: Rp. ").append(NumberFormat.getNumberInstance(Locale.US).format(total)).append(separator).append(separator);
+        builder.append("Mohon transfer ke rekening mandiri Ayuka Winda Kharisma 1560002743930, sesuai totalan berikut dengan kode unik yang diberikan. " +
+                "Ini memudahkan kami dalam pengecekan transferan. Dan mengenai nominal kode unik. " +
+                "Seluruh kode unik tersebut akan kami total dan kami sedekahkan setiap bulannya. Mohon maaf kurang lebihnya.");
 
         return builder.toString();
     }

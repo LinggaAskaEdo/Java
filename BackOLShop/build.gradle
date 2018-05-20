@@ -5,9 +5,9 @@ apply plugin: 'org.springframework.boot'
 
 sourceCompatibility = 1.8
 
-def jarBaseName = 'back-ol-shop'
-def distributionFolder = 'back-ol-shop'
-def configFiles = ['application.properties', 'logback.xml', 'ams-mls-lookup.sh'] as Set
+def jarBaseName = 'bos'
+def distributionFolder = 'bos'
+def configFiles = ['application.properties', 'logback.xml', 'bos.sh'] as Set
 
 jar {
     baseName = jarBaseName
@@ -34,16 +34,10 @@ repositories {
     maven { url "http://repo.spring.io/libs-milestone" }
 }
 
-/*configurations.all {
-    exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
-    exclude group: "org.springframework.boot", module: "logback-classic"
-}*/
-
 dependencies {
     //Spring Boot
     compile("org.springframework.boot:spring-boot-starter-jdbc")
     compile("org.springframework.boot:spring-boot-starter-logging")
-    //compile("org.springframework.boot:spring-boot-starter-log4j2")
     compile("org.springframework.boot:spring-boot-starter-web")
 
     //JSON
@@ -61,7 +55,6 @@ dependencies {
 
 task copyFilesToPackage << {
     copy {
-        //from('src/main/resources')
         from 'build/libs/' + jarBaseName + '.jar'
         into 'build/' + distributionFolder + '/lib'
     }

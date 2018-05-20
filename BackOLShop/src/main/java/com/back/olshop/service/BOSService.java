@@ -451,13 +451,14 @@ public class BOSService
 
             //generate 3 unique number
             int unique = getRandomNumberInRange();
-            totalShipping = totalShipping + unique;
+            totalPrice = totalPrice + unique;
 
             /*
             save everything to database
             1. Save into table client
             2. Save into table transaction
-            3. Save into table order*/
+            3. Save into table order
+            */
             Integer clientId = dao.saveClient(client);
             log.debug("clientId: {}", clientId);
 
@@ -470,9 +471,12 @@ public class BOSService
                 log.debug("orderId: {}", orderId);
             }
 
+            String message = generateMessage(client, transactionNumber, totalPrice + totalShipping, itemList);
+
             itemList.clear();
 
-            return new Response(ApplicationStatus.SUCCESS.toString(), MessagePreference.MESSAGE_PROCESS_ORDER);
+            //return new Response(ApplicationStatus.SUCCESS.toString(), MessagePreference.MESSAGE_PROCESS_ORDER);
+            return new Response(ApplicationStatus.SUCCESS.toString(), message);
         }
         catch (Exception e)
         {
@@ -483,6 +487,30 @@ public class BOSService
 
             return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_PROCESS);
         }
+    }
+
+    private String generateMessage(Client client, String transactionNumber, Integer total, List<Item> itemList)
+    {
+        String separator = System.lineSeparator();
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("Halo, ").append(client.getClientName()).append(separator);
+        builder.append("Transaksi anda untuk pembelian (").append(transactionNumber).append("): ").append(separator);
+
+        int i = 1;
+        for (Item item : itemList)
+        {
+            builder.append(i).append(". kode barang: ").append(item.getItemCode()).append(", ukuran: ").append(item.getItemSize()).append(", jumlah: ")
+                    .append(item.getItemTotal());
+            builder.append(separator);
+            i++;
+        }
+        builder.append(separator);
+        builder.append("Total biaya + ongkir: ").append(total).append(separator).append(separator);
+        builder.append("Mohon di transfer sesuai totalan berikut dengan kode unik yang diberikan. Ini memudahkan kami dalam pengecekan transferan. " +
+                "Dan mengenai nominal kode unik. Seluruh kode unik tersebut akan kami total dan kami sedekahkan setiap bulannya. Mohon maaf kurang lebihnya.");
+
+        return builder.toString();
     }
 
     private int getRandomNumberInRange()

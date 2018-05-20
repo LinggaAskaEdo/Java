@@ -76,3 +76,7 @@ name = BACK_OL_SHOP
 - Minta BEST ga support BEST daerahnya, paksa ke REG
 - Berat berapa pun sesuai dengan permintaan
 - Pengiriman luar negeri dilebihkan 10 ribu dari harga
+
+** Rekening tujuan **
+Mandiri ayuka winda kharisma 1560002743930
+Cabang grand wisata

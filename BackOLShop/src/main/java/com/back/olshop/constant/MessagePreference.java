@@ -31,4 +31,7 @@ public class MessagePreference
 
     public static final String MESSAGE_FAILED_COUNT = "Gagal menghitung biaya pengiriman";
     public static final String MESSAGE_PROCESS_ORDER = "Pesanan anda akan segera diproses";
+
+    public static final String EXCEPTION = "Failed, please try again.";
+    public static final String DATA_NOT_FOUND = "The requested data is not found.";
 }

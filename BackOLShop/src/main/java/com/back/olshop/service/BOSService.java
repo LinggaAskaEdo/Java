@@ -492,7 +492,7 @@ public class BOSService
         String separator = System.lineSeparator();
 
         StringBuilder builder = new StringBuilder();
-        builder.append("Halo, ").append(client.getClientName()).append(separator);
+        builder.append("Assalamu'alaikum, ").append(client.getClientName()).append(separator);
         builder.append("Transaksi anda untuk pembelian (").append(transactionNumber).append("): ").append(separator);
 
         int i = 1;
@@ -505,9 +505,11 @@ public class BOSService
         }
         builder.append(separator);
         builder.append("Total biaya + ongkir: Rp. ").append(NumberFormat.getNumberInstance(Locale.US).format(total)).append(separator).append(separator);
-        builder.append("Mohon transfer ke rekening mandiri Ayuka Winda Kharisma 1560002743930, sesuai totalan berikut dengan kode unik yang diberikan. " +
+        builder.append("Mohon transfer ke rekening Bank Mandiri atas nama Ayuka Winda Kharisma 1560002743930, sesuai totalan berikut dengan kode unik yang diberikan. " +
                 "Ini memudahkan kami dalam pengecekan transferan. Dan mengenai nominal kode unik. " +
-                "Seluruh kode unik tersebut akan kami total dan kami sedekahkan setiap bulannya. Mohon maaf kurang lebihnya.");
+                "Seluruh kode unik tersebut akan kami total dan kami sedekahkan setiap bulannya. Mohon maaf kurang lebihnya. " +
+                "Dan untuk batas transfer hanya 4 jam dari dikirimkannya invoice ini. Dimohon untuk mengirimkan bukti transfer. " +
+                "Selebihnya kami anggap batal. Mohon maaf kurang lebihnya.");
 
         return builder.toString();
     }

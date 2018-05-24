@@ -80,3 +80,12 @@ name = BACK_OL_SHOP
 ** Rekening tujuan **
 Mandiri ayuka winda kharisma 1560002743930
 Cabang grand wisata
+
+** Full respon message **
+Assalamualaykum, Ateng
+Transaksi anda untuk pembelian: 
+1. kode barang: lac, ukuran: s, jumlah: 4
+2. kode barang: rgd, ukuran: s, jumlah: 2
+
+Total biaya + ongkir: 170244
+Mohon transfer ke rekening mandiri ayuka winda kharisma 1560002743930, sesuai totalan berikut dengan kode unik yang diberikan. Ini memudahkan kami dalam pengecekan transferan. Dan mengenai nominal kode unik. Seluruh kode unik tersebut akan kami total dan kami sedekahkan setiap bulannya. Dan untuk batas transfer hanya 4 jam dari dikirimkannya invoice ini. Dimohon untuk mengirimkan bukti transfer. Selebihnya kami anggap batal. Mohon maaf kurang lebihnya.

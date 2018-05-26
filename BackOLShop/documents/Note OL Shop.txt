@@ -1,11 +1,14 @@
 ** Account **
 
 Paket VPS			:	Bisnis (backolshop.com)
-Hostname			:	root
-Status				:	executing
 Operating System	:	Ubuntu 16.04 64bit
 IP Address			:	185.201.8.192
-Root password		:	IQnm2ZUJ
+Root Hostname		:	root
+Root Password		:	IQnm2ZUJ
+key APIWHA (A)		: 	4EAD50A71UA4SEWUOJ0V
+key APIWHA (B)		:	AHGNMVIPDI0SAVHUTLV6
+Email Username		: 	otisdeveloper@gmail.com
+Email Password		:	#1rstwap
 
 ** Database **
 name = BACK_OL_SHOP

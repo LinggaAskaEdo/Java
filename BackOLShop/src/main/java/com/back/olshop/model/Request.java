@@ -10,6 +10,13 @@ public class Request
     private String token;
     private String message;
 
+    public Request(String phone, String token, String messsage)
+    {
+        this.phone = phone;
+        this.token = token;
+        this.message = messsage;
+    }
+
     public String getPhone()
     {
         return phone;

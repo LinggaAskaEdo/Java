@@ -4,32 +4,24 @@
 
 package com.back.olshop.controller;
 
-import com.back.olshop.constant.ApplicationStatus;
 import com.back.olshop.constant.MessagePreference;
 import com.back.olshop.model.Request;
-import com.back.olshop.model.Response;
 import com.back.olshop.model.User;
 import com.back.olshop.service.BOSService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
-@RestController
-class BOSController
+@Service
+public class BosController
 {
-    private final Logger log = LoggerFactory.getLogger(BOSController.class);
+    private final Logger log = LoggerFactory.getLogger(BosController.class);
 
     @Autowired
     private BOSService service;
 
-    @RequestMapping(value = "request", method = RequestMethod.POST)
-    ResponseEntity<?> requestHandler(@RequestBody Request request)
+    public String requestHandler(Request request)
     {
         log.debug("Request: {}", request.toString());
 
@@ -54,28 +46,26 @@ class BOSController
                 //if (tokenExpired)
                 if (false)
                 {
-                    return new ResponseEntity<>(new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_TOKEN_EXPIRED), HttpStatus.OK);
+                    return MessagePreference.MESSAGE_TOKEN_EXPIRED;
                 }
                 //else if (!storeOpen)
                 else if (false)
                 {
-                    return new ResponseEntity<>(new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_STORE_CLOSE), HttpStatus.OK);
+                    return MessagePreference.MESSAGE_STORE_CLOSE;
                 }
                 else
-                {
-                    Response response = service.checkMessage(user, request);
-
-                    return new ResponseEntity<>(response, HttpStatus.OK);
+                    {
+                    return service.checkMessage(user, request);
                 }
             }
             else
-            {
-                return new ResponseEntity<>(new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_USER), HttpStatus.OK);
+                {
+                return MessagePreference.MESSAGE_INVALID_USER;
             }
         }
         else
         {
-            return new ResponseEntity<>(new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_BAD_REQUEST), HttpStatus.OK);
+            return MessagePreference.MESSAGE_BAD_REQUEST;
         }
     }
 }

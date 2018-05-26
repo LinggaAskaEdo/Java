@@ -1,2 +1,3 @@
 compileJava.options.fork=true
-compileJava.options.forkOptions.executable=/usr/lib/jvm/jdk1.8.0
+//compileJava.options.forkOptions.executable=/usr/lib/jvm/jdk1.8.0
+compileJava.options.forkOptions.executable=C:\\Program Files\\Java\\jdk1.8.0_162

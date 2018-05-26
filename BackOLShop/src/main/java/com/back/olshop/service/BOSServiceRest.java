@@ -18,10 +18,11 @@ import java.text.NumberFormat;
 import java.util.*;
 
 @Service
-public class BOSService
+public class BOSServiceRest
 {
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private final Logger log = LoggerFactory.getLogger(BOSServiceRest.class);
+    //private String countryCode, district, province;
     private int totalWeight, totalPrice;
     private Integer totalShipping;
     private List<Item> itemList = new ArrayList<>();
@@ -59,9 +60,8 @@ public class BOSService
         return hoursNow >= hourUserOpenTime && hoursNow < hourUserCloseTime;
     }
 
-    public String checkMessage(User user, Request request)
+    public Response checkMessage(User user, Request request)
     {
-        String response;
         String phoneNumber = request.getPhone();
         String token = request.getToken();
         String message = request.getMessage();
@@ -71,7 +71,14 @@ public class BOSService
         /*categorize message*/
         try
         {
+            Response response = new Response();
+
             String[] data = message.split("#");
+
+            /*for (int i = 0; i < data.length; i++)
+            {
+                log.debug("Data[{}]: {}", i, String.valueOf(data[i]));
+            }*/
 
             if (data[1] != null && data[1].trim().equalsIgnoreCase(MessageType.MESSAGE_TYPE_BUY))
             {
@@ -83,7 +90,8 @@ public class BOSService
             }
             else
             {
-                response = MessagePreference.MESSAGE_UNKNOWN_KEYWORD;
+                response.setStatus(ApplicationStatus.FAILED.toString());
+                response.setMessage(MessagePreference.MESSAGE_UNKNOWN_KEYWORD);
             }
 
             return response;
@@ -92,16 +100,12 @@ public class BOSService
         {
             log.error("Error when checkMessage: {}", e);
 
-            response = MessagePreference.MESSAGE_INVALID_REQUEST;
+            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
         }
-
-        return response;
     }
 
-    private String validationBuyMessage(Integer userId, String[] data, String phoneNumber)
+    private Response validationBuyMessage(Integer userId, String[] data, String phoneNumber)
     {
-        String response;
-
         try
         {
             Client client = new Client();
@@ -112,15 +116,21 @@ public class BOSService
 
                 //set client country
                 client.setClientCountry(CountryCode.COUNTRY_CODE_INDONESIA);
+                //countryCode = CountryCode.COUNTRY_CODE_INDONESIA;
 
                 try
                 {
                     log.debug("Data length: {}", data.length);
 
+                    /*for (int i = 0; i < data.length; i++)
+                    {
+                        log.debug("Data[{}]: {}", i, String.valueOf(data[i]));
+                    }*/
+
                     if (data.length - 1 != 9 || data[3] == null || data[4] == null || data[5] == null || data[6] == null || data[7] == null
                             || data[8] == null || data[9] == null)
                     {
-                        return MessagePreference.MESSAGE_INVALID_REQUEST;
+                        return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
                     }
                     else
                     {
@@ -134,39 +144,39 @@ public class BOSService
 
                         if (name.equalsIgnoreCase(""))
                         {
-                            return MessagePreference.MESSAGE_ERROR_EMPTY_NAME;
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_NAME);
                         }
                         else if (bankName.equalsIgnoreCase(""))
                         {
-                            return MessagePreference.MESSAGE_ERROR_EMPTY_BANK_NAME;
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_BANK_NAME);
                         }
                         else if (bankAccountNumber.equalsIgnoreCase(""))
                         {
-                            return MessagePreference.MESSAGE_ERROR_EMPTY_BANK_ACCOUNT_NUMBER;
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_BANK_ACCOUNT_NUMBER);
                         }
                         else if (bankAccountNumber.matches(".*[a-zA-Z].*"))
                         {
-                            return MessagePreference.MESSAGE_ERROR_INVALID_BANK_ACCOUNT_NUMBER;
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_INVALID_BANK_ACCOUNT_NUMBER);
                         }
                         else if (address.equalsIgnoreCase(""))
                         {
-                            return MessagePreference.MESSAGE_ERROR_EMPTY_ADDRESS;
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_ADDRESS);
                         }
                         else if (district.equalsIgnoreCase(""))
                         {
-                            return MessagePreference.MESSAGE_ERROR_EMPTY_DISTRICT;
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_DISTRICT);
                         }
                         else if (province.equalsIgnoreCase(""))
                         {
-                            return MessagePreference.MESSAGE_ERROR_EMPTY_PROVINCE;
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_PROVINCE);
                         }
                         else if (!checkRegion(district, province))
                         {
-                            return MessagePreference.MESSAGE_UNKNOWN_REGION;
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_UNKNOWN_REGION);
                         }
                         else if (order.equalsIgnoreCase(""))
                         {
-                            return MessagePreference.MESSAGE_ERROR_EMPTY_ORDER;
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_ORDER);
                         }
                         else
                         {
@@ -178,7 +188,7 @@ public class BOSService
                                 }
                                 else
                                 {
-                                    return MessagePreference.MESSAGE_INVALID_SHIPPING_TYPE;
+                                    return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_SHIPPING_TYPE);
                                 }
                             }
                             catch (Exception e)
@@ -203,7 +213,7 @@ public class BOSService
                 {
                     log.error("Error when validationBuyMessage IN: {}", e);
 
-                    return MessagePreference.MESSAGE_INVALID_REQUEST;
+                    return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
                 }
             }
             else if (data[2] != null && Arrays.asList(CountryCode.countryArrays).contains(data[2].trim()))
@@ -212,14 +222,20 @@ public class BOSService
 
                 //set client country
                 client.setClientCountry(data[2]);
+                //countryCode = data[2];
 
                 try
                 {
                     log.debug("Data length: {}", data.length);
 
+                    /*for (int i = 0; i < data.length; i++)
+                    {
+                        log.debug("Data[{}]: {}", i, String.valueOf(data[i]));
+                    }*/
+
                     if (data.length - 1 != 7 || data[3] == null || data[4] == null || data[5] == null || data[6] == null || data[7] == null)
                     {
-                        return MessagePreference.MESSAGE_INVALID_REQUEST;
+                        return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
                     }
                     else
                     {
@@ -231,27 +247,27 @@ public class BOSService
 
                         if (name.equalsIgnoreCase(""))
                         {
-                            return MessagePreference.MESSAGE_ERROR_EMPTY_NAME;
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_NAME);
                         }
                         else if (bankName.equalsIgnoreCase(""))
                         {
-                            return MessagePreference.MESSAGE_ERROR_EMPTY_BANK_NAME;
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_BANK_NAME);
                         }
                         else if (bankAccountNumber.equalsIgnoreCase(""))
                         {
-                            return MessagePreference.MESSAGE_ERROR_EMPTY_BANK_ACCOUNT_NUMBER;
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_BANK_ACCOUNT_NUMBER);
                         }
                         else if (bankAccountNumber.matches(".*[a-zA-Z].*"))
                         {
-                            return MessagePreference.MESSAGE_ERROR_INVALID_BANK_ACCOUNT_NUMBER;
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_INVALID_BANK_ACCOUNT_NUMBER);
                         }
                         else if (address.equalsIgnoreCase(""))
                         {
-                            return MessagePreference.MESSAGE_ERROR_EMPTY_ADDRESS;
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_ADDRESS);
                         }
                         else if (order.equalsIgnoreCase(""))
                         {
-                            return MessagePreference.MESSAGE_ERROR_EMPTY_ORDER;
+                            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_EMPTY_ORDER);
                         }
                         else
                         {
@@ -270,23 +286,23 @@ public class BOSService
                 {
                     log.error("Error when validationBuyMessage IN: {}", e);
 
-                    return MessagePreference.MESSAGE_INVALID_REQUEST;
+                    return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
                 }
             }
             else
             {
-                return MessagePreference.MESSAGE_UNKNOWN_COUNTRY;
+                return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_UNKNOWN_COUNTRY);
             }
         }
         catch (Exception e)
         {
             log.error("Error when validationBuyMessage: {}", e);
 
-            return MessagePreference.MESSAGE_INVALID_REQUEST;
+            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_INVALID_REQUEST);
         }
     }
 
-    private String processOrder(Integer userId, String order, Client client)
+    private Response processOrder(Integer userId, String order, Client client)
     {
         try
         {
@@ -334,10 +350,9 @@ public class BOSService
                             returnStocks();
                             itemList.clear();
 
-                            return "Item dengan kode: " + codeItem +
-                                    " dan ukuran: " + sizeItem +
-                                    ", tersisa " + item.getItemStock() +
-                                    " buah";
+                            String message = "Item dengan kode: " + codeItem + " dan ukuran: " + sizeItem + ", tersisa " + item.getItemStock() + " buah";
+
+                            return new Response(ApplicationStatus.FAILED.toString(), message);
                         }
                     }
                 }
@@ -378,20 +393,19 @@ public class BOSService
                     {
                         itemList.clear();
 
-                        return "Item dengan kode: " + arrOrder[0] +
-                                " dan ukuran: " + arrOrder[1] +
-                                ", tersisa " + item.getItemStock() +
-                                " buah";
+                        String message = "Item with code: " + arrOrder[0] + " and size: " + arrOrder[1] + ", tersisa " + item.getItemStock() + " buah";
+
+                        return new Response(ApplicationStatus.FAILED.toString(), message);
                     }
                 }
             }
 
             /*
-             * 1. Generate transaction code
-             * 2. Count total weight, price & shipping price
-             * 2. Save data to all database related
-             * 3. Clear list
-             * */
+            * 1. Generate transaction code
+            * 2. Count total weight, price & shipping price
+            * 2. Save data to all database related
+            * 3. Clear list
+            * */
 
             String transactionNumber = generateTransactionNumber();
             log.debug("transactionNumber: {}", transactionNumber);
@@ -433,7 +447,7 @@ public class BOSService
             {
                 returnStocks();
 
-                return MessagePreference.MESSAGE_FAILED_COUNT;
+                return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_FAILED_COUNT);
             }
 
             //generate 3 unique number
@@ -460,7 +474,7 @@ public class BOSService
             itemList.clear();
 
             //return new Response(ApplicationStatus.SUCCESS.toString(), MessagePreference.MESSAGE_PROCESS_ORDER);
-            return message;
+            return new Response(ApplicationStatus.SUCCESS.toString(), message);
         }
         catch (Exception e)
         {
@@ -469,7 +483,7 @@ public class BOSService
             returnStocks();
             itemList.clear();
 
-            return MessagePreference.MESSAGE_ERROR_PROCESS;
+            return new Response(ApplicationStatus.FAILED.toString(), MessagePreference.MESSAGE_ERROR_PROCESS);
         }
     }
 
@@ -549,14 +563,14 @@ public class BOSService
     private String generateTransactionNumber()
     {
         /*Format transaction number
-         * 1. Header
-         * 2. Year: only last 2 digit number
-         * 3. Month: 2 digit number
-         * 4. Date: 2 digit number
-         * 5. Hour: 2 digit number
-         * 6. Minute: 2 digit number
-         * 7. Unique: 3 digit alphanumeric
-         * */
+        * 1. Header
+        * 2. Year: only last 2 digit number
+        * 3. Month: 2 digit number
+        * 4. Date: 2 digit number
+        * 5. Hour: 2 digit number
+        * 6. Minute: 2 digit number
+        * 7. Unique: 3 digit alphanumeric
+        * */
 
         String header = "INV";
         String separator = "//";
@@ -580,7 +594,7 @@ public class BOSService
     private String generateRandomString()
     {
         int count = 3;
-
+        
         StringBuilder builder = new StringBuilder();
 
         while (count-- != 0)
@@ -597,9 +611,9 @@ public class BOSService
         return dao.checkRegion(district, province) > 0;
     }
 
-    private String validationCheckMessage(Integer userId, String[] data)
+    private Response validationCheckMessage(Integer userId, String[] data)
     {
-        String response = null;
+        Response response = new Response();
 
         try
         {
@@ -616,16 +630,22 @@ public class BOSService
 
                 if (totalItem == 1)
                 {
+                    String message = "Code item: " + codeName + ", size: " + size + ", there is 1 item";
 
-                    response = "Code item: " + codeName + ", size: " + size + ", there is 1 item";
+                    response.setStatus(ApplicationStatus.SUCCESS.toString());
+                    response.setMessage(message);
                 }
                 else if (totalItem > 1)
                 {
-                    response = "Code item: " + codeName + ", size: " + size + ", there are " + totalItem + " items";
+                    String message = "Code item: " + codeName + ", size: " + size + ", there are " + totalItem + " items";
+
+                    response.setStatus(ApplicationStatus.SUCCESS.toString());
+                    response.setMessage(message);
                 }
                 else
                 {
-                    response = MessagePreference.MESSAGE_ERROR_EMPTY_ITEM;
+                    response.setStatus(ApplicationStatus.SUCCESS.toString());
+                    response.setMessage(MessagePreference.MESSAGE_ERROR_EMPTY_ITEM);
                 }
             }
         }
@@ -633,7 +653,8 @@ public class BOSService
         {
             log.error("Error when validationCheckMessage: {}", e);
 
-            response = MessagePreference.MESSAGE_INVALID_REQUEST;
+            response.setStatus(ApplicationStatus.FAILED.toString());
+            response.setMessage(MessagePreference.MESSAGE_INVALID_REQUEST);
         }
 
         return response;

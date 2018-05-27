@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import javax.swing.text.NumberFormatter;
 
@@ -231,6 +232,7 @@ public class DetailProduksiForm extends JInternalFrame
 	{
 		//  set banyaknya angka akhir bilangan
 		numformat.setMaximumFractionDigits(0);
+		numformat.setMinimumFractionDigits(2);
 
 		//  Deklarasikan NumberFormatter
 		numformatter = new NumberFormatter(numformat);

@@ -335,19 +335,25 @@ public class POProduksiForm extends JInternalFrame
 
 			//detailProduksi.setProduksiHargaSatuan((BigDecimal) tabelModel.getValueAt(i, 9));
 			String result = String.valueOf(tabelModel.getValueAt(i, 9));
-			Long value = Long.valueOf(result.replace(",",""));
+			String aResult = result.replace(",","");
+			String results = aResult.replace(".00","");
+			Long value = Long.valueOf(results);
 			detailProduksi.setProduksiHargaSatuan(BigDecimal.valueOf(value));
 
 			//detailProduksi.setProduksiTotalHarga((BigDecimal) table.getValueAt(i, 10));
 			String result2 = String.valueOf(table.getValueAt(i, 10));
-			Long value2 = Long.valueOf(result2.replace(",",""));
+			String aResult2 = result2.replace(",","");
+			String result2s = aResult2.replace(".00","");
+			Long value2 = Long.valueOf(result2s);
 			detailProduksi.setProduksiTotalHarga(BigDecimal.valueOf(value2));
 
 			detailProduksi.setPostProduksiBarang(String.valueOf(tabelModel.getValueAt(i, 11)));
 
 			//detailProduksi.setPostProduksiTotalHarga((BigDecimal) tabelModel.getValueAt(i, 12));
 			String result3 = String.valueOf(tabelModel.getValueAt(i, 12));
-			Long value3 = Long.valueOf(result3.replace(",",""));
+			String aResult3 = result3.replace(",","");
+			String result3s = aResult3.replace(".00","");
+			Long value3 = Long.valueOf(result3s);
 			detailProduksi.setPostProduksiTotalHarga(BigDecimal.valueOf(value3));
 
 			try
@@ -396,6 +402,7 @@ public class POProduksiForm extends JInternalFrame
 	{
 		//  set banyaknya angka akhir bilangan
 		numformat.setMaximumFractionDigits(0);
+        numformat.setMinimumFractionDigits(2);
 
 		//  Deklarasikan NumberFormatter
 		numformatter = new NumberFormatter(numformat);

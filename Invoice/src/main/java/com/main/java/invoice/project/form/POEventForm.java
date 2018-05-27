@@ -449,12 +449,16 @@ public class POEventForm extends JInternalFrame
 
 			//detailEvent.setHargaSatuan((BigDecimal) tabelModel1.getValueAt(i, 6));
 			String result = String.valueOf(tabelModel1.getValueAt(i, 6));
-			Long value = Long.valueOf(result.replace(",",""));
+			String aResult = result.replace(",","");
+			String results = aResult.replace(".00","");
+			Long value = Long.valueOf(results);
 			detailEvent.setHargaSatuan(BigDecimal.valueOf(value));
 
 			//detailEvent.setTotal((BigDecimal) tabelModel1.getValueAt(i, 7));
 			String result1 = String.valueOf(tabelModel1.getValueAt(i, 7));
-			Long value1 = Long.valueOf(result1.replace(",",""));
+			String aResult1 = result1.replace(",","");
+			String result1s = aResult1.replace(".00","");
+			Long value1 = Long.valueOf(result1s);
 			detailEvent.setTotal(BigDecimal.valueOf(value1));
 
 			try
@@ -488,7 +492,9 @@ public class POEventForm extends JInternalFrame
 
 			//detailReimburse.setHarga((BigDecimal) tabelModel2.getValueAt(i, 2));
 			String result = String.valueOf(tabelModel2.getValueAt(i, 2));
-			Long value = Long.valueOf(result.replace(",",""));
+			String aResult = result.replace(",","");
+			String results = aResult.replace(".00","");
+			Long value = Long.valueOf(results);
 			detailReimburse.setHarga(BigDecimal.valueOf(value));
 
 			try

@@ -113,6 +113,7 @@ public class DetailReimbursementForm extends JInternalFrame
 	{
 		//  set banyaknya angka akhir bilangan
 		numformat.setMaximumFractionDigits(0);
+        numformat.setMinimumFractionDigits(2);
 
 		//  Deklarasikan NumberFormatter
 		numformatter = new NumberFormatter(numformat);

@@ -269,7 +269,9 @@ public class KontrakForm extends JInternalFrame
 			@Override
 			public void keyReleased(KeyEvent e)
 			{
-				Long a = Long.valueOf(TF_NilaiKontrak.getText().replace(",",""));
+				//String as = TF_NilaiKontrak.getText().replace(",","");
+				String a1 = TF_NilaiKontrak.getText().replace(".00","");
+				Long a = Long.valueOf(a1);
 				TF_Dpp.setValue(a);
 			}
 		});
@@ -289,7 +291,8 @@ public class KontrakForm extends JInternalFrame
 		{
 			public void caretUpdate(CaretEvent arg0)
 			{
-				String getDpp = TF_Dpp.getText().replace(",","");
+				String getDpp = (TF_Dpp.getText().replace(".00","")).replace(",","");
+				//String aGetDpp = getDpp.replace(",","");
 
 				if (getDpp.matches(pattern))
 				{
@@ -316,7 +319,8 @@ public class KontrakForm extends JInternalFrame
 		{
 			public void caretUpdate(CaretEvent arg0)
 			{
-				String getPpn = TF_Ppn.getText().replace(",","");
+				String getPpn = (TF_Ppn.getText().replace(".00","")).replace(",","");
+				//String aGetPpn = getPpn.replace(",","");
 
 				if (getPpn.matches(pattern))
 				{
@@ -335,7 +339,8 @@ public class KontrakForm extends JInternalFrame
 		{
 			public void caretUpdate(CaretEvent arg0)
 			{
-				String getPph23 = TF_Pph_23.getText().replace(",","");
+				String getPph23 = (TF_Pph_23.getText().replace(".00","")).replace(",","");
+				//String aGetPph23 = getPph23.replace(",","");
 
 				if (getPph23.matches(pattern))
 				{
@@ -343,7 +348,8 @@ public class KontrakForm extends JInternalFrame
 					Long rePph23 = (grPph23 * 2)/100;
 					TF_ResultPph_23.setValue(rePph23);
 
-					String getResultDpp = TF_ResultDpp.getText().replace(",","");
+					String getResultDpp = (TF_ResultDpp.getText().replace(".00","")).replace(",","");
+					//String aGetResultDpp = getResultDpp.replace(",","");
 					Long dpp = Long.parseLong(getResultDpp);
 
 					Long resultSp2D = dpp - rePph23;
@@ -373,6 +379,7 @@ public class KontrakForm extends JInternalFrame
 		JCheckBox chckbxPaid = new JCheckBox("Paid");
 		chckbxPaid.setBounds(469, 22, 101, 23);
 		desktopPane.add(chckbxPaid);
+		chckbxPaid.setVisible(false);
 
 		JLabel lblListKontrak = new JLabel("List Kontrak");
 		lblListKontrak.setBounds(46, 26, 126, 15);
@@ -478,11 +485,11 @@ public class KontrakForm extends JInternalFrame
 				}
 				else
 				{
-					kontrak.setNilaiKontrak(new BigDecimal(TF_NilaiKontrak.getText().replace(",","")));
-					kontrak.setDpp(new BigDecimal(TF_ResultDpp.getText().replace(",","")));
-					kontrak.setPpn(new BigDecimal(TF_ResultPpn.getText().replace(",","")));
-					kontrak.setPph23(new BigDecimal(TF_ResultPph_23.getText().replace(",","")));
-					kontrak.setSp2d(new BigDecimal(TF_ResultSP_2D.getText().replace(",","")));
+					kontrak.setNilaiKontrak(new BigDecimal((TF_NilaiKontrak.getText().replace(".00","")).replace(",","")));
+					kontrak.setDpp(new BigDecimal((TF_ResultDpp.getText().replace(".00","")).replace(",","")));
+					kontrak.setPpn(new BigDecimal((TF_ResultPpn.getText().replace(".00","")).replace(",","")));
+					kontrak.setPph23(new BigDecimal((TF_ResultPph_23.getText().replace(".00","")).replace(",","")));
+					kontrak.setSp2d(new BigDecimal((TF_ResultSP_2D.getText().replace(".00","")).replace(",","")));
 				}
 
 				if (chckbxPaid.isSelected())
@@ -653,6 +660,7 @@ public class KontrakForm extends JInternalFrame
 	{
 		//  set banyaknya angka akhir bilangan
 		numformat.setMaximumFractionDigits(0);
+        numformat.setMinimumFractionDigits(2);
 
 		//  Deklarasikan NumberFormatter
 		numformatter = new NumberFormatter(numformat);

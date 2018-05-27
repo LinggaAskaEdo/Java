@@ -12,9 +12,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.Date;
 import java.util.List;
 
@@ -374,7 +372,10 @@ public class POMediaForm extends JInternalFrame
 				tagihanMedia.setTanggal(newDate);
 
 				String result = String.valueOf(tabelModel.getValueAt(i, 2));
-				Long value = Long.valueOf(result.replace(",",""));
+				String aResult = result.replace(",","");
+				String results = aResult.replace(".00","");
+
+				Long value = Long.valueOf(results);
 				tagihanMedia.setNilaiTagihan(BigDecimal.valueOf(value));
 
 				String splitData = String.valueOf(tabelModel.getValueAt(i,3));
@@ -439,6 +440,7 @@ public class POMediaForm extends JInternalFrame
 	{
 		//  set banyaknya angka akhir bilangan
 		numformat.setMaximumFractionDigits(0);
+		numformat.setMinimumFractionDigits(2);
 
 		//  Deklarasikan NumberFormatter
 		numformatter = new NumberFormatter(numformat);

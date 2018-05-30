@@ -6,6 +6,7 @@ package com.back.olshop.scheduler;
 
 import com.back.olshop.controller.BosController;
 import com.back.olshop.model.Request;
+import com.back.olshop.model.ResponseCheck;
 import com.back.olshop.model.ResponseGet;
 import com.back.olshop.model.ResponseSend;
 import org.slf4j.Logger;
@@ -36,7 +37,7 @@ public class BOSScheduler
     @Autowired
     private BosController controller;
 
-    @Scheduled(fixedRateString = "${scheduler.time.ms}")
+    @Scheduled(fixedRateString = "${scheduler.time.ms.get.message}")
     public void getNewMessage()
     {
         try
@@ -94,6 +95,31 @@ public class BOSScheduler
         catch (Exception e)
         {
             log.error("Error when getNewMessage: {}", e);
+        }
+    }
+
+    @Scheduled(fixedRateString = "${scheduler.time.ms.check.credit}")
+    public void checkCredit()
+    {
+        try
+        {
+            log.info("Starting get check credit");
+
+            RestTemplate restTemplate = new RestTemplate();
+
+            String encodeFormat = env.getProperty("encode.format");
+            String apiKey = env.getProperty("api.key");
+            String urlCheckCredit = env.getProperty("url.check.credit");
+
+            String checkCreditUrl = urlCheckCredit + URLEncoder.encode(apiKey, encodeFormat);
+
+            ResponseCheck responseCheck = restTemplate.getForObject(checkCreditUrl, ResponseCheck.class);
+
+            log.debug("responseCheck: {}", responseCheck.getCredit());
+        }
+        catch (Exception e)
+        {
+            log.error("Error when checkCredit: {}", e);
         }
     }
 }

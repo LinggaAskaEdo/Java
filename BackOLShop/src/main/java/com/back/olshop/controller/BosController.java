@@ -54,12 +54,12 @@ public class BosController
                     return MessagePreference.MESSAGE_STORE_CLOSE;
                 }
                 else
-                    {
+                {
                     return service.checkMessage(user, request);
                 }
             }
             else
-                {
+            {
                 return MessagePreference.MESSAGE_INVALID_USER;
             }
         }

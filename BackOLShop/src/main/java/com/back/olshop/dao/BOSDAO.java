@@ -245,7 +245,7 @@ public class BOSDAO
         return resultId;
     }
 
-    public Integer saveTransaction(Integer userId, int clientId, String transactionNumber, String shippingType, Integer totalShipping, int unique)
+    public Integer saveTransaction(Integer userId, int clientId, String transactionNumber, String shippingType, Integer totalShipping, Integer totalWeightShipping, int unique)
     {
         Integer resultId = 0;
 
@@ -265,6 +265,7 @@ public class BOSDAO
             transactionParameters.put("INVOICE_NUMBER", "");
             transactionParameters.put("SHIPPING_TYPE", shippingType);
             transactionParameters.put("SHIPPING_TOTAL", totalShipping);
+            transactionParameters.put("SHIPPING_TOTAL_WEIGHT", totalWeightShipping);
             transactionParameters.put("UNIQUE_NUMBER", unique);
 
             log.debug("saveTransaction: {}", transactionJdbcInsert.getInsertString());

@@ -21,8 +21,10 @@ import java.util.*;
 public class BOSService
 {
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static final float LIMIT_COMMA_NUMBER = 0.2f;
     private final Logger log = LoggerFactory.getLogger(BOSServiceRest.class);
-    private int totalWeight, totalPrice;
+    private double totalWeight;
+    private int roundingTotalWeight, totalPrice;
     private Integer totalShipping;
     private List<Item> itemList = new ArrayList<>();
     private String shippingType;
@@ -85,14 +87,13 @@ public class BOSService
             {
                 response = MessagePreference.MESSAGE_UNKNOWN_KEYWORD;
             }
-
-            return response;
         }
         catch (Exception e)
         {
             log.error("Error when checkMessage: {}", e);
 
-            response = MessagePreference.MESSAGE_INVALID_REQUEST;
+            //response = MessagePreference.MESSAGE_INVALID_REQUEST;
+            response = generateMessage();
         }
 
         return response;
@@ -120,7 +121,8 @@ public class BOSService
                     if (data.length - 1 != 9 || data[3] == null || data[4] == null || data[5] == null || data[6] == null || data[7] == null
                             || data[8] == null || data[9] == null)
                     {
-                        return MessagePreference.MESSAGE_INVALID_REQUEST;
+                        //return MessagePreference.MESSAGE_INVALID_REQUEST;
+                        return generateMessage();
                     }
                     else
                     {
@@ -203,7 +205,8 @@ public class BOSService
                 {
                     log.error("Error when validationBuyMessage IN: {}", e);
 
-                    return MessagePreference.MESSAGE_INVALID_REQUEST;
+                    //return MessagePreference.MESSAGE_INVALID_REQUEST;
+                    return generateMessage();
                 }
             }
             else if (data[2] != null && Arrays.asList(CountryCode.countryArrays).contains(data[2].trim()))
@@ -219,7 +222,8 @@ public class BOSService
 
                     if (data.length - 1 != 7 || data[3] == null || data[4] == null || data[5] == null || data[6] == null || data[7] == null)
                     {
-                        return MessagePreference.MESSAGE_INVALID_REQUEST;
+                        //return MessagePreference.MESSAGE_INVALID_REQUEST;
+                        return generateMessage();
                     }
                     else
                     {
@@ -270,7 +274,8 @@ public class BOSService
                 {
                     log.error("Error when validationBuyMessage IN: {}", e);
 
-                    return MessagePreference.MESSAGE_INVALID_REQUEST;
+                    //return MessagePreference.MESSAGE_INVALID_REQUEST;
+                    return generateMessage();
                 }
             }
             else
@@ -282,7 +287,8 @@ public class BOSService
         {
             log.error("Error when validationBuyMessage: {}", e);
 
-            return MessagePreference.MESSAGE_INVALID_REQUEST;
+            //return MessagePreference.MESSAGE_INVALID_REQUEST;
+            return generateMessage();
         }
     }
 
@@ -398,9 +404,10 @@ public class BOSService
 
             countTotalWeightPrice(client.getClientCountry(), itemList);
             log.debug("totalWeight: {}", totalWeight);
+            log.debug("roundingTotalWeight: {}", roundingTotalWeight);
             log.debug("totalPrice: {}", totalPrice);
 
-            if (shippingType.equalsIgnoreCase(ShippingType.SHIPPING_TYPE_CARGO) && totalWeight < 7)
+            if (shippingType.equalsIgnoreCase(ShippingType.SHIPPING_TYPE_CARGO) && roundingTotalWeight < 7)
             {
                 shippingType = ShippingType.SHIPPING_TYPE_REG;
             }
@@ -428,6 +435,7 @@ public class BOSService
             }
 
             log.debug("totalShipping: {}", totalShipping);
+            log.debug("totalShippingWeight: {}", totalShipping * roundingTotalWeight);
 
             if (totalShipping <= 0 || totalShipping == null)
             {
@@ -449,13 +457,13 @@ public class BOSService
             Integer clientId = dao.saveClient(client);
             log.debug("clientId: {}", clientId);
 
-            Integer transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType, totalShipping, unique);
+            Integer transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType, totalShipping, roundingTotalWeight, unique);
             log.debug("transactionId: {}", transactionId);
 
             List<Integer> orderIds = dao.saveOrder(transactionId, itemList);
             log.debug("orderId: {}", orderIds);
 
-            String message = generateMessage(client, transactionNumber, totalPrice + totalShipping, itemList);
+            String message = generateMessage(client, transactionNumber, totalPrice, totalShipping, roundingTotalWeight, itemList);
 
             itemList.clear();
 
@@ -473,7 +481,7 @@ public class BOSService
         }
     }
 
-    private String generateMessage(Client client, String transactionNumber, Integer total, List<Item> itemList)
+    private String generateMessage(Client client, String transactionNumber, Integer totalPrice, Integer totalShipping, Integer roundingTotalWeight, List<Item> itemList)
     {
         String separator = System.lineSeparator();
 
@@ -490,12 +498,51 @@ public class BOSService
             i++;
         }
         builder.append(separator);
-        builder.append("Total biaya + ongkir: Rp. ").append(NumberFormat.getNumberInstance(Locale.US).format(total)).append(separator).append(separator);
+        builder.append("Total belanja: Rp. ").append(NumberFormat.getNumberInstance(Locale.US).format(totalPrice)).append(separator);
+        builder.append("Total biaya pengiriman: Rp. ").append(NumberFormat.getNumberInstance(Locale.US).format(totalShipping * roundingTotalWeight)).append(separator);
+        builder.append("Total keseluruhan: ").append(NumberFormat.getNumberInstance(Locale.US).format(totalPrice + (totalShipping * roundingTotalWeight)))
+                .append(separator).append(separator);
         builder.append("Mohon transfer ke rekening Bank Mandiri atas nama Ayuka Winda Kharisma 1560002743930, sesuai totalan berikut dengan kode unik yang diberikan. " +
                 "Ini memudahkan kami dalam pengecekan transferan. Dan mengenai nominal kode unik. " +
                 "Seluruh kode unik tersebut akan kami total dan kami sedekahkan setiap bulannya. Mohon maaf kurang lebihnya. " +
                 "Dan untuk batas transfer hanya 4 jam dari dikirimkannya invoice ini. Dimohon untuk mengirimkan bukti transfer. " +
                 "Selebihnya kami anggap batal. Mohon maaf kurang lebihnya.");
+
+        return builder.toString();
+    }
+
+    private String generateMessage()
+    {
+        String separator = System.lineSeparator();
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(MessagePreference.MESSAGE_INVALID_REQUEST).append(separator).append(separator);
+        builder.append("Untuk selengkapnya silahkan membaca di tautan ini: http://185.201.8.192/web/");
+        /*builder.append("Untuk pengiriman ke dalam negeri, bisa menggunakan format seperti dibawah ini:").append(separator);
+        builder.append("1. Pembelian satu jenis barang").append(separator);
+        builder.append("%23BELI%23KODE NEGARA#NAMA PEMBELI%23NAMA BANK%23REKENING BANK%23ALAMAT LENGKAP%23KECAMATAN%23PROPINSI%23KODE-UKURAN-JUMLAH BARANG%23");
+        builder.append(separator);
+        builder.append("2. Pembelian lebih dari satu jenis barang").append(separator);
+        builder.append("#BELI#KODE NEGARA#NAMA PEMBELI#NAMA BANK#REKENING BANK#ALAMAT LENGKAP#KECAMATAN#PROPINSI#KODE-UKURAN-JUMLAH BARANG, KODE-UKURAN-JUMLAH BARANG#");
+        builder.append(separator);
+        builder.append(separator);
+        builder.append("Untuk pengiriman ke luar negeri, bisa menggunakan format seperti dibawah ini:").append(separator);
+        builder.append("1. Pembelian satu jenis barang").append(separator);
+        builder.append("#BELI#KODE NEGARA#NAMA PEMBELI#NAMA BANK#REKENING BANK#ALAMAT LENGKAP#KODE-UKURAN-JUMLAH BARANG#");
+        builder.append(separator);
+        builder.append("2. Pembelian lebih dari satu jenis barang").append(separator);
+        builder.append("#BELI#KODE NEGARA#NAMA PEMBELI#NAMA BANK#REKENING BANK#ALAMAT LENGKAP#KODE-UKURAN-JUMLAH BARANG, KODE-UKURAN-JUMLAH BARANG");
+        builder.append(separator);
+        builder.append(separator);
+        builder.append("Berikut kode negara yang kita dukung:").append(separator);
+        builder.append("1. SGP = Singapore").append(separator);
+        builder.append("2. MYS1 = Malaysia").append(separator);
+        builder.append("3. MYS2 = Malaysia (Sabah, Serawak, Khucing)").append(separator);
+        builder.append("4. TWN = Taiwan").append(separator);
+        builder.append("5. HGK = Hongkong").append(separator);
+        builder.append("6. BRN = Brunei Darussalam").append(separator);
+        builder.append("7. THA = Thailand").append(separator);
+        builder.append("8. VNM = Vietnam").append(separator);*/
 
         return builder.toString();
     }
@@ -543,6 +590,19 @@ public class BOSService
         {
             totalWeight += item.getItemWeight() * item.getItemTotal();
             totalPrice += item.getItemPrice() * item.getItemTotal();
+        }
+
+        double valueAfterDot = (totalWeight - Math.floor(totalWeight));
+        String strDouble = new Double(totalWeight).toString();
+        String str = strDouble.substring(0, strDouble.indexOf('.'));
+
+        if (valueAfterDot < 0.2)
+        {
+            roundingTotalWeight = Integer.parseInt(str);
+        }
+        else
+        {
+            roundingTotalWeight = Integer.parseInt(str) + 1;
         }
     }
 
@@ -617,11 +677,11 @@ public class BOSService
                 if (totalItem == 1)
                 {
 
-                    response = "Code item: " + codeName + ", size: " + size + ", there is 1 item";
+                    response = "Item dengan kode: " + codeName + " dan ukuran: " + size + ", tersisa 1 buah";
                 }
                 else if (totalItem > 1)
                 {
-                    response = "Code item: " + codeName + ", size: " + size + ", there are " + totalItem + " items";
+                    response = "Item dengan kode: " + codeName + " dan ukuran: " + size + ", tersisa  " + totalItem + " buah";
                 }
                 else
                 {
@@ -633,7 +693,8 @@ public class BOSService
         {
             log.error("Error when validationCheckMessage: {}", e);
 
-            response = MessagePreference.MESSAGE_INVALID_REQUEST;
+            //response = MessagePreference.MESSAGE_INVALID_REQUEST;
+            response =  generateMessage();
         }
 
         return response;

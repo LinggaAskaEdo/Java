@@ -21,7 +21,7 @@ import java.util.*;
 public class BOSService
 {
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    private static final float LIMIT_COMMA_NUMBER = 0.2f;
+    private static final double LIMIT_COMMA_NUMBER = 0.2;
     private final Logger log = LoggerFactory.getLogger(BOSServiceRest.class);
     private double totalWeight;
     private int roundingTotalWeight, totalPrice;
@@ -500,7 +500,7 @@ public class BOSService
         builder.append(separator);
         builder.append("Total belanja: Rp. ").append(NumberFormat.getNumberInstance(Locale.US).format(totalPrice)).append(separator);
         builder.append("Total biaya pengiriman: Rp. ").append(NumberFormat.getNumberInstance(Locale.US).format(totalShipping * roundingTotalWeight)).append(separator);
-        builder.append("Total keseluruhan: ").append(NumberFormat.getNumberInstance(Locale.US).format(totalPrice + (totalShipping * roundingTotalWeight)))
+        builder.append("Total keseluruhan: Rp. ").append(NumberFormat.getNumberInstance(Locale.US).format(totalPrice + (totalShipping * roundingTotalWeight)))
                 .append(separator).append(separator);
         builder.append("Mohon transfer ke rekening Bank Mandiri atas nama Ayuka Winda Kharisma 1560002743930, sesuai totalan berikut dengan kode unik yang diberikan. " +
                 "Ini memudahkan kami dalam pengecekan transferan. Dan mengenai nominal kode unik. " +
@@ -596,7 +596,7 @@ public class BOSService
         String strDouble = new Double(totalWeight).toString();
         String str = strDouble.substring(0, strDouble.indexOf('.'));
 
-        if (valueAfterDot < 0.2)
+        if (valueAfterDot < LIMIT_COMMA_NUMBER)
         {
             roundingTotalWeight = Integer.parseInt(str);
         }

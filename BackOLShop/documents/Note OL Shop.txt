@@ -11,7 +11,7 @@ Email Username		: 	otisdeveloper@gmail.com
 Email Password		:	#1rstwap
 
 ** Database **
-name = BACK_OL_SHOP
+name = BOS
 
 ** Tables **
 1. USER

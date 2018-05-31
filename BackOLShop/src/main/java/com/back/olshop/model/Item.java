@@ -15,7 +15,7 @@ public class Item
     private String itemDesc;
     private int itemStock;
     private int itemPrice;
-    private int itemWeight;
+    private double itemWeight;
     private int itemTotal;
     private int itemTotalOld;
 
@@ -109,12 +109,12 @@ public class Item
         this.itemPrice = itemPrice;
     }
 
-    public int getItemWeight()
+    public double getItemWeight()
     {
         return itemWeight;
     }
 
-    public void setItemWeight(int itemWeight)
+    public void setItemWeight(double itemWeight)
     {
         this.itemWeight = itemWeight;
     }

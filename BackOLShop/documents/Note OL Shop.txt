@@ -94,10 +94,10 @@ Total biaya + ongkir: 170244
 Mohon transfer ke rekening mandiri ayuka winda kharisma 1560002743930, sesuai totalan berikut dengan kode unik yang diberikan. Ini memudahkan kami dalam pengecekan transferan. Dan mengenai nominal kode unik. Seluruh kode unik tersebut akan kami total dan kami sedekahkan setiap bulannya. Dan untuk batas transfer hanya 4 jam dari dikirimkannya invoice ini. Dimohon untuk mengirimkan bukti transfer. Selebihnya kami anggap batal. Mohon maaf kurang lebihnya.
 
 ** Revisi **
-1. Total harga, biaya pengiriman dipisah
+*1. Total harga, biaya pengiriman dipisah
 *2. mode cek item masih bahasa inggris, ubah ke bahasa indonesia
-3. rumusan berat barang masih salah, yg bener (biaya x total berat)
-4. pembulatan berat ke bawah jika kurang dari 0,3. Jika diatas itu pembulatan ke atas
+*3. rumusan berat barang masih salah, yg bener (biaya x total berat)
+*4. pembulatan berat ke bawah jika kurang dari 0,3. Jika diatas itu pembulatan ke atas
 
 contoh: 1,3 | 1,4| 1,8 dibulatkan jadi 2
         1,2 dibulatkan jadi 1

@@ -73,6 +73,12 @@ public class BOSService
         /*categorize message*/
         try
         {
+            /*reset to default*/
+            totalWeight = 0;
+            totalShipping = 0;
+            totalPrice = 0;
+            roundingTotalWeight = 0;
+
             String[] data = message.split("#");
 
             if (data[1] != null && data[1].trim().equalsIgnoreCase(MessageType.MESSAGE_TYPE_BUY))
@@ -118,7 +124,7 @@ public class BOSService
                 {
                     log.debug("Data length: {}", data.length);
 
-                    if (data.length - 1 != 9 || data[3] == null || data[4] == null || data[5] == null || data[6] == null || data[7] == null
+                    if (data.length - 1 < 9 || data[3] == null || data[4] == null || data[5] == null || data[6] == null || data[7] == null
                             || data[8] == null || data[9] == null)
                     {
                         //return MessagePreference.MESSAGE_INVALID_REQUEST;
@@ -174,7 +180,8 @@ public class BOSService
                         {
                             try
                             {
-                                if (data[10] != null && Arrays.asList(ShippingType.shippingArrays).contains(data[10].trim()))
+                                //if (data[10] != null && Arrays.asList(ShippingType.shippingArrays).contains(data[10].trim()))
+                                if (data[10] != null && containsCaseInsensitive(data[10].trim(), Arrays.asList(ShippingType.shippingArrays)))
                                 {
                                     shippingType = data[10].trim();
                                 }
@@ -290,6 +297,11 @@ public class BOSService
             //return MessagePreference.MESSAGE_INVALID_REQUEST;
             return generateMessage();
         }
+    }
+
+    private boolean containsCaseInsensitive(String shippingType, List<String> shippingList)
+    {
+        return shippingList.stream().anyMatch(x -> x.equalsIgnoreCase(shippingType));
     }
 
     private String processOrder(Integer userId, String order, Client client)
@@ -516,8 +528,11 @@ public class BOSService
         String separator = System.lineSeparator();
 
         StringBuilder builder = new StringBuilder();
-        builder.append(MessagePreference.MESSAGE_INVALID_REQUEST).append(separator).append(separator);
-        builder.append("Untuk selengkapnya silahkan membaca di tautan ini: http://185.201.8.192/web/");
+        builder.append("Mohon maaf format tidak terdeteksi. Untuk bantuan langsung wa ke 087808731559");
+
+        /*builder.append(MessagePreference.MESSAGE_INVALID_REQUEST).append(separator).append(separator);
+        builder.append("Untuk selengkapnya silahkan membaca di tautan ini: http://185.201.8.192/web/ atau menghubungi Admin kami, Ayuka (087808731559)");*/
+
         /*builder.append("Untuk pengiriman ke dalam negeri, bisa menggunakan format seperti dibawah ini:").append(separator);
         builder.append("1. Pembelian satu jenis barang").append(separator);
         builder.append("%23BELI%23KODE NEGARA#NAMA PEMBELI%23NAMA BANK%23REKENING BANK%23ALAMAT LENGKAP%23KECAMATAN%23PROPINSI%23KODE-UKURAN-JUMLAH BARANG%23");

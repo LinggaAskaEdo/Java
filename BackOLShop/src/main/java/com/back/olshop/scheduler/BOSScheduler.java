@@ -71,7 +71,7 @@ public class BOSScheduler
                     String ownNumber = responseGet.getNumber();
                     String number = responseGet.getFrom();
                     String messsage = responseGet.getText();
-                    String text = controller.requestHandler(new Request(ownNumber, apiKey, messsage));
+                    String text = controller.requestHandler(new Request(number, apiKey, messsage));
 
                     log.debug("message: {}", text);
 

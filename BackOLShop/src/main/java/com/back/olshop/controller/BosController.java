@@ -35,13 +35,13 @@ public class BosController
                 log.debug("user: {}", user);
 
                 //check expired
-                boolean tokenExpired = service.checkTokenExpired(user.getUserTokenExpired());
+                //boolean tokenExpired = service.checkTokenExpired(user.getUserTokenExpired());
 
                 //check store open
-                boolean storeOpen = service.checkStoreOpen(user.getUserOpenTime(), user.getUserCloseTime());
+                //boolean storeOpen = service.checkStoreOpen(user.getUserOpenTime(), user.getUserCloseTime());
 
-                log.debug("isExpired: {}", tokenExpired);
-                log.debug("storeOpen: {}", storeOpen);
+                //log.debug("isExpired: {}", tokenExpired);
+                //log.debug("storeOpen: {}", storeOpen);
 
                 //if (tokenExpired)
                 if (false)

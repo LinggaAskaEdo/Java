@@ -515,10 +515,10 @@ public class BOSService
         builder.append("Total keseluruhan: Rp. ").append(NumberFormat.getNumberInstance(Locale.US).format(totalPrice + (totalShipping * roundingTotalWeight)))
                 .append(separator).append(separator);
         builder.append("Mohon transfer ke rekening Bank Mandiri atas nama Ayuka Winda Kharisma 1560002743930, sesuai totalan berikut dengan kode unik yang diberikan. " +
-                "Ini memudahkan kami dalam pengecekan transferan. Dan mengenai nominal kode unik. " +
-                "Seluruh kode unik tersebut akan kami total dan kami sedekahkan setiap bulannya. Mohon maaf kurang lebihnya. " +
-                "Dan untuk batas transfer hanya 4 jam dari dikirimkannya invoice ini. Dimohon untuk mengirimkan bukti transfer. " +
-                "Selebihnya kami anggap batal. Mohon maaf kurang lebihnya.");
+                "Ini memudahkan kami dalam pengecekan transferan. " +
+                "Dan mengenai nominal kode unik. Seluruh kode unik tersebut akan kami total dan kami sedekahkan setiap bulannya.\n" +
+                "Dan untuk batas transfer hanya 4 jam dari dikirimkannya invoice ini. Selebihnya kami anggap batal. " +
+                "Wajib untuk mengirimkan bukti transfer ke WA : 087808731559 (wajib sertakan no.order). Mohon maaf kurang lebihnya.");
 
         return builder.toString();
     }

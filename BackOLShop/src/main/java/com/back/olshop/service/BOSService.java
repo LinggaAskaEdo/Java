@@ -7,6 +7,7 @@ package com.back.olshop.service;
 import com.back.olshop.constant.*;
 import com.back.olshop.dao.BOSDAO;
 import com.back.olshop.model.*;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.util.*;
 @Service
 public class BOSService
 {
+    private static final String JASA_TITIP_FORMAT = "JST";
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static final double LIMIT_COMMA_NUMBER = 0.2;
     private final Logger log = LoggerFactory.getLogger(BOSServiceRest.class);
@@ -195,14 +197,39 @@ public class BOSService
                                 shippingType = ShippingType.SHIPPING_TYPE_REG;
                             }
 
-                            //set another client field
-                            client.setClientName(name);
-                            client.setClientHp(phoneNumber);
-                            client.setClientBankName(bankName);
-                            client.setClientBankNumber(bankAccountNumber);
-                            client.setClientAddress(address);
-                            client.setClientDistricts(district);
-                            client.setClientProvince(province);
+                            try
+                            {
+                                //set another client field
+                                if (StringUtils.containsIgnoreCase(name, JASA_TITIP_FORMAT))
+                                {
+                                    String[] nameWithJstFormat = name.split("-");
+
+                                    if (nameWithJstFormat.length == 3 && nameWithJstFormat[0].equalsIgnoreCase(JASA_TITIP_FORMAT))
+                                    {
+                                        client.setClientName(nameWithJstFormat[1]);
+                                        client.setClientHp(nameWithJstFormat[2]);
+                                    }
+                                    else
+                                    {
+                                        return generateMessage();
+                                    }
+                                }
+                                else
+                                {
+                                    client.setClientName(name);
+                                    client.setClientHp(phoneNumber);
+                                }
+
+                                client.setClientBankName(bankName);
+                                client.setClientBankNumber(bankAccountNumber);
+                                client.setClientAddress(address);
+                                client.setClientDistricts(district);
+                                client.setClientProvince(province);
+                            }
+                            catch (Exception e)
+                            {
+                                return generateMessage();
+                            }
 
                             return processOrder(userId, order, client);
                         }
@@ -499,7 +526,7 @@ public class BOSService
 
         StringBuilder builder = new StringBuilder();
         builder.append("Assalamu'alaikum, ").append(client.getClientName()).append(separator);
-        builder.append("Transaksi anda untuk pembelian (").append(transactionNumber).append("): ").append(separator);
+        builder.append("Transaksi anda untuk no. Order (").append(transactionNumber).append("): ").append(separator);
 
         int i = 1;
         for (Item item : itemList)
@@ -529,35 +556,6 @@ public class BOSService
 
         StringBuilder builder = new StringBuilder();
         builder.append("Mohon maaf format tidak terdeteksi. Untuk bantuan langsung wa ke 087808731559");
-
-        /*builder.append(MessagePreference.MESSAGE_INVALID_REQUEST).append(separator).append(separator);
-        builder.append("Untuk selengkapnya silahkan membaca di tautan ini: http://185.201.8.192/web/ atau menghubungi Admin kami, Ayuka (087808731559)");*/
-
-        /*builder.append("Untuk pengiriman ke dalam negeri, bisa menggunakan format seperti dibawah ini:").append(separator);
-        builder.append("1. Pembelian satu jenis barang").append(separator);
-        builder.append("%23BELI%23KODE NEGARA#NAMA PEMBELI%23NAMA BANK%23REKENING BANK%23ALAMAT LENGKAP%23KECAMATAN%23PROPINSI%23KODE-UKURAN-JUMLAH BARANG%23");
-        builder.append(separator);
-        builder.append("2. Pembelian lebih dari satu jenis barang").append(separator);
-        builder.append("#BELI#KODE NEGARA#NAMA PEMBELI#NAMA BANK#REKENING BANK#ALAMAT LENGKAP#KECAMATAN#PROPINSI#KODE-UKURAN-JUMLAH BARANG, KODE-UKURAN-JUMLAH BARANG#");
-        builder.append(separator);
-        builder.append(separator);
-        builder.append("Untuk pengiriman ke luar negeri, bisa menggunakan format seperti dibawah ini:").append(separator);
-        builder.append("1. Pembelian satu jenis barang").append(separator);
-        builder.append("#BELI#KODE NEGARA#NAMA PEMBELI#NAMA BANK#REKENING BANK#ALAMAT LENGKAP#KODE-UKURAN-JUMLAH BARANG#");
-        builder.append(separator);
-        builder.append("2. Pembelian lebih dari satu jenis barang").append(separator);
-        builder.append("#BELI#KODE NEGARA#NAMA PEMBELI#NAMA BANK#REKENING BANK#ALAMAT LENGKAP#KODE-UKURAN-JUMLAH BARANG, KODE-UKURAN-JUMLAH BARANG");
-        builder.append(separator);
-        builder.append(separator);
-        builder.append("Berikut kode negara yang kita dukung:").append(separator);
-        builder.append("1. SGP = Singapore").append(separator);
-        builder.append("2. MYS1 = Malaysia").append(separator);
-        builder.append("3. MYS2 = Malaysia (Sabah, Serawak, Khucing)").append(separator);
-        builder.append("4. TWN = Taiwan").append(separator);
-        builder.append("5. HGK = Hongkong").append(separator);
-        builder.append("6. BRN = Brunei Darussalam").append(separator);
-        builder.append("7. THA = Thailand").append(separator);
-        builder.append("8. VNM = Vietnam").append(separator);*/
 
         return builder.toString();
     }

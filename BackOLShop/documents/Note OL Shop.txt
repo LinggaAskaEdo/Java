@@ -58,6 +58,9 @@ name = BOS
 > 1 barang
 #BELI#KODE NEGARA#NAMA PEMBELI#NAMA BANK#REKENING BANK#ALAMAT LENGKAP#KECAMATAN#PROPINSI#KODE-UKURAN-JUMLAH BARANG, KODE-UKURAN-JUMLAH BARANG#
 
+** Format pesanan dari dalam negeri - JST (Jasa Titip) **
+#beli#id#jst-nirmala-085715025257#mandiri#123456#jalanbangka#pelaihari#banjarmasin#zu-xs-1#
+
 ** Format pesanan dari luar negeri **
 1 barang
 #BELI#KODE NEGARA#NAMA PEMBELI#NAMA BANK#REKENING BANK#ALAMAT LENGKAP#KODE-UKURAN-JUMLAH BARANG#

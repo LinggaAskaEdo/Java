@@ -47,6 +47,9 @@ dependencies {
     //MySQL Connector
     compile("mysql:mysql-connector-java")
 
+    //Apache Commons
+    compile("org.apache.commons:commons-lang3:3.5")
+
     //test
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("org.mockito:mockito-all:1.9.5")

@@ -48,19 +48,18 @@ public class BOSDAO
         return user;
     }
 
-    public Integer checkRegion(String district, String province)
+    public Integer checkRegion(String district, String city)
     {
         Integer result = 0;
         
-        String query = "SELECT COUNT(*) FROM EXPEDITION_IN WHERE EXPEDITION_IN_DISTRICT = ? AND EXPEDITION_IN_PROVINCE = ?";
+        String query = "SELECT COUNT(*) FROM EXPEDITION_IN_NEW WHERE EXPEDITION_IN_DISTRICT = ? AND EXPEDITION_IN_CITY LIKE ?";
         
         log.debug("Query checkRegion: {}", query);
         
         try
         {
-            result = jdbcTemplate.queryForObject(query, new String[] { district, province }, Integer.class);
-            //result = jdbcTemplate.queryForObject(query, new String[] { "'" + district + "'", "'" + province + "'" }, Integer.class);
-            //result = jdbcTemplate.queryForObject(query, new String[] { "'%" + district + "%'", "'%" + province + "%'" }, Integer.class);
+            //result = jdbcTemplate.queryForObject(query, new String[] { district, city }, Integer.class);
+            result = jdbcTemplate.queryForObject(query, new String[] { district, "'%" + city + "%'" }, Integer.class);
         }
         catch (Exception e)
         {
@@ -127,7 +126,7 @@ public class BOSDAO
         }
     }
 
-    public Integer countShippingIn(String district, String province, String shippingType)
+    public Integer countShippingIn(String district, String city, String shippingType)
     {
         Integer total = 0;
 
@@ -148,15 +147,14 @@ public class BOSDAO
                 colName = "EXPEDITION_IN_PRICE_REG";
         }
 
-        String query = "SELECT " + colName + " FROM EXPEDITION_IN WHERE EXPEDITION_IN_DISTRICT = ? AND EXPEDITION_IN_PROVINCE = ? LIMIT 1";
+        String query = "SELECT " + colName + " FROM EXPEDITION_IN_NEW WHERE EXPEDITION_IN_DISTRICT = ? AND EXPEDITION_IN_CITY LIKE ?";
 
         log.debug("Query countShippingIn: {}", query);
 
         try
         {
-            total = jdbcTemplate.queryForObject(query, new String[] { district, province }, Integer.class);
-            //total = jdbcTemplate.queryForObject(query, new String[] { "'" + district + "'", "'" + province + "'" }, Integer.class);
-            //total = jdbcTemplate.queryForObject(query, new String[]{ "'%" + district + "%'", "'%" + province + "%'" }, new BeanPropertyRowMapper<>(Integer.class));
+            //total = jdbcTemplate.queryForObject(query, new String[] { district, city }, Integer.class);
+            total = jdbcTemplate.queryForObject(query, new String[] { district, "'%"  + city + "%'" }, Integer.class);
         }
         catch (Exception e)
         {
@@ -186,19 +184,18 @@ public class BOSDAO
         return total;
     }
 
-    public boolean isSupportBest(String district, String province)
+    public boolean isSupportBest(String district, String city)
     {
         boolean result = false;
 
-        String query = "SELECT (EXPEDITION_IN_PRICE_BEST > 0) FROM EXPEDITION_IN WHERE EXPEDITION_IN_DISTRICT = ? AND EXPEDITION_IN_PROVINCE = ? LIMIT 1";
+        String query = "SELECT (EXPEDITION_IN_PRICE_BEST > 0) FROM EXPEDITION_IN_NEW WHERE EXPEDITION_IN_DISTRICT = ? AND EXPEDITION_IN_CITY LIKE ?";
 
         log.debug("Query isSupportBest: {}", query);
 
         try
         {
-            result = jdbcTemplate.queryForObject(query, new String[] { district, province }, Boolean.class);
-            //result = jdbcTemplate.queryForObject(query, new String[] { "'" + district + "'", "'" + province + "'" }, Boolean.class);
-            //result = jdbcTemplate.queryForObject(query, new String[] { "'%" + district + "%'", "'%" + province + "%'" }, Boolean.class);
+            //result = jdbcTemplate.queryForObject(query, new String[] { district, city }, Boolean.class);
+            result = jdbcTemplate.queryForObject(query, new String[] { district, "'%"  + city + "%'" }, Boolean.class);
         }
         catch (Exception e)
         {
@@ -225,7 +222,7 @@ public class BOSDAO
             clientParameters.put("CLIENT_BANK_NUMBER", client.getClientBankNumber());
             clientParameters.put("CLIENT_ADDRESS", client.getClientAddress());
             clientParameters.put("CLIENT_DISTRICTS", client.getClientDistricts());
-            clientParameters.put("CLIENT_PROVINCE", client.getClientProvince());
+            clientParameters.put("CLIENT_PROVINCE", client.getClientCity());
 
             log.debug("saveClient: {}", clientJdbcInsert.getInsertString());
 
@@ -325,5 +322,45 @@ public class BOSDAO
         }
 
         return status;
+    }
+
+    public String getOriginCode(String city)
+    {
+        String result = null;
+
+        String query = "SELECT ORIGIN_CODE FROM ORIGIN WHERE ORIGIN_NAME = ?";
+
+        log.debug("Query getOriginCode: {}", query);
+
+        try
+        {
+            result = jdbcTemplate.queryForObject(query, new String[] { city }, String.class);
+        }
+        catch (Exception e)
+        {
+            log.error("ERROR when getOriginCode: {}", e);
+        }
+
+        return result;
+    }
+
+    public String getDestinationCode(String district, String city)
+    {
+        String result = null;
+
+        String query = "SELECT EXPEDITION_IN_CODE FROM EXPEDITION_IN_NEW WHERE EXPEDITION_IN_DISTRICT = ? AND EXPEDITION_IN_CITY LIKE ?";
+
+        log.debug("Query getDestinationCode: {}", query);
+
+        try
+        {
+            result = jdbcTemplate.queryForObject(query, new String[] { district, "'%"  + city + "%'" }, String.class);
+        }
+        catch (Exception e)
+        {
+            log.error("ERROR when getDestinationCode: {}", e);
+        }
+
+        return result;
     }
 }

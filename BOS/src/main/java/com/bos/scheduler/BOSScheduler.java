@@ -142,9 +142,9 @@ public class BOSScheduler
 
             Response response = restTemplate.getForObject(getOriginUrl, Response.class);
 
-
-
             log.debug("response: {}", response.toString());
+
+            //TODO: finishing ON DUPLICATE KEY UPDATE with ORIGIN's table
         }
         catch (Exception e)
         {

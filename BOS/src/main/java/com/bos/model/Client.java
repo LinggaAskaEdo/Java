@@ -13,7 +13,7 @@ public class Client
     private String clientBankNumber;
     private String clientAddress;
     private String clientDistricts;
-    private String clientProvince;
+    private String clientCity;
 
     public String getClientCountry()
     {
@@ -85,13 +85,13 @@ public class Client
         this.clientDistricts = clientDistricts;
     }
 
-    public String getClientProvince()
+    public String getClientCity()
     {
-        return clientProvince;
+        return clientCity;
     }
 
-    public void setClientProvince(String clientProvince)
+    public void setClientCity(String clientCity)
     {
-        this.clientProvince = clientProvince;
+        this.clientCity = clientCity;
     }
 }

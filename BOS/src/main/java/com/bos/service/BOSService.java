@@ -9,10 +9,7 @@ import com.bos.constant.MessagePreference;
 import com.bos.constant.MessageType;
 import com.bos.constant.ShippingType;
 import com.bos.dao.BOSDAO;
-import com.bos.model.Client;
-import com.bos.model.Item;
-import com.bos.model.Request;
-import com.bos.model.User;
+import com.bos.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +20,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BOSService
@@ -41,6 +39,9 @@ public class BOSService
 
     @Autowired
     private BOSDAO dao;
+
+    @Autowired
+    private SCPService scp;
 
     public User loadUserByToken(String token)
     {
@@ -108,7 +109,6 @@ public class BOSService
         {
             log.error("Error when checkMessage: {}", e);
 
-            //response = MessagePreference.MESSAGE_INVALID_REQUEST;
             response = generateMessage();
         }
 
@@ -137,7 +137,6 @@ public class BOSService
                     if (data.length - 1 < 9 || data[3] == null || data[4] == null || data[5] == null || data[6] == null || data[7] == null
                             || data[8] == null || data[9] == null)
                     {
-                        //return MessagePreference.MESSAGE_INVALID_REQUEST;
                         return generateMessage();
                     }
                     else
@@ -147,7 +146,7 @@ public class BOSService
                         String bankAccountNumber = data[5].trim();
                         String address = data[6].trim();
                         String district = data[7].trim();
-                        String province = data[8].trim();
+                        String city = data[8].trim();
                         String order = data[9].trim();
 
                         if (name.equalsIgnoreCase(""))
@@ -174,11 +173,11 @@ public class BOSService
                         {
                             return MessagePreference.MESSAGE_ERROR_EMPTY_DISTRICT;
                         }
-                        else if (province.equalsIgnoreCase(""))
+                        else if (city.equalsIgnoreCase(""))
                         {
                             return MessagePreference.MESSAGE_ERROR_EMPTY_PROVINCE;
                         }
-                        else if (!checkRegion(district, province))
+                        else if (!checkRegion(district, city))
                         {
                             return MessagePreference.MESSAGE_UNKNOWN_REGION;
                         }
@@ -190,7 +189,6 @@ public class BOSService
                         {
                             try
                             {
-                                //if (data[10] != null && Arrays.asList(ShippingType.shippingArrays).contains(data[10].trim()))
                                 if (data[10] != null && containsCaseInsensitive(data[10].trim(), Arrays.asList(ShippingType.shippingArrays)))
                                 {
                                     shippingType = data[10].trim();
@@ -232,7 +230,7 @@ public class BOSService
                                 client.setClientBankNumber(bankAccountNumber);
                                 client.setClientAddress(address);
                                 client.setClientDistricts(district);
-                                client.setClientProvince(province);
+                                client.setClientCity(city);
                             }
                             catch (Exception e)
                             {
@@ -247,7 +245,6 @@ public class BOSService
                 {
                     log.error("Error when validationBuyMessage IN: {}", e);
 
-                    //return MessagePreference.MESSAGE_INVALID_REQUEST;
                     return generateMessage();
                 }
             }
@@ -264,7 +261,6 @@ public class BOSService
 
                     if (data.length - 1 != 7 || data[3] == null || data[4] == null || data[5] == null || data[6] == null || data[7] == null)
                     {
-                        //return MessagePreference.MESSAGE_INVALID_REQUEST;
                         return generateMessage();
                     }
                     else
@@ -316,7 +312,6 @@ public class BOSService
                 {
                     log.error("Error when validationBuyMessage IN: {}", e);
 
-                    //return MessagePreference.MESSAGE_INVALID_REQUEST;
                     return generateMessage();
                 }
             }
@@ -329,7 +324,6 @@ public class BOSService
         {
             log.error("Error when validationBuyMessage: {}", e);
 
-            //return MessagePreference.MESSAGE_INVALID_REQUEST;
             return generateMessage();
         }
     }
@@ -460,7 +454,7 @@ public class BOSService
             }
             else if (shippingType.equalsIgnoreCase(ShippingType.SHIPPING_TYPE_BEST))
             {
-                if (dao.isSupportBest(client.getClientDistricts(), client.getClientProvince()))
+                if (dao.isSupportBest(client.getClientDistricts(), client.getClientCity()))
                 {
                     shippingType = ShippingType.SHIPPING_TYPE_BEST;
                 }
@@ -474,7 +468,36 @@ public class BOSService
 
             if (client.getClientCountry().equalsIgnoreCase(CountryCode.COUNTRY_CODE_INDONESIA))
             {
-                totalShipping = dao.countShippingIn(client.getClientDistricts(), client.getClientProvince(), shippingType);
+                /*find with API first, if response null, find in database*/
+                Response response = scp.getTarif(client.getClientDistricts(), client.getClientCity(), totalWeight);
+
+                if (response != null && response.getSicepat().getStatus().getCode() == 200)
+                {
+                    log.debug("get total shipping from API");
+
+                    String serviceType;
+
+                    if (shippingType.equalsIgnoreCase(ShippingType.SHIPPING_TYPE_BEST))
+                    {
+                        serviceType = "Priority";
+                    }
+                    else
+                    {
+                        serviceType = shippingType;
+                    }
+
+                    //extracting response list
+                    List<Results> results = response.getSicepat().getResults().stream()
+                            .filter(r -> r.getService().equalsIgnoreCase(serviceType))
+                            .collect(Collectors.toList());
+
+                    totalShipping = results.get(0).getTariff();
+                }
+                else
+                {
+                    log.debug("get total shipping from database");
+                    totalShipping = dao.countShippingIn(client.getClientDistricts(), client.getClientCity(), shippingType);
+                }
             }
             else if (Arrays.asList(CountryCode.countryArrays).contains(client.getClientCountry()))
             {
@@ -514,7 +537,6 @@ public class BOSService
 
             itemList.clear();
 
-            //return new Response(ApplicationStatus.SUCCESS.toString(), MessagePreference.MESSAGE_PROCESS_ORDER);
             return message;
         }
         catch (Exception e)
@@ -673,9 +695,9 @@ public class BOSService
         return builder.toString();
     }
 
-    private boolean checkRegion(String district, String province)
+    private boolean checkRegion(String district, String city)
     {
-        return dao.checkRegion(district, province) > 0;
+        return dao.checkRegion(district, city) > 0;
     }
 
     private String validationCheckMessage(Integer userId, String[] data)
@@ -714,7 +736,6 @@ public class BOSService
         {
             log.error("Error when validationCheckMessage: {}", e);
 
-            //response = MessagePreference.MESSAGE_INVALID_REQUEST;
             response =  generateMessage();
         }
 

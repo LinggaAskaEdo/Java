@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" scanPeriod="5 seconds">
+
+    <property name="LOG_PATH" value="/var/log/bos" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss} %-5level [%-10thread] %logger{40} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="BOS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/bos.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/bos.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="BOS-SCHEDULER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/bos-scheduler.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/bos-scheduler.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="BOS-SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/bos-sql.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/bos-sql.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <logger name="com.back.olshop" level="DEBUG" additivity="false">
+        <appender-ref ref="BOS"/>
+    </logger>
+
+    <logger name="com.back.olshop.scheduler" level="DEBUG" additivity="false">
+        <appender-ref ref="BOS-SCHEDULER"/>
+    </logger>
+
+    <logger name="com.back.olshop.dao" level="DEBUG" additivity="false">
+        <appender-ref ref="BOS-SQL"/>
+    </logger>
+
+</configuration>

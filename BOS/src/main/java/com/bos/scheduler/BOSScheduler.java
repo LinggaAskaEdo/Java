@@ -2,10 +2,10 @@
  * Copyright (c) 2018 by Lingga "Aska" Edo
  */
 
-package com.back.olshop.scheduler;
+package com.bos.scheduler;
 
-import com.back.olshop.controller.BosController;
-import com.back.olshop.model.*;
+import com.bos.controller.BosController;
+import com.bos.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

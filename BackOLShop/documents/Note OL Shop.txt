@@ -121,3 +121,13 @@ HGK = Hongkong
 BRN = Brunei Darussalam
 THA = Thailand
 VNM = Vietnam
+
+** SiCepat API **
+Username: backolshop
+Api key: be71ee44d38af51d9e5a147b0c2aa7e2
+
+tariff
+http://api.sicepat.com/customer/tariff?api-key=xxx&origin=CGK&destination=PKY20707&weight=1.3
+
+waybill
+http://api.sicepat.com/customer/waybill?api-key=xxx&waybill=000017075842

@@ -2,7 +2,7 @@
  * Copyright (c) 2018 by Lingga "Aska" Edo
  */
 
-package com.back.olshop.model;
+package com.bos.model;
 
 public class Response
 {

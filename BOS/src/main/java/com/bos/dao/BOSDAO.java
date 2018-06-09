@@ -2,12 +2,12 @@
  * Copyright (c) 2018 by Lingga "Aska" Edo
  */
 
-package com.back.olshop.dao;
+package com.bos.dao;
 
-import com.back.olshop.constant.ShippingType;
-import com.back.olshop.model.Client;
-import com.back.olshop.model.Item;
-import com.back.olshop.model.User;
+import com.bos.constant.ShippingType;
+import com.bos.model.Client;
+import com.bos.model.Item;
+import com.bos.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

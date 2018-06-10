@@ -32,7 +32,7 @@ public class BOSService
     private static final double LIMIT_COMMA_NUMBER = 0.2;
 
     private double totalWeight;
-    private int roundingTotalWeight, totalPrice;
+    private int roundTotalWeight, totalPrice;
     private Integer totalShipping;
     private List<Item> itemList = new ArrayList<>();
     private String shippingType;
@@ -88,7 +88,7 @@ public class BOSService
             totalWeight = 0;
             totalShipping = 0;
             totalPrice = 0;
-            roundingTotalWeight = 0;
+            roundTotalWeight = 0;
 
             String[] data = message.split("#");
 
@@ -356,35 +356,40 @@ public class BOSService
                         int totalItem = Integer.parseInt(orders[2].trim());
 
                         Item item = dao.getItem(userId, codeItem, sizeItem);
-                        log.debug("Item: {}", item.toString());
 
-                        if (item != null && item.getItemStock() >= totalItem)
+                        if (item != null)
                         {
-                            int newStock = item.getItemStock() - totalItem;
+                            if (item.getItemStock() >= totalItem)
+                            {
+                                log.debug("Item: {}", item.toString());
 
-                            Item newItem = new Item();
-                            newItem.setUserId(userId);
-                            newItem.setItemId(item.getItemId());
-                            newItem.setItemCode(codeItem);
-                            newItem.setItemSize(sizeItem);
-                            newItem.setItemTotal(totalItem);
-                            newItem.setItemTotalOld(newStock);
-                            newItem.setItemPrice(item.getItemPrice());
-                            newItem.setItemWeight(item.getItemWeight());
-                            itemList.add(newItem);
+                                int newStock = item.getItemStock() - totalItem;
 
-                            dao.updateStock(userId, codeItem, sizeItem, newStock);
+                                Item newItem = new Item();
+                                newItem.setUserId(userId);
+                                newItem.setItemId(item.getItemId());
+                                newItem.setItemCode(codeItem);
+                                newItem.setItemSize(sizeItem);
+                                newItem.setItemTotal(totalItem);
+                                newItem.setItemTotalOld(newStock);
+                                newItem.setItemPrice(item.getItemPrice());
+                                newItem.setItemWeight(item.getItemWeight());
+                                itemList.add(newItem);
+
+                                dao.updateStock(userId, codeItem, sizeItem, newStock);
+                            }
+                            else
+                            {
+                                /*return the stock*/
+                                returnStocks();
+                                itemList.clear();
+
+                                return "Item dengan kode: " + codeItem + " dan ukuran: " + sizeItem + ", tersisa " + item.getItemStock() + " buah";
+                            }
                         }
                         else
                         {
-                            /*return the stock*/
-                            returnStocks();
-                            itemList.clear();
-
-                            return "Item dengan kode: " + codeItem +
-                                    " dan ukuran: " + sizeItem +
-                                    ", tersisa " + item.getItemStock() +
-                                    " buah";
+                            return "Item dengan kode: " + codeItem + " tidak tersedia";
                         }
                     }
                 }
@@ -402,33 +407,38 @@ public class BOSService
                     int totalItem = Integer.parseInt(arrOrder[2].trim());
 
                     Item item = dao.getItem(userId, codeItem, sizeItem);
-                    log.debug("Item: {}", item.toString());
 
-                    if (item != null && item.getItemStock() >= totalItem)
+                    if (item != null)
                     {
-                        int newStock = item.getItemStock() - totalItem;
+                        if (item.getItemStock() >= totalItem)
+                        {
+                            log.debug("Item: {}", item.toString());
 
-                        Item newItem = new Item();
-                        newItem.setUserId(userId);
-                        newItem.setItemId(item.getItemId());
-                        newItem.setItemCode(codeItem);
-                        newItem.setItemSize(sizeItem);
-                        newItem.setItemTotal(totalItem);
-                        newItem.setItemTotalOld(newStock);
-                        newItem.setItemPrice(item.getItemPrice());
-                        newItem.setItemWeight(item.getItemWeight());
-                        itemList.add(newItem);
+                            int newStock = item.getItemStock() - totalItem;
 
-                        dao.updateStock(userId, codeItem, sizeItem, newStock);
+                            Item newItem = new Item();
+                            newItem.setUserId(userId);
+                            newItem.setItemId(item.getItemId());
+                            newItem.setItemCode(codeItem);
+                            newItem.setItemSize(sizeItem);
+                            newItem.setItemTotal(totalItem);
+                            newItem.setItemTotalOld(newStock);
+                            newItem.setItemPrice(item.getItemPrice());
+                            newItem.setItemWeight(item.getItemWeight());
+                            itemList.add(newItem);
+
+                            dao.updateStock(userId, codeItem, sizeItem, newStock);
+                        }
+                        else
+                        {
+                            itemList.clear();
+
+                            return "Item dengan kode: " + arrOrder[0] + " dan ukuran: " + arrOrder[1] + ", tersisa " + item.getItemStock() + " buah";
+                        }
                     }
                     else
                     {
-                        itemList.clear();
-
-                        return "Item dengan kode: " + arrOrder[0] +
-                                " dan ukuran: " + arrOrder[1] +
-                                ", tersisa " + item.getItemStock() +
-                                " buah";
+                        return "Item dengan kode: " + arrOrder[0] + " tidak tersedia";
                     }
                 }
             }
@@ -445,10 +455,10 @@ public class BOSService
 
             countTotalWeightPrice(client.getClientCountry(), itemList);
             log.debug("totalWeight: {}", totalWeight);
-            log.debug("roundingTotalWeight: {}", roundingTotalWeight);
+            log.debug("roundTotalWeight: {}", roundTotalWeight);
             log.debug("totalPrice: {}", totalPrice);
 
-            if (shippingType.equalsIgnoreCase(ShippingType.SHIPPING_TYPE_CARGO) && roundingTotalWeight < 7)
+            if (shippingType.equalsIgnoreCase(ShippingType.SHIPPING_TYPE_CARGO) && roundTotalWeight < 7)
             {
                 shippingType = ShippingType.SHIPPING_TYPE_REG;
             }
@@ -466,32 +476,37 @@ public class BOSService
 
             log.debug("shippingType: {}", shippingType);
 
+            //boolean isFromAPI = false;
+
             if (client.getClientCountry().equalsIgnoreCase(CountryCode.COUNTRY_CODE_INDONESIA))
             {
                 /*find with API first, if response null, find in database*/
-                Response response = scp.getTarif(client.getClientDistricts(), client.getClientCity(), totalWeight);
+                //Response response = scp.getTarif(client.getClientDistricts(), client.getClientCity(), totalWeight);
+                Response response = scp.getTarif(client.getClientDistricts(), client.getClientCity());
 
-                if (response != null && response.getSicepat().getStatus().getCode() == 200)
+                log.debug("responseGetTarif:{}", response);
+
+                if (response.getSicepat() != null && response.getSicepat().getStatus().getCode() == 200)
                 {
                     log.debug("get total shipping from API");
 
-                    String serviceType;
-
-                    if (shippingType.equalsIgnoreCase(ShippingType.SHIPPING_TYPE_BEST))
+                    //update tarif from API to Database
+                    /*if (dao.updateTarif(response.getSicepat().getResults(), destinationCode))
                     {
-                        serviceType = "Priority";
+                        log.debug("Update tarif success");
                     }
                     else
                     {
-                        serviceType = shippingType;
-                    }
+                        log.debug("Update tarif fail");
+                    }*/
 
                     //extracting response list
                     List<Results> results = response.getSicepat().getResults().stream()
-                            .filter(r -> r.getService().equalsIgnoreCase(serviceType))
+                            .filter(r -> r.getService().equalsIgnoreCase(shippingType))
                             .collect(Collectors.toList());
 
                     totalShipping = results.get(0).getTariff();
+                    //isFromAPI = true;
                 }
                 else
                 {
@@ -504,8 +519,8 @@ public class BOSService
                 totalShipping = dao.countShippingOut(client.getClientCountry());
             }
 
+            //log.debug("totalShipping: {}", isFromAPI ? totalShipping : totalShipping * roundTotalWeight);
             log.debug("totalShipping: {}", totalShipping);
-            log.debug("totalShippingWeight: {}", totalShipping * roundingTotalWeight);
 
             if (totalShipping <= 0 || totalShipping == null)
             {
@@ -527,13 +542,26 @@ public class BOSService
             Integer clientId = dao.saveClient(client);
             log.debug("clientId: {}", clientId);
 
-            Integer transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType, totalShipping, roundingTotalWeight, unique);
+            Integer transactionId;
+
+            /*if (isFromAPI)
+            {
+                transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType, totalShipping, roundTotalWeight, unique);
+            }
+            else
+            {
+                transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType, totalShipping * roundTotalWeight, roundTotalWeight, unique);
+            }*/
+
+            transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType, totalShipping * roundTotalWeight, roundTotalWeight, unique);
+
             log.debug("transactionId: {}", transactionId);
 
             List<Integer> orderIds = dao.saveOrder(transactionId, itemList);
             log.debug("orderId: {}", orderIds);
 
-            String message = generateMessage(client, transactionNumber, totalPrice, totalShipping, roundingTotalWeight, itemList);
+            //String message = generateMessage(client, transactionNumber, isFromAPI);
+            String message = generateMessage(client, transactionNumber);
 
             itemList.clear();
 
@@ -550,15 +578,20 @@ public class BOSService
         }
     }
 
-    private String generateMessage(Client client, String transactionNumber, Integer totalPrice, Integer totalShipping, Integer roundingTotalWeight, List<Item> itemList)
+    //private String generateMessage(Client client, String transactionNumber, boolean isFromAPI)
+    private String generateMessage(Client client, String transactionNumber)
     {
         String separator = System.lineSeparator();
+
+        //Integer fixTotal = isFromAPI ? totalShipping : totalShipping * roundTotalWeight;
+        Integer fixTotal = totalShipping * roundTotalWeight;
 
         StringBuilder builder = new StringBuilder();
         builder.append("Assalamu'alaikum, ").append(client.getClientName()).append(separator);
         builder.append("Transaksi anda untuk no. Order (").append(transactionNumber).append("): ").append(separator);
 
         int i = 1;
+
         for (Item item : itemList)
         {
             builder.append(i).append(". kode barang: ").append(item.getItemCode()).append(", ukuran: ").append(item.getItemSize()).append(", jumlah: ")
@@ -566,10 +599,11 @@ public class BOSService
             builder.append(separator);
             i++;
         }
+
         builder.append(separator);
         builder.append("Total belanja: Rp. ").append(NumberFormat.getNumberInstance(Locale.US).format(totalPrice)).append(separator);
-        builder.append("Total biaya pengiriman: Rp. ").append(NumberFormat.getNumberInstance(Locale.US).format(totalShipping * roundingTotalWeight)).append(separator);
-        builder.append("Total keseluruhan: Rp. ").append(NumberFormat.getNumberInstance(Locale.US).format(totalPrice + (totalShipping * roundingTotalWeight)))
+        builder.append("Total biaya pengiriman: Rp. ").append(NumberFormat.getNumberInstance(Locale.US).format(fixTotal)).append(separator);
+        builder.append("Total keseluruhan: Rp. ").append(NumberFormat.getNumberInstance(Locale.US).format(totalPrice + fixTotal))
                 .append(separator).append(separator);
         builder.append("Mohon transfer ke rekening Bank Mandiri atas nama Ayuka Winda Kharisma 1560002743930, sesuai totalan berikut dengan kode unik yang diberikan. " +
                 "Ini memudahkan kami dalam pengecekan transferan. " +
@@ -641,11 +675,11 @@ public class BOSService
 
         if (valueAfterDot < LIMIT_COMMA_NUMBER)
         {
-            roundingTotalWeight = Integer.parseInt(str);
+            roundTotalWeight = Integer.parseInt(str);
         }
         else
         {
-            roundingTotalWeight = Integer.parseInt(str) + 1;
+            roundTotalWeight = Integer.parseInt(str) + 1;
         }
     }
 

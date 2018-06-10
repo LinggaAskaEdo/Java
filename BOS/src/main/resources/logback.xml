@@ -49,15 +49,15 @@
         <appender-ref ref="STDOUT"/>
     </root>
 
-    <logger name="com.back.olshop" level="DEBUG" additivity="false">
+    <logger name="com.bos" level="DEBUG" additivity="false">
         <appender-ref ref="BOS"/>
     </logger>
 
-    <logger name="com.back.olshop.scheduler" level="DEBUG" additivity="false">
+    <logger name="com.bos.scheduler" level="DEBUG" additivity="false">
         <appender-ref ref="BOS-SCHEDULER"/>
     </logger>
 
-    <logger name="com.back.olshop.dao" level="DEBUG" additivity="false">
+    <logger name="com.bos.dao" level="DEBUG" additivity="false">
         <appender-ref ref="BOS-SQL"/>
     </logger>
 

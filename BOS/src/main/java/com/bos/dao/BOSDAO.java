@@ -7,6 +7,7 @@ package com.bos.dao;
 import com.bos.constant.ShippingType;
 import com.bos.model.Client;
 import com.bos.model.Item;
+import com.bos.model.Results;
 import com.bos.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,8 +59,7 @@ public class BOSDAO
         
         try
         {
-            //result = jdbcTemplate.queryForObject(query, new String[] { district, city }, Integer.class);
-            result = jdbcTemplate.queryForObject(query, new String[] { district, "'%" + city + "%'" }, Integer.class);
+            result = jdbcTemplate.queryForObject(query, new String[] { district, "%" + city + "%" }, Integer.class);
         }
         catch (Exception e)
         {
@@ -153,8 +153,7 @@ public class BOSDAO
 
         try
         {
-            //total = jdbcTemplate.queryForObject(query, new String[] { district, city }, Integer.class);
-            total = jdbcTemplate.queryForObject(query, new String[] { district, "'%"  + city + "%'" }, Integer.class);
+            total = jdbcTemplate.queryForObject(query, new String[] { district, "%"  + city + "%" }, Integer.class);
         }
         catch (Exception e)
         {
@@ -194,8 +193,7 @@ public class BOSDAO
 
         try
         {
-            //result = jdbcTemplate.queryForObject(query, new String[] { district, city }, Boolean.class);
-            result = jdbcTemplate.queryForObject(query, new String[] { district, "'%"  + city + "%'" }, Boolean.class);
+            result = jdbcTemplate.queryForObject(query, new String[] { district, "%"  + city + "%" }, Boolean.class);
         }
         catch (Exception e)
         {
@@ -308,12 +306,48 @@ public class BOSDAO
         return resultIds;
     }
 
-    public boolean updateOriginData()
+    public boolean updateOriginData(List<Results> results)
     {
         boolean status = false;
 
+        String query = "INSERT INTO ORIGIN (ORIGIN_NAME, ORIGIN_CODE) VALUES (?, ?) " +
+                "ON DUPLICATE KEY UPDATE ORIGIN_NAME = ?, ORIGIN_CODE = ?";
+
+        log.debug("Query updateOriginData: {}", query);
+
         try
         {
+            for (Results r : results)
+            {
+                jdbcTemplate.update(query, r.getOrigin_name(), r.getOrigin_code(), r.getOrigin_name(), r.getOrigin_code());
+            }
+
+            status = true;
+        }
+        catch (Exception e)
+        {
+            log.error("ERROR when updateOrigin: {}", e);
+        }
+
+        return status;
+    }
+
+    public boolean updateDestinationData(List<Results> results)
+    {
+        boolean status = false;
+
+        String query = "INSERT INTO EXPEDITION_IN_NEW (EXPEDITION_IN_CODE, EXPEDITION_IN_CITY, EXPEDITION_IN_DISTRICT, EXPEDITION_IN_PROVINCE) VALUES (?, ?, ?, ?) " +
+                "ON DUPLICATE KEY UPDATE EXPEDITION_IN_CODE = ?, EXPEDITION_IN_CITY = ?, EXPEDITION_IN_DISTRICT = ?";
+
+        log.debug("Query updateOriginData: {}", query);
+
+        try
+        {
+            for (Results r : results)
+            {
+                jdbcTemplate.update(query, r.getDestination_code(), r.getCity(), r.getSubdistrict(), r.getProvince(), r.getDestination_code(), r.getCity(), r.getSubdistrict());
+            }
+
             status = true;
         }
         catch (Exception e)
@@ -354,7 +388,7 @@ public class BOSDAO
 
         try
         {
-            result = jdbcTemplate.queryForObject(query, new String[] { district, "'%"  + city + "%'" }, String.class);
+            result = jdbcTemplate.queryForObject(query, new String[] { district, "%"  + city + "%" }, String.class);
         }
         catch (Exception e)
         {
@@ -362,5 +396,52 @@ public class BOSDAO
         }
 
         return result;
+    }
+
+    public boolean updateTarif(List<Results> results, String destinationCode)
+    {
+        boolean status = false;
+
+        String colPrice = "";
+        String colEtd = "";
+
+        try
+        {
+            for (Results r : results)
+            {
+                if (Arrays.stream(ShippingType.shippingArrays).anyMatch(x -> x.equalsIgnoreCase(r.getService())))
+                {
+                    if (r.getService().equalsIgnoreCase(ShippingType.SHIPPING_TYPE_REG))
+                    {
+                        colPrice = "EXPEDITION_IN_PRICE_REG";
+                        colEtd = "EXPEDITION_IN_PRICE_REG_ETD";
+                    }
+                    else if (r.getService().equalsIgnoreCase(ShippingType.SHIPPING_TYPE_BEST))
+                    {
+                        colPrice = "EXPEDITION_IN_PRICE_BEST";
+                        colEtd = "EXPEDITION_IN_PRICE_BEST_ETD";
+                    }
+                    else if (r.getService().equalsIgnoreCase(ShippingType.SHIPPING_TYPE_CARGO))
+                    {
+                        colPrice = "EXPEDITION_IN_PRICE_CARGO";
+                        colEtd = "EXPEDITION_IN_PRICE_CARGO_ETD";
+                    }
+
+                    String query = "UPDATE EXPEDITION_IN_NEW SET " + colPrice + " = ?, " + colEtd + " = ? WHERE EXPEDITION_IN_CODE = ?";
+
+                    log.debug("Query updateTarif: {}", query);
+
+                    jdbcTemplate.update(query, r.getTariff(), r.getEtd(), destinationCode);
+                }
+            }
+
+            status = true;
+        }
+        catch (Exception e)
+        {
+            log.error("ERROR when updateTarif: ", e);
+        }
+
+        return status;
     }
 }

@@ -22,7 +22,7 @@ public class SCPService
     @Autowired
     private BOSDAO dao;
 
-    Response getTarif(String clientDistricts, String clientCity, double totalWeight)
+    Response getTarif(String clientDistricts, String clientCity)
     {
         Response response = new Response();
 
@@ -44,13 +44,24 @@ public class SCPService
                 String getOriginUrl = urlGetOrigin + URLEncoder.encode(apiKey, encodeFormat)
                         + "&origin=" + originCode
                         + "&destination=" + destinationCode
-                        + "&weight=" + totalWeight;
+                        + "&weight=" + (double) 1;
 
                 log.debug("getOriginUrl: {}", getOriginUrl);
 
                 response = restTemplate.getForObject(getOriginUrl, Response.class);
 
-                log.debug("response: {}", response.toString());
+                if (response.getSicepat() != null && response.getSicepat().getStatus().getCode() == 200)
+                {
+                    //update tarif from API to Database
+                    if (dao.updateTarif(response.getSicepat().getResults(), destinationCode))
+                    {
+                        log.debug("Update tarif success");
+                    }
+                    else
+                    {
+                        log.debug("Update tarif fail");
+                    }
+                }
             }
         }
         catch (Exception e)

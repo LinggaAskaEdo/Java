@@ -5,6 +5,7 @@
 package com.bos.scheduler;
 
 import com.bos.controller.BosController;
+import com.bos.dao.BOSDAO;
 import com.bos.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,9 @@ public class BOSScheduler
     @Autowired
     private BosController controller;
 
+    @Autowired
+    private BOSDAO dao;
+
     @Scheduled(fixedRateString = "${scheduler.time.ms.get.message}")
     public void getNewMessage()
     {
@@ -54,6 +58,8 @@ public class BOSScheduler
                     + "&type=" + URLEncoder.encode(type, encodeFormat)
                     + "&markaspulled=" + URLEncoder.encode(markaspulled, encodeFormat)
                     + "&getnotpulledonly=" + URLEncoder.encode(getnotpulledonly, encodeFormat);
+
+            log.debug("getMessageUrl: {}", getMessageUrl);
 
             ResponseGet[] responseGets = restTemplate.getForObject(getMessageUrl, ResponseGet[].class);
 
@@ -76,6 +82,8 @@ public class BOSScheduler
                     String sendMessageUrl = urlSendMessage + URLEncoder.encode(apiKey, encodeFormat)
                             + "&number=" + URLEncoder.encode(number, encodeFormat)
                             + "&text=" + text;
+
+                    log.debug("sendMessageUrl: {}", sendMessageUrl);
 
                     List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
                     MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
@@ -122,7 +130,8 @@ public class BOSScheduler
         }
     }
 
-    @Scheduled(fixedRateString = "${scheduler.time.ms.update.origin.destination}")
+    //@Scheduled(fixedRateString  = "${scheduler.time.ms.update.origin.destination}")
+    @Scheduled(cron = "${scheduler.time.update.origin.destination}")
     public void updateOriginDestination()
     {
         try
@@ -135,16 +144,55 @@ public class BOSScheduler
             String encodeFormat = env.getProperty("encode.format");
             String apiKey = env.getProperty("sicepat.api.key");
             String urlGetOrigin = env.getProperty("sicepat.url.get.origin");
-
             String getOriginUrl = urlGetOrigin + URLEncoder.encode(apiKey, encodeFormat);
 
             log.debug("getOriginUrl: {}", getOriginUrl);
 
-            Response response = restTemplate.getForObject(getOriginUrl, Response.class);
+            Response responseOrigin = restTemplate.getForObject(getOriginUrl, Response.class);
 
-            log.debug("response: {}", response.toString());
+            log.debug("resporesponseOriginnse: {}", responseOrigin.toString());
 
-            //TODO: finishing ON DUPLICATE KEY UPDATE with ORIGIN's table
+            if (responseOrigin.getSicepat() != null && responseOrigin.getSicepat().getStatus().getCode() == 200)
+            {
+                if (dao.updateOriginData(responseOrigin.getSicepat().getResults()))
+                {
+                    log.debug("Update Origin's table success");
+                }
+                else
+                {
+                    log.debug("Update Origin's table fail");
+                }
+            }
+            else
+            {
+                log.debug("Don't get response from Origin API");
+            }
+
+            //Destination
+            String urlGetDestination = env.getProperty("sicepat.url.get.destination");
+            String getDestinationUrl = urlGetDestination + URLEncoder.encode(apiKey, encodeFormat);
+
+            log.debug("getDestinationUrl: {}", getDestinationUrl);
+
+            Response responseDestination = restTemplate.getForObject(getDestinationUrl, Response.class);
+
+            log.debug("responseDestination: {}", responseDestination.toString());
+
+            if (responseDestination.getSicepat() != null && responseDestination.getSicepat().getStatus().getCode() == 200)
+            {
+                if (dao.updateDestinationData(responseDestination.getSicepat().getResults()))
+                {
+                    log.debug("Update Destination's table success");
+                }
+                else
+                {
+                    log.debug("Update Destination's table fail");
+                }
+            }
+            else
+            {
+                log.debug("Don't get response from Destination API");
+            }
         }
         catch (Exception e)
         {

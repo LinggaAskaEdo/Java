@@ -39,16 +39,16 @@ public class SCPService
 
                 String encodeFormat = env.getProperty("encode.format");
                 String apiKey = env.getProperty("sicepat.api.key");
-                String urlGetOrigin = env.getProperty("sicepat.url.get.tarif");
+                String urlGetTarif = env.getProperty("sicepat.url.get.tarif");
 
-                String getOriginUrl = urlGetOrigin + URLEncoder.encode(apiKey, encodeFormat)
+                String getTarifUrl = urlGetTarif + URLEncoder.encode(apiKey, encodeFormat)
                         + "&origin=" + originCode
                         + "&destination=" + destinationCode
                         + "&weight=" + (double) 1;
 
-                log.debug("getOriginUrl: {}", getOriginUrl);
+                log.debug("getOriginUrl: {}", getTarifUrl);
 
-                response = restTemplate.getForObject(getOriginUrl, Response.class);
+                response = restTemplate.getForObject(getTarifUrl, Response.class);
 
                 if (response.getSicepat() != null && response.getSicepat().getStatus().getCode() == 200)
                 {

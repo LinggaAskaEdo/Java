@@ -345,7 +345,12 @@ public class BOSDAO
         {
             for (Results r : results)
             {
-                jdbcTemplate.update(query, r.getDestination_code(), r.getCity(), r.getSubdistrict(), r.getProvince(), r.getDestination_code(), r.getCity(), r.getSubdistrict());
+                if (!r.getCity().equalsIgnoreCase("Pending") || !r.getSubdistrict().equalsIgnoreCase("Pending") ||
+                        !r.getProvince().equalsIgnoreCase("Pending"))
+                {
+                    jdbcTemplate.update(query, r.getDestination_code(), r.getCity(), r.getSubdistrict(), r.getProvince(), r.getDestination_code(), r.getCity(),
+                            r.getSubdistrict());
+                }
             }
 
             status = true;

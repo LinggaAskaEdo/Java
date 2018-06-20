@@ -6,22 +6,17 @@ package com.bos.scheduler;
 
 import com.bos.controller.BosController;
 import com.bos.dao.BOSDAO;
-import com.bos.model.*;
+import com.bos.model.Request;
+import com.bos.model.ResponseGet;
+import com.bos.service.AWHService;
+import com.bos.service.SCPService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -38,34 +33,21 @@ public class BOSScheduler
     @Autowired
     private BOSDAO dao;
 
+    @Autowired
+    private AWHService awhService;
+
+    @Autowired
+    private SCPService scpService;
+
     @Scheduled(fixedRateString = "${scheduler.time.ms.get.message}")
     public void getNewMessage()
     {
         try
         {
-            log.info("Starting get new messages");
-
-            RestTemplate restTemplate = new RestTemplate();
-
-            String encodeFormat = env.getProperty("encode.format");
             String apiKey = env.getProperty("apiwha.api.key");
-            String type = env.getProperty("apiwha.api.type");
-            String markaspulled = env.getProperty("apiwha.mark.as.pulled");
-            String getnotpulledonly = env.getProperty("apiwha.get.not.pulled.only");
-            String urlGetMessage = env.getProperty("apiwha.url.get.message");
 
-            String getMessageUrl = urlGetMessage + URLEncoder.encode(apiKey, encodeFormat)
-                    + "&type=" + URLEncoder.encode(type, encodeFormat)
-                    + "&markaspulled=" + URLEncoder.encode(markaspulled, encodeFormat)
-                    + "&getnotpulledonly=" + URLEncoder.encode(getnotpulledonly, encodeFormat);
-
-            log.debug("getMessageUrl: {}", getMessageUrl);
-
-            ResponseGet[] responseGets = restTemplate.getForObject(getMessageUrl, ResponseGet[].class);
-
-            log.debug("responseGets: {}", Arrays.toString(responseGets));
-
-            List<ResponseGet> responseGetList = Arrays.asList(responseGets);
+            //Get Message
+            List<ResponseGet> responseGetList = awhService.getMessage(apiKey);
 
             if (responseGetList.size() > 0)
             {
@@ -78,22 +60,8 @@ public class BOSScheduler
 
                     log.debug("message: {}", text);
 
-                    String urlSendMessage = env.getProperty("apiwha.url.send.message");
-                    String sendMessageUrl = urlSendMessage + URLEncoder.encode(apiKey, encodeFormat)
-                            + "&number=" + URLEncoder.encode(number, encodeFormat)
-                            + "&text=" + text;
-
-                    log.debug("sendMessageUrl: {}", sendMessageUrl);
-
-                    List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
-                    MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-                    converter.setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));
-                    messageConverters.add(converter);
-                    restTemplate.setMessageConverters(messageConverters);
-
-                    ResponseSend responseSend = restTemplate.getForObject(sendMessageUrl, ResponseSend.class);
-
-                    log.debug("sending message to {}: {}", number, (responseSend.getSuccess().equalsIgnoreCase("true")) ? "success" : "fail");
+                    //Send Message
+                    awhService.sendMessage(apiKey, number, text);
                 }
             }
         }
@@ -106,97 +74,16 @@ public class BOSScheduler
     @Scheduled(fixedRateString = "${scheduler.time.ms.check.credit}")
     public void checkCredit()
     {
-        try
-        {
-            log.info("Starting get check credit");
-
-            RestTemplate restTemplate = new RestTemplate();
-
-            String encodeFormat = env.getProperty("encode.format");
-            String apiKey = env.getProperty("apiwha.api.key");
-            String urlCheckCredit = env.getProperty("apiwha.url.check.credit");
-
-            String checkCreditUrl = urlCheckCredit + URLEncoder.encode(apiKey, encodeFormat);
-
-            log.debug("checkCreditUrl: {}", checkCreditUrl);
-
-            ResponseCheck responseCheck = restTemplate.getForObject(checkCreditUrl, ResponseCheck.class);
-
-            log.debug("responseCheck: {}", responseCheck.getCredit());
-        }
-        catch (Exception e)
-        {
-            log.error("Error when checkCredit: {}", e);
-        }
+        awhService.checkCredit();
     }
 
-    //@Scheduled(fixedRateString  = "${scheduler.time.ms.update.origin.destination}")
     @Scheduled(cron = "${scheduler.time.update.origin.destination}")
     public void updateOriginDestination()
     {
-        try
-        {
-            log.info("Start checking for update Origin");
+        //Origin
+        scpService.updateOrigin();
 
-            //Origin
-            RestTemplate restTemplate = new RestTemplate();
-
-            String encodeFormat = env.getProperty("encode.format");
-            String apiKey = env.getProperty("sicepat.api.key");
-            String urlGetOrigin = env.getProperty("sicepat.url.get.origin");
-            String getOriginUrl = urlGetOrigin + URLEncoder.encode(apiKey, encodeFormat);
-
-            log.debug("getOriginUrl: {}", getOriginUrl);
-
-            Response responseOrigin = restTemplate.getForObject(getOriginUrl, Response.class);
-
-            log.debug("resporesponseOriginnse: {}", responseOrigin.toString());
-
-            if (responseOrigin.getSicepat() != null && responseOrigin.getSicepat().getStatus().getCode() == 200)
-            {
-                if (dao.updateOriginData(responseOrigin.getSicepat().getResults()))
-                {
-                    log.debug("Update Origin's table success");
-                }
-                else
-                {
-                    log.debug("Update Origin's table fail");
-                }
-            }
-            else
-            {
-                log.debug("Don't get response from Origin API");
-            }
-
-            //Destination
-            String urlGetDestination = env.getProperty("sicepat.url.get.destination");
-            String getDestinationUrl = urlGetDestination + URLEncoder.encode(apiKey, encodeFormat);
-
-            log.debug("getDestinationUrl: {}", getDestinationUrl);
-
-            Response responseDestination = restTemplate.getForObject(getDestinationUrl, Response.class);
-
-            log.debug("responseDestination: {}", responseDestination.toString());
-
-            if (responseDestination.getSicepat() != null && responseDestination.getSicepat().getStatus().getCode() == 200)
-            {
-                if (dao.updateDestinationData(responseDestination.getSicepat().getResults()))
-                {
-                    log.debug("Update Destination's table success");
-                }
-                else
-                {
-                    log.debug("Update Destination's table fail");
-                }
-            }
-            else
-            {
-                log.debug("Don't get response from Destination API");
-            }
-        }
-        catch (Exception e)
-        {
-            log.error("Error when updateOriginDestination: {}", e);
-        }
+        //Destination
+        scpService.updateDestination();
     }
 }

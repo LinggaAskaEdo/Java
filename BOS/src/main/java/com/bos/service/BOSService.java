@@ -476,12 +476,9 @@ public class BOSService
 
             log.debug("shippingType: {}", shippingType);
 
-            //boolean isFromAPI = false;
-
             if (client.getClientCountry().equalsIgnoreCase(CountryCode.COUNTRY_CODE_INDONESIA))
             {
                 /*find with API first, if response null, find in database*/
-                //Response response = scp.getTarif(client.getClientDistricts(), client.getClientCity(), totalWeight);
                 Response response = scp.getTarif(client.getClientDistricts(), client.getClientCity());
 
                 log.debug("responseGetTarif:{}", response);
@@ -490,23 +487,12 @@ public class BOSService
                 {
                     log.debug("get total shipping from API");
 
-                    //update tarif from API to Database
-                    /*if (dao.updateTarif(response.getSicepat().getResults(), destinationCode))
-                    {
-                        log.debug("Update tarif success");
-                    }
-                    else
-                    {
-                        log.debug("Update tarif fail");
-                    }*/
-
                     //extracting response list
                     List<Results> results = response.getSicepat().getResults().stream()
                             .filter(r -> r.getService().equalsIgnoreCase(shippingType))
                             .collect(Collectors.toList());
 
                     totalShipping = results.get(0).getTariff();
-                    //isFromAPI = true;
                 }
                 else
                 {
@@ -519,7 +505,6 @@ public class BOSService
                 totalShipping = dao.countShippingOut(client.getClientCountry());
             }
 
-            //log.debug("totalShipping: {}", isFromAPI ? totalShipping : totalShipping * roundTotalWeight);
             log.debug("totalShipping: {}", totalShipping);
 
             if (totalShipping <= 0 || totalShipping == null)
@@ -543,16 +528,6 @@ public class BOSService
             log.debug("clientId: {}", clientId);
 
             Integer transactionId;
-
-            /*if (isFromAPI)
-            {
-                transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType, totalShipping, roundTotalWeight, unique);
-            }
-            else
-            {
-                transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType, totalShipping * roundTotalWeight, roundTotalWeight, unique);
-            }*/
-
             transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType, totalShipping * roundTotalWeight, roundTotalWeight, unique);
 
             log.debug("transactionId: {}", transactionId);
@@ -560,7 +535,6 @@ public class BOSService
             List<Integer> orderIds = dao.saveOrder(transactionId, itemList);
             log.debug("orderId: {}", orderIds);
 
-            //String message = generateMessage(client, transactionNumber, isFromAPI);
             String message = generateMessage(client, transactionNumber);
 
             itemList.clear();
@@ -578,12 +552,10 @@ public class BOSService
         }
     }
 
-    //private String generateMessage(Client client, String transactionNumber, boolean isFromAPI)
     private String generateMessage(Client client, String transactionNumber)
     {
         String separator = System.lineSeparator();
 
-        //Integer fixTotal = isFromAPI ? totalShipping : totalShipping * roundTotalWeight;
         Integer fixTotal = totalShipping * roundTotalWeight;
 
         StringBuilder builder = new StringBuilder();

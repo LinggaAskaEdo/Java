@@ -71,4 +71,86 @@ public class SCPService
 
         return response;
     }
+
+    public void updateOrigin()
+    {
+        try
+        {
+            log.info("Start checking for update Origin");
+
+            RestTemplate restTemplate = new RestTemplate();
+
+            String encodeFormat = env.getProperty("encode.format");
+            String apiKey = env.getProperty("sicepat.api.key");
+            String urlGetOrigin = env.getProperty("sicepat.url.get.origin");
+            String getOriginUrl = urlGetOrigin + URLEncoder.encode(apiKey, encodeFormat);
+
+            log.debug("getOriginUrl: {}", getOriginUrl);
+
+            Response responseOrigin = restTemplate.getForObject(getOriginUrl, Response.class);
+
+            log.debug("responseOrigin: {}", responseOrigin.toString());
+
+            if (responseOrigin.getSicepat() != null && responseOrigin.getSicepat().getStatus().getCode() == 200)
+            {
+                if (dao.updateOriginData(responseOrigin.getSicepat().getResults()))
+                {
+                    log.debug("Update Origin's table success");
+                }
+                else
+                {
+                    log.debug("Update Origin's table fail");
+                }
+            }
+            else
+            {
+                log.debug("Don't get response from Origin API");
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error when updateOrigin: {}, e");
+        }
+    }
+
+    public void updateDestination()
+    {
+        try
+        {
+            log.info("Start checking for update Destination");
+
+            RestTemplate restTemplate = new RestTemplate();
+
+            String encodeFormat = env.getProperty("encode.format");
+            String apiKey = env.getProperty("sicepat.api.key");
+            String urlGetDestination = env.getProperty("sicepat.url.get.destination");
+            String getDestinationUrl = urlGetDestination + URLEncoder.encode(apiKey, encodeFormat);
+
+            log.debug("getDestinationUrl: {}", getDestinationUrl);
+
+            Response responseDestination = restTemplate.getForObject(getDestinationUrl, Response.class);
+
+            log.debug("responseDestination: {}", responseDestination.toString());
+
+            if (responseDestination.getSicepat() != null && responseDestination.getSicepat().getStatus().getCode() == 200)
+            {
+                if (dao.updateDestinationData(responseDestination.getSicepat().getResults()))
+                {
+                    log.debug("Update Destination's table success");
+                }
+                else
+                {
+                    log.debug("Update Destination's table fail");
+                }
+            }
+            else
+            {
+                log.debug("Don't get response from Destination API");
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error when updateDestination: {}, e");
+        }
+    }
 }

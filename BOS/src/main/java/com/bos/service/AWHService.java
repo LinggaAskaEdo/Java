@@ -58,7 +58,7 @@ public class AWHService
         }
         catch (Exception e)
         {
-            log.error("Error when getMessage: {}, e");
+            log.error("Error when getMessage: {}", e);
         }
 
         return responseGetList;
@@ -90,7 +90,7 @@ public class AWHService
         }
         catch (Exception e)
         {
-            log.error("Error when sendMessage: {}, e");
+            log.error("Error when sendMessage: {}", e);
         }
     }
 
@@ -116,7 +116,7 @@ public class AWHService
         }
         catch (Exception e)
         {
-            log.error("Error when checkCredit: {}, e");
+            log.error("Error when checkCredit: {}", e);
         }
     }
 }

@@ -66,7 +66,7 @@ public class SCPService
         }
         catch (Exception e)
         {
-            log.error("Error when getTarif: {}, e");
+            log.error("Error when getTarif: {}", e);
         }
 
         return response;
@@ -109,7 +109,7 @@ public class SCPService
         }
         catch (Exception e)
         {
-            log.error("Error when updateOrigin: {}, e");
+            log.error("Error when updateOrigin: {}", e);
         }
     }
 
@@ -150,7 +150,7 @@ public class SCPService
         }
         catch (Exception e)
         {
-            log.error("Error when updateDestination: {}, e");
+            log.error("Error when updateDestination: {}", e);
         }
     }
 }

@@ -57,6 +57,10 @@
         <appender-ref ref="BOS-SCHEDULER"/>
     </logger>
 
+    <logger name="com.bos.service" level="DEBUG" additivity="false">
+        <appender-ref ref="BOS-SCHEDULER"/>
+    </logger>
+
     <logger name="com.bos.dao" level="DEBUG" additivity="false">
         <appender-ref ref="BOS-SQL"/>
     </logger>

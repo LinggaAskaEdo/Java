@@ -336,10 +336,12 @@ public class BOSDAO
     {
         boolean status = false;
 
-        String query = "INSERT INTO EXPEDITION_IN_NEW (EXPEDITION_IN_CODE, EXPEDITION_IN_CITY, EXPEDITION_IN_DISTRICT, EXPEDITION_IN_PROVINCE) VALUES (?, ?, ?, ?) " +
+        /*String query = "INSERT INTO EXPEDITION_IN_NEW (EXPEDITION_IN_CODE, EXPEDITION_IN_CITY, EXPEDITION_IN_DISTRICT, EXPEDITION_IN_PROVINCE) VALUES (?, ?, ?, ?) " +
                 "ON DUPLICATE KEY UPDATE EXPEDITION_IN_CODE = ?, EXPEDITION_IN_CITY = ?, EXPEDITION_IN_DISTRICT = ?";
 
-        log.debug("Query updateOriginData: {}", query);
+        log.debug("Query updateOriginData: {}", query);*/
+
+        log.debug("Call procedure updateOriginData: INSERT_UPDATE_EXPEDITION_IN(?, ?, ?, ?)");
 
         try
         {
@@ -348,8 +350,10 @@ public class BOSDAO
                 if (!r.getCity().equalsIgnoreCase("Pending") || !r.getSubdistrict().equalsIgnoreCase("Pending") ||
                         !r.getProvince().equalsIgnoreCase("Pending"))
                 {
-                    jdbcTemplate.update(query, r.getDestination_code(), r.getCity(), r.getSubdistrict(), r.getProvince(), r.getDestination_code(), r.getCity(),
-                            r.getSubdistrict());
+                    /*jdbcTemplate.update(query, r.getDestination_code(), r.getCity(), r.getSubdistrict(), r.getProvince(), r.getDestination_code(), r.getCity(),
+                            r.getSubdistrict());*/
+
+                    jdbcTemplate.update("CALL INSERT_UPDATE_EXPEDITION_IN(?, ?, ?, ?)", r.getDestination_code(), r.getCity(), r.getSubdistrict(), r.getProvince());
                 }
             }
 

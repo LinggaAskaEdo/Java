@@ -341,7 +341,7 @@ public class BOSDAO
 
         log.debug("Query updateOriginData: {}", query);*/
 
-        log.debug("Call procedure updateOriginData: INSERT_UPDATE_EXPEDITION_IN(?, ?, ?, ?)");
+        log.debug("Query updateOriginData: INSERT_UPDATE_EXPEDITION_IN(?, ?, ?, ?)");
 
         try
         {

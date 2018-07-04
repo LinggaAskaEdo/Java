@@ -8,7 +8,8 @@ public class MessagePreference
 {
     public static final String MESSAGE_BAD_REQUEST = "Maaf, format permintaan tidak dikenal !!!";
     public static final String MESSAGE_TOKEN_EXPIRED = "Maaf, lisensi Anda sudah usang !!!";
-    public static final String MESSAGE_STORE_CLOSE = "Maaf, toko masih tutup";
+    //public static final String MESSAGE_STORE_CLOSE = "Maaf, toko masih tutup"; //
+    public static final String MESSAGE_STORE_CLOSE = "Maaf belum open order, ditunggu ya \uD83D\uDE4F\uD83D\uDE18";
 
     public static final String MESSAGE_INVALID_USER = "Tidak dapat menemukan pengguna dengan token itu, periksa kredensial Anda !!!";
     public static final String MESSAGE_INVALID_REQUEST = "Maaf, format permintaan tidak dikenal !!!";

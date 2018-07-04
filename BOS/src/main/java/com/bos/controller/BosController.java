@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.util.Date;
+
 @Controller
 public class BosController
 {
@@ -40,6 +42,9 @@ public class BosController
                 //check store open
                 //boolean storeOpen = service.checkStoreOpen(user.getUserOpenTime(), user.getUserCloseTime());
 
+                //check open PO
+                boolean openPO = service.checkOpenPO(new Date(), new Date(user.getUserOpenTime().getTime()));
+
                 //log.debug("isExpired: {}", tokenExpired);
                 //log.debug("storeOpen: {}", storeOpen);
 
@@ -49,7 +54,8 @@ public class BosController
                     return MessagePreference.MESSAGE_TOKEN_EXPIRED;
                 }
                 //else if (!storeOpen)
-                else if (false)
+                //else if (false)
+                else if (!openPO)
                 {
                     return MessagePreference.MESSAGE_STORE_CLOSE;
                 }

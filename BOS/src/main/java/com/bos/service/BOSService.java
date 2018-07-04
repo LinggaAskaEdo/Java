@@ -72,6 +72,22 @@ public class BOSService
         return hoursNow >= hourUserOpenTime && hoursNow < hourUserCloseTime;
     }
 
+    public boolean checkOpenPO(java.util.Date dateNow, java.util.Date dateOpen)
+    {
+        boolean status = false;
+
+        log.debug("Date now: {}", dateNow);
+        log.debug("Date open: {}", dateOpen);
+
+        if (dateNow.compareTo(dateOpen) >= 0)
+        {
+            log.debug("dateNow is before dateOpen");
+            status = true;
+        }
+
+        return status;
+    }
+
     public String checkMessage(User user, Request request)
     {
         String response;
@@ -89,6 +105,7 @@ public class BOSService
             totalShipping = 0;
             totalPrice = 0;
             roundTotalWeight = 0;
+            itemList.clear();
 
             String[] data = message.split("#");
 
@@ -359,7 +376,7 @@ public class BOSService
 
                         if (item != null)
                         {
-                            if (item.getItemStock() >= totalItem)
+                            if (item.getItemStock() >= totalItem && item.getItemStock() > 0 && totalItem > 0)
                             {
                                 log.debug("Item: {}", item.toString());
 
@@ -389,6 +406,8 @@ public class BOSService
                         }
                         else
                         {
+                            itemList.clear();
+
                             return "Item dengan kode: " + codeItem + " tidak tersedia";
                         }
                     }
@@ -438,6 +457,8 @@ public class BOSService
                     }
                     else
                     {
+                        itemList.clear();
+
                         return "Item dengan kode: " + arrOrder[0] + " tidak tersedia";
                     }
                 }
@@ -510,6 +531,7 @@ public class BOSService
             if (totalShipping <= 0 || totalShipping == null)
             {
                 returnStocks();
+                itemList.clear();
 
                 return MessagePreference.MESSAGE_FAILED_COUNT;
             }

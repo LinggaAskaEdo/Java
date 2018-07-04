@@ -1,7 +1,5 @@
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
 public class Ampas4
 {
@@ -32,7 +30,7 @@ public class Ampas4
         boolean status = after(new Date(2017, 5, 5), new Date(), 1, 12);
         System.out.println(status);
 
-        if (7 >= 1 && 7 < 11 && (false || (true && status)))
+        if (status)
         {
             System.out.println("Y");
         }

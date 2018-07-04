@@ -8,7 +8,9 @@ import com.bos.controller.BosController;
 import com.bos.dao.BOSDAO;
 import com.bos.model.Request;
 import com.bos.model.ResponseGet;
+import com.bos.model.User;
 import com.bos.service.AWHService;
+import com.bos.service.BOSService;
 import com.bos.service.SCPService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -38,6 +41,9 @@ public class BOSScheduler
 
     @Autowired
     private SCPService scpService;
+
+    @Autowired
+    private BOSService bosService;
 
     @Scheduled(fixedRateString = "${scheduler.time.ms.get.message}")
     public void getNewMessage()

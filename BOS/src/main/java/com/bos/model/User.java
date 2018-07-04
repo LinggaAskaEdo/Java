@@ -6,6 +6,7 @@ package com.bos.model;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 public class User
 {
@@ -18,8 +19,8 @@ public class User
     private String userToken;
     private Date userTokenExpired;
     private String userSecurityToken;
-    private Time userOpenTime;
-    private Time userCloseTime;
+    private Timestamp userOpenTime;
+    private Timestamp userCloseTime;
     private boolean userAdmin;
 
     public Integer getUserId()
@@ -112,22 +113,22 @@ public class User
         this.userSecurityToken = userSecurityToken;
     }
 
-    public Time getUserOpenTime()
+    public Timestamp getUserOpenTime()
     {
         return userOpenTime;
     }
 
-    public void setUserOpenTime(Time userOpenTime)
+    public void setUserOpenTime(Timestamp userOpenTime)
     {
         this.userOpenTime = userOpenTime;
     }
 
-    public Time getUserCloseTime()
+    public Timestamp getUserCloseTime()
     {
         return userCloseTime;
     }
 
-    public void setUserCloseTime(Time userCloseTime)
+    public void setUserCloseTime(Timestamp userCloseTime)
     {
         this.userCloseTime = userCloseTime;
     }

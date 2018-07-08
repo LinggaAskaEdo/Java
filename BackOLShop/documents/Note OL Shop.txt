@@ -131,3 +131,44 @@ http://api.sicepat.com/customer/tariff?api-key=xxx&origin=CGK&destination=PKY207
 
 waybill
 http://api.sicepat.com/customer/waybill?api-key=xxx&waybill=000017075842
+
+** BUGS **
+02:27:22.741 [pool-2-thread-1] DEBUG com.bos.service.BOSService:98 - token: NHEINH6N8XNVRH9KSIPK, message: #beli#id#jst-Ira Rosalina-082282325353#bca#4361682895#Per
+um Kebun Duku Raya Residen 3 No. 2 ( Belakang Perum Becak) Kel. Balai Agung Kec. Sekayu Kab. MUBA Prov. Sumsel#sekayu#musi banyuasin#ts-m-1#
+02:27:22.741 [pool-2-thread-1] DEBUG com.bos.service.BOSService:145 - Process order from: id
+02:27:22.741 [pool-2-thread-1] DEBUG com.bos.service.BOSService:152 - Data length: 10
+02:27:22.750 [pool-2-thread-1] DEBUG com.bos.service.BOSService:420 - arrOrder[0]: ts, arrOrder[1]: m, arrOrder[2]: 1
+02:27:22.753 [pool-2-thread-1] DEBUG com.bos.service.BOSService:434 - Item: Item{itemId=30, userId=2, itemCode='ts', itemName='test', itemPicture='null', itemSize='
+m', itemDesc='cscscs', itemStock=44, itemPrice=240000, itemWeight=0.0, itemTotal=0, itemTotalOld=0}
+02:27:22.756 [pool-2-thread-1] DEBUG com.bos.service.BOSService:475 - transactionNumber: INV//1806050227//259
+02:27:22.757 [pool-2-thread-1] DEBUG com.bos.service.BOSService:478 - totalWeight: 0.0
+02:27:22.757 [pool-2-thread-1] DEBUG com.bos.service.BOSService:479 - roundTotalWeight: 0
+02:27:22.757 [pool-2-thread-1] DEBUG com.bos.service.BOSService:480 - totalPrice: 240000
+02:27:22.757 [pool-2-thread-1] DEBUG com.bos.service.BOSService:498 - shippingType: REG
+02:27:22.768 [pool-2-thread-1] DEBUG com.bos.service.SCPService:34 - originCode: CGK, destinationCode: PLM20800
+02:27:22.805 [pool-2-thread-1] DEBUG com.bos.service.SCPService:49 - getOriginUrl: http://api.sicepat.com/customer/tariff?api-key=be71ee44d38af51d9e5a147b0c2aa7e2&o
+rigin=CGK&destination=PLM20800&weight=1.0
+02:27:22.875 [pool-2-thread-1] DEBUG com.bos.service.SCPService:58 - Update tarif success
+02:27:22.875 [pool-2-thread-1] DEBUG com.bos.service.BOSService:505 - responseGetTarif:Response{status='null', message='null', sicepat=Sicepat{status=Status{code=20
+0, description='OK'}, results=[Results{origin_name='null', origin_code='null', destination_code='null', subdistrict='null', city='null', province='null', service='R
+EG', description='Regular', tariff=33000, etd='2 - 3 hari'}, Results{origin_name='null', origin_code='null', destination_code='null', subdistrict='null', city='null
+', province='null', service='Priority', description='Priority', tariff=35000, etd='2 - 3 hari'}, Results{origin_name='null', origin_code='null', destination_code='n
+ull', subdistrict='null', city='null', province='null', service='Cargo', description='Cargo per Kg (minimal 5Kg)', tariff=20000, etd='2 - 3 hari'}]}}
+02:27:22.875 [pool-2-thread-1] DEBUG com.bos.service.BOSService:509 - get total shipping from API
+02:27:22.875 [pool-2-thread-1] DEBUG com.bos.service.BOSService:529 - totalShipping: 33000
+02:27:22.876 [pool-2-thread-1] DEBUG com.bos.service.BOSService:635 - unique number: 956
+02:27:22.881 [pool-2-thread-1] DEBUG com.bos.service.BOSService:550 - clientId: 90
+02:27:22.886 [pool-2-thread-1] DEBUG com.bos.service.BOSService:555 - transactionId: 91
+02:27:22.891 [pool-2-thread-1] DEBUG com.bos.service.BOSService:558 - orderId: [95]
+02:27:22.891 [pool-2-thread-1] DEBUG com.bos.scheduler.BOSScheduler:67 - message: Assalamu'alaikum, Ira Rosalina
+Transaksi anda untuk no. Order (INV//1806050227//259):
+1. kode barang: ts, ukuran: m, jumlah: 1
+
+Total belanja: Rp. 240,956
+Total biaya pengiriman: Rp. 0
+Total keseluruhan: Rp. 240,956
+
+Mohon transfer ke rekening Bank Mandiri atas nama Ayuka Winda Kharisma 1560002743930, sesuai totalan berikut dengan kode unik yang diberikan. Ini memudahkan kami da
+lam pengecekan transferan. Dan mengenai nominal kode unik. Seluruh kode unik tersebut akan kami total dan kami sedekahkan setiap bulannya.
+Dan untuk batas transfer hanya 4 jam dari dikirimkannya invoice ini. Selebihnya kami anggap batal. Wajib untuk mengirimkan bukti transfer ke WA : 087808731559 (waji
+b sertakan no.order). Mohon maaf kurang lebihnya.

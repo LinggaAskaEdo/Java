@@ -192,7 +192,7 @@ public class BOSService
                         }
                         else if (city.equalsIgnoreCase(""))
                         {
-                            return MessagePreference.MESSAGE_ERROR_EMPTY_PROVINCE;
+                            return MessagePreference.MESSAGE_ERROR_EMPTY_CITY;
                         }
                         else if (!checkRegion(district, city))
                         {
@@ -549,15 +549,33 @@ public class BOSService
             Integer clientId = dao.saveClient(client);
             log.debug("clientId: {}", clientId);
 
-            Integer transactionId;
-            transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType, totalShipping * roundTotalWeight, roundTotalWeight, unique);
+            String message;
 
-            log.debug("transactionId: {}", transactionId);
+            if (clientId != null && clientId > 0)
+            {
+                Integer transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType,
+                        roundTotalWeight > 0 ? totalShipping * roundTotalWeight : totalShipping, roundTotalWeight, unique);
 
-            List<Integer> orderIds = dao.saveOrder(transactionId, itemList);
-            log.debug("orderId: {}", orderIds);
+                log.debug("transactionId: {}", transactionId);
 
-            String message = generateMessage(client, transactionNumber);
+                if (transactionId != null && transactionId > 0)
+                {
+                    List<Integer> orderIds = dao.saveOrder(transactionId, itemList);
+                    log.debug("orderId: {}", orderIds);
+
+                    message = generateMessage(client, transactionNumber);
+                }
+                else
+                {
+                    message =  MessagePreference.MESSAGE_FAILED_PROCESS_TRANSACTION;
+                    returnStocks();
+                }
+            }
+            else
+            {
+                message =  MessagePreference.MESSAGE_FAILED_PROCESS_CLIENT;
+                returnStocks();
+            }
 
             itemList.clear();
 
@@ -570,7 +588,7 @@ public class BOSService
             returnStocks();
             itemList.clear();
 
-            return MessagePreference.MESSAGE_ERROR_PROCESS;
+            return MessagePreference.MESSAGE_ERROR_PROCESS_KEYWORD;
         }
     }
 
@@ -578,7 +596,7 @@ public class BOSService
     {
         String separator = System.lineSeparator();
 
-        Integer fixTotal = totalShipping * roundTotalWeight;
+        Integer fixTotal = roundTotalWeight > 0 ? totalShipping * roundTotalWeight : totalShipping;
 
         StringBuilder builder = new StringBuilder();
         builder.append("Assalamu'alaikum, ").append(client.getClientName()).append(separator);
@@ -756,7 +774,7 @@ public class BOSService
                 }
                 else
                 {
-                    response = MessagePreference.MESSAGE_ERROR_EMPTY_ITEM;
+                    response = "Tidak dapat menemukan item dengan kode: " + codeName + " dan ukuran: " + size;
                 }
             }
         }

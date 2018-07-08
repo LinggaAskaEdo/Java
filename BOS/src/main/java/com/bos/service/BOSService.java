@@ -763,14 +763,9 @@ public class BOSService
 
                 Integer totalItem = dao.checkItem(userId, codeName, size);
 
-                if (totalItem == 1)
+                if (totalItem != null)
                 {
-
-                    response = "Item dengan kode: " + codeName + " dan ukuran: " + size + ", tersisa 1 buah";
-                }
-                else if (totalItem > 1)
-                {
-                    response = "Item dengan kode: " + codeName + " dan ukuran: " + size + ", tersisa  " + totalItem + " buah";
+                    response = "Item dengan kode: " + codeName + " dan ukuran: " + size + ", tersisa " + totalItem + " buah";
                 }
                 else
                 {
@@ -782,7 +777,7 @@ public class BOSService
         {
             log.error("Error when validationCheckMessage: {}", e);
 
-            response =  generateMessage();
+            response = generateMessage();
         }
 
         return response;

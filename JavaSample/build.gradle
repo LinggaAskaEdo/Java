@@ -15,6 +15,9 @@ repositories {
 }
 
 dependencies {
+    //Spring security
+    compile("org.springframework.security:spring-security-core:4.2.1.RELEASE")
+
     //MySql
     compile("mysql:mysql-connector-java:5.1.40")
 

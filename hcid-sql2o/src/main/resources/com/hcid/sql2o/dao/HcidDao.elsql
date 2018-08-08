@@ -1,0 +1,2 @@
+@NAME(GetCuidByUserId)
+    SELECT cuid FROM mob_user WHERE user_id = :userId

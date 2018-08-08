@@ -1,0 +1,29 @@
+buildscript{
+    repositories{
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'no.nils:wsdl2java:0.10'
+    }
+}
+
+apply plugin :'java'
+apply plugin :'no.nils.wsdl2java'
+
+repositories{
+    mavenCentral()
+}
+
+wsdl2java{
+    wsdlsToGenerate = [
+            ['-p','net.homecredit.homerselect.ws', '-allowElementReferences',"$projectDir/src/main/resources/wsdl/CardManagementService_v2.wsdl"]
+    ]
+    generatedWsdlDir = file("$projectDir/src/main/java")
+    wsdlDir = file("$projectDir/src/main/resources/wsdl")
+    locale = Locale.ENGLISH
+}
+
+wsdl2javaExt {
+    cxfVersion = "2.5.1"
+}

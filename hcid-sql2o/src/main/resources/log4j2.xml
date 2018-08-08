@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <Property name="log-path">/var/log/fmw/app/hcid-sql2o/</Property>
+    </Properties>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%T] [%X{requestId}] %level %logger{10} - %msg%n"/>
+        </Console>
+        <RollingFile name="hcid-sql2o" fileName="${log-path}/hcid-sql2o.log"
+                     filePattern="${log-path}/hcid-sql2o-%d{yyyy-MM-dd}-%i.old.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%T] [%X{requestId}] %level %logger{10} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10000 KB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.hcid.sql2o" level="DEBUG" additivity="false">
+            <AppenderRef ref="hcid-sql2o"/>
+        </Logger>
+    </Loggers>
+</Configuration>

@@ -20,7 +20,6 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-//@Transactional
 public class BOSDAO
 {
     private final Logger log = LoggerFactory.getLogger(BOSDAO.class);
@@ -28,15 +27,12 @@ public class BOSDAO
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    /*@Autowired
-    private TransactionTemplate transactionTemplate;*/
-
     public User loadUserByToken(String token)
     {
         User user = null;
 
-        String query = "SELECT USER_ID, USER_NAME, USER_PASSWORD, USER_EMAIL, USER_TOKEN, USER_TOKEN_EXPIRED, USER_HP, USER_OPEN_TIME, USER_CLOSE_TIME, USER_ADMIN " +
-                "FROM USER WHERE USER_TOKEN = ? LIMIT 1";
+        String query = "SELECT USER_ID, USER_NAME, USER_PASSWORD, USER_EMAIL, USER_HP, USER_ADDRESS, USER_TOKEN, USER_TOKEN_EXPIRED, USER_SECURITY_TOKEN, " +
+                "USER_OPEN_TIME, USER_CLOSE_TIME, USER_ADMIN FROM USER WHERE USER_TOKEN = ? LIMIT 1";
 
         log.debug("Query loadUserByToken: {}", query);
 
@@ -245,7 +241,7 @@ public class BOSDAO
         return resultId;
     }
 
-    public Integer saveTransaction(Integer userId, int clientId, String transactionNumber, String shippingType, Integer totalShipping, int unique)
+    public Integer saveTransaction(Integer userId, int clientId, String transactionNumber, String shippingType, Integer totalShipping, Integer totalWeightShipping, int unique)
     {
         Integer resultId = 0;
 
@@ -265,6 +261,7 @@ public class BOSDAO
             transactionParameters.put("INVOICE_NUMBER", "");
             transactionParameters.put("SHIPPING_TYPE", shippingType);
             transactionParameters.put("SHIPPING_TOTAL", totalShipping);
+            transactionParameters.put("SHIPPING_TOTAL_WEIGHT", totalWeightShipping);
             transactionParameters.put("UNIQUE_NUMBER", unique);
 
             log.debug("saveTransaction: {}", transactionJdbcInsert.getInsertString());
@@ -312,5 +309,21 @@ public class BOSDAO
         }
 
         return resultIds;
+    }
+
+    public boolean updateOriginData()
+    {
+        boolean status = false;
+
+        try
+        {
+            status = true;
+        }
+        catch (Exception e)
+        {
+            log.error("ERROR when updateOrigin: {}", e);
+        }
+
+        return status;
     }
 }

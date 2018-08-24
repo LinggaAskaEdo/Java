@@ -11,7 +11,7 @@ public class MessagePreference
     public static final String MESSAGE_STORE_CLOSE = "Maaf, toko masih tutup";
 
     public static final String MESSAGE_INVALID_USER = "Tidak dapat menemukan pengguna dengan token itu, periksa kredensial Anda !!!";
-    public static final String MESSAGE_INVALID_REQUEST = "Maaf, format permintaan tidak valid !!!";
+    public static final String MESSAGE_INVALID_REQUEST = "Maaf, format permintaan tidak dikenal !!!";
     public static final String MESSAGE_INVALID_SHIPPING_TYPE = "Maaf, jenis pengiriman tidak valid !!!";
 
     public static final String MESSAGE_UNKNOWN_KEYWORD = "Maaf, kata kunci tidak dikenal !!!";

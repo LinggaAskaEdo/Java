@@ -1,0 +1,62 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'lib'
+    }
+}
+
+configurations {
+    jaxws
+}
+
+dependencies {
+    jaxws 'com.sun.xml.ws:jaxws-tools:2.3.0.2'
+}
+
+dependencies {
+    compile 'com.sun.xml.bind:jaxb-impl:2.3.0.2'
+}
+
+task generateSCMOrderImportServiceClient {
+    if(!file("./lib/card_management_service_v2.jar").exists()) {
+        def rootDir = file("build/wsdlToJava/employee-services-client");
+        def javaDir = file("${rootDir}/java");
+        def wsdlJarDir = file("${projectDir}/lib");
+        def classesDir = file("${rootDir}/classes");
+        def wsdlDir=file("${projectDir}/src/main/resources/wsdl");
+        def wsdlFile = file("${wsdlDir}/CardManagementService_v2.wsdl")
+
+        doLast {
+            classesDir.mkdirs()
+            javaDir.mkdirs()
+            wsdlJarDir.mkdirs()
+            copy {
+                from "${wsdlFile}"
+                into "${classesDir}"
+            }
+
+            ant {
+                taskdef(name: 'wsimport', classname: 'com.sun.tools.ws.ant.WsImport', classpath: configurations.jaxws.asPath)
+                wsimport(keep: true,
+                        destdir: classesDir,
+                        sourcedestdir: javaDir,
+                        extension: "true",
+                        verbose: "true",
+                        quiet: "false",
+                        xnocompile: "false",
+                        xendorsed: true,
+                        wsdlLocation: "CardManagementService_v2.wsdl",
+                        wsdl: "${wsdlFile}") {
+                            binding(dir:"${wsdlDir}", includes:"jaxb-bindings.xml,jaxws-bindings.xml")
+                            xjcarg(value: "-XautoNameResolution")
+                        }
+            }
+
+            ant.jar(destfile: wsdlJarDir.path + "/card_management_service_v2.jar", basedir: classesDir)
+        }
+    }
+}
+
+compileJava.dependsOn generateSCMOrderImportServiceClient

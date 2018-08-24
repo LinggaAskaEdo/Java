@@ -1,0 +1,2017 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WL5G3N0:definitions targetNamespace="http://homecredit.net/homerselect/ws/card/management/v2" xmlns:WL5G3N0="http://schemas.xmlsoap.org/wsdl/" xmlns:WL5G3N1="http://homecredit.net/homerselect/ws/card/management/v2" xmlns:WL5G3N2="http://schemas.xmlsoap.org/wsdl/soap/">
+  <WL5G3N0:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://homecredit.net/homerselect/ws/common/v2" xmlns:sch0="http://homecredit.net/homerselect/ws/common/v2" xmlns:sch1="http://homecredit.net/homerselect/ws/card/common/v2" xmlns:sch2="http://homecredit.net/homerselect/ws/card/management/v2" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://homecredit.net/homerselect/ws/common/v2" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="ErrorDto">
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension base="tns:ErrorTypeDto">
+              <xs:sequence/>
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="ErrorTypeDto">
+        <xs:annotation>
+          <xs:documentation>Error/Exception description</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="errorCode" type="xs:string"/>
+          <xs:element minOccurs="0" name="errorMessage" type="xs:string"/>
+          <xs:element minOccurs="0" name="errorID" type="xs:string">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Unique error ID</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="args" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="CurrencyCodeType">
+        <xs:restriction base="xs:string">
+          <xs:length value="3"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="MoneyDto">
+        <xs:annotation>
+          <xs:documentation>Money definition - amount and currency.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="value" type="xs:decimal"/>
+          <xs:element name="currency" type="tns:CurrencyCodeType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PositiveMoneyDto">
+        <xs:annotation>
+          <xs:documentation>Positive money definition - amount >= 0 and currency.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+          <xs:restriction base="tns:MoneyDto">
+            <xs:sequence>
+              <xs:element name="value">
+                <xs:simpleType>
+                  <xs:restriction base="xs:decimal">
+                    <xs:minInclusive value="0"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="currency" type="tns:CurrencyCodeType"/>
+            </xs:sequence>
+          </xs:restriction>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="PropertyDto">
+        <xs:sequence>
+          <xs:element name="name" type="xs:string"/>
+          <xs:element name="value" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PropertySearchDto">
+        <xs:sequence>
+          <xs:element name="name" type="xs:string"/>
+          <xs:element name="pattern"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="StaticDataReferenceDto">
+        <xs:sequence>
+          <xs:element name="code" type="xs:string"/>
+          <xs:element name="version" type="xs:long"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="TerminalTypeDto">
+        <xs:annotation>
+          <xs:documentation>Card terminal type where the transaction was executed (e.g. transactions without card present).</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="CARD_PRESENT"/>
+          <xs:enumeration value="ONLINE">
+            <xs:annotation>
+              <xs:documentation>card not present, MOTO</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="TransactionTypeDto">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ATM">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Homer transaction type: ATM Automated Teller Machine withdrawal</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CSD">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Homer transaction type: CSD Cash Advance</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="RTL">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Homer transaction type: RTL Normal Purchase</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="RET">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Homer transaction type: RET Merchandise Return</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="DEP">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Homer transaction type: ATM DEP Deposit</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CAD">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Deprecated: use DEP instead. Homer transaction type: CAD ATM Cash deposit.
+                        - Used only in RU to enable deposit money with credit card</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="INQ">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Homer transaction type: INQ Balance Inquiry</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CAV">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Homer transaction type: CAV Card verification.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="OTH">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Homer transaction type: OTH Other</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="INS">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Additional HS Transaction type: INS Insurance calculated by an external insurance module.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="FEE">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Additional HS Transaction type: FEE calculated by an external system.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="ICD">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Additional HS Transaction type: Initial Cash Debit Tx.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="IPD">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Additional HS Transaction type: Initial Pos Debit Tx.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="IIS">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Additional HS Transaction type: Initial insurance</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="PMT">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Additional HS Transaction type: Payment.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="GAM">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Homer transaction type: GAM - Gambling</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="PRE">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Homer transaction type: PRE Preauthorization</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="MNS">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Homer transaction type: MNS Money send. Credit side.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CDCD">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Cash deposit at cash desk. Transaction without card.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CWCD">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Withdrawal cash at cash desk. Transaction without card.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CDSS">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Cash deposit through self-service terminal (kiosk). Transaction without card.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="BTIN">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Acceptation of bank transfer (incoming). Transaction without card.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="BTOUT">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Execution of internal bank transfer (outgoing). Transaction without card.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="INT_BT_OUT_CL">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Execution of internal bank transfer (outgoing) for account termination (closing). Transaction without card.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="EXT_BT_OUT_CL">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Execution of external bank transfer (outgoing) for account termination (closing). Transaction without card.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="PFC_POST">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Incoming payment from post office. Transaction without card.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="PFC_BANK">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Incoming payment from foreign bank. Transaction without card.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="PFC_CARD">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Funds received from foreign card, i.e. NurBank</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="BI">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Bank income in case of account termination - Debit. Transfer of own funds to bank account.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="SU">
+            <xs:annotation xml:space="default">
+              <xs:documentation>(Close end account only - Deprecated: use DAD) Bank income in case of account termination needs incoming payment to pay debt(small underpayment) - Credit. Transfer from bank
+                        account.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="DAD">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Bank income in case of account termination needs incoming payment to pay debt(like small underpayment) Deficits and Damages - Credit. Transfer from bank account.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="INS_CLAIM">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Insurance claim payment.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="TransactionSubTypeDto">
+        <xs:annotation xml:space="default">
+          <xs:documentation>Transaction sub type, e.g. type of goods purchased by this transaction</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="TW">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Two wheeler.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CD">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Consumer goods.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CL">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Cash loan.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="REG_INT">
+            <xs:annotation>
+              <xs:documentation>Regular interest.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="UN_GP_INT">
+            <xs:annotation>
+              <xs:documentation>Unused grace period interest.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="UNKNOWN">
+            <xs:annotation xml:space="default">
+              <xs:documentation>Unknown transaction sub type.</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="SourceSystemEnumDto">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="BSL"/>
+          <xs:enumeration value="RISK"/>
+          <xs:enumeration value="COLLECTION"/>
+          <xs:enumeration value="CARD"/>
+          <xs:enumeration value="ACCOUNT"/>
+          <xs:enumeration value="UFO"/>
+          <xs:enumeration value="IB">
+            <xs:annotation>
+              <xs:documentation>Internet Banking</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="TransactionSourceCodeType">
+        <xs:annotation>
+          <xs:documentation>Unique public code - allocated by the caller.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:maxLength value="128"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="TransactionSourceIdDto">
+        <xs:annotation>
+          <xs:documentation>Transaction identification in the source system where the card transaction was originated.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="sourceSystem" type="tns:SourceSystemEnumDto">
+            <xs:annotation>
+              <xs:documentation>Source system identification code.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="sourceTxId" type="tns:TransactionSourceCodeType">
+            <xs:annotation>
+              <xs:documentation>Transaction id in source system.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="RoundingType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="UP">
+            <xs:annotation>
+              <xs:documentation>UP - RoundingMode.UP</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="DOWN">
+            <xs:annotation>
+              <xs:documentation>DOWN - RoundingMode.FLOOR</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="TRUNC">
+            <xs:annotation>
+              <xs:documentation>TRUNC - RoundingMode.DOWN</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="MATH">
+            <xs:annotation>
+              <xs:documentation>MATH - RoundingMode.HALF_UP</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://homecredit.net/homerselect/ws/card/common/v2" xmlns:crd="http://homecredit.net/homerselect/ws/card/common/v2" xmlns:hs="http://homecredit.net/homerselect/ws/common/v2" xmlns:sch0="http://homecredit.net/homerselect/ws/common/v2" xmlns:sch1="http://homecredit.net/homerselect/ws/card/common/v2" xmlns:sch2="http://homecredit.net/homerselect/ws/card/management/v2" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://homecredit.net/homerselect/ws/card/management/v2" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://homecredit.net/homerselect/ws/common/v2"/>
+      <xs:complexType name="CardDto">
+        <xs:annotation>
+          <xs:documentation>Card data transfer object.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="pcid" type="crd:PaymentCardId">
+            <xs:annotation>
+              <xs:documentation>Payment card ID</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="truncatedPan" type="crd:TruncatedPan">
+            <xs:annotation>
+              <xs:documentation>Truncated (i.e. masked) card number</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="holderCuid" nillable="true" type="crd:Cuid">
+            <xs:annotation>
+              <xs:documentation>Card holder CUID</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="holderName" nillable="true" type="crd:HolderName">
+            <xs:annotation>
+              <xs:documentation>Card holder embossed name</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="activeFrom" type="xs:date">
+            <xs:annotation>
+              <xs:documentation>Date of activation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="cardType" type="crd:CardTypeDto">
+            <xs:annotation>
+              <xs:documentation>Card type</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="status" type="crd:CardStatusDto">
+            <xs:annotation>
+              <xs:documentation>Card status</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="account" nillable="true" type="crd:AccountDto">
+            <xs:annotation>
+              <xs:documentation>Account</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="validTo" type="xs:date">
+            <xs:annotation>
+              <xs:documentation>Date with the last validity day</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CardDetailDto">
+        <xs:annotation>
+          <xs:documentation>Card detail</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+          <xs:extension base="crd:CardDto">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="reservationCode" type="xs:long">
+                <xs:annotation>
+                  <xs:documentation>Card reservation code (e.g. contract or account number)</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="allowedOperations" type="crd:CardOperationDto">
+                <xs:annotation>
+                  <xs:documentation>Allowed operations on the card</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="limits" type="crd:LimitDto">
+                <xs:annotation>
+                  <xs:documentation>Set of limits applied to card</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element maxOccurs="unbounded" name="plastics" type="crd:PlasticDto">
+                <xs:annotation>
+                  <xs:documentation>Set of all plastics associated with the card (there will be always at least one)</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element minOccurs="0" name="lastPinChangeRequestDate" type="xs:date"/>
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="activeBlocks" type="crd:CardBlockDto"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="PlasticDto">
+        <xs:sequence>
+          <xs:element name="status" type="crd:PlasticStatusDto"/>
+          <xs:element name="validTo" type="xs:date"/>
+          <xs:element minOccurs="0" name="renewalDate" type="xs:date"/>
+          <xs:element minOccurs="0" name="pickupDate" type="xs:date"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AccountDto">
+        <xs:sequence>
+          <xs:element name="contractCode" type="crd:ContractCode"/>
+          <xs:element name="number" type="crd:AccountNumber"/>
+          <xs:element minOccurs="0" name="iban" type="crd:AccountIban"/>
+          <xs:element name="type" type="crd:AccountTypeDto"/>
+          <xs:element name="currency" type="hs:CurrencyCodeType"/>
+          <xs:element name="contractSignatureDate" type="xs:date"/>
+          <xs:element name="ownerCuid" type="crd:Cuid"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CardTypeDto">
+        <xs:annotation>
+          <xs:documentation>Card type</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="id" type="xs:string"/>
+          <xs:element name="associationId" type="xs:string"/>
+          <xs:element name="kind" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="CardTypeId">
+        <xs:annotation>
+          <xs:documentation>Card type (K1,K2,...K9,10,11)</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:maxLength value="20"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="LimitDto">
+        <xs:annotation>
+          <xs:documentation>Card limit data transfer object</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="limitTypeId" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Limit type</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="period" type="crd:PeriodDto">
+            <xs:annotation>
+              <xs:documentation>Limit aggregated per period</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:choice>
+            <xs:element name="currentValueAmount" type="crd:PositiveAmount">
+              <xs:annotation>
+                <xs:documentation>Current limit value per period - monetary amount</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="currentValueCount" type="xs:integer">
+              <xs:annotation>
+                <xs:documentation>Current limit value per period - usage count</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:choice>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="PeriodDto">
+        <xs:annotation>
+          <xs:documentation>Period of type.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SINGLE_UPPER"/>
+          <xs:enumeration value="SINGLE_LOWER"/>
+          <xs:enumeration value="DAY"/>
+          <xs:enumeration value="WEEK"/>
+          <xs:enumeration value="MONTH"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="CardStatusDto">
+        <xs:annotation>
+          <xs:documentation>Card status.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="UNCONFIRMED"/>
+          <xs:enumeration value="CREATED"/>
+          <xs:enumeration value="RESERVED"/>
+          <xs:enumeration value="INACTIVE"/>
+          <xs:enumeration value="RENEWED"/>
+          <xs:enumeration value="ACTIVE"/>
+          <xs:enumeration value="BLOCKED"/>
+          <xs:enumeration value="DETAIN"/>
+          <xs:enumeration value="STOLEN"/>
+          <xs:enumeration value="LOST"/>
+          <xs:enumeration value="CANCELLED"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="NewCardBlockDto">
+        <xs:sequence>
+          <xs:element name="cardBlockTypeId" type="xs:string"/>
+          <xs:element name="message" nillable="true" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CardBlockDto">
+        <xs:complexContent>
+          <xs:extension base="crd:NewCardBlockDto">
+            <xs:sequence>
+              <xs:element name="blockedFrom" type="xs:dateTime"/>
+              <xs:element name="blockedTill" nillable="true" type="xs:dateTime"/>
+              <xs:element name="createdBy" type="xs:string"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="PosDeliveryAddressDto">
+        <xs:sequence>
+          <xs:element name="sellerPlaceCode" type="crd:SellerPlaceCode"/>
+          <xs:element minOccurs="0" name="zip" type="crd:Zip"/>
+          <xs:element minOccurs="0" name="region" type="crd:Region"/>
+          <xs:element minOccurs="0" name="district" type="crd:District"/>
+          <xs:element minOccurs="0" name="town" type="crd:Town"/>
+          <xs:element minOccurs="0" name="street" type="crd:Street"/>
+          <xs:element minOccurs="0" name="houseNumber" type="crd:HouseNumber"/>
+          <xs:element minOccurs="0" name="blockNumber" type="crd:BlockNumber"/>
+          <xs:element minOccurs="0" name="flatNumber" type="crd:FlatNumber"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="CardOperationDto">
+        <xs:annotation>
+          <xs:documentation>Card operations</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="RESERVE">
+            <xs:annotation>
+              <xs:documentation>Reserve card (ReserveCardRequest)</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CONFIRM">
+            <xs:annotation>
+              <xs:documentation>Initialize card (InitializeCardRequest)</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="ACTIVATE">
+            <xs:annotation>
+              <xs:documentation>Activate card (ActivateCardRequest)</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="BLOCK">
+            <xs:annotation>
+              <xs:documentation>Block card (BlockCardRequest)</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="UNBLOCK">
+            <xs:annotation>
+              <xs:documentation>Unblock card (UnblockCardRequest)</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="LOST">
+            <xs:annotation>
+              <xs:documentation>Report card as lost (LostCardRequest)</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="STOLEN">
+            <xs:annotation>
+              <xs:documentation>Report card as stolen (StolenCardRequest)</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="DETAIN">
+            <xs:annotation>
+              <xs:documentation>Report that card should be held back when used next time (HoldBackCardRequest)</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="RENEW">
+            <xs:annotation>
+              <xs:documentation>Renew card</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CANCEL">
+            <xs:annotation>
+              <xs:documentation>Cancel card (CancelCardRequest)</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="REPLACE">
+            <xs:annotation>
+              <xs:documentation>Replace the card with a new card (ReplaceCardRequest)</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="CardType">
+        <xs:restriction base="xs:string"/>
+      </xs:simpleType>
+      <xs:simpleType name="AccountNumber">
+        <xs:restriction base="xs:long"/>
+      </xs:simpleType>
+      <xs:simpleType name="AccountIban">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[a-zA-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="Digits">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[0-9]+"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="FullPan">
+        <xs:restriction base="crd:Digits">
+          <xs:minLength value="16"/>
+          <xs:maxLength value="19"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="TruncatedPan">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[0-9]*\*+[0-9]+"/>
+          <xs:minLength value="16"/>
+          <xs:maxLength value="19"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="PaymentCardId">
+        <xs:annotation>
+          <xs:documentation>Payment card ID.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:long"/>
+      </xs:simpleType>
+      <xs:simpleType name="Cuid">
+        <xs:annotation>
+          <xs:documentation>Customer unique ID</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:long"/>
+      </xs:simpleType>
+      <xs:simpleType name="HolderName">
+        <xs:annotation>
+          <xs:documentation>Embossed name</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:maxLength value="25"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="Currency">
+        <xs:annotation>
+          <xs:documentation>Currency.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string"/>
+      </xs:simpleType>
+      <xs:simpleType name="ReservationCode">
+        <xs:annotation>
+          <xs:documentation>Reservation identification code (e.g. account or contract number).</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:long"/>
+      </xs:simpleType>
+      <xs:simpleType name="Note">
+        <xs:restriction base="xs:string"/>
+      </xs:simpleType>
+      <xs:simpleType name="AccountTypeDto">
+        <xs:annotation>
+          <xs:documentation>Account type.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="REVOLVING_ACCOUNT"/>
+          <xs:enumeration value="CURRENT_ACCOUNT"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="ContractCode">
+        <xs:annotation>
+          <xs:documentation>Contract code. Assigned by Contract Management during contract origination process.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:minLength value="1"/>
+          <xs:maxLength value="64"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="Digits4">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[0-9][0-9][0-9][0-9]"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="ServiceCode">
+        <xs:restriction base="xs:string">
+          <xs:maxLength value="30"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="PlasticStatusDto">
+        <xs:annotation>
+          <xs:documentation>Plastic status.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NEW"/>
+          <xs:enumeration value="OBTAINED"/>
+          <xs:enumeration value="USED"/>
+          <xs:enumeration value="INVALID"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="PositiveAmount">
+        <xs:annotation>
+          <xs:documentation>Positive amount. Used when we need some positive number</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:decimal">
+          <xs:minInclusive value="0"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="ApprovedCreditLimit">
+        <xs:restriction base="xs:decimal"/>
+      </xs:simpleType>
+      <xs:simpleType name="SellerPlaceCode">
+        <xs:restriction base="xs:string">
+          <xs:maxLength value="30"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="Zip">
+        <xs:restriction base="xs:string">
+          <xs:maxLength value="20"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="Region">
+        <xs:restriction base="xs:string">
+          <xs:maxLength value="30"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="District">
+        <xs:restriction base="xs:string">
+          <xs:maxLength value="30"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="Town">
+        <xs:restriction base="xs:string">
+          <xs:maxLength value="30"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="Street">
+        <xs:restriction base="xs:string">
+          <xs:maxLength value="40"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="HouseNumber">
+        <xs:restriction base="xs:string">
+          <xs:maxLength value="50"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="BlockNumber">
+        <xs:restriction base="xs:string">
+          <xs:maxLength value="30"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="FlatNumber">
+        <xs:restriction base="xs:string">
+          <xs:maxLength value="50"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="DistributionStatusDto">
+        <xs:annotation>
+          <xs:documentation>Distribution status</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ISSUED"/>
+          <xs:enumeration value="PREPARED"/>
+          <xs:enumeration value="SENT_TO_POS"/>
+          <xs:enumeration value="AT_POS"/>
+          <xs:enumeration value="DISTRIBUTED"/>
+          <xs:enumeration value="SENT_TO_HQ"/>
+          <xs:enumeration value="LIQUIDATION"/>
+          <xs:enumeration value="LIQUIDATED"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="CardGroupDto">
+        <xs:annotation>
+          <xs:documentation>Card group</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="PERSONALIZED"/>
+          <xs:enumeration value="INSTANT"/>
+          <xs:enumeration value="NONAME"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://homecredit.net/homerselect/ws/card/management/v2" xmlns:crd="http://homecredit.net/homerselect/ws/card/common/v2" xmlns:sch0="http://homecredit.net/homerselect/ws/common/v2" xmlns:sch1="http://homecredit.net/homerselect/ws/card/common/v2" xmlns:sch2="http://homecredit.net/homerselect/ws/card/management/v2" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://homecredit.net/homerselect/ws/card/management/v2" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://homecredit.net/homerselect/ws/card/common/v2"/>
+      <xs:import namespace="http://homecredit.net/homerselect/ws/common/v2"/>
+      <xs:element name="CreatePersonalizedCardRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Creates personalized card instance. Card number is generated by CMS from sequence associated to the
+                    CardType.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="holderCuid" type="crd:Cuid"/>
+            <xs:element name="account" type="crd:AccountDto"/>
+            <xs:element name="cardTypeId" type="crd:CardType"/>
+            <xs:element name="serviceCode" type="crd:ServiceCode"/>
+            <xs:element name="approvedCreditLimit" type="crd:ApprovedCreditLimit"/>
+            <xs:element name="posDeliveryAddress" type="crd:PosDeliveryAddressDto"/>
+            <xs:element minOccurs="0" name="embossedName" type="crd:HolderName"/>
+            <xs:element minOccurs="0" name="cardHolderName" type="tns:CardHolderName"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreatePersonalizedCardResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Create card response.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="resultCode" type="tns:CreatePersonalizedCardResultCodeDto"/>
+            <xs:sequence minOccurs="0">
+              <xs:element name="pcid" type="crd:PaymentCardId"/>
+              <xs:element name="truncatedPan" type="crd:TruncatedPan"/>
+            </xs:sequence>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="CreatePersonalizedCardResultCodeDto">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SUCCESS"/>
+          <xs:enumeration value="ERROR_CARD_TYPE_NOT_FOUND"/>
+          <xs:enumeration value="ERROR_NO_FREE_NUMBER_FOR_CARD_TYPE"/>
+          <xs:enumeration value="ERROR_INVALID_CARD_TYPE"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="ConfirmPersonalizedCardRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Confirm personalized card and declare it ready for production.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ConfirmPersonalizedCardResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Confirm personalized card response.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="resultCode" type="tns:ConfirmPersonalizedCardResultCodeDto"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="ConfirmPersonalizedCardResultCodeDto">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SUCCESS"/>
+          <xs:enumeration value="ERROR_CARD_NOT_FOUND"/>
+          <xs:enumeration value="ERROR_INVALID_CARD_TYPE"/>
+          <xs:enumeration value="ERROR_OPERATION_NOT_ALLOWED_FOR_CURRENT_STATE"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="ReserveCardRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Reserves instant card with the given reservation code.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+            <xs:element name="reservationCode" type="crd:ReservationCode"/>
+            <xs:element minOccurs="0" name="embossedName" type="crd:HolderName"/>
+            <xs:element minOccurs="0" name="cardHolderName" type="tns:CardHolderName"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ReserveCardResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="truncatedPan" type="crd:TruncatedPan"/>
+            <xs:element name="resultCode" type="tns:ReserveCardResultCodeDto"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="ReserveCardResultCodeDto">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SUCCESS"/>
+          <xs:enumeration value="ERROR_CARD_ALREADY_RESERVED"/>
+          <xs:enumeration value="ERROR_CARD_NOT_FOUND"/>
+          <xs:enumeration value="ERROR_OPERATION_NOT_ALLOWED_FOR_CURRENT_STATE"/>
+          <xs:enumeration value="ERROR_INVALID_CARD_TYPE"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="ConfirmInstantCardRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Confirms instant card and associate it with account.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+            <xs:element name="holderCuid" type="crd:Cuid"/>
+            <xs:element name="account" type="crd:AccountDto"/>
+            <xs:element name="serviceCode" type="crd:ServiceCode"/>
+            <xs:element name="approvedCreditLimit" type="crd:ApprovedCreditLimit"/>
+            <xs:element name="posDeliveryAddress" type="crd:PosDeliveryAddressDto"/>
+            <xs:element name="renewalCardTypeId" type="crd:CardType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ConfirmInstantCardResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Instant card confirmation response.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="resultCode" type="tns:ConfirmInstantCardResultCodeDto"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="ConfirmInstantCardResultCodeDto">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SUCCESS"/>
+          <xs:enumeration value="ERROR_CARD_NOT_FOUND"/>
+          <xs:enumeration value="ERROR_INVALID_CARD_TYPE"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="ActivateCardRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Validates that the card is in INACTIVE status and activates the card.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ActivateCardResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Activate Card response.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="resultCode" type="tns:ActivateCardResultCodeDto"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="hardChecks" type="tns:HardCheckDto"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="ActivateCardResultCodeDto">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SUCCESS"/>
+          <xs:enumeration value="ERROR_CARD_NOT_FOUND"/>
+          <xs:enumeration value="ERROR_HARD_CHECK_FAILED"/>
+          <xs:enumeration value="ERROR_OPERATION_NOT_ALLOWED_FOR_CURRENT_STATE"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="BlockCardRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Block card request specifies blocks.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+            <xs:element name="block" type="crd:NewCardBlockDto"/>
+            <xs:element name="suppressFee" type="xs:boolean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="BlockCardResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Block card response.</xs:documentation>
+          </xs:annotation>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="BlockCardsByAccountNumberRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Block cards by account number request.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="accountNumber" type="crd:AccountNumber"/>
+            <xs:element name="block" type="crd:NewCardBlockDto"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="BlockCardsByAccountNumberResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Block cards by account number response.</xs:documentation>
+          </xs:annotation>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CancelCardsByAccountNumberRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Request for cancellation of cards by account number.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="accountNumber" type="crd:AccountNumber"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CancelCardsByAccountNumberResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Response for cancellation of cards by account number.</xs:documentation>
+          </xs:annotation>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="UnblockCardRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Unblock card request specifies blocks to be cleared.
+                    The Card may still stay blocked for different reason(s).</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+            <xs:element name="cardBlockTypeId" type="xs:string"/>
+            <xs:element name="suppressFee" type="xs:boolean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="UnblockCardResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Unblock card response.</xs:documentation>
+          </xs:annotation>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="UnblockCardsByAccountNumberRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Unblock cards by account number request.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="accountNumber" type="crd:AccountNumber"/>
+            <xs:element name="cardBlockTypeId" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="UnblockCardsByAccountNumberResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Unblock cards by account number response.</xs:documentation>
+          </xs:annotation>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="LostCardRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Set card status lost</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+            <xs:element name="note" type="crd:Note"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="LostCardResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Setting 'lost' card status response.</xs:documentation>
+          </xs:annotation>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="StolenCardRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Set card status 'stolen'</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+            <xs:element name="note" type="crd:Note"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="StolenCardResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Setting 'stolen' card status response.</xs:documentation>
+          </xs:annotation>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HoldBackCardRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Set card status 'hold back'</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+            <xs:element name="note" type="crd:Note"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HoldBackCardResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Setting 'hold back' card status response.</xs:documentation>
+          </xs:annotation>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CancelCardRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Set card status 'cancelled'</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+            <xs:element name="note" type="crd:Note"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CancelCardResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Setting 'cancelled' card status response.</xs:documentation>
+          </xs:annotation>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetCardLimitsRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Set card limits</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+            <xs:element maxOccurs="unbounded" name="limits" type="crd:LimitDto"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetCardLimitsResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Set card limits response.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AddOperatorNoteRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Changes card status.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+            <xs:element name="note" type="crd:Note">
+              <xs:annotation>
+                <xs:documentation>Operator comment.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AddOperatorNoteResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Operation status.</xs:documentation>
+          </xs:annotation>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCardsRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Request of Cards.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="holderCuid" type="crd:Cuid"/>
+            <xs:element minOccurs="0" name="accountNumber" type="crd:AccountNumber"/>
+            <xs:element minOccurs="0" name="holderName" type="crd:HolderName"/>
+            <xs:element minOccurs="0" name="currency" type="crd:Currency"/>
+            <xs:element minOccurs="0" name="contractCode" type="crd:ContractCode"/>
+            <xs:element minOccurs="0" name="reservationCode" type="crd:ReservationCode"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCardsResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Response to GetCardsRequest.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="resultCode" type="tns:GetCardsResponseResultCodeDto"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="cards" type="crd:CardDto"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="GetCardsResponseResultCodeDto">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SUCCESS"/>
+          <xs:enumeration value="ERROR_NO_FILTERING_CRITERIA_PROVIDED"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="GetCardRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Get all information for a card</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCardResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="card" type="crd:CardDetailDto"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ReplaceCardRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+            <xs:element name="cardTypeId" type="xs:string"/>
+            <xs:element name="suppressFee" type="xs:boolean"/>
+            <xs:element name="transferPin" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="cancelOriginalCard" type="xs:boolean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ReplaceCardResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="resultCode" type="tns:ReplaceCardResultCodeDto"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="hardChecks" type="tns:HardCheckDto"/>
+            <xs:sequence minOccurs="0">
+              <xs:element name="newPcid" type="crd:PaymentCardId"/>
+              <xs:element name="truncatedPan" type="crd:TruncatedPan"/>
+            </xs:sequence>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="ReplaceCardResultCodeDto">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SUCCESS"/>
+          <xs:enumeration value="ERROR_CARD_NOT_FOUND"/>
+          <xs:enumeration value="ERROR_INVALID_CARD_TYPE"/>
+          <xs:enumeration value="ERROR_HARD_CHECK_FAILED"/>
+          <xs:enumeration value="ERROR_OPERATION_NOT_ALLOWED_FOR_CURRENT_STATE"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="HardCheckDto">
+        <xs:sequence>
+          <xs:element name="type" type="tns:HardCheckTypeDto"/>
+          <xs:element name="result" type="tns:HardCheckResultDto"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CardBlockHardCheckDto">
+        <xs:complexContent>
+          <xs:extension base="tns:HardCheckDto">
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="blockTypes" type="crd:NewCardBlockDto"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:simpleType name="HardCheckTypeDto">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="CUSTOMER_AGE"/>
+          <xs:enumeration value="CARD_BLOCKED"/>
+          <xs:enumeration value="CARD_STATUS"/>
+          <xs:enumeration value="CONTRACT_STATUS"/>
+          <xs:enumeration value="DPD_LIMIT"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="HardCheckResultDto">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="PASSED"/>
+          <xs:enumeration value="FAILED"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="NotifyPinChangeRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+            <xs:element name="success" type="xs:boolean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="NotifyPinChangeResponse">
+        <xs:complexType>
+          <xs:sequence/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FindCardRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Get all information for a card by given cuid, validity and last 4 pan numbers</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="holderCuid" type="crd:Cuid"/>
+            <xs:element name="plasticValidTo" type="xs:date"/>
+            <xs:element name="panLast4Digits" type="crd:Digits4"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FindCardResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="resultCode" type="tns:FindCardResultCodeDto"/>
+            <xs:element minOccurs="0" name="card" type="crd:CardDetailDto"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetPlasticsOfCardRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Get all the Plastics of a Card</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetPlasticsOfCardResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="resultCode" type="tns:GetPlasticsOfCardResultCodeDto"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="plastics" type="crd:PlasticDto"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="GetPlasticsOfCardResultCodeDto">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SUCCESS"/>
+          <xs:enumeration value="ERROR_CARD_NOT_FOUND"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="FindCardResultCodeDto">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SUCCESS"/>
+          <xs:enumeration value="ERROR_CARD_NOT_FOUND"/>
+          <xs:enumeration value="ERROR_MULTIPLE_CARDS_FOUND"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="GetAllowedCardOperationsForUserRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Request to find all privileges regarding card (un)blocking for given user, if pcid is null.
+                    If pcid is not null privileges for unused blocking types are requested.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="pcid" type="crd:PaymentCardId"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="EmployeeCodeDto">
+        <xs:restriction base="xs:string"/>
+      </xs:simpleType>
+      <xs:element name="GetAllowedCardOperationsForUserResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Response containing list of privileges with associated true/false flag whether privilege is allowed</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="markCardLost" type="xs:boolean"/>
+            <xs:element name="markCardStolen" type="xs:boolean"/>
+            <xs:element maxOccurs="unbounded" name="blockCardWithBlockReasons" type="tns:UserPrivilegeToBlockUnblockCardWithReasonDto"/>
+            <xs:element maxOccurs="unbounded" name="unblockCardWithBlockReasons" type="tns:UserPrivilegeToBlockUnblockCardWithReasonDto"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="UserPrivilegeToBlockUnblockCardWithReasonDto">
+        <xs:annotation>
+          <xs:documentation>Specifies whether operator has privilege to block/unblock card with given block type</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="allowed" type="xs:boolean"/>
+          <xs:element name="cardBlockTypeId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="CreateEmbossedNameRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Create embossed name from provided parameters.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="cardHolderName" type="tns:CardHolderName"/>
+            <xs:element name="cardType" type="crd:CardTypeId"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="CardHolderName">
+        <xs:annotation>
+          <xs:documentation>Card holder name.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="firstName" type="xs:string"/>
+          <xs:element name="surname" type="xs:string"/>
+          <xs:element minOccurs="0" name="middleNames" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="CreateEmbossedNameResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Create embossed name response.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="embossedName" type="crd:HolderName"/>
+            <xs:element name="resultCode" type="tns:CreateEmbossedNameResultCodeDto"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="CreateEmbossedNameResultCodeDto">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SUCCESS"/>
+          <xs:enumeration value="NOT_ALLOWED_FOR_CARD_TYPE"/>
+          <xs:enumeration value="UNKNOWN_CARDTYPE"/>
+          <xs:enumeration value="INSUFFICIENT_PARAMETERS_FOR_EMBOSSNAME_CREATION"/>
+          <xs:enumeration value="OTHER_ERROR"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="VerifyEmbossedNameRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Verify embossed name request.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="embossedName" type="crd:HolderName"/>
+            <xs:element name="cardholderName" type="tns:CardHolderName"/>
+            <xs:element name="cardType" type="crd:CardTypeId"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="VerifyEmbossedNameResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Verify embossed name response.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="embossedName" type="crd:HolderName"/>
+            <xs:element name="resultCode" type="tns:VerifyEmbossedNameResultCodeDto"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="VerifyEmbossedNameResultCodeDto">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SUCCESS"/>
+          <xs:enumeration value="NOT_ALLOWED_FOR_CARD_TYPE"/>
+          <xs:enumeration value="UNKNOWN_CARDTYPE"/>
+          <xs:enumeration value="INSUFFICIENT_PARAMETERS_FOR_EMBOSSNAME_VALIDATION"/>
+          <xs:enumeration value="INVALID_CHARACTERS"/>
+          <xs:enumeration value="MISSING_SURNAME"/>
+          <xs:enumeration value="LENGTH_VIOLATION"/>
+          <xs:enumeration value="OTHER_ERROR"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="UpdateEmbossedNameRequest">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Update embossed name request.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+            <xs:element name="newEmbossedName" type="crd:HolderName"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="UpdateEmbossedNameResponse">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>Update embossed name response.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="pcid" type="crd:PaymentCardId"/>
+            <xs:element name="newEmbossedName" type="crd:HolderName"/>
+            <xs:element name="resultCode" type="tns:UpdateEmbossedNameResultCodeDto"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="UpdateEmbossedNameResultCodeDto">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SUCCESS"/>
+          <xs:enumeration value="CARD_NOT_FOUND"/>
+          <xs:enumeration value="INVALID_CHARACTERS"/>
+          <xs:enumeration value="NOT_ALLOWED_FOR_CARD_TYPE"/>
+          <xs:enumeration value="MISSING_SURNAME"/>
+          <xs:enumeration value="LENGTH_VIOLATION"/>
+          <xs:enumeration value="OTHER_ERROR"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </WL5G3N0:types>
+  <WL5G3N0:message name="CreatePersonalizedCardRequest">
+    <WL5G3N0:part element="WL5G3N1:CreatePersonalizedCardRequest" name="CreatePersonalizedCardRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="CreatePersonalizedCardResponse">
+    <WL5G3N0:part element="WL5G3N1:CreatePersonalizedCardResponse" name="CreatePersonalizedCardResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="ConfirmPersonalizedCardRequest">
+    <WL5G3N0:part element="WL5G3N1:ConfirmPersonalizedCardRequest" name="ConfirmPersonalizedCardRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="ConfirmPersonalizedCardResponse">
+    <WL5G3N0:part element="WL5G3N1:ConfirmPersonalizedCardResponse" name="ConfirmPersonalizedCardResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="ReserveCardRequest">
+    <WL5G3N0:part element="WL5G3N1:ReserveCardRequest" name="ReserveCardRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="ReserveCardResponse">
+    <WL5G3N0:part element="WL5G3N1:ReserveCardResponse" name="ReserveCardResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="ConfirmInstantCardRequest">
+    <WL5G3N0:part element="WL5G3N1:ConfirmInstantCardRequest" name="ConfirmInstantCardRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="ConfirmInstantCardResponse">
+    <WL5G3N0:part element="WL5G3N1:ConfirmInstantCardResponse" name="ConfirmInstantCardResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="ActivateCardRequest">
+    <WL5G3N0:part element="WL5G3N1:ActivateCardRequest" name="ActivateCardRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="ActivateCardResponse">
+    <WL5G3N0:part element="WL5G3N1:ActivateCardResponse" name="ActivateCardResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="BlockCardRequest">
+    <WL5G3N0:part element="WL5G3N1:BlockCardRequest" name="BlockCardRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="BlockCardResponse">
+    <WL5G3N0:part element="WL5G3N1:BlockCardResponse" name="BlockCardResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="BlockCardsByAccountNumberRequest">
+    <WL5G3N0:part element="WL5G3N1:BlockCardsByAccountNumberRequest" name="BlockCardsByAccountNumberRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="BlockCardsByAccountNumberResponse">
+    <WL5G3N0:part element="WL5G3N1:BlockCardsByAccountNumberResponse" name="BlockCardsByAccountNumberResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="CancelCardsByAccountNumberRequest">
+    <WL5G3N0:part element="WL5G3N1:CancelCardsByAccountNumberRequest" name="CancelCardsByAccountNumberRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="CancelCardsByAccountNumberResponse">
+    <WL5G3N0:part element="WL5G3N1:CancelCardsByAccountNumberResponse" name="CancelCardsByAccountNumberResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="UnblockCardRequest">
+    <WL5G3N0:part element="WL5G3N1:UnblockCardRequest" name="UnblockCardRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="UnblockCardResponse">
+    <WL5G3N0:part element="WL5G3N1:UnblockCardResponse" name="UnblockCardResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="UnblockCardsByAccountNumberRequest">
+    <WL5G3N0:part element="WL5G3N1:UnblockCardsByAccountNumberRequest" name="UnblockCardsByAccountNumberRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="UnblockCardsByAccountNumberResponse">
+    <WL5G3N0:part element="WL5G3N1:UnblockCardsByAccountNumberResponse" name="UnblockCardsByAccountNumberResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="LostCardRequest">
+    <WL5G3N0:part element="WL5G3N1:LostCardRequest" name="LostCardRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="LostCardResponse">
+    <WL5G3N0:part element="WL5G3N1:LostCardResponse" name="LostCardResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="StolenCardRequest">
+    <WL5G3N0:part element="WL5G3N1:StolenCardRequest" name="StolenCardRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="StolenCardResponse">
+    <WL5G3N0:part element="WL5G3N1:StolenCardResponse" name="StolenCardResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="HoldBackCardRequest">
+    <WL5G3N0:part element="WL5G3N1:HoldBackCardRequest" name="HoldBackCardRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="HoldBackCardResponse">
+    <WL5G3N0:part element="WL5G3N1:HoldBackCardResponse" name="HoldBackCardResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="CancelCardRequest">
+    <WL5G3N0:part element="WL5G3N1:CancelCardRequest" name="CancelCardRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="CancelCardResponse">
+    <WL5G3N0:part element="WL5G3N1:CancelCardResponse" name="CancelCardResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="SetCardLimitsRequest">
+    <WL5G3N0:part element="WL5G3N1:SetCardLimitsRequest" name="SetCardLimitsRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="SetCardLimitsResponse">
+    <WL5G3N0:part element="WL5G3N1:SetCardLimitsResponse" name="SetCardLimitsResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="AddOperatorNoteRequest">
+    <WL5G3N0:part element="WL5G3N1:AddOperatorNoteRequest" name="AddOperatorNoteRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="AddOperatorNoteResponse">
+    <WL5G3N0:part element="WL5G3N1:AddOperatorNoteResponse" name="AddOperatorNoteResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="GetCardsRequest">
+    <WL5G3N0:part element="WL5G3N1:GetCardsRequest" name="GetCardsRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="GetCardsResponse">
+    <WL5G3N0:part element="WL5G3N1:GetCardsResponse" name="GetCardsResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="GetCardRequest">
+    <WL5G3N0:part element="WL5G3N1:GetCardRequest" name="GetCardRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="GetCardResponse">
+    <WL5G3N0:part element="WL5G3N1:GetCardResponse" name="GetCardResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="ReplaceCardRequest">
+    <WL5G3N0:part element="WL5G3N1:ReplaceCardRequest" name="ReplaceCardRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="ReplaceCardResponse">
+    <WL5G3N0:part element="WL5G3N1:ReplaceCardResponse" name="ReplaceCardResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="NotifyPinChangeRequest">
+    <WL5G3N0:part element="WL5G3N1:NotifyPinChangeRequest" name="NotifyPinChangeRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="NotifyPinChangeResponse">
+    <WL5G3N0:part element="WL5G3N1:NotifyPinChangeResponse" name="NotifyPinChangeResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="FindCardRequest">
+    <WL5G3N0:part element="WL5G3N1:FindCardRequest" name="FindCardRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="FindCardResponse">
+    <WL5G3N0:part element="WL5G3N1:FindCardResponse" name="FindCardResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="GetPlasticsOfCardRequest">
+    <WL5G3N0:part element="WL5G3N1:GetPlasticsOfCardRequest" name="GetPlasticsOfCardRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="GetPlasticsOfCardResponse">
+    <WL5G3N0:part element="WL5G3N1:GetPlasticsOfCardResponse" name="GetPlasticsOfCardResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="GetAllowedCardOperationsForUserRequest">
+    <WL5G3N0:part element="WL5G3N1:GetAllowedCardOperationsForUserRequest" name="GetAllowedCardOperationsForUserRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="GetAllowedCardOperationsForUserResponse">
+    <WL5G3N0:part element="WL5G3N1:GetAllowedCardOperationsForUserResponse" name="GetAllowedCardOperationsForUserResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="CreateEmbossedNameRequest">
+    <WL5G3N0:part element="WL5G3N1:CreateEmbossedNameRequest" name="CreateEmbossedNameRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="CreateEmbossedNameResponse">
+    <WL5G3N0:part element="WL5G3N1:CreateEmbossedNameResponse" name="CreateEmbossedNameResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="VerifyEmbossedNameRequest">
+    <WL5G3N0:part element="WL5G3N1:VerifyEmbossedNameRequest" name="VerifyEmbossedNameRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="VerifyEmbossedNameResponse">
+    <WL5G3N0:part element="WL5G3N1:VerifyEmbossedNameResponse" name="VerifyEmbossedNameResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="UpdateEmbossedNameRequest">
+    <WL5G3N0:part element="WL5G3N1:UpdateEmbossedNameRequest" name="UpdateEmbossedNameRequest"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="UpdateEmbossedNameResponse">
+    <WL5G3N0:part element="WL5G3N1:UpdateEmbossedNameResponse" name="UpdateEmbossedNameResponse"/>
+  </WL5G3N0:message>
+  <WL5G3N0:portType name="CardManagementWS">
+    <WL5G3N0:operation name="CreatePersonalizedCard">
+      <WL5G3N0:input message="WL5G3N1:CreatePersonalizedCardRequest" name="CreatePersonalizedCardRequest"/>
+      <WL5G3N0:output message="WL5G3N1:CreatePersonalizedCardResponse" name="CreatePersonalizedCardResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="ConfirmPersonalizedCard">
+      <WL5G3N0:input message="WL5G3N1:ConfirmPersonalizedCardRequest" name="ConfirmPersonalizedCardRequest"/>
+      <WL5G3N0:output message="WL5G3N1:ConfirmPersonalizedCardResponse" name="ConfirmPersonalizedCardResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="ReserveCard">
+      <WL5G3N0:input message="WL5G3N1:ReserveCardRequest" name="ReserveCardRequest"/>
+      <WL5G3N0:output message="WL5G3N1:ReserveCardResponse" name="ReserveCardResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="ConfirmInstantCard">
+      <WL5G3N0:input message="WL5G3N1:ConfirmInstantCardRequest" name="ConfirmInstantCardRequest"/>
+      <WL5G3N0:output message="WL5G3N1:ConfirmInstantCardResponse" name="ConfirmInstantCardResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="ActivateCard">
+      <WL5G3N0:input message="WL5G3N1:ActivateCardRequest" name="ActivateCardRequest"/>
+      <WL5G3N0:output message="WL5G3N1:ActivateCardResponse" name="ActivateCardResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="BlockCard">
+      <WL5G3N0:input message="WL5G3N1:BlockCardRequest" name="BlockCardRequest"/>
+      <WL5G3N0:output message="WL5G3N1:BlockCardResponse" name="BlockCardResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="BlockCardsByAccountNumber">
+      <WL5G3N0:input message="WL5G3N1:BlockCardsByAccountNumberRequest" name="BlockCardsByAccountNumberRequest"/>
+      <WL5G3N0:output message="WL5G3N1:BlockCardsByAccountNumberResponse" name="BlockCardsByAccountNumberResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="CancelCardsByAccountNumber">
+      <WL5G3N0:input message="WL5G3N1:CancelCardsByAccountNumberRequest" name="CancelCardsByAccountNumberRequest"/>
+      <WL5G3N0:output message="WL5G3N1:CancelCardsByAccountNumberResponse" name="CancelCardsByAccountNumberResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="UnblockCard">
+      <WL5G3N0:input message="WL5G3N1:UnblockCardRequest" name="UnblockCardRequest"/>
+      <WL5G3N0:output message="WL5G3N1:UnblockCardResponse" name="UnblockCardResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="UnblockCardsByAccountNumber">
+      <WL5G3N0:input message="WL5G3N1:UnblockCardsByAccountNumberRequest" name="UnblockCardsByAccountNumberRequest"/>
+      <WL5G3N0:output message="WL5G3N1:UnblockCardsByAccountNumberResponse" name="UnblockCardsByAccountNumberResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="LostCard">
+      <WL5G3N0:input message="WL5G3N1:LostCardRequest" name="LostCardRequest"/>
+      <WL5G3N0:output message="WL5G3N1:LostCardResponse" name="LostCardResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="StolenCard">
+      <WL5G3N0:input message="WL5G3N1:StolenCardRequest" name="StolenCardRequest"/>
+      <WL5G3N0:output message="WL5G3N1:StolenCardResponse" name="StolenCardResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="HoldBackCard">
+      <WL5G3N0:input message="WL5G3N1:HoldBackCardRequest" name="HoldBackCardRequest"/>
+      <WL5G3N0:output message="WL5G3N1:HoldBackCardResponse" name="HoldBackCardResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="CancelCard">
+      <WL5G3N0:input message="WL5G3N1:CancelCardRequest" name="CancelCardRequest"/>
+      <WL5G3N0:output message="WL5G3N1:CancelCardResponse" name="CancelCardResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="SetCardLimits">
+      <WL5G3N0:input message="WL5G3N1:SetCardLimitsRequest" name="SetCardLimitsRequest"/>
+      <WL5G3N0:output message="WL5G3N1:SetCardLimitsResponse" name="SetCardLimitsResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="AddOperatorNote">
+      <WL5G3N0:input message="WL5G3N1:AddOperatorNoteRequest" name="AddOperatorNoteRequest"/>
+      <WL5G3N0:output message="WL5G3N1:AddOperatorNoteResponse" name="AddOperatorNoteResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="GetCards">
+      <WL5G3N0:input message="WL5G3N1:GetCardsRequest" name="GetCardsRequest"/>
+      <WL5G3N0:output message="WL5G3N1:GetCardsResponse" name="GetCardsResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="GetCard">
+      <WL5G3N0:input message="WL5G3N1:GetCardRequest" name="GetCardRequest"/>
+      <WL5G3N0:output message="WL5G3N1:GetCardResponse" name="GetCardResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="ReplaceCard">
+      <WL5G3N0:input message="WL5G3N1:ReplaceCardRequest" name="ReplaceCardRequest"/>
+      <WL5G3N0:output message="WL5G3N1:ReplaceCardResponse" name="ReplaceCardResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="NotifyPinChange">
+      <WL5G3N0:input message="WL5G3N1:NotifyPinChangeRequest" name="NotifyPinChangeRequest"/>
+      <WL5G3N0:output message="WL5G3N1:NotifyPinChangeResponse" name="NotifyPinChangeResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="FindCard">
+      <WL5G3N0:input message="WL5G3N1:FindCardRequest" name="FindCardRequest"/>
+      <WL5G3N0:output message="WL5G3N1:FindCardResponse" name="FindCardResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="GetPlasticsOfCard">
+      <WL5G3N0:input message="WL5G3N1:GetPlasticsOfCardRequest" name="GetPlasticsOfCardRequest"/>
+      <WL5G3N0:output message="WL5G3N1:GetPlasticsOfCardResponse" name="GetPlasticsOfCardResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="GetAllowedCardOperationsForUser">
+      <WL5G3N0:input message="WL5G3N1:GetAllowedCardOperationsForUserRequest" name="GetAllowedCardOperationsForUserRequest"/>
+      <WL5G3N0:output message="WL5G3N1:GetAllowedCardOperationsForUserResponse" name="GetAllowedCardOperationsForUserResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="CreateEmbossedName">
+      <WL5G3N0:input message="WL5G3N1:CreateEmbossedNameRequest" name="CreateEmbossedNameRequest"/>
+      <WL5G3N0:output message="WL5G3N1:CreateEmbossedNameResponse" name="CreateEmbossedNameResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="VerifyEmbossedName">
+      <WL5G3N0:input message="WL5G3N1:VerifyEmbossedNameRequest" name="VerifyEmbossedNameRequest"/>
+      <WL5G3N0:output message="WL5G3N1:VerifyEmbossedNameResponse" name="VerifyEmbossedNameResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="UpdateEmbossedName">
+      <WL5G3N0:input message="WL5G3N1:UpdateEmbossedNameRequest" name="UpdateEmbossedNameRequest"/>
+      <WL5G3N0:output message="WL5G3N1:UpdateEmbossedNameResponse" name="UpdateEmbossedNameResponse"/>
+    </WL5G3N0:operation>
+  </WL5G3N0:portType>
+  <WL5G3N0:binding name="CardManagementWSSoap11" type="WL5G3N1:CardManagementWS">
+    <WL5G3N2:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <WL5G3N0:operation name="CreatePersonalizedCard">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="CreatePersonalizedCardRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="CreatePersonalizedCardResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="ConfirmPersonalizedCard">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="ConfirmPersonalizedCardRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="ConfirmPersonalizedCardResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="ReserveCard">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="ReserveCardRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="ReserveCardResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="ConfirmInstantCard">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="ConfirmInstantCardRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="ConfirmInstantCardResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="ActivateCard">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="ActivateCardRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="ActivateCardResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="BlockCard">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="BlockCardRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="BlockCardResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="BlockCardsByAccountNumber">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="BlockCardsByAccountNumberRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="BlockCardsByAccountNumberResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="CancelCardsByAccountNumber">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="CancelCardsByAccountNumberRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="CancelCardsByAccountNumberResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="UnblockCard">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="UnblockCardRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="UnblockCardResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="UnblockCardsByAccountNumber">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="UnblockCardsByAccountNumberRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="UnblockCardsByAccountNumberResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="LostCard">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="LostCardRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="LostCardResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="StolenCard">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="StolenCardRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="StolenCardResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="HoldBackCard">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="HoldBackCardRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="HoldBackCardResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="CancelCard">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="CancelCardRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="CancelCardResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="SetCardLimits">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="SetCardLimitsRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="SetCardLimitsResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="AddOperatorNote">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="AddOperatorNoteRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="AddOperatorNoteResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="GetCards">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="GetCardsRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="GetCardsResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="GetCard">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="GetCardRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="GetCardResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="ReplaceCard">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="ReplaceCardRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="ReplaceCardResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="NotifyPinChange">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="NotifyPinChangeRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="NotifyPinChangeResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="FindCard">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="FindCardRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="FindCardResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="GetPlasticsOfCard">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="GetPlasticsOfCardRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="GetPlasticsOfCardResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="GetAllowedCardOperationsForUser">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="GetAllowedCardOperationsForUserRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="GetAllowedCardOperationsForUserResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="CreateEmbossedName">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="CreateEmbossedNameRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="CreateEmbossedNameResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="VerifyEmbossedName">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="VerifyEmbossedNameRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="VerifyEmbossedNameResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="UpdateEmbossedName">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input name="UpdateEmbossedNameRequest">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output name="UpdateEmbossedNameResponse">
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+  </WL5G3N0:binding>
+  <WL5G3N0:service name="CardManagementWSSoap11QSService">
+    <WL5G3N0:documentation>OSB Service</WL5G3N0:documentation>
+    <WL5G3N0:port binding="WL5G3N1:CardManagementWSSoap11" name="CardManagementWSSoap11QSPort">
+      <WL5G3N2:address location="https://osb.id00c2.id.infra:443/OpenAPI/CardManagementService/v2/OpenAPICardManagementService_v2"/>
+    </WL5G3N0:port>
+  </WL5G3N0:service>
+</WL5G3N0:definitions>

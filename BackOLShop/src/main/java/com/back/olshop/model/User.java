@@ -13,9 +13,11 @@ public class User
     private String userName;
     private String userPassword;
     private String userEmail;
+    private String userHp;
+    private String userAddress;
     private String userToken;
     private Date userTokenExpired;
-    private String userHp;
+    private String userSecurityToken;
     private Time userOpenTime;
     private Time userCloseTime;
     private boolean userAdmin;
@@ -60,6 +62,26 @@ public class User
         this.userEmail = userEmail;
     }
 
+    public String getUserHp()
+    {
+        return userHp;
+    }
+
+    public void setUserHp(String userHp)
+    {
+        this.userHp = userHp;
+    }
+
+    public String getUserAddress()
+    {
+        return userAddress;
+    }
+
+    public void setUserAddress(String userAddress)
+    {
+        this.userAddress = userAddress;
+    }
+
     public String getUserToken()
     {
         return userToken;
@@ -80,14 +102,14 @@ public class User
         this.userTokenExpired = userTokenExpired;
     }
 
-    public String getUserHp()
+    public String getUserSecurityToken()
     {
-        return userHp;
+        return userSecurityToken;
     }
 
-    public void setUserHp(String userHp)
+    public void setUserSecurityToken(String userSecurityToken)
     {
-        this.userHp = userHp;
+        this.userSecurityToken = userSecurityToken;
     }
 
     public Time getUserOpenTime()
@@ -100,11 +122,13 @@ public class User
         this.userOpenTime = userOpenTime;
     }
 
-    public Time getUserCloseTime() {
+    public Time getUserCloseTime()
+    {
         return userCloseTime;
     }
 
-    public void setUserCloseTime(Time userCloseTime) {
+    public void setUserCloseTime(Time userCloseTime)
+    {
         this.userCloseTime = userCloseTime;
     }
 
@@ -126,9 +150,11 @@ public class User
                 ", userName='" + userName + '\'' +
                 ", userPassword='" + userPassword + '\'' +
                 ", userEmail='" + userEmail + '\'' +
+                ", userHp='" + userHp + '\'' +
+                ", userAddress='" + userAddress + '\'' +
                 ", userToken='" + userToken + '\'' +
                 ", userTokenExpired=" + userTokenExpired +
-                ", userHp='" + userHp + '\'' +
+                ", userSecurityToken='" + userSecurityToken + '\'' +
                 ", userOpenTime=" + userOpenTime +
                 ", userCloseTime=" + userCloseTime +
                 ", userAdmin=" + userAdmin +

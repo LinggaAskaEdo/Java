@@ -5,9 +5,7 @@
 package com.back.olshop.scheduler;
 
 import com.back.olshop.controller.BosController;
-import com.back.olshop.model.Request;
-import com.back.olshop.model.ResponseGet;
-import com.back.olshop.model.ResponseSend;
+import com.back.olshop.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +34,7 @@ public class BOSScheduler
     @Autowired
     private BosController controller;
 
-    @Scheduled(fixedRateString = "${scheduler.time.ms}")
+    @Scheduled(fixedRateString = "${scheduler.time.ms.get.message}")
     public void getNewMessage()
     {
         try
@@ -46,11 +44,11 @@ public class BOSScheduler
             RestTemplate restTemplate = new RestTemplate();
 
             String encodeFormat = env.getProperty("encode.format");
-            String apiKey = env.getProperty("api.key");
-            String type = env.getProperty("api.type");
-            String markaspulled = env.getProperty("mark.as.pulled");
-            String getnotpulledonly = env.getProperty("get.not.pulled.only");
-            String urlGetMessage = env.getProperty("url.get.message");
+            String apiKey = env.getProperty("apiwha.api.key");
+            String type = env.getProperty("apiwha.api.type");
+            String markaspulled = env.getProperty("apiwha.mark.as.pulled");
+            String getnotpulledonly = env.getProperty("apiwha.get.not.pulled.only");
+            String urlGetMessage = env.getProperty("apiwha.url.get.message");
 
             String getMessageUrl = urlGetMessage + URLEncoder.encode(apiKey, encodeFormat)
                     + "&type=" + URLEncoder.encode(type, encodeFormat)
@@ -70,11 +68,11 @@ public class BOSScheduler
                     String ownNumber = responseGet.getNumber();
                     String number = responseGet.getFrom();
                     String messsage = responseGet.getText();
-                    String text = controller.requestHandler(new Request(ownNumber, apiKey, messsage));
+                    String text = controller.requestHandler(new Request(number, apiKey, messsage));
 
                     log.debug("message: {}", text);
 
-                    String urlSendMessage = env.getProperty("url.send.message");
+                    String urlSendMessage = env.getProperty("apiwha.url.send.message");
                     String sendMessageUrl = urlSendMessage + URLEncoder.encode(apiKey, encodeFormat)
                             + "&number=" + URLEncoder.encode(number, encodeFormat)
                             + "&text=" + text;
@@ -94,6 +92,63 @@ public class BOSScheduler
         catch (Exception e)
         {
             log.error("Error when getNewMessage: {}", e);
+        }
+    }
+
+    @Scheduled(fixedRateString = "${scheduler.time.ms.check.credit}")
+    public void checkCredit()
+    {
+        try
+        {
+            log.info("Starting get check credit");
+
+            RestTemplate restTemplate = new RestTemplate();
+
+            String encodeFormat = env.getProperty("encode.format");
+            String apiKey = env.getProperty("apiwha.api.key");
+            String urlCheckCredit = env.getProperty("apiwha.url.check.credit");
+
+            String checkCreditUrl = urlCheckCredit + URLEncoder.encode(apiKey, encodeFormat);
+
+            log.debug("checkCreditUrl: {}", checkCreditUrl);
+
+            ResponseCheck responseCheck = restTemplate.getForObject(checkCreditUrl, ResponseCheck.class);
+
+            log.debug("responseCheck: {}", responseCheck.getCredit());
+        }
+        catch (Exception e)
+        {
+            log.error("Error when checkCredit: {}", e);
+        }
+    }
+
+    @Scheduled(fixedRateString = "${scheduler.time.ms.update.origin.destination}")
+    public void updateOriginDestination()
+    {
+        try
+        {
+            log.info("Start checking for update Origin");
+
+            //Origin
+            RestTemplate restTemplate = new RestTemplate();
+
+            String encodeFormat = env.getProperty("encode.format");
+            String apiKey = env.getProperty("sicepat.api.key");
+            String urlGetOrigin = env.getProperty("sicepat.url.get.origin");
+
+            String getOriginUrl = urlGetOrigin + URLEncoder.encode(apiKey, encodeFormat);
+
+            log.debug("getOriginUrl: {}", getOriginUrl);
+
+            Response response = restTemplate.getForObject(getOriginUrl, Response.class);
+
+
+
+            log.debug("response: {}", response.toString());
+        }
+        catch (Exception e)
+        {
+            log.error("Error when updateOriginDestination: {}", e);
         }
     }
 }

@@ -8,6 +8,7 @@ public class Response
 {
     private String status;
     private String message;
+    private Sicepat sicepat;
 
     public Response()
     {}
@@ -43,12 +44,23 @@ public class Response
         this.message = message;
     }
 
+    public Sicepat getSicepat()
+    {
+        return sicepat;
+    }
+
+    public void setSicepat(Sicepat sicepat)
+    {
+        this.sicepat = sicepat;
+    }
+
     @Override
     public String toString()
     {
         return "Response{" +
                 "status='" + status + '\'' +
                 ", message='" + message + '\'' +
+                ", sicepat=" + sicepat +
                 '}';
     }
 }

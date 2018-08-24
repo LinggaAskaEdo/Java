@@ -35,13 +35,13 @@ public class BosController
                 log.debug("user: {}", user);
 
                 //check expired
-                boolean tokenExpired = service.checkTokenExpired(user.getUserTokenExpired());
+                //boolean tokenExpired = service.checkTokenExpired(user.getUserTokenExpired());
 
                 //check store open
-                boolean storeOpen = service.checkStoreOpen(user.getUserOpenTime(), user.getUserCloseTime());
+                //boolean storeOpen = service.checkStoreOpen(user.getUserOpenTime(), user.getUserCloseTime());
 
-                log.debug("isExpired: {}", tokenExpired);
-                log.debug("storeOpen: {}", storeOpen);
+                //log.debug("isExpired: {}", tokenExpired);
+                //log.debug("storeOpen: {}", storeOpen);
 
                 //if (tokenExpired)
                 if (false)
@@ -54,12 +54,12 @@ public class BosController
                     return MessagePreference.MESSAGE_STORE_CLOSE;
                 }
                 else
-                    {
+                {
                     return service.checkMessage(user, request);
                 }
             }
             else
-                {
+            {
                 return MessagePreference.MESSAGE_INVALID_USER;
             }
         }

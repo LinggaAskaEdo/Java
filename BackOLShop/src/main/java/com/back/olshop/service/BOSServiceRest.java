@@ -463,7 +463,7 @@ public class BOSServiceRest
             Integer clientId = dao.saveClient(client);
             log.debug("clientId: {}", clientId);
 
-            Integer transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType, totalShipping, unique);
+            Integer transactionId = dao.saveTransaction(userId, clientId, transactionNumber, shippingType, totalShipping, totalShipping, unique);
             log.debug("transactionId: {}", transactionId);
 
             List<Integer> orderIds = dao.saveOrder(transactionId, itemList);

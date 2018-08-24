@@ -6,6 +6,8 @@ import org.apache.commons.codec.binary.Base64;
 
 import java.io.ByteArrayInputStream;
 import java.sql.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -118,11 +120,23 @@ public class PoEventReportDAO
                 poEventReport.setJenis1(resultSet.getString(13));
                 poEventReport.setVol2(resultSet.getString(14));
                 poEventReport.setJenis2(resultSet.getString(15));
-                poEventReport.setHargaSatuan(resultSet.getString(16));
-                poEventReport.setTotal(resultSet.getString(17));
+                if(resultSet.getString(16) != null)
+                {
+                    poEventReport.setHargaSatuan(changeFormat(resultSet.getString(16)));
+                }
+                if(resultSet.getString(17) != null)
+                {
+                    poEventReport.setTotal(changeFormat(resultSet.getString(17)));
+                }
+
                 poEventReport.setUraianDr(resultSet.getString(18));
                 poEventReport.setDetailDr(resultSet.getString(19));
-                poEventReport.setHargaDr(resultSet.getString(20));
+
+                if(resultSet.getString(20) != null)
+                {
+                    poEventReport.setHargaDr(changeFormat(resultSet.getString(20)));
+                }
+
                 poEventReport.setTagihanReimbuseIdTr(resultSet.getString(21));
                 poEventReport.setPoNomorTr(resultSet.getString(22));
                 poEventReport.setCatatanTr(resultSet.getString(23));
@@ -247,11 +261,24 @@ public class PoEventReportDAO
                 poEventReport.setJenis1(resultSet.getString(13));
                 poEventReport.setVol2(resultSet.getString(14));
                 poEventReport.setJenis2(resultSet.getString(15));
-                poEventReport.setHargaSatuan(resultSet.getString(16));
-                poEventReport.setTotal(resultSet.getString(17));
+
+                if(resultSet.getString(16) != null)
+                {
+                    poEventReport.setHargaSatuan(changeFormat(resultSet.getString(16)));
+                }
+                if(resultSet.getString(17) != null)
+                {
+                    poEventReport.setTotal(changeFormat(resultSet.getString(17)));
+                }
+
                 poEventReport.setUraianDr(resultSet.getString(18));
                 poEventReport.setDetailDr(resultSet.getString(19));
-                poEventReport.setHargaDr(resultSet.getString(20));
+
+                if (resultSet.getString(20) != null)
+                {
+                    poEventReport.setHargaDr(changeFormat(resultSet.getString(20)));
+                }
+
                 poEventReport.setTagihanReimbuseIdTr(resultSet.getString(21));
                 poEventReport.setPoNomorTr(resultSet.getString(22));
                 poEventReport.setCatatanTr(resultSet.getString(23));
@@ -305,5 +332,14 @@ public class PoEventReportDAO
         }
         catch (Exception ignored)
         {}
+    }
+
+    private String changeFormat(String data)
+    {
+        NumberFormat numbFormat = new DecimalFormat("#,###.00");
+
+        double changeData = Double.parseDouble(data);
+
+        return numbFormat.format(changeData);
     }
 }

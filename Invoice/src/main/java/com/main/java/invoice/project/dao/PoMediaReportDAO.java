@@ -5,6 +5,8 @@ import com.main.java.invoice.project.pojo.PoProduksiReport;
 import com.main.java.invoice.project.preference.StaticPreference;
 
 import java.sql.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -91,7 +93,10 @@ public class PoMediaReportDAO
                 poMediaReport.setPekerjaanKementerian(resultSet.getString(5));
                 poMediaReport.setTanggalTayang(resultSet.getString(6));
                 poMediaReport.setUkuran(resultSet.getString(7));
-                poMediaReport.setHarga(resultSet.getString(8));
+                if(resultSet.getString(8) != null)
+                {
+                    poMediaReport.setHarga(changeFormat(resultSet.getString(8)));
+                }
                 poMediaReport.setPpn(resultSet.getString(9));
                 poMediaReport.setKeterangan(resultSet.getString(10));
 
@@ -100,7 +105,10 @@ public class PoMediaReportDAO
                     poMediaReport.setImagePoMedia(resultSet.getBlob(11));
                 }
 
-                poMediaReport.setTagihanMediaId(resultSet.getString(12));
+                if(resultSet.getString(12) != null)
+                {
+                    poMediaReport.setTagihanMediaId(changeFormat(resultSet.getString(12)));
+                }
                 poMediaReport.setInvoiceMedia(resultSet.getString(13));
                 poMediaReport.setTanggal(resultSet.getString(14));
                 poMediaReport.setNilaiTagihan(resultSet.getString(15));
@@ -196,7 +204,10 @@ public class PoMediaReportDAO
                 poMediaReport.setPekerjaanKementerian(resultSet.getString(5));
                 poMediaReport.setTanggalTayang(resultSet.getString(6));
                 poMediaReport.setUkuran(resultSet.getString(7));
-                poMediaReport.setHarga(resultSet.getString(8));
+                if (resultSet.getString(8) != null)
+                {
+                    poMediaReport.setHarga(changeFormat(resultSet.getString(8)));
+                }
                 poMediaReport.setPpn(resultSet.getString(9));
                 poMediaReport.setKeterangan(resultSet.getString(10));
 
@@ -205,7 +216,10 @@ public class PoMediaReportDAO
                     poMediaReport.setImagePoMedia(resultSet.getBlob(11));
                 }
 
-                poMediaReport.setTagihanMediaId(resultSet.getString(12));
+                if(resultSet.getString(12) != null)
+                {
+                    poMediaReport.setTagihanMediaId(changeFormat(resultSet.getString(12)));
+                }
                 poMediaReport.setInvoiceMedia(resultSet.getString(13));
                 poMediaReport.setTanggal(resultSet.getString(14));
                 poMediaReport.setNilaiTagihan(resultSet.getString(15));
@@ -256,5 +270,14 @@ public class PoMediaReportDAO
         }
         catch (Exception ignored)
         {}
+    }
+
+    private String changeFormat(String data)
+    {
+        NumberFormat numbFormat = new DecimalFormat("#,###.00");
+
+        double changeData = Double.parseDouble(data);
+
+        return numbFormat.format(changeData);
     }
 }

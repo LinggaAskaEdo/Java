@@ -5,6 +5,8 @@ import com.main.java.invoice.project.pojo.PoProduksiReport;
 import com.main.java.invoice.project.preference.StaticPreference;
 
 import java.sql.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -93,7 +95,10 @@ public class PoProduksiReportDAO
                 poProduksiReport.setNoKontrak(resultSet.getString(3));
                 poProduksiReport.setProduksi(resultSet.getString(4));
                 poProduksiReport.setTanggal(resultSet.getString(5));
-                poProduksiReport.setNilaiProduksi(resultSet.getString(6));
+                if (resultSet.getString(6) != null)
+                {
+                    poProduksiReport.setNilaiProduksi(changeFormat(resultSet.getString(6)));
+                }
                 poProduksiReport.setKeterangan(resultSet.getString(7));
 
                 if (resultSet.getBlob(8) != null)
@@ -111,10 +116,19 @@ public class PoProduksiReportDAO
                 poProduksiReport.setProduksiJenis(resultSet.getString(16));
                 poProduksiReport.setProduksiJumlah(resultSet.getString(17));
                 poProduksiReport.setProduksiBarang(resultSet.getString(18));
-                poProduksiReport.setProduksiHargaSatuan(resultSet.getString(19));
-                poProduksiReport.setProduksiTotalHarga(resultSet.getString(20));
+                if(resultSet.getString(19) != null)
+                {
+                    poProduksiReport.setProduksiHargaSatuan(changeFormat(resultSet.getString(19)));
+                }
+                if (resultSet.getString(20) != null)
+                {
+                    poProduksiReport.setProduksiTotalHarga(changeFormat(resultSet.getString(20)));
+                }
                 poProduksiReport.setPostProduksiBarang(resultSet.getString(21));
-                poProduksiReport.setPostProduksiTotalHarga(resultSet.getString(22));
+                if(resultSet.getString(22) != null)
+                {
+                    poProduksiReport.setPostProduksiTotalHarga(changeFormat(resultSet.getString(22)));
+                }
                 allPoProduksiReport.add(poProduksiReport);
             }
         }
@@ -203,7 +217,10 @@ public class PoProduksiReportDAO
                 poProduksiReport.setNoKontrak(resultSet.getString(3));
                 poProduksiReport.setProduksi(resultSet.getString(4));
                 poProduksiReport.setTanggal(resultSet.getString(5));
-                poProduksiReport.setNilaiProduksi(resultSet.getString(6));
+                if (resultSet.getString(6) != null)
+                {
+                    poProduksiReport.setNilaiProduksi(changeFormat(resultSet.getString(6)));
+                }
                 poProduksiReport.setKeterangan(resultSet.getString(7));
 
                 if (resultSet.getBlob(8) != null)
@@ -221,10 +238,19 @@ public class PoProduksiReportDAO
                 poProduksiReport.setProduksiJenis(resultSet.getString(16));
                 poProduksiReport.setProduksiJumlah(resultSet.getString(17));
                 poProduksiReport.setProduksiBarang(resultSet.getString(18));
-                poProduksiReport.setProduksiHargaSatuan(resultSet.getString(19));
-                poProduksiReport.setProduksiTotalHarga(resultSet.getString(20));
+                if(resultSet.getString(19) != null)
+                {
+                    poProduksiReport.setProduksiHargaSatuan(changeFormat(resultSet.getString(19)));
+                }
+                if (resultSet.getString(20) != null)
+                {
+                    poProduksiReport.setProduksiTotalHarga(changeFormat(resultSet.getString(20)));
+                }
                 poProduksiReport.setPostProduksiBarang(resultSet.getString(21));
-                poProduksiReport.setPostProduksiTotalHarga(resultSet.getString(22));
+                if(resultSet.getString(22) != null)
+                {
+                    poProduksiReport.setPostProduksiTotalHarga(changeFormat(resultSet.getString(22)));
+                }
                 allPoProduksiReport.add(poProduksiReport);
             }
         }
@@ -266,5 +292,14 @@ public class PoProduksiReportDAO
         }
         catch (Exception ignored)
         {}
+    }
+
+    private String changeFormat(String data)
+    {
+        NumberFormat numbFormat = new DecimalFormat("#,###.00");
+
+        double changeData = Double.parseDouble(data);
+
+        return numbFormat.format(changeData);
     }
 }

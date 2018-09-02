@@ -97,7 +97,10 @@ public class PoMediaReportDAO
                 {
                     poMediaReport.setHarga(changeFormat(resultSet.getString(8)));
                 }
-                poMediaReport.setPpn(resultSet.getString(9));
+                if(resultSet.getString(9) != null)
+                {
+                    poMediaReport.setPpn(changeFormat(resultSet.getString(9)));
+                }
                 poMediaReport.setKeterangan(resultSet.getString(10));
 
                 if (resultSet.getBlob(11) != null)
@@ -111,8 +114,11 @@ public class PoMediaReportDAO
                 }
                 poMediaReport.setInvoiceMedia(resultSet.getString(13));
                 poMediaReport.setTanggal(resultSet.getString(14));
-                poMediaReport.setNilaiTagihan(resultSet.getString(15));
 
+                if(resultSet.getString(15) != null)
+                {
+                    poMediaReport.setNilaiTagihan(changeFormat(resultSet.getString(15)));
+                }
                 if (resultSet.getBlob(16) != null)
                 {
                     poMediaReport.setImageTagihanMedia(resultSet.getBlob(16));
@@ -208,7 +214,10 @@ public class PoMediaReportDAO
                 {
                     poMediaReport.setHarga(changeFormat(resultSet.getString(8)));
                 }
-                poMediaReport.setPpn(resultSet.getString(9));
+                if(resultSet.getString(9) != null)
+                {
+                    poMediaReport.setPpn(changeFormat(resultSet.getString(9)));
+                }
                 poMediaReport.setKeterangan(resultSet.getString(10));
 
                 if (resultSet.getBlob(11) != null)
@@ -222,7 +231,10 @@ public class PoMediaReportDAO
                 }
                 poMediaReport.setInvoiceMedia(resultSet.getString(13));
                 poMediaReport.setTanggal(resultSet.getString(14));
-                poMediaReport.setNilaiTagihan(resultSet.getString(15));
+                if(resultSet.getString(15) != null)
+                {
+                    poMediaReport.setNilaiTagihan(changeFormat(resultSet.getString(15)));
+                }
 
                 if (resultSet.getBlob(16) != null)
                 {

@@ -105,7 +105,10 @@ public class PoEventReportDAO
                 poEventReport.setNoKontrak(resultSet.getString(3));
                 poEventReport.setKegiatan(resultSet.getString(4));
                 poEventReport.setTanggal(resultSet.getString(5));
-                poEventReport.setJumlah(resultSet.getString(6));
+                if(resultSet.getString(6) != null)
+                {
+                    poEventReport.setJumlah(changeFormat(resultSet.getString(6)));
+                }
                 poEventReport.setKeterangan(resultSet.getString(7));
 
                 if (resultSet.getBlob(8) != null)
@@ -128,8 +131,10 @@ public class PoEventReportDAO
                 {
                     poEventReport.setTotal(changeFormat(resultSet.getString(17)));
                 }
-
-                poEventReport.setUraianDr(resultSet.getString(18));
+                if(resultSet.getString(18) != null)
+                {
+                    poEventReport.setUraianDr(changeFormat(resultSet.getString(18)));
+                }
                 poEventReport.setDetailDr(resultSet.getString(19));
 
                 if(resultSet.getString(20) != null)
@@ -246,7 +251,11 @@ public class PoEventReportDAO
                 poEventReport.setNoKontrak(resultSet.getString(3));
                 poEventReport.setKegiatan(resultSet.getString(4));
                 poEventReport.setTanggal(resultSet.getString(5));
-                poEventReport.setJumlah(resultSet.getString(6));
+
+                if(resultSet.getString(6) != null)
+                {
+                    poEventReport.setJumlah(changeFormat(resultSet.getString(6)));
+                }
                 poEventReport.setKeterangan(resultSet.getString(7));
 
                 if (resultSet.getBlob(8) != null)
@@ -270,8 +279,10 @@ public class PoEventReportDAO
                 {
                     poEventReport.setTotal(changeFormat(resultSet.getString(17)));
                 }
-
-                poEventReport.setUraianDr(resultSet.getString(18));
+                if(resultSet.getString(18) != null)
+                {
+                    poEventReport.setUraianDr(changeFormat(resultSet.getString(18)));
+                }
                 poEventReport.setDetailDr(resultSet.getString(19));
 
                 if (resultSet.getString(20) != null)

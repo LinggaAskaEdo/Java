@@ -17,6 +17,7 @@ public class AmsEncryption
         encryptor.setConfig(simplePBEConfig);
         encryptor.initialize();
 
+        System.out.println(encryptor.encrypt("aaa"));
         System.out.println(encryptor.decrypt("uMU6tY0ODpyUTtsgUsYBb7uY2rkNl/L8"));
     }
 }

@@ -1,0 +1,42 @@
+apply plugin: 'java'
+apply plugin: 'java-library-distribution'
+
+sourceCompatibility = 1.8
+
+def jarBaseName = 'simulator-creditcard'
+def configFiles = ['application.properties', 'config.properties'] as Set
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-milestone" }
+}
+
+dependencies {
+    compile("org.apache.httpcomponents:httpclient:4.5.6")
+    compile("com.google.code.gson:gson:2.8.5")
+    compile("org.bouncycastle:bcprov-jdk15on:1.60")
+    compile("org.apache.commons:commons-lang3:3.8")
+}
+
+distZip {
+    into(project.name) {
+        from '.'
+        include configFiles
+    }
+}
+
+jar {
+    baseName = jarBaseName
+    exclude configFiles
+
+    // Keep jar clean:
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
+
+    manifest {
+        attributes 'Main-Class': 'id.co.homecredit.simulator.Main', 'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
+    }
+}
+
+// Task "distZip" added by plugin "java-library-distribution":
+distZip.shouldRunAfter(build)

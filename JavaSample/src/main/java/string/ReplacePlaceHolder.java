@@ -12,6 +12,12 @@ public class ReplacePlaceHolder
         String result = String.format(url, cuid);
         System.out.println("Result: " + result);
 
+        String url2 = "https://am.id00c3.id.infra/cabus-am/rest/openapi/v2/transaction/%s/transactions/%s/instalmentPlanOffers";
+        String accountNumber = "3800007288";
+        String id = "5401";
+
+        System.out.println("Result2 : " + String.format(url2, accountNumber, id));
+
         /*float a = 5000000;
         float b = 3800000;
 

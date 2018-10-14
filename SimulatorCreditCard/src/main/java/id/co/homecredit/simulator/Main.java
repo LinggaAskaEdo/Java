@@ -20,8 +20,6 @@ public class Main
     private static final String CONFIG_FILE_NAME = "config.properties";
     private static final String FOLDER_LOG = "logs";
     private static final String separator = "\n";
-    private static final String URL_GENERATE_SESSION = "https://dev.homecredit.co.id/cc-pin-service/generateSession";
-    private static final String URL_SET_PIN = "https://dev.homecredit.co.id/cc-pin-service/setPin";
 
     public static void main(String[] args) throws URISyntaxException, IOException
     {
@@ -30,8 +28,19 @@ public class Main
         Properties properties = new Properties();
         properties.load(new FileInputStream("application.properties"));
 
-        System.out.println("url generate session: " + properties.get("url.generate.session"));
-        System.out.println("url set pin: " + properties.get("url.set.pin"));
+        String URL_GENERATE_SESSION = null;
+        String URL_SET_PIN = null;
+
+        if (null !=  properties.get("url.generate.session") && null !=  properties.get("url.set.pin"))
+        {
+            URL_GENERATE_SESSION = properties.get("url.generate.session").toString();
+            URL_SET_PIN = properties.get("url.set.pin").toString();
+        }
+        else
+        {
+            System.out.println("Invalid application.properties");
+            System.exit(0);
+        }
 
         /*check configuration file*/
         String parentPath = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
@@ -44,7 +53,7 @@ public class Main
             /*check file config*/
             if (new File(configFile).length() == 0)
             {
-                System.out.println("Configuration is empty, please fill it");
+                System.out.println("config.properties is empty, please fill it");
             }
             else
             {

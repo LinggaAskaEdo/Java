@@ -19,15 +19,19 @@ dependencies {
     compile("org.apache.commons:commons-lang3:3.8")
 }
 
-distZip {
-    into(project.name) {
-        from '.'
-        include configFiles
+distributions {
+    main {
+        baseName = jarBaseName
+        contents {
+            from { 'src/main/resources' }
+        }
     }
 }
 
 jar {
     baseName = jarBaseName
+
+    //exlude properties in jar
     exclude configFiles
 
     // Keep jar clean:
@@ -37,6 +41,3 @@ jar {
         attributes 'Main-Class': 'id.co.homecredit.simulator.Main', 'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
     }
 }
-
-// Task "distZip" added by plugin "java-library-distribution":
-distZip.shouldRunAfter(build)

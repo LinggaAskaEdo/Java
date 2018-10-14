@@ -17,21 +17,22 @@ import java.util.*;
 
 public class Main
 {
+    private static final String APPLICATION_FILE_NAME = "application.properties";
     private static final String CONFIG_FILE_NAME = "config.properties";
     private static final String FOLDER_LOG = "logs";
-    private static final String separator = "\n";
+    private static final String SEPARATOR = "\n";
 
     public static void main(String[] args) throws URISyntaxException, IOException
     {
         SimulatorUtil util = new SimulatorUtil();
 
         Properties properties = new Properties();
-        properties.load(new FileInputStream("application.properties"));
+        properties.load(new FileInputStream(APPLICATION_FILE_NAME));
 
         String URL_GENERATE_SESSION = null;
         String URL_SET_PIN = null;
 
-        if (null !=  properties.get("url.generate.session") && null !=  properties.get("url.set.pin"))
+        if (null != properties.get("url.generate.session") && null != properties.get("url.set.pin"))
         {
             URL_GENERATE_SESSION = properties.get("url.generate.session").toString();
             URL_SET_PIN = properties.get("url.set.pin").toString();
@@ -138,7 +139,7 @@ public class Main
                                     String cardNumber = map.get(pointer).getCardNumber();
                                     String uuid = UUID.randomUUID().toString();
 
-                                    String header = (i + 1) + ". Phone number: " + userId + ", card number: " + cardNumber + separator;
+                                    String header = (i + 1) + ". Phone number: " + userId + ", card number: " + cardNumber + SEPARATOR;
                                     Files.write(Paths.get(fileLog), header.getBytes(), StandardOpenOption.APPEND);
                                     System.out.print(header);
 
@@ -147,33 +148,33 @@ public class Main
                                     requestGenerateSession.setConnectionId(uuid);
 
                                     Response responseGenerateSession = util.sendHttpPost(URL_GENERATE_SESSION, requestGenerateSession);
-                                    String responseSession = "Response session: " + new Gson().toJson(responseGenerateSession) + separator;
+                                    String responseSession = "Response session: " + new Gson().toJson(responseGenerateSession) + SEPARATOR;
                                     Files.write(Paths.get(fileLog), responseSession.getBytes(), StandardOpenOption.APPEND);
                                     System.out.print(responseSession);
 
                                     if (null != responseGenerateSession.getPublicKey())
                                     {
                                         String pin = util.generatePin();
-                                        String logPin = "PIN: " + pin + separator;
+                                        String logPin = "PIN: " + pin + SEPARATOR;
                                         Files.write(Paths.get(fileLog), logPin.getBytes(), StandardOpenOption.APPEND);
                                         System.out.print(logPin);
 
                                         Request requestSetPin = util.generateRequestSetPin(userId, uuid, pin, responseGenerateSession.getPublicKey());
 
                                         Response responseSetPin = util.sendHttpPost(URL_SET_PIN, requestSetPin);
-                                        String responsePin = "Response pin: " + new Gson().toJson(responseSetPin) + separator;
+                                        String responsePin = "Response pin: " + new Gson().toJson(responseSetPin) + SEPARATOR;
                                         Files.write(Paths.get(fileLog), responsePin.getBytes(), StandardOpenOption.APPEND);
                                         System.out.print(responsePin);
                                     }
 
                                     stopwatch.stop();
 
-                                    String strTime = "Time: " + stopwatch + separator;
+                                    String strTime = "Time: " + stopwatch + SEPARATOR;
                                     Files.write(Paths.get(fileLog), strTime.getBytes(), StandardOpenOption.APPEND);
                                     System.out.print(strTime);
 
-                                    Files.write(Paths.get(fileLog), separator.getBytes(), StandardOpenOption.APPEND);
-                                    System.out.print(separator);
+                                    Files.write(Paths.get(fileLog), SEPARATOR.getBytes(), StandardOpenOption.APPEND);
+                                    System.out.print(SEPARATOR);
                                     pointer++;
                                 }
 

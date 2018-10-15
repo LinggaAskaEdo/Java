@@ -84,7 +84,7 @@ public class Main
                                     && util.checkNumber(words[0]))
                             {
                                 Config config = new Config();
-                                config.setPhoneNumber(words[0]);
+                                config.setPhoneNumber(words[0].trim());
                                 config.setCardNumber(words[1]);
 
                                 map.put(pointer, config);

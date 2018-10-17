@@ -1,0 +1,11 @@
+#application.properties
+fill url of generate session & set pin end point, the default is dev environment
+
+#config.properties
+there are 2 data (phone number & card number) with comma separator. Card number its only use for information
+
+#run application
+1. open command prompt
+2. change directory to simulator-creditcard
+3. run command "java -jar simulator-creditcard.jar"
+4. input number for loop times

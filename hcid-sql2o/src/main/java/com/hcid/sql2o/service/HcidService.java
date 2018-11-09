@@ -20,7 +20,7 @@ public class HcidService
         this.dao = dao;
     }
 
-    @Scheduled(fixedRateString = "450000")
+    @Scheduled(fixedRateString = "30000")
     public void testGetCuid()
     {
         String cuid = dao.getCuidByUserId("8022222212");

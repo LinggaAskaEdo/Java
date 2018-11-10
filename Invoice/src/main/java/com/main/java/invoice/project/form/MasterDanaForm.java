@@ -128,47 +128,55 @@ public class MasterDanaForm extends JInternalFrame
 		JButton btnSimpan = new JButton("Simpan");
 		btnSimpan.addActionListener(e ->
 		{
-			MasterDana masterDana = new MasterDana();
-			masterDana.setNameBankAccount(TF_Nama.getText());
-			masterDana.setNoBankAccount(TF_noRek.getText());
-			masterDana.setNameAccount(TF_AtasNama.getText());
-			masterDana.setTotalCash(new BigDecimal(TF_Tunai.getText().replace(",","")));
-
-			if (!btnHapus.isEnabled())
+			if(!TF_noRek.getText().matches("^[0-9]+$"))
 			{
-				try
-				{
-					dao.addUpdate(masterDana, 0);
-					data[0] = TF_Nama.getText();
-					data[1] = TF_noRek.getText();
-					data[2] = TF_AtasNama.getText();
-					data[3] = TF_Tunai.getText().replace(",","");
-					tabelModel.insertRow(0, data);
-					clearDana();
-					TF_Nama.setEnabled(true);
-				}
-				catch (Exception e1)
-				{
-					e1.printStackTrace();
-				}
+				JOptionPane.showMessageDialog(null, "No. Rekening hanya bisa disi dengan angka", "Peringatan",
+						JOptionPane.WARNING_MESSAGE);
 			}
 			else
 			{
-				try
+				MasterDana masterDana = new MasterDana();
+				masterDana.setNameBankAccount(TF_Nama.getText());
+				masterDana.setNoBankAccount(TF_noRek.getText());
+				masterDana.setNameAccount(TF_AtasNama.getText());
+				masterDana.setTotalCash(new BigDecimal(TF_Tunai.getText().replace(",","")));
+
+				if (!btnHapus.isEnabled())
 				{
-					dao.addUpdate(masterDana, 1);
-					data[0] = TF_Nama.getText();
-					data[1] = TF_noRek.getText();
-					data[2] = TF_AtasNama.getText();
-					data[3] = TF_Tunai.getText().replace(",","");
-					tabelModel.removeRow(row);
-					tabelModel.insertRow(row, data);
-					clearDana();
-					TF_Nama.setEnabled(true);
+					try
+					{
+						dao.addUpdate(masterDana, 0);
+						data[0] = TF_Nama.getText();
+						data[1] = TF_noRek.getText();
+						data[2] = TF_AtasNama.getText();
+						data[3] = TF_Tunai.getText().replace(",","");
+						tabelModel.insertRow(0, data);
+						clearDana();
+						TF_Nama.setEnabled(true);
+					}
+					catch (Exception e1)
+					{
+						e1.printStackTrace();
+					}
 				}
-				catch (Exception e2)
+				else
 				{
-					e2.printStackTrace();
+					try
+					{
+						dao.addUpdate(masterDana, 1);
+						data[0] = TF_Nama.getText();
+						data[1] = TF_noRek.getText();
+						data[2] = TF_AtasNama.getText();
+						data[3] = TF_Tunai.getText().replace(",","");
+						tabelModel.removeRow(row);
+						tabelModel.insertRow(row, data);
+						clearDana();
+						TF_Nama.setEnabled(true);
+					}
+					catch (Exception e2)
+					{
+						e2.printStackTrace();
+					}
 				}
 			}
 		});

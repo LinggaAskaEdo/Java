@@ -177,17 +177,30 @@ public class DetailEventForm extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				data[0] = String.valueOf(CB_Uraian.getSelectedItem());
-				data[1] = TB_Detail.getText();
-				data[2] = TF_Vol_1.getText();
-				data[3] = buttonGroupUp.getSelection().getActionCommand();
-				data[4] = TF_Vol_2.getText();
-				data[5] = buttonGroupDown.getSelection().getActionCommand();
-				data[6] = TF_HargaSatuan.getText();
-				data[7] = TB_Total.getText();
+				if(!TF_Vol_1.getText().matches("^[0-9]+$"))
+				{
+					JOptionPane.showMessageDialog(null, "Volume hanya bisa disi dengan angka", "Peringatan",
+							JOptionPane.WARNING_MESSAGE);
+				}
+				else if(!TF_Vol_2.getText().matches("^[0-9]+$"))
+				{
+					JOptionPane.showMessageDialog(null, "Volume hanya bisa disi dengan angka", "Peringatan",
+							JOptionPane.WARNING_MESSAGE);
+				}
+				else
+				{
+					data[0] = String.valueOf(CB_Uraian.getSelectedItem());
+					data[1] = TB_Detail.getText();
+					data[2] = TF_Vol_1.getText();
+					data[3] = buttonGroupUp.getSelection().getActionCommand();
+					data[4] = TF_Vol_2.getText();
+					data[5] = buttonGroupDown.getSelection().getActionCommand();
+					data[6] = TF_HargaSatuan.getText();
+					data[7] = TB_Total.getText();
 
-				tabelModel1.insertRow(0, data);
-				dispose();
+					tabelModel1.insertRow(0, data);
+					dispose();
+				}
 			}
 		});
 		BT_Tambah.setBounds(450, 220, 117, 25);

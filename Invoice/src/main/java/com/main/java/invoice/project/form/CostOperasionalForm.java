@@ -147,7 +147,12 @@ public class CostOperasionalForm extends JInternalFrame
 				String splitData = String.valueOf(CB_ReffSumbDana.getSelectedItem());
 				MasterDana masterDana = masterDanaDAO.GetMasterDanaById(splitData);
 
-				if (masterDana.getMasterDanaId() == null)
+				if(!TB_Kontrak.getText().matches("^[0-9]+$"))
+				{
+					JOptionPane.showMessageDialog(null, "PIC/Kontak hanya bisa disi dengan angka", "Peringatan",
+							JOptionPane.WARNING_MESSAGE);
+				}
+				else if (masterDana.getMasterDanaId() == null)
 				{
 					JOptionPane.showMessageDialog(null, "Simpan Gagal, Master Dana tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
 				}

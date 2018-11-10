@@ -143,50 +143,58 @@ public class MasterKlienForm extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				MasterClient masterClient = new MasterClient();
-				masterClient.setName(TF_Nama.getText());
-				masterClient.setAddress(TA_Alamat.getText());
-				masterClient.setNoNpwp(TF_Npwp.getText());
-				masterClient.setSatkerPpk(TF_Satker.getText());
-				masterClient.setInformation(TA_Keterangan.getText());
-
-				if (!btnHapus.isEnabled())
+				if(!TF_Satker.getText().matches("^[0-9]+$"))
 				{
-					try
-					{
-						dao.addUpdate(masterClient, 0);
-						data[0] = TF_Nama.getText();
-						data[1] = TA_Alamat.getText();
-						data[2] = TF_Npwp.getText();
-						data[3] = TF_Satker.getText();
-						data[4] = TF_Satker.getText();
-						tabelModel.insertRow(0, data);
-						clearKlien();
-						TF_Nama.setEnabled(true);
-					}
-					catch (Exception e1)
-					{
-						e1.printStackTrace();
-					}
+					JOptionPane.showMessageDialog(null, "Satker PKK hanya bisa disi dengan angka", "Peringatan",
+							JOptionPane.WARNING_MESSAGE);
 				}
 				else
 				{
-					try
+					MasterClient masterClient = new MasterClient();
+					masterClient.setName(TF_Nama.getText());
+					masterClient.setAddress(TA_Alamat.getText());
+					masterClient.setNoNpwp(TF_Npwp.getText());
+					masterClient.setSatkerPpk(TF_Satker.getText());
+					masterClient.setInformation(TA_Keterangan.getText());
+
+					if (!btnHapus.isEnabled())
 					{
-						dao.addUpdate(masterClient, 1);
-						data[0] = TF_Nama.getText();
-						data[1] = TA_Alamat.getText();
-						data[2] = TF_Npwp.getText();
-						data[3] = TF_Satker.getText();
-						data[4] = TF_Satker.getText();
-						tabelModel.removeRow(row);
-						tabelModel.insertRow(row, data);
-						clearKlien();
-						TF_Nama.setEnabled(true);
+						try
+						{
+							dao.addUpdate(masterClient, 0);
+							data[0] = TF_Nama.getText();
+							data[1] = TA_Alamat.getText();
+							data[2] = TF_Npwp.getText();
+							data[3] = TF_Satker.getText();
+							data[4] = TF_Satker.getText();
+							tabelModel.insertRow(0, data);
+							clearKlien();
+							TF_Nama.setEnabled(true);
+						}
+						catch (Exception e1)
+						{
+							e1.printStackTrace();
+						}
 					}
-					catch (Exception e2)
+					else
 					{
-						e2.printStackTrace();
+						try
+						{
+							dao.addUpdate(masterClient, 1);
+							data[0] = TF_Nama.getText();
+							data[1] = TA_Alamat.getText();
+							data[2] = TF_Npwp.getText();
+							data[3] = TF_Satker.getText();
+							data[4] = TF_Satker.getText();
+							tabelModel.removeRow(row);
+							tabelModel.insertRow(row, data);
+							clearKlien();
+							TF_Nama.setEnabled(true);
+						}
+						catch (Exception e2)
+						{
+							e2.printStackTrace();
+						}
 					}
 				}
 			}

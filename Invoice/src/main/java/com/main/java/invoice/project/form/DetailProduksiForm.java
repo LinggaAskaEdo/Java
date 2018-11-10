@@ -205,22 +205,35 @@ public class DetailProduksiForm extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				data[0] = TF_Media.getText();
-				data[1] = TF_Durasi.getText();
-				data[2] = TF_Hari.getText();
-				data[3] = TA_Lokasi.getText();
-				data[4] = TF_Uraian.getText();
-				data[5] = TF_Jenis.getText();
-				data[6] = String.valueOf(CB_Jenis.getSelectedItem());
-				data[7] = TF_Jumlah.getText();
-				data[8] = TF_Barang_1.getText();
-				data[9] = textField_7.getText();
-				data[10] = TF_TotHarga_1.getText();
-				data[11] = TF_Barang_2.getText();
-				data[12] = TF_TotHarga_2.getText();
+				if(!TF_Jumlah.getText().matches("^[0-9]+$"))
+				{
+					JOptionPane.showMessageDialog(null, "Jumlah hanya bisa disi dengan angka", "Peringatan",
+							JOptionPane.WARNING_MESSAGE);
+				}
+				else if(!TF_Hari.getText().matches("^[0-9]+$"))
+				{
+					JOptionPane.showMessageDialog(null, "Hari hanya bisa disi dengan angka", "Peringatan",
+							JOptionPane.WARNING_MESSAGE);
+				}
+				else
+				{
+					data[0] = TF_Media.getText();
+					data[1] = TF_Durasi.getText();
+					data[2] = TF_Hari.getText();
+					data[3] = TA_Lokasi.getText();
+					data[4] = TF_Uraian.getText();
+					data[5] = TF_Jenis.getText();
+					data[6] = String.valueOf(CB_Jenis.getSelectedItem());
+					data[7] = TF_Jumlah.getText();
+					data[8] = TF_Barang_1.getText();
+					data[9] = textField_7.getText();
+					data[10] = TF_TotHarga_1.getText();
+					data[11] = TF_Barang_2.getText();
+					data[12] = TF_TotHarga_2.getText();
 
-				tabelModel.insertRow(0, data);
-				dispose();
+					tabelModel.insertRow(0, data);
+					dispose();
+				}
 			}
 		});
 		//btnTambah.setBounds(450, 547, 117, 25);

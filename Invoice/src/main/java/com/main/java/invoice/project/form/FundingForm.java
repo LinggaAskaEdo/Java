@@ -194,7 +194,12 @@ public class FundingForm extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				if (reffId.getText() == null)
+				if(!TF_Nilai.getText().matches("^[0-9]+$"))
+				{
+					JOptionPane.showMessageDialog(null, "Nilai hanya bisa disi dengan angka", "Peringatan",
+							JOptionPane.WARNING_MESSAGE);
+				}
+				else if (reffId.getText() == null)
 				{
 					JOptionPane.showMessageDialog(null, "Simpan Gagal, No. Reff tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
 				}

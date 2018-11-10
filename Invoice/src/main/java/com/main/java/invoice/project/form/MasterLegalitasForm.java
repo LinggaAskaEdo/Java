@@ -206,62 +206,80 @@ public class MasterLegalitasForm extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				MasterPerusahaan masterPerusahaan = new MasterPerusahaan();
-				masterPerusahaan.setCode(TF_KodePerusahaan.getText());
-				masterPerusahaan.setName(TF_NamaPerusahaan.getText());
-
-				if (TF_Unggah.getText().length() > 0)
-					masterPerusahaan.setImage(TF_Unggah.getText());
-				else
-					masterPerusahaan.setImage(null);
-
-				masterPerusahaan.setAddress(TA_Alamat.getText());
-				masterPerusahaan.setNoNpwp(TF_Npwp.getText());
-				masterPerusahaan.setContactNumber(TF_Pic.getText());
-				masterPerusahaan.setNoBankAccount(TF_NoRek.getText());
-				masterPerusahaan.setFeeAgency(TF_FeeAgency.getText());
-
-				if (!btnHapus.isEnabled())
+				if(!TF_Pic.getText().matches("^[0-9]+$"))
 				{
-					try
-					{
-						dao.addUpdate(masterPerusahaan, 0);
-						data[0] = TF_KodePerusahaan.getText();
-						data[1] = TF_NamaPerusahaan.getText();
-						data[2] = TA_Alamat.getText();
-						data[3] = TF_Npwp.getText();
-						data[4] = TF_Pic.getText();
-						data[5] = TF_NoRek.getText();
-						data[6] = TF_FeeAgency.getText();
-						tabelModel.insertRow(0, data);
-						clearLegalitas();
-						TF_KodePerusahaan.setEnabled(true);
-					}
-					catch (Exception e2)
-					{
-						e2.printStackTrace();
-					}
+					JOptionPane.showMessageDialog(null, "PIC/Kontak hanya bisa disi dengan angka", "Peringatan",
+							JOptionPane.WARNING_MESSAGE);
+				}
+				else if(!TF_NoRek.getText().matches("^[0-9]+$"))
+				{
+					JOptionPane.showMessageDialog(null, "No. Rekening hanya bisa disi dengan angka", "Peringatan",
+							JOptionPane.WARNING_MESSAGE);
+				}
+				else if(!TF_FeeAgency.getText().matches("^[0-9]+$"))
+				{
+					JOptionPane.showMessageDialog(null, "Fee Agency hanya bisa disi dengan angka", "Peringatan",
+							JOptionPane.WARNING_MESSAGE);
 				}
 				else
 				{
-					try
+					MasterPerusahaan masterPerusahaan = new MasterPerusahaan();
+					masterPerusahaan.setCode(TF_KodePerusahaan.getText());
+					masterPerusahaan.setName(TF_NamaPerusahaan.getText());
+
+					if (TF_Unggah.getText().length() > 0)
+						masterPerusahaan.setImage(TF_Unggah.getText());
+					else
+						masterPerusahaan.setImage(null);
+
+					masterPerusahaan.setAddress(TA_Alamat.getText());
+					masterPerusahaan.setNoNpwp(TF_Npwp.getText());
+					masterPerusahaan.setContactNumber(TF_Pic.getText());
+					masterPerusahaan.setNoBankAccount(TF_NoRek.getText());
+					masterPerusahaan.setFeeAgency(TF_FeeAgency.getText());
+
+					if (!btnHapus.isEnabled())
 					{
-						dao.addUpdate(masterPerusahaan, 1);
-						data[0] = TF_KodePerusahaan.getText();
-						data[1] = TF_NamaPerusahaan.getText();
-						data[2] = TA_Alamat.getText();
-						data[3] = TF_Npwp.getText();
-						data[4] = TF_Pic.getText();
-						data[5] = TF_NoRek.getText();
-						data[6] = TF_FeeAgency.getText();
-						tabelModel.removeRow(row);
-						tabelModel.insertRow(row, data);
-						clearLegalitas();
-						TF_KodePerusahaan.setEnabled(true);
+						try
+						{
+							dao.addUpdate(masterPerusahaan, 0);
+							data[0] = TF_KodePerusahaan.getText();
+							data[1] = TF_NamaPerusahaan.getText();
+							data[2] = TA_Alamat.getText();
+							data[3] = TF_Npwp.getText();
+							data[4] = TF_Pic.getText();
+							data[5] = TF_NoRek.getText();
+							data[6] = TF_FeeAgency.getText();
+							tabelModel.insertRow(0, data);
+							clearLegalitas();
+							TF_KodePerusahaan.setEnabled(true);
+						}
+						catch (Exception e2)
+						{
+							e2.printStackTrace();
+						}
 					}
-					catch (Exception e3)
+					else
 					{
-						e3.printStackTrace();
+						try
+						{
+							dao.addUpdate(masterPerusahaan, 1);
+							data[0] = TF_KodePerusahaan.getText();
+							data[1] = TF_NamaPerusahaan.getText();
+							data[2] = TA_Alamat.getText();
+							data[3] = TF_Npwp.getText();
+							data[4] = TF_Pic.getText();
+							data[5] = TF_NoRek.getText();
+							data[6] = TF_FeeAgency.getText();
+							tabelModel.removeRow(row);
+							tabelModel.insertRow(row, data);
+							clearLegalitas();
+							TF_KodePerusahaan.setEnabled(true);
+						}
+						catch (Exception e3)
+						{
+							e3.printStackTrace();
+						}
 					}
 				}
 			}

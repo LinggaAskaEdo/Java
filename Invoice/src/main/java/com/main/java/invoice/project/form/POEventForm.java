@@ -323,7 +323,12 @@ public class POEventForm extends JInternalFrame
 					e2.printStackTrace();
 				}
 
-				if (kontrak.getKontrakId() == null)
+				if(!TF_Jumlah.getText().matches("^[0-9]+$"))
+				{
+					JOptionPane.showMessageDialog(null, "Jumlah hanya bisa disi dengan angka", "Peringatan",
+							JOptionPane.WARNING_MESSAGE);
+				}
+				else if (kontrak.getKontrakId() == null)
 				{
 					JOptionPane.showMessageDialog(null, "Simpan Gagal, Kontrak tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
 				}

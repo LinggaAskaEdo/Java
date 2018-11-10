@@ -154,53 +154,61 @@ public class MasterMediaForm extends JInternalFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				MasterMedia masterMedia = new MasterMedia();
-				masterMedia.setCompanyName(TF_NamaPerusahaan.getText());
-				masterMedia.setMediaName(TF_NamaMedia.getText());
-				masterMedia.setAddress(TA_Alamat.getText());
-				masterMedia.setNoNpwp(TF_Npwp.getText());
-				masterMedia.setBillCommitment(TF_BillComitment.getText());
-				masterMedia.setInformation(TA_Keterangan.getText());
-
-				if (!btnHapus.isEnabled())
+				if(!TF_BillComitment.getText().matches("^[0-9]+$"))
 				{
-					try
-					{
-						dao.addUpdate(masterMedia, 0);
-						data[0] = TF_NamaPerusahaan.getText();
-						data[1] = TF_NamaMedia.getText();
-						data[2] = TA_Alamat.getText();
-						data[3] = TF_Npwp.getText();
-						data[4] = TF_BillComitment.getText();
-						data[5] = TA_Keterangan.getText();
-						tabelModel.insertRow(0, data);
-						clearMedia();
-						TF_NamaPerusahaan.setEnabled(true);
-					}
-					catch (Exception e1)
-					{
-						e1.printStackTrace();
-					}
+					JOptionPane.showMessageDialog(null, "Bill Comitment hanya bisa disi dengan angka", "Peringatan",
+							JOptionPane.WARNING_MESSAGE);
 				}
 				else
 				{
-					try
+					MasterMedia masterMedia = new MasterMedia();
+					masterMedia.setCompanyName(TF_NamaPerusahaan.getText());
+					masterMedia.setMediaName(TF_NamaMedia.getText());
+					masterMedia.setAddress(TA_Alamat.getText());
+					masterMedia.setNoNpwp(TF_Npwp.getText());
+					masterMedia.setBillCommitment(TF_BillComitment.getText());
+					masterMedia.setInformation(TA_Keterangan.getText());
+
+					if (!btnHapus.isEnabled())
 					{
-						dao.addUpdate(masterMedia, 1);
-						data[0] = TF_NamaPerusahaan.getText();
-						data[1] = TF_NamaMedia.getText();
-						data[2] = TA_Alamat.getText();
-						data[3] = TF_Npwp.getText();
-						data[4] = TF_BillComitment.getText();
-						data[5] = TA_Keterangan.getText();
-						tabelModel.removeRow(row);
-						tabelModel.insertRow(row, data);
-						clearMedia();
-						TF_NamaPerusahaan.setEnabled(true);
+						try
+						{
+							dao.addUpdate(masterMedia, 0);
+							data[0] = TF_NamaPerusahaan.getText();
+							data[1] = TF_NamaMedia.getText();
+							data[2] = TA_Alamat.getText();
+							data[3] = TF_Npwp.getText();
+							data[4] = TF_BillComitment.getText();
+							data[5] = TA_Keterangan.getText();
+							tabelModel.insertRow(0, data);
+							clearMedia();
+							TF_NamaPerusahaan.setEnabled(true);
+						}
+						catch (Exception e1)
+						{
+							e1.printStackTrace();
+						}
 					}
-					catch (Exception e2)
+					else
 					{
-						e2.printStackTrace();
+						try
+						{
+							dao.addUpdate(masterMedia, 1);
+							data[0] = TF_NamaPerusahaan.getText();
+							data[1] = TF_NamaMedia.getText();
+							data[2] = TA_Alamat.getText();
+							data[3] = TF_Npwp.getText();
+							data[4] = TF_BillComitment.getText();
+							data[5] = TA_Keterangan.getText();
+							tabelModel.removeRow(row);
+							tabelModel.insertRow(row, data);
+							clearMedia();
+							TF_NamaPerusahaan.setEnabled(true);
+						}
+						catch (Exception e2)
+						{
+							e2.printStackTrace();
+						}
 					}
 				}
 			}

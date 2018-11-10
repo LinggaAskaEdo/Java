@@ -26,7 +26,6 @@ public class POMediaForm extends JInternalFrame
 	private JFormattedTextField TF_Harga;
 	private JTextField TF_Ppn;
 	private JTextField TF_unggah;
-	//private JTextField TF_ReffKontrak;
 	private JTextArea TA_Keterangan;
 	private JComboBox comboBoxReff;
 	private JComboBox CB_NamaMedia;
@@ -188,11 +187,6 @@ public class POMediaForm extends JInternalFrame
 		JLabel lblReffKontrak = new JLabel("Reff Kontrak");
 		lblReffKontrak.setBounds(45, 59, 176, 15);
 		desktopPane.add(lblReffKontrak);
-		
-		//TF_ReffKontrak = new JTextField();
-		//TF_ReffKontrak.setBounds(239, 57, 239, 19);
-		//desktopPane.add(TF_ReffKontrak);
-		//TF_ReffKontrak.setColumns(10);
 
 		comboBoxReff = new JComboBox();
 		comboBoxReff.setBounds(239, 54, 239, 24);
@@ -280,7 +274,17 @@ public class POMediaForm extends JInternalFrame
 					e2.printStackTrace();
 				}
 
-				if (kontrak.getKontrakId() == null)
+				if(!TF_volume.getText().matches("^[0-9]+$"))
+				{
+					JOptionPane.showMessageDialog(null, "Volume hanya bisa disi dengan angka", "Peringatan",
+							JOptionPane.WARNING_MESSAGE);
+				}
+				else if(!TF_Ppn.getText().matches("^[0-9]+$"))
+				{
+					JOptionPane.showMessageDialog(null, "PPN hanya bisa disi dengan angka", "Peringatan",
+						JOptionPane.WARNING_MESSAGE);
+				}
+				else if (kontrak.getKontrakId() == null)
 				{
 					JOptionPane.showMessageDialog(null, "Simpan Gagal, Kontrak tidak ditemukan", "", JOptionPane.ERROR_MESSAGE);
 				}
@@ -407,7 +411,6 @@ public class POMediaForm extends JInternalFrame
 	private void ClearPoMedia()
 	{
 		TF_PONomor.setText("");
-		//TF_ReffKontrak.setText("");
 		TF_Klien.setText("");
 		TF_volume.setText("");
 		TF_Harga.setValue(0);

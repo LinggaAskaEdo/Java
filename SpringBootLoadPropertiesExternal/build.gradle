@@ -1,0 +1,49 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+
+buildscript {
+    ext {
+        springBootVersion = '1.5.6.RELEASE'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.spring.io/release" }
+        maven { url "http://repo.spring.io/snapshot" }
+        maven { url "http://repo.spring.io/libs-milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repo.spring.io/release" }
+    maven { url "http://repo.spring.io/snapshot" }
+    maven { url "http://repo.spring.io/libs-milestone" }
+}
+
+configurations.all {
+    exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+    exclude group: "org.springframework.boot", module: "logback-classic"
+}
+
+dependencies {
+    //Spring Boot
+    compile("org.springframework.boot:spring-boot-starter-log4j2")
+    compile("org.springframework.boot:spring-boot-starter-web")
+
+    //Jasypt
+    compile("org.jasypt:jasypt:1.9.2")
+
+    //Web Server
+    compile("org.apache.tomcat.embed:tomcat-embed-jasper")
+
+    //test
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}

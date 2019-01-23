@@ -1,0 +1,59 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+//apply plugin: 'org.springframework.boot'
+
+group 'SampleToken'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+buildscript {
+    ext {
+        springBootVersion = '1.5.6.RELEASE'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.spring.io/libs-milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-milestone" }
+}
+
+dependencies {
+    //Spring
+    compile("org.springframework:spring-web:4.3.10.RELEASE")
+    compile("org.springframework:spring-webmvc:4.3.10.RELEASE")
+    compile("org.springframework.security:spring-security-core:4.2.3.RELEASE")
+    compile("org.springframework:spring-tx:5.0.0.RELEASE")
+
+    //Spring Boot
+//    compile("org.springframework.boot:spring-boot-starter") {
+//        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+//    }
+//
+//    compile("org.springframework.boot:spring-boot-starter-web") {
+//        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+//        exclude group: 'org.apache.tomcat.embed', module: 'tomcat-embed-websocket'
+//    }
+
+//    compile("org.springframework.boot:spring-boot-starter-security") {
+//        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+//    }
+    
+    //Log
+    compileOnly("org.apache.logging.log4j:log4j-core:2.6.2")
+
+    //JWT
+    compile("org.bitbucket.b_c:jose4j:0.6.5")
+
+    //Java EE
+    compileOnly("javax:javaee-web-api:8.0")
+}

@@ -53,6 +53,7 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--Jasypt-->
         <dependency>
             <groupId>org.jasypt</groupId>
             <artifactId>jasypt</artifactId>

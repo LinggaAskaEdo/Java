@@ -6,28 +6,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.stereotype.Component;
 import springboot.lpe.preference.Preference;
 
-@Configuration
+//@Configuration
+@Component
 @PropertySource("file:/D://Apps/application.properties")
-//@PropertySource("classpath:application.properties")
-public class TestConfig
+public final class TestConfig
 {
     private Preference preference;
-    //    private final EncryptionUtil util;
 
     @Autowired
     public TestConfig(Preference preference)
     {
         this.preference = preference;
     }
-
-//    @Autowired
-//    public TestConfig(Preference preference, EncryptionUtil util)
-//    {
-//        this.preference = preference;
-//        this.util = util;
-//    }
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer()
@@ -46,7 +39,6 @@ public class TestConfig
         System.out.println("YUHUUU 3: " + preference.getNoteThree());
         System.out.println("YUHUUU 4: " + preference.getNoteFour());
         System.out.println("YUHUUU 5: " + preference.getNoteFive());
-//        System.out.println("YUHUUU 3: " + util.decrypt(preference.getNoteThree()));
 
         return true;
     }

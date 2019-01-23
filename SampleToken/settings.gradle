@@ -1,0 +1,3 @@
+rootProject.name = 'SampleToken'
+include 'common-sample-token'
+include 'main-sample-token'

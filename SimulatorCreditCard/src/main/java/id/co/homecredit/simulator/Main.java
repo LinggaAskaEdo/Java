@@ -77,8 +77,7 @@ public class Main
                         {
                             String[] words = readLine.split(",");
 
-                            if (words.length > 0
-                                    && words.length == 2
+                            if (words.length == 2
                                     && !words[0].equalsIgnoreCase("")
                                     && !words[1].equalsIgnoreCase("")
                                     && util.checkNumber(words[0]))

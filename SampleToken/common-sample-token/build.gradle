@@ -1,6 +1,5 @@
 apply plugin: 'java'
 apply plugin: 'idea'
-//apply plugin: 'org.springframework.boot'
 
 group 'SampleToken'
 version '1.0'

@@ -16,6 +16,7 @@ import java.text.*;
 import java.util.Date;
 import java.util.List;
 
+@SuppressWarnings("serial")
 public class POMediaForm extends JInternalFrame
 {
 	JDesktopPane desktopPane = new JDesktopPane();
@@ -27,8 +28,13 @@ public class POMediaForm extends JInternalFrame
 	private JTextField TF_Ppn;
 	private JTextField TF_unggah;
 	private JTextArea TA_Keterangan;
+	
+	@SuppressWarnings("rawtypes")
 	private JComboBox comboBoxReff;
+	
+	@SuppressWarnings("rawtypes")
 	private JComboBox CB_NamaMedia;
+	
 	private JTextField cbId;
 	private PoMediaDAO poMediaDAO = new PoMediaDAO();
 	private MasterDanaDAO masterDanaDAO = new MasterDanaDAO();
@@ -68,6 +74,7 @@ public class POMediaForm extends JInternalFrame
 		ShowComboBoxKontrak();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void initializeForm()
 	{
 		setCurrencyNow();
@@ -419,6 +426,7 @@ public class POMediaForm extends JInternalFrame
 		TF_unggah.setText("");
 	}
 
+	@SuppressWarnings("unchecked")
 	private void ShowComboBoxPoMedia()
 	{
 		try
@@ -450,6 +458,7 @@ public class POMediaForm extends JInternalFrame
 		numformatter.setAllowsInvalid(false);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void ShowComboBoxKontrak()
 	{
 		java.util.List<Kontrak> allKontrak = kontrakDAO.GetAllKontrakComboBox();

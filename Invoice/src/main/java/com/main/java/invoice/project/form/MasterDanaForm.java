@@ -16,6 +16,11 @@ import java.util.List;
 
 public class MasterDanaForm extends JInternalFrame
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 528257075179999134L;
+	
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_Nama;
 	private JTextField TF_noRek;
@@ -218,6 +223,7 @@ public class MasterDanaForm extends JInternalFrame
 		}
 	}
 
+	@SuppressWarnings("serial")
 	private DefaultTableModel getDefaultTabelModel()
 	{
 		return new DefaultTableModel(

@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.List;
 
+@SuppressWarnings("serial")
 public class MasterLegalitasForm extends JInternalFrame
 {
 	JDesktopPane desktopPane = new JDesktopPane();

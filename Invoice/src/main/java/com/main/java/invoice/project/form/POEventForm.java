@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@SuppressWarnings("serial")
 public class POEventForm extends JInternalFrame
 {
 	JDesktopPane desktopPane = new JDesktopPane();
@@ -30,7 +31,10 @@ public class POEventForm extends JInternalFrame
 	private JTextField TF_Jumlah;
 	private JTextField TF_Unggah;
 	private JTextArea TA_Keterangan;
+	
+	@SuppressWarnings("rawtypes")
 	private JComboBox comboBoxReff;
+	
 	private PoEventDAO dao = new PoEventDAO();
 	private MasterDanaDAO masterDanaDAO = new MasterDanaDAO();
 	private DetailEventDAO detailEventDAO = new DetailEventDAO();
@@ -71,6 +75,7 @@ public class POEventForm extends JInternalFrame
 		ShowComboBoxKontrak();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void initializeForm()
 	{
 		setClosable(true);
@@ -592,6 +597,7 @@ public class POEventForm extends JInternalFrame
 		TF_Unggah.setText("");
 	}
 
+	@SuppressWarnings("unchecked")
 	private void ShowComboBoxKontrak()
 	{
 		java.util.List<Kontrak> allKontrak = kontrakDAO.GetAllKontrakComboBox();

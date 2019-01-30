@@ -1,7 +1,5 @@
 package com.main.java.invoice.project.pojo;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.sql.Blob;
 
 /**

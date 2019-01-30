@@ -15,6 +15,7 @@ import java.util.List;
 
 import static com.main.java.invoice.project.form.POEventForm.tabelModel3;
 
+@SuppressWarnings("serial")
 public class TagihanReimbursementForm extends JInternalFrame
 {
 	JDesktopPane desktopPane = new JDesktopPane();
@@ -22,9 +23,12 @@ public class TagihanReimbursementForm extends JInternalFrame
 	private JTextField TF_Unggah;
 	private JTextArea TA_Catatan;
 	private JTextArea TA_Keterangan;
+	
+	@SuppressWarnings("rawtypes")
 	private JComboBox CB_SumberDana;
-	private MasterDanaDAO masterDanaDAO = new MasterDanaDAO();
-	private POEventForm eventForm = new POEventForm();
+	
+	private MasterDanaDAO masterDanaDAO = new MasterDanaDAO();	
+		
 	String data[] = new String[6];
 
 	public static void main(String[] args)
@@ -53,6 +57,7 @@ public class TagihanReimbursementForm extends JInternalFrame
 		ShowComboBoxTagihan();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void initializeForm()
 	{
 		setClosable(true);
@@ -175,6 +180,7 @@ public class TagihanReimbursementForm extends JInternalFrame
 		desktopPane.add(btnTambah);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void ShowComboBoxTagihan()
 	{
 		try

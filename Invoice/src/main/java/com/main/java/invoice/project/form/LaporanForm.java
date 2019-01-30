@@ -28,9 +28,16 @@ public class LaporanForm extends JInternalFrame
 	private static final long serialVersionUID = 1L;
 	JDesktopPane desktopPane = new JDesktopPane();
 	private ButtonGroup buttonGroup;
+	
+	@SuppressWarnings("rawtypes")
 	private JComboBox comboBoxClient;
+	
+	@SuppressWarnings("rawtypes")
 	private JComboBox comboBoxPt;
+	
+	@SuppressWarnings("unused")
 	private Connection connect = null;
+	
 	private JRadioButton rdbtnHarian = new JRadioButton("Harian");
 	private JRadioButton rdbtnBulanan = new JRadioButton("Bulanan");
 	private JDateChooser CL_Harian = new JDateChooser();
@@ -71,6 +78,7 @@ public class LaporanForm extends JInternalFrame
 		ShowComboBoxPerusahaan();
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void initializeForm()
 	{
 		setClosable(true);
@@ -188,6 +196,7 @@ public class LaporanForm extends JInternalFrame
 		JButton btnCetak = new JButton("Cetak");
 		btnCetak.addActionListener(new ActionListener()
 		{
+			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e)
 			{
 				String fileName;
@@ -638,6 +647,7 @@ public class LaporanForm extends JInternalFrame
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void ShowComboBoxClient()
 	{
 		try
@@ -658,6 +668,7 @@ public class LaporanForm extends JInternalFrame
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void ShowComboBoxPerusahaan()
 	{
 		try
@@ -678,6 +689,7 @@ public class LaporanForm extends JInternalFrame
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	private JasperPrint multipageLinking(JasperPrint page1, JasperPrint page2) {
 
 		List pages = page2.getPages();

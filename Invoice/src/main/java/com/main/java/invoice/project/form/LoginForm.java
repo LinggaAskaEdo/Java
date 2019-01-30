@@ -1,11 +1,19 @@
 package com.main.java.invoice.project.form;
 
-import com.main.java.invoice.project.dao.UserDAO;
-import com.main.java.invoice.project.preference.StaticPreference;
+import java.awt.EventQueue;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
+
+import com.main.java.invoice.project.dao.UserDAO;
 
 public class LoginForm extends JFrame
 {

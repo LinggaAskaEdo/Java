@@ -1,9 +1,8 @@
 package com.main.java.invoice.project.form;
 
-import com.main.java.invoice.project.function.SshFunction;
-import com.main.java.invoice.project.preference.StaticPreference;
+import javax.swing.JOptionPane;
 
-import javax.swing.*;
+import com.main.java.invoice.project.function.SshFunction;
 
 public class Main
 {

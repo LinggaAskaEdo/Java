@@ -266,6 +266,10 @@ public class AkunForm extends JInternalFrame
 				new Object [][] {},
 				new String [] {"Nama", "Nama Pengguna", "Role"}
 		){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1859011604987264744L;
 			boolean [] canEdit = new boolean[]
 			{
 					false,false,false

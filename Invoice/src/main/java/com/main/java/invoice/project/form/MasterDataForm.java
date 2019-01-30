@@ -14,6 +14,7 @@ import de.wannawork.jcalendar.JCalendarComboBox;
 
 import javax.swing.JButton;
 
+@SuppressWarnings("serial")
 public class MasterDataForm extends JInternalFrame
 {
 	JDesktopPane desktopPane = new JDesktopPane();
@@ -60,6 +61,7 @@ public class MasterDataForm extends JInternalFrame
 		});
 	}
 
+	@SuppressWarnings("rawtypes")
 	private MasterDataForm()
 	{
 		setClosable(true);

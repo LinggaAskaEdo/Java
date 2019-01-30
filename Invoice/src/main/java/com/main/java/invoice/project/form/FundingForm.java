@@ -28,7 +28,10 @@ public class FundingForm extends JInternalFrame
 	private JTextField reffId;
 	private ButtonGroup buttonGroup;
 	private JTextArea TA_Keterangan;
+	
+	@SuppressWarnings("rawtypes")
 	private JComboBox CB_Reff;
+	
 	private JRadioButton rdbtnKontrak;
 	private JRadioButton rdbtnMasterDana;
 	private FundingDAO dao = new FundingDAO();
@@ -61,6 +64,7 @@ public class FundingForm extends JInternalFrame
 		ShowComboBoxKontrakFunding();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void initializeForm()
 	{
 		setClosable(true);
@@ -254,6 +258,7 @@ public class FundingForm extends JInternalFrame
 		TF_Unggah.setText("");
 	}
 
+	@SuppressWarnings("unchecked")
 	private void ShowComboBoxDanaFunding()
 	{
 		List<MasterDana> allMasterDana = masterDanaDAO.GetAllMasterDanaComboBox();
@@ -267,6 +272,7 @@ public class FundingForm extends JInternalFrame
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void ShowComboBoxKontrakFunding()
 	{
 		List<Kontrak> allKontrak = kontrakDAO.GetAllKontrakComboBox();

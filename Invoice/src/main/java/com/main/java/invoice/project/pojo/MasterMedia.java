@@ -1,8 +1,5 @@
 package com.main.java.invoice.project.pojo;
 
-import java.awt.*;
-import java.sql.Blob;
-
 public class MasterMedia
 {
     private Integer masterMediaId;

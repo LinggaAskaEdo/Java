@@ -42,9 +42,16 @@ public class KontrakForm extends JInternalFrame
 	private JFormattedTextField TF_ResultPpn;
 	private JFormattedTextField TF_ResultPph_23;
 	private JFormattedTextField TF_ResultSP_2D;
+	
+	@SuppressWarnings("rawtypes")
 	private JComboBox CB_KodePerusahaan;
+	
+	@SuppressWarnings("rawtypes")
 	private JComboBox CB_ListKontrak;
+	
+	@SuppressWarnings("rawtypes")
 	private JComboBox CB_Project;
+	
 	private NumberFormat numformat = NumberFormat.getInstance();
 	private NumberFormatter numformatter;
 	private JCheckBox checkBoxEdit;
@@ -93,6 +100,7 @@ public class KontrakForm extends JInternalFrame
 		ShowComboBoxClient();
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void initializeForm()
 	{
 		setCurrencyNow();
@@ -596,6 +604,7 @@ public class KontrakForm extends JInternalFrame
 		TF_ResultSP_2D.setValue(0);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void ShowComboBoxPerusahaan()
 	{
 		try
@@ -616,6 +625,7 @@ public class KontrakForm extends JInternalFrame
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void ShowComboBoxKontrak()
 	{
 		try
@@ -636,6 +646,7 @@ public class KontrakForm extends JInternalFrame
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void ShowComboBoxClient()
 	{
 		try

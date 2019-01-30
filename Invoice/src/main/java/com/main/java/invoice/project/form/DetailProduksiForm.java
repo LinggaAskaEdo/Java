@@ -1,16 +1,24 @@
 package com.main.java.invoice.project.form;
 
-import java.awt.EventQueue;
+import static com.main.java.invoice.project.form.POProduksiForm.tabelModel;
 
-import javax.swing.*;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
-import javax.swing.text.NumberFormatter;
 
-import static com.main.java.invoice.project.form.POProduksiForm.tabelModel;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
+import javax.swing.JFormattedTextField;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.text.NumberFormatter;
 
 public class DetailProduksiForm extends JInternalFrame
 {
@@ -57,6 +65,7 @@ public class DetailProduksiForm extends JInternalFrame
 		initializeForm();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void initializeForm()
 	{
 		setCurrencyNow();

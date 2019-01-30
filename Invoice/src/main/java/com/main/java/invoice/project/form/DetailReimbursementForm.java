@@ -45,6 +45,7 @@ public class DetailReimbursementForm extends JInternalFrame
 		initializeForm();
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void initializeForm()
 	{
 		setCurrencyNow();

@@ -13,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+@SuppressWarnings("serial")
 public class MasterKlienForm extends JInternalFrame
 {
 	JDesktopPane desktopPane = new JDesktopPane();

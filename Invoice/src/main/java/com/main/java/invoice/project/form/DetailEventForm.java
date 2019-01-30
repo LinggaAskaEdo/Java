@@ -19,7 +19,10 @@ public class DetailEventForm extends JInternalFrame
 	private JTextField TF_Vol_2;
 	private JFormattedTextField TF_HargaSatuan;
 	private JFormattedTextField TB_Total;
+	
+	@SuppressWarnings("rawtypes")
 	private JComboBox CB_Uraian;
+	
 	private ButtonGroup buttonGroupUp;
 	private ButtonGroup buttonGroupDown;
 	private NumberFormat numformat = NumberFormat.getInstance();
@@ -51,6 +54,7 @@ public class DetailEventForm extends JInternalFrame
 		initializeForm();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void initializeForm()
 	{
 		setCurrencyNow();
@@ -207,6 +211,7 @@ public class DetailEventForm extends JInternalFrame
 		desktopPane.add(BT_Tambah);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void ComboBoxItem()
 	{
 		CB_Uraian.addItem("HADIAH");

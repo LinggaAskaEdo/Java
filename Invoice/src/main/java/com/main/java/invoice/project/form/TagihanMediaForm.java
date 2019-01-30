@@ -17,13 +17,17 @@ import java.util.List;
 
 import static com.main.java.invoice.project.form.POMediaForm.tabelModel;
 
+@SuppressWarnings("serial")
 public class TagihanMediaForm extends JInternalFrame
 {
 	JDesktopPane desktopPane = new JDesktopPane();
 	private JTextField TF_Invoice;
 	private JFormattedTextField TF_Tagihan;
 	private JTextField TF_Unggah;
+	
+	@SuppressWarnings("rawtypes")
 	private JComboBox CB_SumberDana;
+	
 	private MasterDanaDAO masterDanaDAO = new MasterDanaDAO();
 	private NumberFormat numformat = NumberFormat.getInstance();
 	private NumberFormatter numformatter;
@@ -55,6 +59,7 @@ public class TagihanMediaForm extends JInternalFrame
 		ShowComboBoxTagihan();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void initializeForm()
 	{
 		setCurrencyNow();
@@ -151,6 +156,7 @@ public class TagihanMediaForm extends JInternalFrame
 		desktopPane.add(button);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void ShowComboBoxTagihan()
 	{
 		try

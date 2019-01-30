@@ -24,7 +24,10 @@ public class CostOperasionalForm extends JInternalFrame
 	private JTextField TB_Unggah;
 	private JTextField cbId;
 	private JTextArea TA_Keperluan;
+	
+	@SuppressWarnings("rawtypes")
 	private JComboBox CB_ReffSumbDana;
+	
 	private MasterDanaDAO masterDanaDAO = new MasterDanaDAO();
 	CostOperasionalDAO dao = new CostOperasionalDAO();
 
@@ -51,6 +54,7 @@ public class CostOperasionalForm extends JInternalFrame
 		ShowComboBoxCost();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void initializeForm()
 	{
 		setClosable(true);
@@ -195,6 +199,7 @@ public class CostOperasionalForm extends JInternalFrame
 		TB_Unggah.setText("");
 	}
 
+	@SuppressWarnings("unchecked")
 	private void ShowComboBoxCost()
 	{
 		try

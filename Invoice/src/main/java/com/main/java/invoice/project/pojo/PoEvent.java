@@ -1,7 +1,6 @@
 package com.main.java.invoice.project.pojo;
 
 import java.math.BigDecimal;
-import java.sql.Blob;
 import java.util.Date;
 
 public class PoEvent

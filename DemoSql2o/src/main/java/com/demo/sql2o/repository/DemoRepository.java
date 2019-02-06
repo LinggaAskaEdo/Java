@@ -41,7 +41,7 @@ public class DemoRepository
         }
         catch (Exception e)
         {
-            logger.error("Error findAll: {}", e);
+            logger.error("Error when findAll: {}", e);
         }
 
         return result;
@@ -60,7 +60,7 @@ public class DemoRepository
         }
         catch (Exception e)
         {
-            logger.error("Error findById: {}", e);
+            logger.error("Error when findById: {}", e);
         }
 
         return result;
@@ -77,7 +77,7 @@ public class DemoRepository
         }
         catch (Exception e)
         {
-            logger.error("Error deleteById: {}", e);
+            logger.error("Error when deleteById: {}", e);
         }
     }
 
@@ -94,7 +94,7 @@ public class DemoRepository
         }
         catch (Exception e)
         {
-            logger.error("Error save: {}", e);
+            logger.error("Error when save: {}", e);
         }
 
         return result;
@@ -113,7 +113,7 @@ public class DemoRepository
         }
         catch (Exception e)
         {
-            logger.error("Error update: {}", e);
+            logger.error("Error when update: {}", e);
         }
     }
 }

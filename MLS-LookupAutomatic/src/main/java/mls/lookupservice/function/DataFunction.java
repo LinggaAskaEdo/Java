@@ -158,7 +158,7 @@ public class DataFunction
 
         if (String.valueOf(month).length() == 1)
         {
-            strMonth = "0" + String.valueOf(month);
+            strMonth = "0" + month;
         }
         else
         {
@@ -167,7 +167,7 @@ public class DataFunction
 
         if (String.valueOf(day).length() == 1)
         {
-            strDay = "0" + String.valueOf(day);
+            strDay = "0" + day;
         }
         else
         {
@@ -751,7 +751,7 @@ public class DataFunction
 
         if (String.valueOf(month).length() == 1)
         {
-            strMonth = "0" + String.valueOf(month);
+            strMonth = "0" + month;
         }
         else
         {
@@ -760,7 +760,7 @@ public class DataFunction
 
         if (String.valueOf(day).length() == 1)
         {
-            strDay = "0" + String.valueOf(day);
+            strDay = "0" + day;
         }
         else
         {

@@ -49,7 +49,7 @@ public class Generate3DESKeys
         String encryptPinBlock = encryptPinBlock(pinBlock, strMasterKey);
         System.out.println("Encrypt PIN Block: " + encryptPinBlock);
 
-        String publicKeyRSA = "MIIBCgKCAQEAtkloQHvDBjiNLI/xkykmIJxLr020JPLH9TxAh4Bq0VycGeeeYrL1WXPo4+7Wq1bmAMnTyOOpuyNb/ErLe/xxj/xeq+hMHhBG1clUSLcvwrOCwwfFZbYMBT4DLiKOdyW622r24VwZQPWwP6nbYMp6JmQpfXTOaRovFuRRb9Dxzmp3AEqisWVp8dOLYRFYIYET7gy6mqnY8dw/pz3BfcXXFgI9eRm5cOb8yryNJ0/rYvBps8JW1XTvm29/84iw1XUVOYMDzd3zdzW//Z1bkvo+xoTsjDsBstYJ49YGWyyAnolPfEvWADRUMnRJaPtowlUBJY8W9ix7Po4kUHb19thPIwIDAQAB";
+        String publicKeyRSA = "MIIBCgKCAQEA0Ri6InH/rN1TOEsGKSXe0Tp/uluPbYuwF6p2fjqNuuGfSyv2JJ9HmnrEW9AKcZmIRPhobb8SiMFXHDmiAvKNR+B1k06J4MfHf+7LT/AvNl4Wertb0+5HC2VRbyCeny+4O2+g+rm/9xlkSSuGMbcuhMQlsqHM8/gnPEgtEAuOE0hykD1kGm7fR6sstK6o/q1fbbdThhrTUDDTrxjd19ecdnt0b6gxfMvmcwwSyY/3MTRfaCpj+aP2cMSE/tc1+bBAAPh4QSwpD26cgc1maRqAFrwP0k4g/xNZGOrY0GsK53SqQEAExNp04cXiYwO6QjUHcf1RwL9RU6PdJkNk8qUgcQIDAQAB";
         encryptZPK(asn1ZPK, publicKeyRSA);
     }
 

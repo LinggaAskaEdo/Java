@@ -26,18 +26,12 @@ public class DataService
 {
     private final Logger log = LoggerFactory.getLogger(DataService.class);
 
-    @Autowired
-    private AppConfig appConfig;
+    private final AppConfig appConfig;
+    private final DataFunction dataFunction;
+    private final Environment env;
+    private final MlsDao mlsDao;
 
     @Autowired
-    private DataFunction dataFunction;
-
-    @Autowired
-    private Environment env;
-
-    @Autowired
-    private MlsDao mlsDao;
-
     public DataService(AppConfig appConfig, DataFunction dataFunction, Environment env, MlsDao mlsDao)
     {
         this.appConfig = appConfig;

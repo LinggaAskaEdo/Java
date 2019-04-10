@@ -1,8 +1,6 @@
 package mls.lookupservice.function;
 
 import mls.lookupservice.model.CellDB;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,12 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebFunction
 {
-    private final Logger log = LoggerFactory.getLogger(WebFunction.class);
-
     public static String CONSTANT_WCDMA = "wcdma";
     public static String CONSTANT_GSM = "gsm";
     public static String EMPTY_RESULT = "Can not find data with that cell ref";
-    public static String ERROR_PARSE = "";
 
     static String INVALID_MCC = "Invalid format for MCC";
     static String INVALID_NET = "Invalid format for NET";

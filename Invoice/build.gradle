@@ -30,8 +30,8 @@ dependencies {
     compile("commons-codec:commons-codec:1.11")
 }
 
-// Task "distZip" added by plugin "java-library-distribution":
-distZip.shouldRunAfter(build)
+tasks.distZip.enabled = false
+//tasks.distTar.enabled = false
 
 jar {
     // Keep jar clean:
@@ -39,5 +39,5 @@ jar {
 
     manifest {
         attributes 'Main-Class': 'com.main.java.invoice.project.form.Main', 'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
-    }//gist.github.com/simon04/6865179
+    }
 }

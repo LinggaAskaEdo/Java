@@ -86,8 +86,7 @@ public class WebService
                     response.setLac(cellDBList.get(0).getArea());
                     response.setCell_id(cellDBList.get(0).getCell());
 
-                    String cellRef = String.valueOf(cellDBList.get(0).getMcc()) + "." + String.valueOf(cellDBList.get(0).getNet()) + "." +
-                            String.valueOf(cellDBList.get(0).getArea()) + "." + String.valueOf(cellDBList.get(0).getCell());
+                    String cellRef = cellDBList.get(0).getMcc() + "." + cellDBList.get(0).getNet() + "." + cellDBList.get(0).getArea() + "." + cellDBList.get(0).getCell();
                     response.setCell_ref(cellRef);
 
                     response.setUnit(cellDBList.get(0).getUnit());

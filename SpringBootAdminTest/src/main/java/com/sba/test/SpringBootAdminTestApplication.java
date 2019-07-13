@@ -18,7 +18,6 @@ public class SpringBootAdminTestApplication extends SpringBootServletInitializer
 
     public static void main(String[] args)
     {
-        System.setProperty("jasypt.encryptor.password", "password");
         SpringApplication.run(SpringBootAdminTestApplication.class);
     }
 }

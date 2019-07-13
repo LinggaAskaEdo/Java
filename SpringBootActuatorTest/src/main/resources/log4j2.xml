@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <Property name="log-path">/app/logs/springboot-actuator-test/</Property>
+    </Properties>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%T] [%X{requestId}] %level %logger{10} - %msg%n"/>
+        </Console>
+        <RollingFile name="springboot-actuator-test" fileName="${log-path}/springboot-actuator-test.log"
+                     filePattern="${log-path}/springboot-actuator-test-%d{yyyy-MM-dd}-%i.old.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%T] [%X{requestId}] %level %logger{10} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10000 KB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.sba.test" level="DEBUG" additivity="false">
+            <AppenderRef ref="springboot-actuator-test"/>
+        </Logger>
+    </Loggers>
+</Configuration>

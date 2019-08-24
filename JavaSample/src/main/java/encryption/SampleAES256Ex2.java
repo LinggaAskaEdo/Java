@@ -1,5 +1,6 @@
 package encryption;
 
+import com.google.gson.Gson;
 import org.apache.commons.codec.binary.Hex;
 
 import javax.crypto.Cipher;
@@ -13,23 +14,25 @@ public class SampleAES256Ex2
 {
     public static void main(String[] args) throws Exception {
         String key = "KbPeShVmYq3t6v9y$B&E)H@McQfTjWnZ";
-        String clean = "{\n" +
-                "  \"fromaccount\": \"08161198857\",\n" +
-                "  \"transid\": \"5d172115fd50cabde0805fa0\",\n" +
-                "  \"accountname\": \"AN\",\n" +
-                "  \"businessname\": \"BN\",\n" +
-                "  \"firstname\": \"FN\",\n" +
-                "  \"middlename\": \"MN\",\n" +
-                "  \"lastname\": \"LN\",\n" +
-                "  \"regioncode\": \"RC\",\n" +
-                "  \"citycode\": \"CC\",\n" +
-                "  \"postalcode\": \"PC\",\n" +
-                "  \"coordinates\": \"0,0\",\n" +
-                "  \"specificaddress\": \"SA\",\n" +
-                "  \"authorizedmobile\": \"0899999992\",\n" +
-                "  \"validid\": \"SAM\",\n" +
-                "  \"valididdesc\": \"EMAIL\"\n" +
-                "}";
+
+        AESModel aesModel = new AESModel();
+        aesModel.setFromaccount("08161198857");
+        aesModel.setTransid("5d172115fd50cabde0805fa0");
+        aesModel.setAccountname("AN");
+        aesModel.setBusinessname("BN");
+        aesModel.setFirstname("FN");
+        aesModel.setMiddlename("MN");
+        aesModel.setLastname("LN");
+        aesModel.setRegioncode("RC");
+        aesModel.setCitycode("CC");
+        aesModel.setPostalcode("PC");
+        aesModel.setCoordinates("0,0");
+        aesModel.setSpecificaddress("SA");
+        aesModel.setAuthorizedmobile("0899999992");
+        aesModel.setValidid("SAM");
+        aesModel.setValididdesc("EMAIL");
+
+        String clean = new Gson().toJson(aesModel);
 
         byte[] encrypted = encrypt(clean, key);
         System.out.println(Hex.encodeHexString(encrypted));

@@ -84,9 +84,9 @@ dependencies {
     testCompile("org.testng:testng:6.10")
 }
 
-task listJars << {
-    configurations.compile.each { File file -> println file.name }
-}
+//task listJars << {
+//    configurations.compile.each { File file -> println file.name }
+//}
 
 jacoco {
     toolVersion = "0.7.9"

@@ -17,24 +17,40 @@ public class SortingStringDate
 
         StringDateModel model1 = new StringDateModel();
         model1.setName("Lingga");
-        model1.setDate("2019-09-09");
+        model1.setDate("2019-09-09 09:09:09");
 
         StringDateModel model2 = new StringDateModel();
         model2.setName("Aska");
-        model2.setDate("2017-07-07");
+        model2.setDate("2017-07-07 19:07:07");
 
         StringDateModel model3 = new StringDateModel();
         model3.setName("Edo");
-        model3.setDate("2018-08-08");
+        model3.setDate("2018-08-08 08:08:08");
+
+        StringDateModel model4 = new StringDateModel();
+        model4.setName("Reno");
+        model4.setDate("2019-09-09 10:10:10");
+
+        StringDateModel model5 = new StringDateModel();
+        model5.setName("Tejo");
+        model5.setDate("2017-07-07 20:07:08");
+
+        StringDateModel model6 = new StringDateModel();
+        model6.setName("Tejo");
+        model6.setDate("-");
 
         models.add(model1);
         models.add(model2);
         models.add(model3);
+        models.add(model4);
+        models.add(model5);
+        models.add(model6);
 
         System.out.println("Ori: " + models.toString());
 
         models.sort((model11, model21) -> {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
             try
             {
@@ -46,13 +62,16 @@ public class SortingStringDate
                 {
                     return 1;
                 }
+                else
+                {
+                    return 0;
+                }
             }
             catch (ParseException e)
             {
-                e.printStackTrace();
+                return -1;
+//                e.printStackTrace();
             }
-
-            return 0;
         });
 
 //        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

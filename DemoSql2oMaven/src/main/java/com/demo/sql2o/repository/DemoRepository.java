@@ -105,8 +105,6 @@ public class DemoRepository
         String sql = bundle.getSql("UpdateStudent");
         logger.info("UpdateStudent: {}", sql);
 
-        BigInteger result = null;
-
         try (Connection connection = sql2o.open())
         {
             connection.createQuery(sql).bind(student).executeUpdate();

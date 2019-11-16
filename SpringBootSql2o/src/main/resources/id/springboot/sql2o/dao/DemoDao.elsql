@@ -1,0 +1,11 @@
+@NAME(FindUserByUserId)
+    SELECT id, version, created_date createdDate, last_modified_date lastModifiedDate, is_account_expired isAccountExpired, is_account_locked isAccountLocked, client_id clientId, cuid, date_of_birth dateOfBirth, email,
+        is_enabled isEnabled, is_first_login isFirstLogin, fullname, login_type loginType, is_password_expired isPasswordExpired, phone, pin_code pinCode, user_id userId, is_dummy isDummy, login_attempt loginAttempt,
+        apps_version appsVersion, phone_registered phoneRegistered, dob_registered dobRegistered, mob_id mobId FROM mob_user WHERE user_id = :userIdParam
+
+@NAME(FindUserByUserId2)
+    SELECT id, version, created_date, last_modified_date, is_account_expired, is_account_locked, client_id, cuid, date_of_birth, email, is_enabled, is_first_login, fullname, login_type, is_password_expired, phone,
+        pin_code, user_id, is_dummy, login_attempt, apps_version, phone_registered, dob_registered, mob_id FROM mob_user WHERE user_id = :userIdParam
+
+@NAME(UpdateCuidByUserId)
+    UPDATE mob_user SET cuid = :cuidParam WHERE user_id = :userIdParam

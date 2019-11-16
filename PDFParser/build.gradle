@@ -17,19 +17,23 @@ repositories {
     jcenter()
     mavenLocal()
     mavenCentral()
-    maven { url "http://repo.spring.io/libs-milestone" }
-    maven { url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/" }
 }
 
 dependencies {
     //MySql
-    implementation 'mysql:mysql-connector-java:8.0.17'
-    
+    compile 'mysql:mysql-connector-java:8.0.18'
+
     //PdfBox
-    implementation 'org.apache.pdfbox:pdfbox:2.0.17'
+    compile 'org.apache.pdfbox:pdfbox:2.0.17'
     
-    //Commons Lang
-    implementation 'org.apache.commons:commons-lang3:3.9'
+    //Apache Commons
+    compile("commons-codec:commons-codec:1.11")
+    
+    //Apache Commons Lang
+    compile 'org.apache.commons:commons-lang3:3.9'
+
+    //GSON
+    compile 'com.google.code.gson:gson:2.8.6'
 }
 
 jar {
@@ -37,6 +41,6 @@ jar {
     exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
 
     manifest {
-        attributes 'Main-Class': 'com.main.java.invoice.project.form.Main', 'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
+        attributes 'Main-Class': 'com.pdf.parser.form.Main', 'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
     }
 }

@@ -1,41 +1,35 @@
 package com.pdf.parser.util;
 
-import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.google.gson.Gson;
+import com.pdf.parser.dao.ParserDAO;
+import com.pdf.parser.model.Content;
+import com.pdf.parser.model.Data;
+import com.pdf.parser.model.Konsolidasi;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
 
-import com.pdf.parser.model.Content;
-import com.pdf.parser.model.Konsolidasi;
+import java.io.File;
+import java.util.*;
 
 public class ParserUtil 
 {
-	public boolean readPdf(String text) 
+	private static final String KANTOR_PABEAN = "KANTOR PABEAN ";
+	public boolean readPdf(String text)
 	{
 		boolean status = false;
-		Map<Integer,String> map = new HashMap<Integer,String>();
-		
-		try
+		NavigableMap<Double, String> map = new TreeMap<>();
+
+		try (PDDocument document = PDDocument.load(new File(text)))
 		{
-			PDDocument document = null; 
-			document = PDDocument.load(new File(text));
-			document.getClass();
-			
 			if (!document.isEncrypted())
 			{
 			    PDFTextStripperByArea stripper = new PDFTextStripperByArea();
 			    stripper.setSortByPosition(true);
-			    PDFTextStripper Tstripper = new PDFTextStripper();
-			    String textContent = Tstripper.getText(document);
+			    PDFTextStripper textStripper = new PDFTextStripper();
+			    String textContent = textStripper.getText(document);
 			    
-//			    System.out.println("Text: " + textContent);
 			    System.out.println("---Split---");
 		        int count = 1;
 
@@ -44,8 +38,8 @@ public class ParserUtil
 		        
 		        for (String line : lines) 
 		        {
-		            System.out.println("line " + count + " : " + line);
-		            map.put(count, line);
+//		            System.out.println("line " + count + " : " + line);
+		            map.put((double) count, line);
 		            count++;
 		        }
 		        
@@ -59,53 +53,147 @@ public class ParserUtil
 		{
 			System.out.println("Error when reading PDF: " + ex.getMessage());
 		}
-		
+
 		return status;
 	}
 	
-	private Date reformatDate(String date)
-	{
-		Date result = null;
-		
-		try 
-		{
-			result = new SimpleDateFormat("dd-MM-yyyy").parse(date);
-		}
-		catch (ParseException ex) 
-		{
-			System.out.println("Error when parsing date: " + ex.getMessage());
-		}
-		
-		return result;
-	}
-
-	private void mappingObject(Map<Integer, String> map)
+	private void mappingObject(NavigableMap<Double, String> map)
 	{
 		Content content = new Content();
 		
-		content.setNomorPengajuan(map.get(1));
-		content.setNomorTanggalPendaftaran(map.get(2));
-		content.setNomorPetiKemas(StringUtils.substringBetween(map.get(11), "Merek/Nomor Peti Kemas ", ":"));
-		content.setUkuranPetiKemas(StringUtils.substringBetween(map.get(12), "Ukuran Peti Kemas ", ":"));
-		content.setTempatStuffing(StringUtils.substringBetween(map.get(13), "Tempat & Tanggal Pelaksanaan Stuffing ", " /"));
-		
-		System.out.println("TEST: " + map.get(13));
-		System.out.println("TEST1: " + StringUtils.substringBetween(map.get(13), "Tanggal: ", ":"));
-		
-		content.setTanggalStuffing(reformatDate(StringUtils.substringBetween(map.get(13), "Tanggal: ", ":")));
-		
+		content.setNomorPengajuan(map.get(1d));
+		content.setNomorTanggalPendaftaran(map.get(2d));
+
+		generateDetailsObject(map, content);
+
+		String body = new Gson().toJson(content);
+
+		System.out.println(body);
+
+		//saving to database
+		System.out.print("Process to database: ");
+
+		ParserDAO parserDAO = new ParserDAO();
+
+		if (parserDAO.checkContent(content.getNomorPengajuan()))
+		{
+			if (parserDAO.updateContent(content.getNomorPengajuan(), body))
+				System.out.println("SUCCESS UPDATE !!!");
+			else
+				System.out.println("FAIL UPDATE !!!");
+		}
+		else
+		{
+			if (parserDAO.insertContent(content.getNomorPengajuan(), body))
+				System.out.println("SUCCESS INSERT !!!");
+			else
+				System.out.println("FAIL INSERT !!!");
+		}
+	}
+
+	private void generateDetailsObject(NavigableMap<Double, String> map, Content content)
+	{
 		Konsolidasi konsolidasi = new Konsolidasi();
-		konsolidasi.setNPWP(StringUtils.substringBetween(map.get(17), "NPWP ", ":"));
-		konsolidasi.setNama(StringUtils.substringBetween(map.get(18), "NAMA ", ":"));
-		konsolidasi.setAlamat(StringUtils.substringAfter(map.get(19), "ALAMAT ") + " " + map.get(20));
-		konsolidasi.setPabeanAsal(StringUtils.substringBetween(map.get(27), "KANTOR PABEAN ", ":"));
-		konsolidasi.setPabeanEkspor(StringUtils.substringBetween(map.get(27), "KANTOR PABEAN ", ":"));
-//		konsolidasi.setNegaraTujuan(StringUtils.substringBetween(map.get(83), "KANTOR NEGARA TUJUAN ", ":"));
-//		konsolidasi.setSarana(StringUtils.substringAfter(map.get(27), "NAMA SARANA PENGANGKUT: "));
-//		konsolidasi.setNoFlight(StringUtils.substringBetween(map.get(27), "KANTOR PABEAN ", ":"));
-		
+		List<Data> dataList = new ArrayList<>();
+
+		for (Map.Entry<Double, String> entry : map.entrySet())
+		{
+			System.out.println("Key : " + entry.getKey() + ", Value : " + entry.getValue());
+
+			String value = entry.getValue();
+
+			if (value.contains("Merek/Nomor Peti Kemas "))
+			{
+				System.out.println("AAA");
+				content.setNomorPetiKemas(StringUtils.substringBetween(value, "Merek/Nomor Peti Kemas ", ":"));
+			}
+			else if (value.contains("Ukuran Peti Kemas "))
+			{
+				System.out.println("BBB");
+				content.setUkuranPetiKemas(StringUtils.substringBetween(value, "Ukuran Peti Kemas ", ":"));
+			}
+			else if (value.contains("Tempat & Tanggal Pelaksanaan Stuffing "))
+			{
+				System.out.println("CCC");
+				content.setTempatStuffing(StringUtils.substringBetween(value, "Tempat & Tanggal Pelaksanaan Stuffing ", " /"));
+				content.setTanggalStuffing(StringUtils.substringBetween(value, "Tanggal: ", ":"));
+			}
+			else if (value.contains("NPWP "))
+			{
+				System.out.println("DDD");
+				konsolidasi.setNpwp(StringUtils.substringBetween(value, "NPWP ", ":"));
+			}
+			else if (value.contains("NAMA "))
+			{
+				System.out.println("EEE");
+				konsolidasi.setNama(StringUtils.substringBetween(value, "NAMA ", ":"));
+			}
+			else if (value.contains("ALAMAT "))
+			{
+				System.out.println("FFF");
+				Map.Entry<Double, String> next = map.higherEntry(entry.getKey());
+				konsolidasi.setAlamat(StringUtils.substringAfter(value, "ALAMAT ") + " " + next.getValue());
+			}
+			else if (value.contains(KANTOR_PABEAN))
+			{
+				System.out.println("GGG");
+				konsolidasi.setPabeanAsal(StringUtils.substringBetween(value, KANTOR_PABEAN, ":"));
+				konsolidasi.setPabeanEkspor(StringUtils.substringBetween(value, KANTOR_PABEAN, ":"));
+			}
+			else if (value.contains("NEGARA TUJUAN "))
+			{
+				System.out.println("HHH");
+				konsolidasi.setNegaraTujuan(StringUtils.substringBetween(value, "NEGARA TUJUAN ", ":"));
+			}
+			else if (value.contains("NO.VOY / FLIGHT "))
+			{
+				System.out.println("III");
+				konsolidasi.setNoFlight(StringUtils.substringBetween(value, "NO.VOY / FLIGHT ", ":"));
+			}
+
+			if (value.contains("SARANA PENGANGKUT: "))
+			{
+				System.out.println("JJJ");
+				konsolidasi.setSarana(StringUtils.substringAfter(value, "NAMA SARANA PENGANGKUT: "));
+			}
+
+			if (value.contains("CT"))
+			{
+				int x = 0;
+				int[] separator = new int[15];
+
+				for (int i = -1; (i = value.indexOf(' ', i + 1)) != -1; i++)
+				{
+					separator[x] = i;
+					x++;
+				}
+
+				String tanggalPEB = value.substring(separator[0] + 1, separator[0] + 11);
+				String nomorPEB = value.substring(separator[0] + 11, separator[3]);
+				String nomorNPE = value.substring(separator[3] + 1, separator[4]);
+				String tanggalNPE = value.substring(separator[4] + 1, separator[5]);
+				String keterangan = value.substring(separator[5] + 1);
+
+//				System.out.println("tanggalPEB: " + tanggalPEB);
+//				System.out.println("nomorPEB: " + nomorPEB);
+//				System.out.println("nomorNPE: " + nomorNPE);
+//				System.out.println("tanggalNPE: " + tanggalNPE);
+//				System.out.println("keterangan: " + keterangan);
+
+				Data data = new Data();
+				data.setNomorPEB(nomorPEB);
+				data.setTanggalPEB(tanggalPEB);
+				data.setNomorNPE(nomorNPE);
+				data.setTanggalNPE(tanggalNPE);
+				data.setKeterangan(keterangan);
+
+				dataList.add(data);
+			}
+		}
+
 		content.setKonsolidasi(konsolidasi);
-		
-		System.out.println(content);
+
+		if (!dataList.isEmpty())
+			content.setDataList(dataList);
 	}
 }

@@ -1,6 +1,5 @@
 package com.pdf.parser.model;
 
-import java.util.Date;
 import java.util.List;
 
 public class Content
@@ -10,11 +9,16 @@ public class Content
 	private String nomorPetiKemas;
 	private String ukuranPetiKemas;
 	private String tempatStuffing;
-	private Date tanggalStuffing;
+	private String tanggalStuffing;
 	private Konsolidasi konsolidasi;
 	private List<Data> dataList;
-	
-	public void setNomorPengajuan(String nomorPengajuan) 
+
+	public String getNomorPengajuan()
+	{
+		return nomorPengajuan;
+	}
+
+	public void setNomorPengajuan(String nomorPengajuan)
 	{
 		this.nomorPengajuan = nomorPengajuan;
 	}
@@ -39,7 +43,7 @@ public class Content
 		this.tempatStuffing = tempatStuffing;
 	}
 	
-	public void setTanggalStuffing(Date tanggalStuffing)
+	public void setTanggalStuffing(String tanggalStuffing)
 	{
 		this.tanggalStuffing = tanggalStuffing;
 	}

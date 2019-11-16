@@ -2,7 +2,7 @@ package com.pdf.parser.model;
 
 public class Konsolidasi
 {
-	private String NPWP;
+	private String npwp;
 	private String nama;
 	private String alamat;
 	private String pabeanAsal;
@@ -11,9 +11,9 @@ public class Konsolidasi
 	private String sarana;
 	private String noFlight;
 
-	public void setNPWP(String nPWP)
+	public void setNpwp(String nPWP)
 	{
-		NPWP = nPWP;
+		npwp = nPWP;
 	}
 
 	public void setNama(String nama) 
@@ -54,7 +54,7 @@ public class Konsolidasi
 	@Override
 	public String toString()
 	{
-		return "Konsolidasi [NPWP=" + NPWP + ", nama=" + nama + ", alamat=" + alamat + ", pabeanAsal=" + pabeanAsal
+		return "Konsolidasi [NPWP=" + npwp + ", nama=" + nama + ", alamat=" + alamat + ", pabeanAsal=" + pabeanAsal
 				+ ", pabeanEkspor=" + pabeanEkspor + ", negaraTujuan=" + negaraTujuan + ", sarana=" + sarana
 				+ ", noFlight=" + noFlight + "]";
 	}

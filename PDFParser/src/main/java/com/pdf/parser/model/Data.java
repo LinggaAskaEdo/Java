@@ -1,13 +1,11 @@
 package com.pdf.parser.model;
 
-import java.util.Date;
-
 public class Data
 {
 	private String nomorPEB;
-	private Date tanggalPEB;
+	private String tanggalPEB;
 	private String nomorNPE;
-	private Date tanggalNPE;
+	private String tanggalNPE;
 	private String keterangan;
 	
 	public void setNomorPEB(String nomorPEB) 
@@ -15,7 +13,7 @@ public class Data
 		this.nomorPEB = nomorPEB;
 	}
 	
-	public void setTanggalPEB(Date tanggalPEB)
+	public void setTanggalPEB(String tanggalPEB)
 	{
 		this.tanggalPEB = tanggalPEB;
 	}
@@ -25,7 +23,7 @@ public class Data
 		this.nomorNPE = nomorNPE;
 	}
 	
-	public void setTanggalNPE(Date tanggalNPE) 
+	public void setTanggalNPE(String tanggalNPE)
 	{
 		this.tanggalNPE = tanggalNPE;
 	}

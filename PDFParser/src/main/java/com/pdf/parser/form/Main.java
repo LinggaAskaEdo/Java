@@ -12,11 +12,11 @@ public class Main
     public static void main (String[] args)
     {
         File jarPath = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-        String propertiesPath = jarPath.getParentFile().getAbsolutePath();
+        String parentPath = jarPath.getParentFile().getAbsolutePath();
 
-        System.out.println("propertiesPath: " + propertiesPath);
+        System.out.println("propertiesPath: " + parentPath);
 
-        try (FileInputStream fileInputStream = new FileInputStream(propertiesPath + "/conf/config.properties"))
+        try (FileInputStream fileInputStream = new FileInputStream(parentPath + "/conf/config.properties"))
         {
             Properties properties = new Properties();
             properties.load(fileInputStream);
@@ -24,10 +24,12 @@ public class Main
             StaticPreference.URL = properties.getProperty("db.url");
             StaticPreference.USERNAME = properties.getProperty("db.username");
             StaticPreference.PASSWORD = properties.getProperty("db.password");
+            StaticPreference.DRIVER = properties.getProperty("db.driver");
 
             System.out.println(StaticPreference.URL);
             System.out.println(StaticPreference.USERNAME);
             System.out.println(StaticPreference.PASSWORD);
+            System.out.println(StaticPreference.DRIVER);
 
             LoginForm loginForm = new LoginForm();
             loginForm.setVisible(true);

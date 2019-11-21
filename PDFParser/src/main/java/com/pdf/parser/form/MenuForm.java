@@ -10,12 +10,17 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.WindowConstants;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 
-public class MenuForm extends JFrame
+public class MenuForm extends JFrame implements InternalFrameListener
 {
 	private static final long serialVersionUID = 1L;
 
-	private JDesktopPane desktopPane;
+	private JDesktopPane desktopPane = new JDesktopPane();
+
+	private JMenuItem uploadFormMenu = new JMenuItem("Upload Document");
+	private JMenuItem generateReportMenu = new JMenuItem("Generate Report");
 
 	public static void main(String[] args)
 	{
@@ -41,19 +46,10 @@ public class MenuForm extends JFrame
 		centerForm();
 	}
 
-	private void centerForm()
-	{
-		this.setLocationRelativeTo(getRootPane());
-	}
-
 	private void initializeForm()
 	{
-		this.setExtendedState(this.getExtendedState() | MAXIMIZED_BOTH);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-		/*Setting Panel*/
-		desktopPane = new JDesktopPane();
-
+		setBounds(900, 500, 900, 500);
 		setContentPane(desktopPane);
 
 		/*Setting MenuBar*/
@@ -70,13 +66,16 @@ public class MenuForm extends JFrame
 		JMenu mnPdfParser = new JMenu("Menu");
 		menuBar.add(mnPdfParser);
 
-		JMenuItem uploadForm = new JMenuItem("Upload Document");
-		uploadForm.addActionListener(this::uploadFormActionPerformed);
-		mnPdfParser.add(uploadForm);
+		uploadFormMenu.addActionListener(this::uploadFormActionPerformed);
+		mnPdfParser.add(uploadFormMenu);
 
-//		JMenuItem mntmPoProduksi = new JMenuItem("View Documents");
-//		mntmPoProduksi.addActionListener(this::poProduksiActionPerformed);
-//		mnPdfParser.add(mntmPoProduksi);
+		generateReportMenu.addActionListener(this::generateReportActionPerformed);
+		mnPdfParser.add(generateReportMenu);
+	}
+
+	private void centerForm()
+	{
+		this.setLocationRelativeTo(getRootPane());
 	}
 
 	private void keluarActionPerformed(ActionEvent actionEvent)
@@ -88,11 +87,74 @@ public class MenuForm extends JFrame
 
 	private void uploadFormActionPerformed(ActionEvent e)
 	{
-		UploadForm pom = new UploadForm();
-		desktopPane.add(pom);
+		UploadForm uploadForm = new UploadForm();
+		desktopPane.add(uploadForm);
 		Dimension screen = this.getSize();
-		Dimension frame = pom.getSize();
-		pom.setLocation((screen.width - frame.width)/2, (screen.height = frame.height)/25);
-		pom.setVisible(true);
+		Dimension frame = uploadForm.getSize();
+
+		uploadForm.setLocation((screen.width - frame.width) / 2, (frame.height) / 25);
+		uploadForm.setVisible(true);
+		uploadForm.addInternalFrameListener(this);
+		uploadFormMenu.setEnabled(false);
+	}
+
+	private void generateReportActionPerformed(ActionEvent actionEvent)
+	{
+		GenerateForm generateForm = new GenerateForm();
+		desktopPane.add(generateForm);
+
+		generateForm.setLocation(25, 250);
+		generateForm.setVisible(true);
+		generateForm.addInternalFrameListener(this);
+		generateReportMenu.setEnabled(false);
+	}
+
+	@Override
+	public void internalFrameOpened(InternalFrameEvent e)
+	{
+		//Do nothing
+	}
+
+	@Override
+	public void internalFrameClosing(InternalFrameEvent e)
+	{
+		//Do nothing
+	}
+
+	@Override
+	public void internalFrameClosed(InternalFrameEvent e)
+	{
+		String title = e.getInternalFrame().getTitle();
+
+		System.out.println("Closing Internal Frame: " + title);
+
+		if (title.equalsIgnoreCase("Upload Document"))
+			uploadFormMenu.setEnabled(true);
+		else if (title.equalsIgnoreCase("Generate Report"))
+			generateReportMenu.setEnabled(true);
+	}
+
+	@Override
+	public void internalFrameIconified(InternalFrameEvent e)
+	{
+		//Do nothing
+	}
+
+	@Override
+	public void internalFrameDeiconified(InternalFrameEvent e)
+	{
+		//Do nothing
+	}
+
+	@Override
+	public void internalFrameActivated(InternalFrameEvent e)
+	{
+		//Do nothing
+	}
+
+	@Override
+	public void internalFrameDeactivated(InternalFrameEvent e)
+	{
+		//Do nothing
 	}
 }

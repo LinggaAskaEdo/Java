@@ -16,6 +16,7 @@ import java.util.*;
 public class ParserUtil 
 {
 	private static final String KANTOR_PABEAN = "KANTOR PABEAN ";
+
 	public boolean readPdf(String text)
 	{
 		boolean status = false;

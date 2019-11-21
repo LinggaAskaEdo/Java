@@ -34,6 +34,10 @@ dependencies {
 
     //GSON
     compile 'com.google.code.gson:gson:2.8.6'
+
+    //Apache POI
+    compile 'org.apache.poi:poi:4.1.1'
+    compile 'org.apache.poi:poi-ooxml:4.1.1'
 }
 
 jar {

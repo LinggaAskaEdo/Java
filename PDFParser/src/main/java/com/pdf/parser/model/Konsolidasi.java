@@ -11,14 +11,29 @@ public class Konsolidasi
 	private String sarana;
 	private String noFlight;
 
-	public void setNpwp(String nPWP)
+	public String getNpwp()
 	{
-		npwp = nPWP;
+		return npwp;
 	}
 
-	public void setNama(String nama) 
+	public void setNpwp(String npwp)
+	{
+		this.npwp = npwp;
+	}
+
+	public String getNama()
+	{
+		return nama;
+	}
+
+	public void setNama(String nama)
 	{
 		this.nama = nama;
+	}
+
+	public String getAlamat()
+	{
+		return alamat;
 	}
 
 	public void setAlamat(String alamat)
@@ -26,24 +41,49 @@ public class Konsolidasi
 		this.alamat = alamat;
 	}
 
-	public void setPabeanAsal(String pabeanAsal) 
+	public String getPabeanAsal()
+	{
+		return pabeanAsal;
+	}
+
+	public void setPabeanAsal(String pabeanAsal)
 	{
 		this.pabeanAsal = pabeanAsal;
 	}
 
-	public void setPabeanEkspor(String pabeanEkspor) 
+	public String getPabeanEkspor()
+	{
+		return pabeanEkspor;
+	}
+
+	public void setPabeanEkspor(String pabeanEkspor)
 	{
 		this.pabeanEkspor = pabeanEkspor;
 	}
 
-	public void setNegaraTujuan(String negaraTujuan) 
+	public String getNegaraTujuan()
+	{
+		return negaraTujuan;
+	}
+
+	public void setNegaraTujuan(String negaraTujuan)
 	{
 		this.negaraTujuan = negaraTujuan;
+	}
+
+	public String getSarana()
+	{
+		return sarana;
 	}
 
 	public void setSarana(String sarana)
 	{
 		this.sarana = sarana;
+	}
+
+	public String getNoFlight()
+	{
+		return noFlight;
 	}
 
 	public void setNoFlight(String noFlight)

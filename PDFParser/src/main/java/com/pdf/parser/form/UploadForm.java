@@ -38,7 +38,7 @@ public class UploadForm extends JInternalFrame
 
 	UploadForm()
 	{
-		setTitle("PDF Parser");
+		setTitle("Upload Document");
 		initializeForm();
 	}
 	
@@ -53,8 +53,8 @@ public class UploadForm extends JInternalFrame
 		
 		lblPath.setBounds(6, 23, 45, 16);
 		desktopPane.add(lblPath);
+
 		txtPath.setEditable(false);
-		
 		txtPath.setBounds(50, 18, 485, 26);
 		txtPath.setColumns(10);
 		desktopPane.add(txtPath);
@@ -80,7 +80,6 @@ public class UploadForm extends JInternalFrame
 		btnParse.setBounds(6, 70, 117, 29);
 		btnParse.addActionListener(e -> {
 			ParserUtil util = new ParserUtil();
-
 			boolean status = util.readPdf(txtPath.getText());
 
 			if (status)

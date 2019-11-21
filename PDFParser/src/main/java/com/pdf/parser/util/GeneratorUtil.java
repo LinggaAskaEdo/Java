@@ -18,8 +18,10 @@ public class GeneratorUtil
     private String totalDataType = "";
     private String saranaNumber = "";
 
-    public void testEditTemplate(String number)
+    public boolean processExcel(String number)
     {
+        boolean result = false;
+
         ParserDAO parserDAO = new ParserDAO();
 
         System.out.println("Number: " + number);
@@ -203,6 +205,8 @@ public class GeneratorUtil
                 FileOutputStream fileOut = new FileOutputStream(parentPath + "/Report-" + transaction.getNoContent() +".xlsx");
                 workbook.write(fileOut);
                 fileOut.close();
+
+                result = true;
             }
             catch (Exception e)
             {
@@ -210,6 +214,8 @@ public class GeneratorUtil
                 e.printStackTrace();
             }
         }
+
+        return result;
     }
 
     private XSSFCellStyle generateBoldBorderCenterStyle(XSSFWorkbook workbook, int align, boolean isBorder, boolean isBold, boolean isUpperCase, boolean isRed)

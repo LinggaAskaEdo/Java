@@ -7,11 +7,7 @@ import java.awt.EventQueue;
 import java.util.List;
 import java.util.Objects;
 
-import javax.swing.JInternalFrame;
-import javax.swing.JDesktopPane;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JButton;
+import javax.swing.*;
 
 public class GenerateForm extends JInternalFrame
 {
@@ -65,7 +61,16 @@ public class GenerateForm extends JInternalFrame
 		btnExport.setBounds(414, 29, 85, 29);
 		btnExport.addActionListener(e -> {
 			GeneratorUtil generatorUtil = new GeneratorUtil();
-			generatorUtil.testEditTemplate(Objects.requireNonNull(comboBox.getSelectedItem()).toString());
+			boolean status = generatorUtil.processExcel(Objects.requireNonNull(comboBox.getSelectedItem()).toString());
+
+			if (status)
+			{
+				JOptionPane.showMessageDialog(null, "Export Berhasil !!!", "", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Export Gagal !!!", "", JOptionPane.ERROR_MESSAGE);
+			}
 		});
 		desktopPane.add(btnExport);
 	}

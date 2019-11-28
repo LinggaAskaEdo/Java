@@ -39,7 +39,6 @@ public class ParserUtil
 		        
 		        for (String line : lines) 
 		        {
-//		            System.out.println("line " + count + " : " + line);
 		            map.put((double) count, line);
 		            count++;
 		        }
@@ -174,12 +173,6 @@ public class ParserUtil
 				String nomorNPE = value.substring(separator[3] + 1, separator[4]);
 				String tanggalNPE = value.substring(separator[4] + 1, separator[5]);
 				String keterangan = value.substring(separator[5] + 1);
-
-//				System.out.println("tanggalPEB: " + tanggalPEB);
-//				System.out.println("nomorPEB: " + nomorPEB);
-//				System.out.println("nomorNPE: " + nomorNPE);
-//				System.out.println("tanggalNPE: " + tanggalNPE);
-//				System.out.println("keterangan: " + keterangan);
 
 				Data data = new Data();
 				data.setNomorPEB(nomorPEB);

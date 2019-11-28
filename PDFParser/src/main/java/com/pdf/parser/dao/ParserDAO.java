@@ -54,7 +54,7 @@ public class ParserDAO
             Class.forName(StaticPreference.DRIVER);
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
-            String query = "SELECT ID FROM PDF_PARSER.CONTENT WHERE NO_PENGAJUAN = ?";
+            String query = "SELECT ID FROM PDF_PARSER.CONTENT WHERE NO_CONTENT = ?";
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, noPengajuan);
             resultSet = preparedStatement.executeQuery();
@@ -83,7 +83,7 @@ public class ParserDAO
             Class.forName(StaticPreference.DRIVER);
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
-            String query = "INSERT INTO PDF_PARSER.CONTENT(NO_PENGAJUAN, BODY_CONTENT) VALUES (?, ?)";
+            String query = "INSERT INTO PDF_PARSER.CONTENT(NO_CONTENT, BODY_CONTENT) VALUES (?, ?)";
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, noPengajuan);
             preparedStatement.setString(2, body);
@@ -109,7 +109,7 @@ public class ParserDAO
             Class.forName(StaticPreference.DRIVER);
             connect = DriverManager.getConnection(StaticPreference.URL, StaticPreference.USERNAME, StaticPreference.PASSWORD);
 
-            String query = "UPDATE PDF_PARSER.CONTENT SET BODY_CONTENT = ? WHERE NO_PENGAJUAN = ?";
+            String query = "UPDATE PDF_PARSER.CONTENT SET BODY_CONTENT = ? WHERE NO_CONTENT = ?";
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, body);
             preparedStatement.setString(2, noPengajuan);

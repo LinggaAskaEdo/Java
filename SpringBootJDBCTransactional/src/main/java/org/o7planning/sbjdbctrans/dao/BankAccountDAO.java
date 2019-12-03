@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
+@Transactional
 public class BankAccountDAO extends JdbcDaoSupport
 {
     @Autowired

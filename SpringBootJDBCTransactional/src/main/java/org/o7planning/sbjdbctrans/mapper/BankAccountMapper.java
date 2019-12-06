@@ -8,8 +8,6 @@ import java.sql.SQLException;
 
 public class BankAccountMapper implements RowMapper<BankAccountInfo>
 {
-    public static final String BASE_SQL = "SELECT ba.ID, ba.FULL_NAME, ba.BALANCE FROM BANK_ACCOUNT ba ";
-
     @Override
     public BankAccountInfo mapRow(ResultSet resultSet, int rowNum) throws SQLException
     {

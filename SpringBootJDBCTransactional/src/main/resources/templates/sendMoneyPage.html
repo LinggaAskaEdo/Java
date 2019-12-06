@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Bank</title>
 </head>
 
 <body>
 <!-- Include menu.html -->
-<th:block th:include="/menu"></th:block>
+<th:block th:include="/menu"/>
 
 <h2>Send Money</h2>
 <ul>
@@ -23,15 +23,27 @@
 
         <tr>
             <td>From Bank Account Id</td>
-            <td><input type="text" th:field="*{fromAccountId}"/></td>
+            <td>
+                <label>
+                    <input type="text" th:field="*{fromAccountId}"/>
+                </label>
+            </td>
         </tr>
         <tr>
             <td>To Bank Account Id</td>
-            <td><input type="text" th:field="*{toAccountId}"/></td>
+            <td>
+                <label>
+                    <input type="text" th:field="*{toAccountId}"/>
+                </label>
+            </td>
         </tr>
         <tr>
             <td>Amount</td>
-            <td><input type="text" th:field="*{amount}" /></td>
+            <td>
+                <label>
+                    <input type="text" th:field="*{amount}" />
+                </label>
+            </td>
         </tr>
         <tr>
             <td>&nbsp;</td>

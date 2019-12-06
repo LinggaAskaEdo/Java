@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Bank</title>
 
@@ -13,11 +13,17 @@
 
 <body>
 <!-- Include menu.html -->
-<th:block th:include="/menu"></th:block>
+<th:block th:include="/menu"/>
 
 <h2>Accounts</h2>
 
-<table border="1">
+<style>
+    table { width: 150px; border-collapse: collapse; }
+    th, td { padding: 2px; border: 1px solid #006633; }
+    th { font-weight: normal; }
+</style>
+
+<table>
     <tr>
         <th>ID</th>
         <th>Full Name</th>

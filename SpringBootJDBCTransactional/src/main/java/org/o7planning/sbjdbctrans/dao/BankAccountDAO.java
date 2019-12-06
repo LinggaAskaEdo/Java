@@ -1,5 +1,7 @@
 package org.o7planning.sbjdbctrans.dao;
 
+import com.opengamma.elsql.ElSql;
+import com.opengamma.elsql.ElSqlConfig;
 import org.o7planning.sbjdbctrans.exception.BankTransactionException;
 import org.o7planning.sbjdbctrans.mapper.BankAccountMapper;
 import org.o7planning.sbjdbctrans.model.BankAccountInfo;
@@ -17,16 +19,21 @@ import java.util.List;
 @Transactional
 public class BankAccountDAO extends JdbcDaoSupport
 {
+    private ElSql bundle;
+
     @Autowired
     public BankAccountDAO(DataSource dataSource)
     {
         this.setDataSource(dataSource);
+        this.bundle = ElSql.of(ElSqlConfig.MYSQL, BankAccountDAO.class);
     }
 
     public List<BankAccountInfo> getBankAccounts()
     {
+        System.out.println("GetBankAccounts");
+
         // Select ba.Id, ba.Full_Name, ba.Balance From Bank_Account ba
-        String sql = BankAccountMapper.BASE_SQL;
+        String sql = bundle.getSql("GetBankAccounts");
 
         Object[] params = new Object[] {};
         BankAccountMapper mapper = new BankAccountMapper();
@@ -38,7 +45,7 @@ public class BankAccountDAO extends JdbcDaoSupport
     {
         // Select ba.Id, ba.Full_Name, ba.Balance From Bank_Account ba
         // Where ba.Id = ?
-        String sql = BankAccountMapper.BASE_SQL + " WHERE ba.ID = ? ";
+        String sql = bundle.getSql("FindBankAccount");
 
         Object[] params = new Object[] { id };
         BankAccountMapper mapper = new BankAccountMapper();
@@ -73,14 +80,14 @@ public class BankAccountDAO extends JdbcDaoSupport
         accountInfo.setBalance(newBalance);
 
         // Update to DB
-        String sqlUpdate = "UPDATE BANK_ACCOUNT SET BALANCE = ? where ID = ?";
+        String sqlUpdate = bundle.getSql("UpdateBankAccounts");
         this.getJdbcTemplate().update(sqlUpdate, accountInfo.getBalance(), accountInfo.getId());
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
     public void insertHistory(Long fromAccountId, Long toAccountId, double amount)
     {
-        String sqlInsert = "INSERT INTO BANK_HISTORY (ID_ACC_SOURCE, ID_ACC_DEST, TOTAL) VALUES (?, ?, ?)";
+        String sqlInsert = bundle.getSql("InsertHistory");
         this.getJdbcTemplate().update(sqlInsert, fromAccountId, toAccountId, amount);
     }
 

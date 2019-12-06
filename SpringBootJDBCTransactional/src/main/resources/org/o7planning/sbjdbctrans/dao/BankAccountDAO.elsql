@@ -1,0 +1,11 @@
+@NAME(GetBankAccounts)
+    SELECT ba.ID, ba.FULL_NAME, ba.BALANCE FROM BANK_ACCOUNT ba
+
+@NAME(FindBankAccount)
+    SELECT ba.ID, ba.FULL_NAME, ba.BALANCE FROM BANK_ACCOUNT ba WHERE ba.ID = ?
+
+@NAME(UpdateBankAccounts)
+    UPDATE BANK_ACCOUNT SET BALANCE = ? where ID = ?
+
+@NAME(InsertHistory)
+    INSERT INTO BANK_HISTORY (ID_ACC_SOURCE, ID_ACC_DEST, TOTAL) VALUES (?, ?, ?)

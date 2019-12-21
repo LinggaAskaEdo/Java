@@ -19,9 +19,15 @@ public class WSController
         this.service = service;
     }
 
-    @GetMapping(value = "/v1/movie/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> detailMovie(@RequestParam(defaultValue = "tt2911666", name = "titleKey") String titleKey)
+    @GetMapping(value = "/v1/movie", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> detailMovie(@RequestParam(value = "titleKey", defaultValue = "tt2911666") String titleKey)
     {
         return service.getDetailMovie(titleKey);
+    }
+
+    @GetMapping(value = "/v1/account", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> detailAccount(@RequestParam(value = "accountId", defaultValue = "1") Long accountId)
+    {
+        return service.getDetailAccount(accountId);
     }
 }

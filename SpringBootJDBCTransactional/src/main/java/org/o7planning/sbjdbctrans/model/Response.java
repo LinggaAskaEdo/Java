@@ -4,12 +4,46 @@ public class Response
 {
     private String status;
     private String message;
+    private MovieInfo movieInfo;
+    private BankAccountInfo accountInfo;
 
-    public void setStatus(String status) {
+    public String getStatus()
+    {
+        return status;
+    }
+
+    public void setStatus(String status)
+    {
         this.status = status;
     }
 
-    public void setMessage(String message) {
+    public String getMessage()
+    {
+        return message;
+    }
+
+    public void setMessage(String message)
+    {
         this.message = message;
+    }
+
+    public MovieInfo getMovieInfo()
+    {
+        return movieInfo;
+    }
+
+    public void setMovieInfo(MovieInfo movieInfo)
+    {
+        this.movieInfo = movieInfo;
+    }
+
+    public BankAccountInfo getAccountInfo()
+    {
+        return accountInfo;
+    }
+
+    public void setAccountInfo(BankAccountInfo accountInfo)
+    {
+        this.accountInfo = accountInfo;
     }
 }

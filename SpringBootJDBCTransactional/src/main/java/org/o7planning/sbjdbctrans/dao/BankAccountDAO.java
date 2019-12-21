@@ -2,10 +2,12 @@ package org.o7planning.sbjdbctrans.dao;
 
 import com.opengamma.elsql.ElSql;
 import com.opengamma.elsql.ElSqlConfig;
+import org.o7planning.sbjdbctrans.config.CacheConfig;
 import org.o7planning.sbjdbctrans.exception.BankTransactionException;
 import org.o7planning.sbjdbctrans.mapper.BankAccountMapper;
 import org.o7planning.sbjdbctrans.model.BankAccountInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -41,8 +43,11 @@ public class BankAccountDAO extends JdbcDaoSupport
         return this.getJdbcTemplate().query(sql, params, mapper);
     }
 
+    @Cacheable(CacheConfig.CACHE_ACCOUNTS_DB)
     public BankAccountInfo findBankAccount(Long id)
     {
+        System.out.println("FindBankAccount");
+
         // Select ba.Id, ba.Full_Name, ba.Balance From Bank_Account ba
         // Where ba.Id = ?
         String sql = bundle.getSql("FindBankAccount");
@@ -64,6 +69,8 @@ public class BankAccountDAO extends JdbcDaoSupport
     @Transactional(propagation = Propagation.MANDATORY)
     public void addAmount(Long id, double amount) throws BankTransactionException
     {
+        System.out.println("AddAmount");
+
         BankAccountInfo accountInfo = this.findBankAccount(id);
 
         if (accountInfo == null)
@@ -87,6 +94,8 @@ public class BankAccountDAO extends JdbcDaoSupport
     @Transactional(propagation = Propagation.MANDATORY)
     public void insertHistory(Long fromAccountId, Long toAccountId, double amount)
     {
+        System.out.println("InsertHistory");
+
         String sqlInsert = bundle.getSql("InsertHistory");
         this.getJdbcTemplate().update(sqlInsert, fromAccountId, toAccountId, amount);
     }

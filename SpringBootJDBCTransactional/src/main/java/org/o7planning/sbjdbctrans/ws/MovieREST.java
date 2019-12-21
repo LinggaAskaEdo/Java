@@ -2,11 +2,11 @@ package org.o7planning.sbjdbctrans.ws;
 
 import com.google.gson.Gson;
 import org.apache.http.client.utils.URIBuilder;
+import org.o7planning.sbjdbctrans.config.CacheConfig;
 import org.o7planning.sbjdbctrans.model.MovieInfo;
 import org.o7planning.sbjdbctrans.preference.ConfigPreference;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -25,16 +25,17 @@ public class MovieREST
         this.restTemplate = restTemplate;
     }
 
+    @Cacheable(value = CacheConfig.CACHE_MOVIE_INFO, key = "#titleKey", unless = "#result.response.equalsIgnoreCase('False') && #result == null ")
     public MovieInfo getMovieDetails(String titleKey)
     {
         System.out.println("Hitting API");
 
-        MovieInfo movieInfo = new MovieInfo();
+        MovieInfo movieInfo = null;
 
         try
         {
             String url = generateUrl(titleKey);
-            System.out.println("URL: " + url);
+            System.out.println("URL: " + url + "\n");
 
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
 

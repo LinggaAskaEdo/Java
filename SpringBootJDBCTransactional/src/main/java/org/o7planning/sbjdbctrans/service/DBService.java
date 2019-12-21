@@ -1,5 +1,6 @@
 package org.o7planning.sbjdbctrans.service;
 
+import org.o7planning.sbjdbctrans.config.CacheConfig;
 import org.o7planning.sbjdbctrans.dao.BankAccountDAO;
 import org.o7planning.sbjdbctrans.exception.BankTransactionException;
 import org.o7planning.sbjdbctrans.model.BankAccountInfo;
@@ -21,13 +22,13 @@ public class DBService
         this.dao = dao;
     }
 
-    @Cacheable(value = "accounts")
+    @Cacheable(CacheConfig.CACHE_ACCOUNTS)
     public List<BankAccountInfo> getBankAccounts()
     {
         return dao.getBankAccounts();
     }
 
-    @CacheEvict(value = "accounts", allEntries = true)
+    @CacheEvict(value = CacheConfig.CACHE_ACCOUNTS, allEntries = true)
     public void sendMoney(Long fromAccountId, Long toAccountId, Double amount) throws BankTransactionException
     {
         dao.sendMoney(fromAccountId, toAccountId, amount);

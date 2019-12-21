@@ -11,4 +11,13 @@ public class ConfigPreference
 
     @Value("${api.key}")
     public String apiKey;
+
+    @Value("${expire.time.accounts}")
+    public long expireTimeAccounts;
+
+    @Value("${expire.time.accounts-db}")
+    public long expireTimeAccountsDB;
+
+    @Value("${expire.time.movie-info}")
+    public long expireTimeMovieInfo;
 }

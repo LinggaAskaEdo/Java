@@ -4,3 +4,6 @@ https://www.baeldung.com/spring-transactional-propagation-isolation
 Cache
 https://www.baeldung.com/spring-cache-tutorial
 http://websystique.com/spring/spring-4-cacheable-cacheput-cacheevict-caching-cacheconfig-enablecaching-tutorial/
+http://codedevstuff.blogspot.com/2015/07/add-guava-cache-to-spring-boot-to-cache.html
+https://stackoverflow.com/questions/8181768/can-i-set-a-ttl-for-cacheable
+https://gist.github.com/anataliocs/1074e7004b2c99320b7a

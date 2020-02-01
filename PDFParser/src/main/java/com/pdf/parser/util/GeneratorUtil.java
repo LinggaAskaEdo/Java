@@ -11,6 +11,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.PropertyTemplate;
 import org.apache.poi.xssf.usermodel.*;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 
@@ -414,15 +415,24 @@ public class GeneratorUtil
                 }
 
                 // All done
-                FileOutputStream fileOut = new FileOutputStream(parentPath + "/Report-" + transaction.getNoContent() +".xlsx");
+                String excellFullPath = parentPath + "/Report-" + transaction.getNoContent() + ".xlsx";
+                
+                FileOutputStream fileOut = new FileOutputStream(excellFullPath);
                 workbook.write(fileOut);
                 fileOut.close();
 
                 result = true;
+                
+                //Preview Excel File
+                File file = new File(excellFullPath);
+                
+                if (file.exists()) 
+                	Desktop.getDesktop().open(file);
+                
             }
             catch (Exception e)
             {
-                System.out.print("Error when write to excel : ");
+                System.out.print("Error when write & open excel : ");
                 e.printStackTrace();
             }
         }

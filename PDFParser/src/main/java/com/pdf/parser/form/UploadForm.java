@@ -16,7 +16,8 @@ public class UploadForm extends JInternalFrame
 	private final JLabel lblPath = new JLabel("Path :");
 	private final JTextField txtPath = new JTextField();
 	private final JButton btnLoad = new JButton("...");
-	private final JButton btnParse = new JButton("Start Parse");
+	private final JButton btnParse = new JButton("Parse");
+	private final JButton btnPreview = new JButton("Preview");
 	
 	/**
 	 * Launch the application.
@@ -73,11 +74,15 @@ public class UploadForm extends JInternalFrame
 			{
 				File selectedFile = fileChooser.getSelectedFile();
 				txtPath.setText(selectedFile.getAbsolutePath());
+				
+				btnParse.setEnabled(true);
+				btnPreview.setEnabled(true);
 			}
 		});
 		desktopPane.add(btnLoad);
 		
 		btnParse.setBounds(6, 70, 117, 29);
+		btnParse.setEnabled(false);
 		btnParse.addActionListener(e -> {
 			ParserUtil util = new ParserUtil();
 			boolean status = util.readPdf(txtPath.getText());
@@ -92,5 +97,24 @@ public class UploadForm extends JInternalFrame
 			}
 		});
 		desktopPane.add(btnParse);
+		
+		btnPreview.setBounds(133, 70, 117, 29);
+		btnPreview.setEnabled(false);
+		btnPreview.addActionListener(e -> {
+			try 
+			{
+				//Preview PDF File
+	            File file = new File(txtPath.getText());
+	            
+	            if (file.exists()) 
+	            	Desktop.getDesktop().open(file);
+			} 
+			catch (Exception ex)
+			{
+				JOptionPane.showMessageDialog(null, "Buka File Gagal !!!", "", JOptionPane.ERROR_MESSAGE);
+			}
+			
+		});
+		desktopPane.add(btnPreview);
 	}
 }

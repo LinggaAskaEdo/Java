@@ -1,13 +1,18 @@
 package com.pdf.parser.form;
 
-import com.pdf.parser.dao.ParserDAO;
-import com.pdf.parser.util.GeneratorUtil;
-
 import java.awt.EventQueue;
 import java.util.List;
 import java.util.Objects;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import com.pdf.parser.dao.ParserDAO;
+import com.pdf.parser.util.GeneratorUtil;
 
 public class GenerateForm extends JInternalFrame
 {
@@ -17,7 +22,7 @@ public class GenerateForm extends JInternalFrame
 	private final JLabel lblPengajuan = new JLabel("No. Pengajuan:");
 	private final JComboBox<String> comboBox = new JComboBox<>();
 	private final JButton btnExport = new JButton("Export");
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -46,7 +51,7 @@ public class GenerateForm extends JInternalFrame
 	private void initializeForm()
 	{
 		setClosable(true);
-		setBounds(30, 50, 529, 137);
+		setBounds(30, 50, 529, 166);
 		getContentPane().setLayout(null);
 
 		getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -55,10 +60,10 @@ public class GenerateForm extends JInternalFrame
 		lblPengajuan.setBounds(6, 34, 101, 16);
 		desktopPane.add(lblPengajuan);
 
-		comboBox.setBounds(105, 30, 306, 27);
+		comboBox.setBounds(105, 30, 394, 27);
 		desktopPane.add(comboBox);
 
-		btnExport.setBounds(414, 29, 85, 29);
+		btnExport.setBounds(6, 66, 85, 29);
 		btnExport.addActionListener(e -> {
 			GeneratorUtil generatorUtil = new GeneratorUtil();
 			boolean status = generatorUtil.processExcel(Objects.requireNonNull(comboBox.getSelectedItem()).toString());

@@ -1,0 +1,5 @@
+{
+  "http.port" : 8081,
+  "url": "jdbc:hsqldb:mem:it-test?shutdown=true",
+  "driver_class": "org.hsqldb.jdbcDriver"
+}

@@ -13,6 +13,8 @@ public final class Constants
     public static final String API_DELETE = "/todos/:todoId";
     public static final String API_DELETE_ALL = "/todos";
 
+    public static final String REST_API_GET = "/todos/movie/:movieId";
+
     /** Persistence key */
     public static final String REDIS_TODO_KEY = "VERT_TODO";
 }

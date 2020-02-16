@@ -6,7 +6,6 @@ import io.reactivex.Single;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.core.AbstractVerticle;
-import io.vertx.reactivex.core.http.HttpServerResponse;
 import io.vertx.reactivex.ext.web.Router;
 import io.vertx.reactivex.ext.web.RoutingContext;
 import io.vertx.reactivex.ext.web.handler.CorsHandler;
@@ -25,7 +24,7 @@ public class RestfulApiVerticle extends AbstractVerticle
         return vertx.createHttpServer()
                 .requestHandler(router)
                 .rxListen(port, host)
-                .toCompletable();
+                .ignoreElement();
     }
 
     protected void enableCorsSupport(Router router)
@@ -48,25 +47,11 @@ public class RestfulApiVerticle extends AbstractVerticle
         );
     }
 
-    protected void sendResponse(RoutingContext context, Completable asyncResult)
-    {
-        HttpServerResponse response = context.response();
-
-        if (asyncResult == null)
-        {
-            internalError(context, "invalid_status");
-        }
-        else
-        {
-            asyncResult.subscribe(response::end, ex -> internalError(context, ex));
-        }
-    }
-
     protected void sendResponse(RoutingContext context, Completable asyncResult, Consumer<RoutingContext> f)
     {
         if (asyncResult == null)
         {
-            internalError(context, "invalid_status");
+            internalError(context);
         }
         else
         {
@@ -78,7 +63,7 @@ public class RestfulApiVerticle extends AbstractVerticle
     {
         if (asyncResult == null)
         {
-            internalError(context, "invalid_status");
+            internalError(context);
         }
         else
         {
@@ -90,7 +75,7 @@ public class RestfulApiVerticle extends AbstractVerticle
     {
         if (asyncResult == null)
         {
-            internalError(context, "invalid_status");
+            internalError(context);
         }
         else
         {
@@ -102,7 +87,7 @@ public class RestfulApiVerticle extends AbstractVerticle
     {
         if (asyncResult == null)
         {
-            internalError(context, "invalid_status");
+            internalError(context);
         }
         else
         {
@@ -117,14 +102,17 @@ public class RestfulApiVerticle extends AbstractVerticle
     {
         if (asyncResult == null)
         {
-            internalError(context, "invalid_status");
+            internalError(context);
         }
         else
         {
             asyncResult.subscribe(r -> {
-                        if (r.isPresent()) {
+                        if (r.isPresent())
+                        {
                             ok(context, converter.apply(r.get()));
-                        } else {
+                        }
+                        else
+                        {
                             notFound(context);
                         }
                     },
@@ -132,21 +120,11 @@ public class RestfulApiVerticle extends AbstractVerticle
         }
     }
 
-    protected void ok(RoutingContext context)
-    {
-        context.response().end();
-    }
-
     protected void ok(RoutingContext context, String content)
     {
         context.response().setStatusCode(200)
                 .putHeader("content-type", "application/json")
                 .end(content);
-    }
-
-    protected void created(RoutingContext context)
-    {
-        context.response().setStatusCode(201).end();
     }
 
     protected void created(RoutingContext context, String content)
@@ -189,29 +167,10 @@ public class RestfulApiVerticle extends AbstractVerticle
                 .end(new JsonObject().put("error", ex.getMessage()).encodePrettily());
     }
 
-    protected void internalError(RoutingContext context, String cause)
+    protected void internalError(RoutingContext context)
     {
         context.response().setStatusCode(500)
                 .putHeader("content-type", "application/json")
-                .end(new JsonObject().put("error", cause).encodePrettily());
-    }
-
-    protected void serviceUnavailable(RoutingContext context)
-    {
-        context.fail(503);
-    }
-
-    protected void serviceUnavailable(RoutingContext context, Throwable ex)
-    {
-        context.response().setStatusCode(503)
-                .putHeader("content-type", "application/json")
-                .end(new JsonObject().put("error", ex.getMessage()).encodePrettily());
-    }
-
-    protected void serviceUnavailable(RoutingContext context, String cause)
-    {
-        context.response().setStatusCode(503)
-                .putHeader("content-type", "application/json")
-                .end(new JsonObject().put("error", cause).encodePrettily());
+                .end(new JsonObject().put("error", "invalid_status").encodePrettily());
     }
 }

@@ -4,6 +4,7 @@ import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonObject;
 import io.vertx.data.entity.Todo;
 import io.vertx.data.preference.Constants;
 import io.vertx.reactivex.core.Vertx;
@@ -17,15 +18,11 @@ import java.util.stream.Collectors;
 
 public class RedisTodoService implements TodoService
 {
-    private final Vertx vertx;
-    private final RedisOptions config;
     private final RedisClient redis;
 
     public RedisTodoService(Vertx vertx, RedisOptions config)
     {
-        this.vertx = vertx;
-        this.config = config;
-        this.redis = RedisClient.create(vertx, config);
+        this.redis = RedisClient.create(vertx, JsonObject.mapFrom(config));
     }
 
     @Override
@@ -33,7 +30,7 @@ public class RedisTodoService implements TodoService
     {
         Todo sample = new Todo(Math.abs(ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE)), "Something to do...", false, 1, "todo/ex");
 
-        return insert(sample).toCompletable();
+        return insert(sample).ignoreElement();
     }
 
     @Override
@@ -63,7 +60,6 @@ public class RedisTodoService implements TodoService
         }
 
         return redis.rxHget(Constants.REDIS_TODO_KEY, todoID)
-                .toMaybe()
                 .map(Todo::new);
     }
 
@@ -80,12 +76,12 @@ public class RedisTodoService implements TodoService
     @Override
     public Completable delete(String todoId)
     {
-        return redis.rxHdel(Constants.REDIS_TODO_KEY, todoId).toCompletable();
+        return redis.rxHdel(Constants.REDIS_TODO_KEY, todoId).ignoreElement();
     }
 
     @Override
     public Completable deleteAll()
     {
-        return redis.rxDel(Constants.REDIS_TODO_KEY).toCompletable();
+        return redis.rxDel(Constants.REDIS_TODO_KEY).ignoreElement();
     }
 }

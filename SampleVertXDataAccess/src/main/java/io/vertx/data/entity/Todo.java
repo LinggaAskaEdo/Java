@@ -15,18 +15,6 @@ public class Todo
     private Integer order;
     private String url;
 
-    public Todo()
-    {}
-
-    public Todo(Todo other)
-    {
-        this.id = other.id;
-        this.title = other.title;
-        this.completed = other.completed;
-        this.order = other.order;
-        this.url = other.url;
-    }
-
     public Todo(JsonObject obj)
     {
         TodoConverter.fromJson(obj, this);
@@ -44,14 +32,6 @@ public class Todo
         this.completed = completed;
         this.order = order;
         this.url = url;
-    }
-
-    public JsonObject toJson()
-    {
-        JsonObject json = new JsonObject();
-        TodoConverter.toJson(this, json);
-
-        return json;
     }
 
     public int getId()

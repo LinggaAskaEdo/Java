@@ -1,7 +1,6 @@
-package io.vertx.data;
+package io.vertx.data.verticle;
 
 import io.reactivex.Completable;
-import io.reactivex.disposables.Disposable;
 import io.vertx.core.Promise;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.Json;
@@ -11,7 +10,9 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.data.common.RestfulApiVerticle;
 import io.vertx.data.entity.Todo;
 import io.vertx.data.preference.Constants;
+import io.vertx.data.service.JdbcTodoService;
 import io.vertx.data.service.RedisTodoService;
+import io.vertx.data.service.RestTodoService;
 import io.vertx.data.service.TodoService;
 import io.vertx.reactivex.ext.web.Router;
 import io.vertx.reactivex.ext.web.RoutingContext;
@@ -28,6 +29,7 @@ public class RxTodoVerticle extends RestfulApiVerticle
     private static final int PORT = 8082;
 
     private TodoService service;
+    private RestTodoService restService;
 
     @Override
     public void start(Promise<Void> startPromise)
@@ -48,21 +50,46 @@ public class RxTodoVerticle extends RestfulApiVerticle
         router.delete(Constants.API_DELETE).handler(this::handleDeleteOne);
         router.delete(Constants.API_DELETE_ALL).handler(this::handleDeleteAll);
 
+        router.get(Constants.REST_API_GET).handler(this::handleGetRestTodo);
+
         String host = config().getString("http.address", HOST);
         int port = config().getInteger("http.port", PORT);
 
-        Disposable disposable = initService().andThen(createHttpServer(router, host, port)).subscribe(startPromise::complete, startPromise::fail);
-        logger.debug("disposable: {}", disposable.isDisposed());
+        initService().andThen(createHttpServer(router, host, port)).subscribe(startPromise::complete, startPromise::fail);
     }
 
     private Completable initService()
     {
-        RedisOptions config = new RedisOptions()
-                .setHost(config().getString("redis.host", "127.0.0.1"))
-                .setPort(config().getInteger("redis.port", 6379));
-        service = new RedisTodoService(vertx, config);
+        final String serviceType = config().getString("service.type", "redis");
+        logger.info("Service Type: " + serviceType);
+
+        switch (serviceType)
+        {
+            case "jdbc":
+                service = new JdbcTodoService(vertx, config());
+                break;
+            case "redis":
+            default:
+                RedisOptions config = new RedisOptions()
+                        .setHost(config().getString("redis.host", "127.0.0.1"))
+                        .setPort(config().getInteger("redis.port", 6379));
+                service = new RedisTodoService(vertx, config);
+        }
 
         return service.initData();
+    }
+
+    private void handleGetRestTodo(RoutingContext context)
+    {
+        String movieId = context.request().getParam("movieId");
+
+        if (movieId == null)
+        {
+            badRequest(context);
+            return;
+        }
+
+        sendResponse(context, restService.getCertain(movieId), Json::encodePrettily);
     }
 
     private void handleGetTodo(RoutingContext context)
@@ -94,6 +121,7 @@ public class RxTodoVerticle extends RestfulApiVerticle
                 final Todo todo = wrapObject(new Todo(rawEntity), context);
                 // Call async service then send response back to client.
                 sendResponse(context, service.insert(todo), Json::encodePrettily, this::created);
+
                 return;
             }
 
@@ -144,9 +172,7 @@ public class RxTodoVerticle extends RestfulApiVerticle
         int id = todo.getId();
 
         if (id > Todo.getIncId())
-        {
             Todo.setIncIdWith(id);
-        }
         else if (id == 0)
             todo.setIncId();
 

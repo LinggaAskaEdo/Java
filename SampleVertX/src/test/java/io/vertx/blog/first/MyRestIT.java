@@ -43,7 +43,7 @@ public class MyRestIT
     }
 
     @Test
-    public void checkWeCanAddAndDeleteAProduct() throws InterruptedException
+    public void checkWeCanAddAndDeleteAProduct()
     {
         // Create a new bottle and retrieve the result (as a Whisky instance).
         Whisky whisky = given().body("{\"name\":\"Jameson\", \"origin\":\"Ireland\"}").request().post("/api/whiskies").thenReturn().as(Whisky.class);

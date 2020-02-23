@@ -1,0 +1,389 @@
+swagger: '2.0'
+info:
+  description: Public-Flights Flight API
+  version: '3'
+  title: Schiphol PublicFlight API
+  contact:
+    name: api-support@schiphol.nl
+host: api.schiphol.nl
+basePath: /public-flights
+schemes:
+  - https
+tags:
+  - name: flight-controller
+    description: Flight Controller
+paths:
+  '/flights/{id}':
+    get:
+      tags:
+        - flight-controller
+      summary: Retrieves a Flight with the id
+      operationId: retrieveFlightUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: app_id
+          in: query
+          description: Your API app id
+          required: true
+          type: string
+          x-data-threescale-name: app_ids
+        - name: app_key
+          in: query
+          description: Your API app key
+          required: true
+          type: string
+          x-data-threescale-name: app_keys
+        - name: ResourceVersion
+          in: header
+          description: Resource version of the API
+          default: v3
+          type: string
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Flight'
+  '/flights/{id}/codeshares/{flightName}':
+    get:
+      tags:
+        - flight-controller
+      summary: Retrieves a codeshare from a Flight
+      operationId: retrieveFlightCodeshareInformationUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: app_id
+          in: query
+          description: Your API app id
+          required: true
+          type: string
+          x-data-threescale-name: app_ids
+        - name: app_key
+          in: query
+          description: Your API app key
+          required: true
+          type: string
+          x-data-threescale-name: app_keys
+        - name: ResourceVersion
+          in: header
+          description: Resource version of the API
+          default: v3
+          type: string
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+        - name: flightName
+          in: path
+          description: Number of the flight
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Flight'
+  /flights:
+    get:
+      tags:
+        - flight-controller
+      summary: Retrieves flights for a specific date
+      description: 'Retrieves flights for a specific date.<br/>- If sdate is provided as query parameter, it will retrieve flights for that date. If not provided it is defaulted to today.<br/>- Only a nvls code or airline can be given as query parameter <br/><br/>If there are more pages of the result, header will contain custom String field - Link, which will contain URLs where other pages of the results can be reached.<br/>For example:<br/>Link: &lt;protocol://server_address:port/public-flights/resource&gt; ; rel="first", <br/>&lt;protocol://server_address:port/public-flights/resource?page=10&gt; rel="last", <br/>&lt;protocol://server_address:port/public-flights/resource?page=3&gt; rel="next", <br/>&lt;protocol://server_address:port/public-flights/resource?page=1&gt; rel="prev"<br/><br/>Sorting order  is a comma separated queryparameter. You have to give a ascending(+) or decending(-) indicator. <br/>For example:sort=+flight,-airline. <br/>Valid values for this parameter are: flightname, scheduledate, scheduletime, flightdirection, mainflight, codeshare, airline, nvlscode, destination and id.'
+      operationId: retrieveFlightsForDateOrPeriodUsingGET_1
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: app_id
+          in: query
+          description: Your API app id
+          required: true
+          type: string
+          x-data-threescale-name: app_ids
+        - name: app_key
+          in: query
+          description: Your API app key
+          required: true
+          type: string
+          x-data-threescale-name: app_keys
+        - name: ResourceVersion
+          in: header
+          description: Resource version of the API
+          default: v3
+          type: string
+        - name: scheduledate
+          in: query
+          description: 'Scheduled date to get flights for. Format: yyyy-MM-dd. Defaults to today if not provided'
+          required: false
+          type: string
+        - name: scheduletime
+          in: query
+          description: 'Scheduled time to get flights from. Format: HH:mm'
+          required: false
+          type: string
+        - name: flightname
+          in: query
+          description: Flight number as printed on the ticket
+          required: false
+          type: string
+        - name: flightdirection
+          in: query
+          description: Direction of the flight
+          required: false
+          type: string
+          enum:
+            - A
+            - D
+        - name: airline
+          in: query
+          description: 'Prefix in flight number as printed on the ticket (size: 2 or 3 characters), For exmaple: KL'
+          required: false
+          type: string
+        - name: nvlscode
+          in: query
+          description: NVLS code of a airliner
+          required: false
+          type: integer
+          format: int32
+        - name: route
+          in: query
+          description: 'IATA or ICAO code of airport in route; multiple values, comma separated'
+          required: false
+          type: string
+        - name: includedelays
+          in: query
+          description: Include delays when searching for a flight
+          required: false
+          type: boolean
+          default: 'false'
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          type: integer
+          default: '0'
+          format: int32
+        - name: sort
+          in: query
+          description: 'Sorting order '
+          required: false
+          type: string
+          default: +scheduletime
+        - name: fromdate
+          in: query
+          description: 'From date of search period. Format: yyyy-MM-dd'
+          required: false
+          type: string
+        - name: todate
+          in: query
+          description: 'To date of search period (inclusive). Format: yyyy-MM-dd'
+          required: false
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/FlightList'
+definitions:
+  RowType:
+    properties:
+      desks:
+        $ref: '#/definitions/DesksType'
+      position:
+        type: string
+  BaggageClaimType:
+    properties:
+      belts:
+        type: array
+        items:
+          type: string
+  RemarksType:
+    properties:
+      remarks:
+        type: array
+        items:
+          type: string
+  CodesharesType:
+    properties:
+      codeshares:
+        type: array
+        items:
+          type: string
+  FlightList:
+    properties:
+      flights:
+        type: array
+        items:
+          $ref: '#/definitions/Flight'
+      schemaVersion:
+        type: string
+  CheckinAllocationType:
+    properties:
+      endTime:
+        type: string
+        format: date-time
+        description: 'yyyy-MM-dd''T''HH:mm:ss.SSSZ'
+      rows:
+        $ref: '#/definitions/RowsType'
+      startTime:
+        type: string
+        format: date-time
+        description: 'yyyy-MM-dd''T''HH:mm:ss.SSSZ'
+  RowsType:
+    properties:
+      rows:
+        type: array
+        items:
+          $ref: '#/definitions/RowType'
+  Flight:
+    properties:
+      actualLandingTime:
+        type: string
+        format: date-time
+        description: 'yyyy-MM-dd''T''HH:mm:ss.SSSZ'
+      actualOffBlockTime:
+        type: string
+        format: date-time
+        description: 'yyyy-MM-dd''T''HH:mm:ss.SSSXXX'
+      aircraftRegistration:
+        type: string
+      aircraftType:
+        $ref: '#/definitions/AircraftTypeType'
+      baggageClaim:
+        $ref: '#/definitions/BaggageClaimType'
+      checkinAllocations:
+        $ref: '#/definitions/CheckinAllocationsType'
+      codeshares:
+        $ref: '#/definitions/CodesharesType'
+      estimatedLandingTime:
+        type: string
+        format: date-time
+        description: 'yyyy-MM-dd''T''HH:mm:ss.SSSZ'
+      expectedTimeBoarding:
+        type: string
+        format: date-time
+        description: 'yyyy-MM-dd''T''HH:mm:ss.SSSZ'
+      expectedTimeGateClosing:
+        type: string
+        format: date-time
+        description: 'yyyy-MM-dd''T''HH:mm:ss.SSSZ'
+      expectedTimeGateOpen:
+        type: string
+        format: date-time
+        description: 'yyyy-MM-dd''T''HH:mm:ss.SSSZ'
+      expectedTimeOnBelt:
+        type: string
+        format: date-time
+        description: 'yyyy-MM-dd''T''HH:mm:ss.SSSZ'
+      flightDirection:
+        type: string
+        enum:
+          - A
+          - D
+      flightName:
+        type: string
+      airlineCode:
+        type: integer
+        format: int64
+      flightNumber:
+        type: integer
+        format: int64
+      gate:
+        type: string
+      id:
+        type: string
+      mainFlight:
+        type: string
+      prefixIATA:
+        type: string
+      prefixICAO:
+        type: string
+      publicEstimatedOffBlockTime:
+        type: string
+        format: date-time
+        description: 'yyyy-MM-dd''T''HH:mm:ss.SSSZ'
+      publicFlightState:
+        $ref: '#/definitions/PublicFlightStateType'
+      route:
+        $ref: '#/definitions/RouteType'
+      scheduleDate:
+        type: string
+        description: yyyy-MM-dd
+      scheduleTime:
+        type: string
+        description: 'hh:mm:ss'
+      schemaVersion:
+        type: string
+      serviceType:
+        type: string
+      terminal:
+        type: integer
+        format: int64
+      transferPositions:
+        $ref: '#/definitions/TransferPositionsType'
+  RouteType:
+    properties:
+      destinations:
+        type: array
+        items:
+          type: string
+  DesksType:
+    properties:
+      desks:
+        type: array
+        items:
+          $ref: '#/definitions/DeskType'
+  AircraftTypeType:
+    properties:
+      iatamain:
+        type: string
+      iatasub:
+        type: string
+  DeskType:
+    properties:
+      checkinClass:
+        $ref: '#/definitions/CheckinClassType'
+      position:
+        type: integer
+        format: int64
+  CheckinClassType:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+  TransferPositionsType:
+    properties:
+      transferPositions:
+        type: array
+        items:
+          type: integer
+          format: int64
+  PublicFlightStateType:
+    properties:
+      flightStates:
+        type: array
+        items:
+          type: string
+  CheckinAllocationsType:
+    properties:
+      checkinAllocations:
+        type: array
+        items:
+          $ref: '#/definitions/CheckinAllocationType'
+      remarks:
+        $ref: '#/definitions/RemarksType'

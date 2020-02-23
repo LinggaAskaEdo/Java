@@ -6,7 +6,7 @@ import io.vertx.reactivex.ext.web.Router;
 import io.vertx.reactivex.ext.web.client.WebClient;
 import org.otis.reactive.service.RestService;
 
-public class VertxRestService extends AbstractVerticle
+public class MainVerticle extends AbstractVerticle
 {
     @Override
     public void start(Promise<Void> promise)

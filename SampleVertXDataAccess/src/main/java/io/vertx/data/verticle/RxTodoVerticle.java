@@ -12,7 +12,6 @@ import io.vertx.data.entity.Todo;
 import io.vertx.data.preference.Constants;
 import io.vertx.data.service.JdbcTodoService;
 import io.vertx.data.service.RedisTodoService;
-import io.vertx.data.service.RestTodoService;
 import io.vertx.data.service.TodoService;
 import io.vertx.reactivex.ext.web.Router;
 import io.vertx.reactivex.ext.web.RoutingContext;
@@ -29,7 +28,6 @@ public class RxTodoVerticle extends RestfulApiVerticle
     private static final int PORT = 8082;
 
     private TodoService service;
-    private RestTodoService restService;
 
     @Override
     public void start(Promise<Void> startPromise)
@@ -49,8 +47,6 @@ public class RxTodoVerticle extends RestfulApiVerticle
         router.patch(Constants.API_UPDATE).handler(this::handleUpdateTodo);
         router.delete(Constants.API_DELETE).handler(this::handleDeleteOne);
         router.delete(Constants.API_DELETE_ALL).handler(this::handleDeleteAll);
-
-        router.get(Constants.REST_API_GET).handler(this::handleGetRestTodo);
 
         String host = config().getString("http.address", HOST);
         int port = config().getInteger("http.port", PORT);
@@ -77,19 +73,6 @@ public class RxTodoVerticle extends RestfulApiVerticle
         }
 
         return service.initData();
-    }
-
-    private void handleGetRestTodo(RoutingContext context)
-    {
-        String movieId = context.request().getParam("movieId");
-
-        if (movieId == null)
-        {
-            badRequest(context);
-            return;
-        }
-
-        sendResponse(context, restService.getCertain(movieId), Json::encodePrettily);
     }
 
     private void handleGetTodo(RoutingContext context)

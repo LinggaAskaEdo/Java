@@ -20,8 +20,9 @@
         <exec-maven-plugin.version>1.5.0</exec-maven-plugin.version>
 
         <vertx.version>3.8.5</vertx.version>
+        <log4j.version>2.13.0</log4j.version>
 
-        <main.verticle>org.example.verticle.RestVerticle</main.verticle>
+        <main.verticle>org.rest.vertx.verticle.RestVerticle</main.verticle>
     </properties>
 
     <dependencyManagement>
@@ -49,14 +50,26 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-web-client</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.vertx</groupId>-->
-<!--            <artifactId>vertx-rx-java2</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-rx-java2</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.zandero</groupId>
             <artifactId>rest.vertx</artifactId>
             <version>0.8.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
     </dependencies>
 

@@ -6,6 +6,7 @@ public class User
     private String type;
     private String userId;
     private String livenessUuid;
+    private String otp;
 
     public Float getId()
     {
@@ -45,5 +46,15 @@ public class User
     public void setLivenessUuid(String livenessUuid)
     {
         this.livenessUuid = livenessUuid;
+    }
+
+    public String getOtp()
+    {
+        return otp;
+    }
+
+    public void setOtp(String otp)
+    {
+        this.otp = otp;
     }
 }

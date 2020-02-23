@@ -5,7 +5,6 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.ext.web.Router;
 import org.rest.vertx.controller.CalculateController;
-import org.rest.vertx.controller.FlightController;
 import org.rest.vertx.controller.TestController;
 
 public class RestVerticle extends AbstractVerticle
@@ -20,11 +19,9 @@ public class RestVerticle extends AbstractVerticle
 
         TestController testController = new TestController();
         CalculateController calculateController = new CalculateController();
-        FlightController flightController = new FlightController();
 
         RestRouter.register(router, testController);
         RestRouter.register(router, calculateController);
-        RestRouter.register(router, flightController);
 
         vertx.createHttpServer()
                 .requestHandler(router)

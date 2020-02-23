@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
 import org.otis.reactive.models.Flight;
 
 @RunWith(VertxUnitRunner.class)
-public class VertxRestServiceTest
+public class MainVerticleTest
 {
     private final static int PORT = 8080;
     private Vertx vertx;
@@ -27,7 +27,7 @@ public class VertxRestServiceTest
         vertx = Vertx.vertx();
         final DeploymentOptions options = new DeploymentOptions().setConfig(new JsonObject().put("http.port", PORT));
         // default config
-        VertxRestService todoVerticle = new VertxRestService();
+        MainVerticle todoVerticle = new MainVerticle();
 
         vertx.deployVerticle(todoVerticle, options, context.asyncAssertSuccess());
     }

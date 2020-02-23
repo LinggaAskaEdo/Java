@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN">
+<Configuration>
+    <Properties>
+        <Property name="log-path">/Users/lingga.putra/Downloads/Logs/</Property>
+    </Properties>
     <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+<!--        <Console name="Console" target="SYSTEM_OUT">-->
+<!--            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>-->
+<!--        </Console>-->
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%T] [%X{requestId}] %level %logger{10} - %msg%n"/>
         </Console>
+        <RollingFile name="sample-rest-vertx" fileName="${log-path}/rest-vertx.log" filePattern="${log-path}/rest-vertx-%d{yyyy-MM-dd}-%i.old.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%T] [%X{requestId}] %level %logger{10} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10000 KB"/>
+            </Policies>
+        </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="org.otis.reactive" level="debug" additivity="false">
-            <AppenderRef ref="Console"/>
+<!--        <Logger name="org.example" level="DEBUG" additivity="false">-->
+<!--            <AppenderRef ref="Console"/>-->
+<!--        </Logger>-->
+        <Logger name="org.rest.vertx" level="DEBUG" additivity="false">
+            <AppenderRef ref="sample-rest-vertx"/>
         </Logger>
-        <Root level="INFO">
-            <AppenderRef ref="Console"/>
-        </Root>
+<!--        <Root level="DEBUG">-->
+<!--            <AppenderRef ref="Console"/>-->
+<!--        </Root>-->
     </Loggers>
 </Configuration>

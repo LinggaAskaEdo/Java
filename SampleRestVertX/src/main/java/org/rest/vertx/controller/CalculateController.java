@@ -1,4 +1,4 @@
-package org.example.controller;
+package org.rest.vertx.controller;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

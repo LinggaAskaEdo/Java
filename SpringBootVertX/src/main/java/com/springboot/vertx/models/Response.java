@@ -1,16 +1,13 @@
-package org.otis.reactive.models;
+package com.springboot.vertx.models;
 
 import java.util.List;
 
-public class Response
+public class Response<T>
 {
     private String status;
     private String message;
-    private List<Todo> todoList;
     private Transactions transactions;
-
-    public Response()
-    {}
+    private List<T> objects;
 
     public Response(String status, String message)
     {
@@ -18,18 +15,18 @@ public class Response
         this.message = message;
     }
 
-    public Response(String status, String message, List<Todo> todoList)
-    {
-        this.status = status;
-        this.message = message;
-        this.todoList = todoList;
-    }
-
     public Response(String status, String message, Transactions transactions)
     {
         this.status = status;
         this.message = message;
         this.transactions = transactions;
+    }
+
+    public Response(String status, String message, List<T> objects)
+    {
+        this.status = status;
+        this.message = message;
+        this.objects = objects;
     }
 
     public String getStatus()
@@ -52,16 +49,6 @@ public class Response
         this.message = message;
     }
 
-    public List<Todo> getTodoList()
-    {
-        return todoList;
-    }
-
-    public void setTodoList(List<Todo> todoList)
-    {
-        this.todoList = todoList;
-    }
-
     public Transactions getTransactions()
     {
         return transactions;
@@ -70,5 +57,15 @@ public class Response
     public void setTransactions(Transactions transactions)
     {
         this.transactions = transactions;
+    }
+
+    public List<T> getObjects()
+    {
+        return objects;
+    }
+
+    public void setObjects(List<T> objects)
+    {
+        this.objects = objects;
     }
 }

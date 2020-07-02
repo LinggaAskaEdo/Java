@@ -39,7 +39,7 @@ public class MovieREST
 
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
 
-            if (null != response && null != response.getBody())
+            if (null != response.getBody())
             {
                 movieInfo = new Gson().fromJson(response.getBody(), MovieInfo.class);
             }

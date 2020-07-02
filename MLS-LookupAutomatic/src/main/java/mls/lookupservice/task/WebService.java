@@ -35,16 +35,16 @@ public class WebService
         this.webFunction = webFunction;
     }
 
-    @RequestMapping(value = ServiceConstant.SERVICE_NAME + "/" + ServiceConstant.GET_LOCATION, method = RequestMethod.POST)
-    String calculatePosition(@RequestBody CellDB cellDB)
+    @PostMapping(value = ServiceConstant.SERVICE_NAME + "/" + ServiceConstant.GET_LOCATION)
+    public String calculatePosition(@RequestBody CellDB cellDB)
     {
-        if (Preference.STATUS.equalsIgnoreCase(Preference.CELL_DB_STATUS_ENABLE))
+        if (Preference.STATUS_TABLE.equalsIgnoreCase(Preference.CELL_DB_STATUS_ENABLE))
         {
-            log.info("PRIMARY CELL_DB status: {}", Preference.STATUS);
+            log.info("PRIMARY CELL_DB status: {}", Preference.STATUS_TABLE);
         }
         else
         {
-            log.info("PRIMARY CELL_DB status: {}, using SECONDARY CELL_DB", Preference.STATUS);
+            log.info("PRIMARY CELL_DB status: {}, using SECONDARY CELL_DB", Preference.STATUS_TABLE);
         }
 
         List<CellDB> cellDBList;
@@ -74,7 +74,7 @@ public class WebService
 
                 if (cellDBList.size() > 0)
                 {
-                    log.debug("cellDBList: {}", cellDBList.get(0).toString());
+                    log.debug("cellDBList: {}", cellDBList.get(0));
 
                     responseMessage.setStatus(1);
                     responseMessage.setMessage("");
@@ -101,7 +101,7 @@ public class WebService
 
                     responseMessage.setResponse(response);
 
-                    log.info("response ~ {}", responseMessage.toString());
+                    log.info("response ~ {}", responseMessage);
                 }
                 else
                 {
@@ -121,7 +121,7 @@ public class WebService
         }
         catch (Exception e)
         {
-            log.error("Exception calculatePosition: {}", e.toString());
+            log.error("Exception calculatePosition: ", e);
         }
 
         return new Gson().toJson(responseMessage);

@@ -3,7 +3,6 @@ package mls.lookupservice.task;
 import mls.lookupservice.config.AppConfig;
 import mls.lookupservice.dao.MlsDao;
 import mls.lookupservice.function.DataFunction;
-import mls.lookupservice.function.DataFunctionTest;
 import mls.lookupservice.model.MlsFiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,12 +27,12 @@ import static org.mockito.Mockito.when;
 @Test(threadPoolSize = 4, invocationCount = 10)
 public class DataServiceTest
 {
-    private final Logger log = LoggerFactory.getLogger(DataFunctionTest.class);
+    private final Logger log = LoggerFactory.getLogger(DataServiceTest.class);
 
     private List<String> result = new ArrayList<>();
 
     @BeforeMethod
-    public void setUp() throws Exception
+    public void setUp()
     {
         result.add("MLS-full-cell-export-2017-02-15T000000.csv.gz");
         result.add("MLS-full-cell-export-2017-01-15T000000.csv.gz");
@@ -80,13 +79,13 @@ public class DataServiceTest
     }
 
     @AfterMethod
-    public void tearDown() throws Exception
+    public void tearDown()
     {
         result.clear();
     }
 
     @Test
-    public void testNewOfflineUpdate() throws Exception
+    public void testNewOfflineUpdate()
     {
         log.info("test new offline update");
 
@@ -141,7 +140,7 @@ public class DataServiceTest
     }
 
     @Test
-    public void testNewOfflineUpdateScanner() throws Exception
+    public void testNewOfflineUpdateScanner()
     {
         log.info("test new offline update scan");
 
@@ -198,7 +197,7 @@ public class DataServiceTest
                     isFullExist = true;
                     fullFileName = result;
                 }
-                else if (isFullExist && fullFileName != null && dataFunction.isMlsFile(result))
+                else if (isFullExist && dataFunction.isMlsFile(result))
                 {
                     if (dataFunction.compareCounterMarker(dataFunction.splitFileName(fullFileName, appConfig.patternFull, appConfig.formatFileCompress),
                             dataFunction.splitFileName(result, appConfig.patternDiff, appConfig.formatFileCompress)))

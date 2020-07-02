@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.concurrent.ListenableFuture;
 
 @Service
 public class WSService
@@ -39,6 +40,30 @@ public class WSService
         return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.OK);
     }
 
+    public String getAsyncDetailMovie(String titleKey)
+    {
+        System.out.println("GetDetailMovie");
+        Response response = new Response();
+
+        try
+        {
+            response.setStatus("200");
+            response.setMessage("Request was successful !!!");
+            throw new NullPointerException();
+//            MovieInfo movieInfo = movieREST.getMovieDetails(titleKey);
+//
+//            response.setMovieInfo(movieInfo);
+
+
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return new Gson().toJson(response);
+    }
+
     public ResponseEntity<String> getDetailAccount(Long accountId)
     {
         System.out.println("GetDetailAccount");
@@ -52,5 +77,10 @@ public class WSService
         response.setAccountInfo(bankAccountInfo);
 
         return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.OK);
+    }
+
+    public ListenableFuture<Double> bestQuotation(Double loanAmount)
+    {
+        return null;
     }
 }

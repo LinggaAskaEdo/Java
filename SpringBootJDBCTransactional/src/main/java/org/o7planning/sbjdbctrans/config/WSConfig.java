@@ -4,6 +4,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -14,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 public class WSConfig
 {
     @Bean
-    public RestTemplate restTemplate(ClientHttpRequestFactory factory)
+    public RestTemplate restTemplate(@Qualifier("clientHttpRequestFactory") ClientHttpRequestFactory factory)
     {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(factory);

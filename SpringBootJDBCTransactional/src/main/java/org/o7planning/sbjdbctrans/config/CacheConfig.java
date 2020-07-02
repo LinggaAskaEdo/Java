@@ -1,26 +1,27 @@
 package org.o7planning.sbjdbctrans.config;
 
-import com.google.common.cache.CacheBuilder;
 import org.o7planning.sbjdbctrans.preference.ConfigPreference;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CachingConfigurer;
+import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.guava.GuavaCache;
-import org.springframework.cache.interceptor.CacheErrorHandler;
-import org.springframework.cache.interceptor.CacheResolver;
-import org.springframework.cache.interceptor.KeyGenerator;
-import org.springframework.cache.interceptor.SimpleKeyGenerator;
-import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
 
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableCaching
-public class CacheConfig implements CachingConfigurer
+public class CacheConfig extends CachingConfigurerSupport
 {
     public static final String CACHE_ACCOUNTS = "accounts";
     public static final String CACHE_ACCOUNTS_DB = "accountsDB";
@@ -35,44 +36,43 @@ public class CacheConfig implements CachingConfigurer
     }
 
     @Bean
-    @Override
-    public CacheManager cacheManager()
+    public JedisConnectionFactory jedisConnectionFactory()
     {
-        SimpleCacheManager cacheManager = new SimpleCacheManager();
+        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
+        config.setHostName(preference.redisHost);
+        config.setPort(preference.redisPort);
+        config.setDatabase(preference.redisDatabase);
 
-        GuavaCache cacheAccounts = new GuavaCache(CACHE_ACCOUNTS, CacheBuilder.newBuilder()
-                .expireAfterWrite(preference.expireTimeAccounts, TimeUnit.SECONDS)
-                .build());
-
-        GuavaCache cacheAccountsDB = new GuavaCache(CACHE_ACCOUNTS_DB, CacheBuilder.newBuilder()
-                .expireAfterWrite(preference.expireTimeAccountsDB, TimeUnit.SECONDS)
-                .build());
-
-        GuavaCache cacheMovieInfo = new GuavaCache(CACHE_MOVIE_INFO, CacheBuilder.newBuilder()
-                .expireAfterWrite(preference.expireTimeMovieInfo, TimeUnit.SECONDS)
-                .build());
-
-        cacheManager.setCaches(Arrays.asList(cacheAccounts, cacheAccountsDB, cacheMovieInfo));
-
-        return cacheManager;
-    }
-
-    @Override
-    public CacheResolver cacheResolver()
-    {
-        return null;
+        return new JedisConnectionFactory(config);
     }
 
     @Bean
-    @Override
-    public KeyGenerator keyGenerator()
+    public CacheManager cacheManager(@Qualifier("jedisConnectionFactory") JedisConnectionFactory connectionFactory)
     {
-        return new SimpleKeyGenerator();
-    }
+        RedisCacheConfiguration confTimeAccounts = RedisCacheConfiguration
+                .defaultCacheConfig()
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+                .entryTtl(Duration.ofSeconds(preference.expireTimeAccounts));
 
-    @Override
-    public CacheErrorHandler errorHandler()
-    {
-        return null;
+        RedisCacheConfiguration confTimeAccountsDB = RedisCacheConfiguration
+                .defaultCacheConfig()
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+                .entryTtl(Duration.ofSeconds(preference.expireTimeAccountsDB));
+
+        RedisCacheConfiguration confTimeMovieInfo = RedisCacheConfiguration
+                .defaultCacheConfig()
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+                .entryTtl(Duration.ofSeconds(preference.expireTimeMovieInfo));
+
+        Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
+        cacheConfigurations.put(CACHE_ACCOUNTS, confTimeAccounts);
+        cacheConfigurations.put(CACHE_ACCOUNTS_DB, confTimeAccountsDB);
+        cacheConfigurations.put(CACHE_MOVIE_INFO, confTimeMovieInfo);
+
+        return RedisCacheManager
+                .RedisCacheManagerBuilder
+                .fromConnectionFactory(connectionFactory)
+                .withInitialCacheConfigurations(cacheConfigurations)
+                .build();
     }
 }

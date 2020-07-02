@@ -6,7 +6,10 @@ package mls.lookupservice.preference;
 
 public class Preference
 {
-    public static String STATUS = Preference.CELL_DB_STATUS_ENABLE;
+    private Preference()
+    {}
+
+    public static String STATUS_TABLE = Preference.CELL_DB_STATUS_ENABLE;
     public static final String CELL_DB_STATUS_ENABLE = "ENABLE";
     public static final String CELL_DB_STATUS_DISABLE = "DISABLE";
 }

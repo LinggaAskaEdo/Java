@@ -59,8 +59,6 @@ public class DataService
             boolean statusCellDB = mlsDao.checkCellDB() > 0;
             boolean statusFullFiles = newFiles.stream().anyMatch(str -> str.trim().contains(appConfig.patternFull));
 
-            //log.debug("statusCellDB: {}, statusFullFiles: {}", statusCellDB, statusFullFiles);
-
             if (!statusCellDB && !statusFullFiles)
             {
                 log.error("Error, your cell DB is empty. Make sure you have 1 full MLS files");
@@ -73,7 +71,7 @@ public class DataService
 
                 for (String result : newFiles)
                 {
-                    log.debug("Result: " + result);
+                    log.debug("Result: {}", result);
 
                     if (dataFunction.isMlsFullFile(result) && dataFunction.compareCounterMarker(dataFunction.splitFileName(result, appConfig.patternFull,
                             appConfig.formatFileCompress)) && !isFullExist)
@@ -85,7 +83,7 @@ public class DataService
                         isFullExist = true;
                         fullFileName = result;
                     }
-                    else if (isFullExist && fullFileName != null && dataFunction.isMlsFile(result))
+                    else if (isFullExist && dataFunction.isMlsFile(result))
                     {
                         System.out.println("BBB");
                         if (dataFunction.compareCounterMarker(dataFunction.splitFileName(fullFileName, appConfig.patternFull, appConfig.formatFileCompress),
@@ -243,17 +241,14 @@ public class DataService
 
         //generate URL
         boolean status = true;
-        String fileName, codeName, fullName, url;
 
-        fileName = dataFunction.generateFileName(false);
-        codeName = dataFunction.generateCodeName(dataFunction.readCounter());
-        fullName = fileName + codeName;
-        url = dataFunction.generateUrl(false, fullName);
+        String fileName = dataFunction.generateFileName(false);
+        String codeName = dataFunction.generateCodeName(dataFunction.readCounter());
+        String fullName = fileName + codeName;
+        String url = dataFunction.generateUrl(false, fullName);
 
         //check url with new counter & marker
         boolean statusURL = dataFunction.checkExistURL(url);
-
-        //log.debug("status URL: {}", statusURL);
 
         if (dataFunction.checkThreshold(statusURL)) //if cell db is out-of-date
         {
@@ -325,8 +320,6 @@ public class DataService
                 boolean statusRoundNextCounter = true;
                 String nextCounter = String.valueOf(existCounterInt);
 
-                //log.debug("filename: {}", fileName);
-
                 while (statusNextCounter)
                 {
                     if (nextCounter.equalsIgnoreCase(env.getProperty("counter.file.max")))
@@ -335,7 +328,6 @@ public class DataService
                         {
                             fileName = dataFunction.getMarkerNextDay(fileName);
                             nextCounter = "0";
-                            //statusRoundNextCounter = false;
                         }
                         else
                         {
@@ -346,7 +338,6 @@ public class DataService
                     else
                     {
                         statusRoundNextCounter = false;
-                        //nextCounter = String.valueOf(existCounterInt + i);
                         nextCounter = String.valueOf(Integer.parseInt(nextCounter) + 1);
                     }
 
@@ -430,8 +421,6 @@ public class DataService
         {
             for (String aResult : resultOldFiles)
             {
-                //log.debug("data: {}", aResult);
-
                 if (dataFunction.isMlsFile(aResult))
                 {
                     //checking that files is old based on date
@@ -504,8 +493,8 @@ public class DataService
         boolean status;
 
         //change status to use backup database
-        Preference.STATUS = Preference.CELL_DB_STATUS_DISABLE;
-        log.info("PRIMARY CELL_DB status: {}, using SECONDARY CELL_DB", Preference.STATUS);
+        Preference.STATUS_TABLE = Preference.CELL_DB_STATUS_DISABLE;
+        log.info("PRIMARY CELL_DB status: {}, using SECONDARY CELL_DB", Preference.STATUS_TABLE);
 
         if (type.equalsIgnoreCase(appConfig.patternFull))
         {
@@ -535,8 +524,8 @@ public class DataService
         }
 
         //change status to use primary database
-        Preference.STATUS = Preference.CELL_DB_STATUS_ENABLE;
-        log.info("PRIMARY CELL_DB status: {}, back using PRIMARY CELL_DB", Preference.STATUS);
+        Preference.STATUS_TABLE = Preference.CELL_DB_STATUS_ENABLE;
+        log.info("PRIMARY CELL_DB status: {}, back using PRIMARY CELL_DB", Preference.STATUS_TABLE);
 
         return status;
     }

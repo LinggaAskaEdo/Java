@@ -11,16 +11,16 @@ def distributionFolder = 'ams-mls-lookup'
 def configFiles = ['application.properties', 'database.properties', 'messages.properties', 'logback.xml', 'ams-mls-lookup.sh', 'run-backup.sh'] as Set
 def libFiles = ['mls/lookupservice/dao/*.elsql'] as Set
 
-jacoco {
-    toolVersion = "0.7.5+"
-}
-
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        csv.enabled false
-    }
-}
+//jacoco {
+//    toolVersion = "0.7.5+"
+//}
+//
+//jacocoTestReport {
+//    reports {
+//        xml.enabled true
+//        csv.enabled false
+//    }
+//}
 
 test {
     // enable TestNG support (default is JUnit)
@@ -97,20 +97,39 @@ dependencies {
     testCompile("org.assertj:assertj-core:3.6.2")
 }
 
-task copyFilesToPackage << {
-    copy {
-        from('src/main/resources') {
-            include libFiles
-        }
-        from 'build/libs/' + jarBaseName + '.jar'
-        into 'build/' + distributionFolder + '/lib'
-    }
+//task copyFilesToPackage << {
+//    copy {
+//        from('src/main/resources') {
+//            include libFiles
+//        }
+//        from 'build/libs/' + jarBaseName + '.jar'
+//        into 'build/' + distributionFolder + '/lib'
+//    }
+//
+//    copy {
+//        from('src/main/resources') {
+//            include configFiles
+//        }
+//        into 'build/' + distributionFolder
+//    }
+//}
 
-    copy {
-        from('src/main/resources') {
-            include configFiles
+task copyFilesToPackage {
+    doLast {
+        copy {
+            from('src/main/resources') {
+                include libFiles
+            }
+            from 'build/libs/' + jarBaseName + '.jar'
+            into 'build/' + distributionFolder + '/lib'
         }
-        into 'build/' + distributionFolder
+
+        copy {
+            from('src/main/resources') {
+                include configFiles
+            }
+            into 'build/' + distributionFolder
+        }
     }
 }
 

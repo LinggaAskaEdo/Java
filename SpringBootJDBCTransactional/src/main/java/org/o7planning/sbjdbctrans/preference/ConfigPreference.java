@@ -20,4 +20,13 @@ public class ConfigPreference
 
     @Value("${expire.time.movie-info}")
     public long expireTimeMovieInfo;
+
+    @Value("${spring.redis.host}")
+    public String redisHost;
+
+    @Value("${spring.redis.port}")
+    public int redisPort;
+
+    @Value("${spring.redis.database}")
+    public int redisDatabase;
 }

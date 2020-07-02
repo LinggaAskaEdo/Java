@@ -7,6 +7,15 @@ public class Response
     private MovieInfo movieInfo;
     private BankAccountInfo accountInfo;
 
+    public Response()
+    {}
+
+    public Response(String status, String message)
+    {
+        this.status = status;
+        this.message = message;
+    }
+
     public String getStatus()
     {
         return status;

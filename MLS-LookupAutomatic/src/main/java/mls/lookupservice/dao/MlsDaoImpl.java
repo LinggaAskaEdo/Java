@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
+import org.sql2o.Query;
 import org.sql2o.Sql2o;
 
 import java.util.List;
@@ -43,9 +44,9 @@ public class MlsDaoImpl implements MlsDao
         String sql = bundle.getSql("CheckCellDB");
         log.info("checkCellDB: {}", sql);
 
-        try (Connection connection = sql2oPrimary.open())
+        try (Connection connection = sql2oPrimary.open(); Query query = connection.createQuery(sql))
         {
-            result = connection.createQuery(sql).executeAndFetchFirst(Integer.class);
+            result = query.executeAndFetchFirst(Integer.class);
         }
         catch (Exception e)
         {
@@ -74,12 +75,15 @@ public class MlsDaoImpl implements MlsDao
         log.info("dropTemporary: {}", sql4);
         /*end transaction for dump file*/
 
-        try (Connection con = sql2oPrimary.beginTransaction())
+        try (Connection con = sql2oPrimary.beginTransaction(); Query query1 = con.createQuery(sql1);
+             Query query2 = con.createQuery(sql2);
+             Query query3 = con.createQuery(sql3);
+             Query query4 = con.createQuery(sql4))
         {
-            con.createQuery(sql1).executeUpdate();
-            con.createQuery(sql2).addParameter("filePath", filePath).executeUpdate();
-            con.createQuery(sql3).executeUpdate();
-            con.createQuery(sql4).executeUpdate();
+            query1.executeUpdate();
+            query2.addParameter("filePath", filePath).executeUpdate();
+            query3.executeUpdate();
+            query4.executeUpdate();
             con.commit();
 
             status = true;
@@ -107,20 +111,19 @@ public class MlsDaoImpl implements MlsDao
         String sql3 = bundle.getSql("SetForeignKeyChecks");
         log.info("setForeignKeyChecks: {}", sql3);
 
-        //String sql4 = bundle.getSql("SetSqlLogBinChecks");
-        //log.info("setSqlLogBinChecks: {}", sql4);
-
         String sql5 = bundle.getSql("LoadDataFile");
         log.info("loadDataFile: {}", sql5);
         /*end transaction for dump file*/
 
-        try (Connection con = sql2oPrimary.beginTransaction())
+        try (Connection con = sql2oPrimary.beginTransaction(); Query query1 = con.createQuery(sql1);
+             Query query2 = con.createQuery(sql2);
+             Query query3 = con.createQuery(sql3);
+             Query query5 = con.createQuery(sql5))
         {
-            con.createQuery(sql1).executeUpdate();
-            con.createQuery(sql2).executeUpdate();
-            con.createQuery(sql3).executeUpdate();
-            //con.createQuery(sql4).executeUpdate();
-            con.createQuery(sql5).addParameter("filePath", filePath).executeUpdate();
+            query1.executeUpdate();
+            query2.executeUpdate();
+            query3.executeUpdate();
+            query5.addParameter("filePath", filePath).executeUpdate();
             con.commit();
 
             status = true;
@@ -141,9 +144,9 @@ public class MlsDaoImpl implements MlsDao
         String sql = bundle.getSql("TruncateTable");
         log.info("truncateTable: {}", sql);
 
-        try (Connection connection = sql2oPrimary.open())
+    try (Connection connection = sql2oPrimary.open(); Query query = connection.createQuery(sql))
         {
-            connection.createQuery(sql).executeUpdate();
+            query.executeUpdate();
             status = true;
         }
         catch (Exception e)
@@ -162,9 +165,9 @@ public class MlsDaoImpl implements MlsDao
         String sql = bundle.getSql("ReadCounter");
         log.info("readCounterDao: {}", sql);
 
-        try (Connection connection = sql2oPrimary.open())
+        try (Connection connection = sql2oPrimary.open(); Query query = connection.createQuery(sql))
         {
-            result = connection.createQuery(sql).executeAndFetchFirst(String.class);
+            result = query.executeAndFetchFirst(String.class);
         }
         catch (Exception e)
         {
@@ -180,9 +183,9 @@ public class MlsDaoImpl implements MlsDao
         String sql = bundle.getSql("UpdateCounter");
         log.info("updateCounterDao: {}", sql);
 
-        try (Connection connection = sql2oPrimary.open())
+        try (Connection connection = sql2oPrimary.open(); Query query = connection.createQuery(sql))
         {
-            connection.createQuery(sql).addParameter("counterValue", counterValue).executeUpdate();
+            query.addParameter("counterValue", counterValue).executeUpdate();
         }
         catch (Exception e)
         {
@@ -198,9 +201,9 @@ public class MlsDaoImpl implements MlsDao
         String sql = bundle.getSql("ReadMarker");
         log.info("readMarkerDao: {}", sql);
 
-        try (Connection connection = sql2oPrimary.open())
+        try (Connection connection = sql2oPrimary.open(); Query query = connection.createQuery(sql))
         {
-            result = connection.createQuery(sql).executeAndFetchFirst(String.class);
+            result = query.executeAndFetchFirst(String.class);
         }
         catch (Exception e)
         {
@@ -216,9 +219,9 @@ public class MlsDaoImpl implements MlsDao
         String sql = bundle.getSql("UpdateMarker");
         log.info("updateMarkerDao: {}", sql);
 
-        try (Connection connection = sql2oPrimary.open())
+        try (Connection connection = sql2oPrimary.open(); Query query = connection.createQuery(sql))
         {
-            connection.createQuery(sql).addParameter("markerValue", markerValue).executeUpdate();
+            query.addParameter("markerValue", markerValue).executeUpdate();
         }
         catch (Exception e)
         {
@@ -236,7 +239,7 @@ public class MlsDaoImpl implements MlsDao
 
         Sql2o sql2oTemp;
 
-        if (Preference.STATUS.equalsIgnoreCase(Preference.CELL_DB_STATUS_DISABLE))
+        if (Preference.STATUS_TABLE.equalsIgnoreCase(Preference.CELL_DB_STATUS_DISABLE))
         {
             sql2oTemp = sql2oSecondary;
         }
@@ -245,9 +248,9 @@ public class MlsDaoImpl implements MlsDao
             sql2oTemp = sql2oPrimary;
         }
 
-        try (Connection connection = sql2oTemp.open())
+        try (Connection connection = sql2oTemp.open(); Query query = connection.createQuery(sql))
         {
-            result = connection.createQuery(sql)
+            result = query
                     .addParameter("radio", radio)
                     .addParameter("mcc", mcc)
                     .addParameter("net", net)

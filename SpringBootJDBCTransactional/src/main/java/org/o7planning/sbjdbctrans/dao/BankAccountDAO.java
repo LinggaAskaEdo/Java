@@ -43,7 +43,7 @@ public class BankAccountDAO extends JdbcDaoSupport
         return this.getJdbcTemplate().query(sql, params, mapper);
     }
 
-    @Cacheable(CacheConfig.CACHE_ACCOUNTS_DB)
+    @Cacheable(value = CacheConfig.CACHE_ACCOUNTS_DB, key = "#id")
     public BankAccountInfo findBankAccount(Long id)
     {
         System.out.println("FindBankAccount");

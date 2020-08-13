@@ -2,19 +2,23 @@ group 'RabbitTest'
 version '1.0'
 
 apply plugin: 'java'
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
+
+mainClassName = 'rabbit.tutor1'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile(group: 'org.slf4j', name: 'slf4j-api', version: '1.7.8')
-    compile(group: 'org.slf4j', name: 'slf4j-jdk14', version: '1.7.8')
-    compile('com.rabbitmq:amqp-client:3.6.0')
-    compile(group: 'io.netty', name: 'netty-all', version: '4.1.19.Final')
-    compile("org.quartz-scheduler:quartz:2.3.0")
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.1'
+    compile(group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30')
+    compile(group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30')
+    compile(group: 'org.slf4j', name: 'slf4j-jdk14', version: '1.7.30')
+    compile('com.rabbitmq:amqp-client:5.9.0')
+    compile(group: 'io.netty', name: 'netty-all', version: '4.1.51.Final')
+    compile("org.quartz-scheduler:quartz:2.3.2")
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.11.2'
     compile fileTree(dir: 'lib', include: '*.jar')
 }

@@ -15,7 +15,7 @@ import java.util.List;
 @Controller
 public class DBController
 {
-    private DBService service;
+    private final DBService service;
 
     @Autowired
     public DBController(DBService service)

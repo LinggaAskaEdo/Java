@@ -7,7 +7,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.sql2o.Connection;
+import org.sql2o.Query;
 import org.sql2o.Sql2o;
 
 import java.math.BigInteger;
@@ -18,8 +20,8 @@ public class DemoRepository
 {
     private static final Logger logger = LogManager.getLogger();
 
-    private Sql2o sql2o;
-    private ElSql bundle;
+    private final Sql2o sql2o;
+    private final ElSql bundle;
 
     @Autowired
     public DemoRepository(Sql2o sql2o)
@@ -33,18 +35,10 @@ public class DemoRepository
         String sql = bundle.getSql("GetAllStudent");
         logger.info("GetAllStudent: {}", sql);
 
-        List<Student> result = null;
-
-        try (Connection connection = sql2o.open())
+        try (Connection connection = sql2o.open(); Query query = connection.createQuery(sql))
         {
-            result = connection.createQuery(sql).executeAndFetch(Student.class);
+           return query.executeAndFetch(Student.class);
         }
-        catch (Exception e)
-        {
-            logger.error("Error when findAll: {}", e);
-        }
-
-        return result;
     }
 
     public Student findById(long id)
@@ -52,35 +46,29 @@ public class DemoRepository
         String sql = bundle.getSql("GetStudentById");
         logger.info("GetStudentById: {}", sql);
 
-        Student result = null;
-
-        try (Connection connection = sql2o.open())
+        try (Connection connection = sql2o.open(); Query query = connection.createQuery(sql))
         {
-            result = connection.createQuery(sql).addParameter("id", id).executeAndFetchFirst(Student.class);
+            return query.addParameter("id", id).executeAndFetchFirst(Student.class);
         }
-        catch (Exception e)
-        {
-            logger.error("Error when findById: {}", e);
-        }
-
-        return result;
     }
 
+    @Transactional
     public void deleteById(long id)
     {
         String sql = bundle.getSql("DeleteStudentById");
         logger.info("DeleteStudentById: {}", sql);
 
-        try (Connection connection = sql2o.open())
+        try (Connection connection = sql2o.open(); Query query = connection.createQuery(sql))
         {
-            connection.createQuery(sql).addParameter("id", id).executeUpdate();
+            query.addParameter("id", id).executeUpdate();
         }
         catch (Exception e)
         {
-            logger.error("Error when deleteById: {}", e);
+            logger.error("Error when deleteById: ", e);
         }
     }
 
+    @Transactional
     public BigInteger save(Student student)
     {
         String sql = bundle.getSql("SaveStudent");
@@ -88,32 +76,31 @@ public class DemoRepository
 
         BigInteger result = null;
 
-        try (Connection connection = sql2o.open())
+        try (Connection connection = sql2o.open(); Query query = connection.createQuery(sql, true))
         {
-            result = (BigInteger) connection.createQuery(sql, true).bind(student).executeUpdate().getKey();
+            result = (BigInteger) query.bind(student).executeUpdate().getKey();
         }
         catch (Exception e)
         {
-            logger.error("Error when save: {}", e);
+            logger.error("Error when save: ", e);
         }
 
         return result;
     }
 
+    @Transactional
     public void update(Student student)
     {
         String sql = bundle.getSql("UpdateStudent");
         logger.info("UpdateStudent: {}", sql);
 
-        BigInteger result = null;
-
-        try (Connection connection = sql2o.open())
+        try (Connection connection = sql2o.open(); Query query = connection.createQuery(sql))
         {
-            connection.createQuery(sql).bind(student).executeUpdate();
+            query.bind(student).executeUpdate();
         }
         catch (Exception e)
         {
-            logger.error("Error when update: {}", e);
+            logger.error("Error when update: ", e);
         }
     }
 }

@@ -27,8 +27,10 @@ public class WSController
 {
     private static final Logger log = LogManager.getLogger(WSController.class);
 
-    private WSService service;
     private static final String RESULT = "Result";
+    private static final String COMPLETED_PROCESSING = "Completed processing request";
+
+    private final WSService service;
 
     @Autowired
     public WSController(WSService service)
@@ -98,7 +100,7 @@ public class WSController
             // Do nothing
         }
 
-        log.info("Completed processing request");
+        log.info(COMPLETED_PROCESSING);
 
         return generateResponseSuccess(RESULT);
     }
@@ -109,12 +111,12 @@ public class WSController
 
         if (id.equalsIgnoreCase("1"))
         {
-            log.info("Completed processing request");
+            log.info(COMPLETED_PROCESSING);
             return ResponseEntity.status(HttpStatus.OK).body(generateResponseSuccess(RESULT));
         }
         else
         {
-            log.info("Completed processing request");
+            log.info(COMPLETED_PROCESSING);
             throw new NoContentException();
         }
     }

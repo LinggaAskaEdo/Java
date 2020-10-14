@@ -8,9 +8,8 @@ public class WeddingPackage
     private String name;
     private String price;
     private String totalBuffet;
-    private Long typeBuffet;
+    private Long buffetId;
     private String buffetName;
-    private String detailBuffet;
     private List<DetailBuffet> detailBuffets;
     private String detailPackage;
     private List<DetailPackage> detailPackages;
@@ -84,14 +83,14 @@ public class WeddingPackage
         this.totalBuffet = totalBuffet;
     }
 
-    public Long getTypeBuffet()
+    public Long getBuffetId()
     {
-        return typeBuffet;
+        return buffetId;
     }
 
-    public void setTypeBuffet(Long typeBuffet)
+    public void setBuffetId(Long buffetId)
     {
-        this.typeBuffet = typeBuffet;
+        this.buffetId = buffetId;
     }
 
     public String getBuffetName()
@@ -102,16 +101,6 @@ public class WeddingPackage
     public void setBuffetName(String buffetName)
     {
         this.buffetName = buffetName;
-    }
-
-    public String getDetailBuffet()
-    {
-        return detailBuffet;
-    }
-
-    public void setDetailBuffet(String detailBuffet)
-    {
-        this.detailBuffet = detailBuffet;
     }
 
     public List<DetailBuffet> getDetailBuffets()

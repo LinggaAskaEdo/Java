@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -209,18 +211,36 @@ public class EdelwishService
         return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.OK);
     }
 
-    public ResponseEntity<String> listPayment()
+    public ResponseEntity<String> listPayment(Long userId)
     {
         Response response = new Response();
 
         try
         {
-            List<PaymentType> paymentTypes = edelwishDao.getListPayment();
+            List<Booking> bookings = edelwishDao.getBookingByUserId(userId);
 
-            if (!paymentTypes.isEmpty())
+            if (!bookings.isEmpty())
             {
+                List<Payment> payments = new ArrayList<>();
+                int[] paymentTypeIds = new int[8];
+
                 response.setCode(ConstantPreference.RESPONSE_CODE_OK);
                 response.setMessage(ConstantPreference.RESPONSE_MESSAGE_OK);
+
+                for (Booking booking : bookings)
+                {
+                    payments = edelwishDao.getPaymentByBookingId(booking.getId());
+                    booking.setPaymentList(payments);
+                }
+
+                response.setBookingList(bookings);
+
+                for (int i = 0; i < payments.size(); i++)
+                {
+                    paymentTypeIds[i] = payments.get(i).getIdPaymentType().intValue();
+                }
+
+                List<PaymentType> paymentTypes = edelwishDao.getListPaymentType(paymentTypeIds);
                 response.setPaymentTypes(paymentTypes);
             }
             else
@@ -240,7 +260,7 @@ public class EdelwishService
         return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.OK);
     }
 
-    public ResponseEntity<String> payment(String bookingNumber, Long paymentTypeId, String receipt)
+    public ResponseEntity<String> payment(String bookingNumber, Long paymentTypeId, Long total, String receipt)
     {
         Response response = new Response();
 
@@ -250,7 +270,13 @@ public class EdelwishService
 
             if (null != booking)
             {
-                edelwishDao.savePayment(booking.getId(), paymentTypeId, receipt);
+                edelwishDao.savePayment(booking.getId(), paymentTypeId, total, receipt);
+
+                if (paymentTypeId == 1)
+                {
+                    edelwishDao.updateBooking(booking.getId(), "CONFIRMED");
+                }
+
                 response.setCode(ConstantPreference.RESPONSE_CODE_OK);
                 response.setMessage(ConstantPreference.RESPONSE_MESSAGE_OK);
             }
@@ -269,6 +295,59 @@ public class EdelwishService
         }
 
         return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<String> historyPayment()
+    {
+        Response response = new Response();
+
+        try
+        {
+            List<User> userList = edelwishDao.getBookingUser();
+
+            if (!userList.isEmpty())
+            {
+                List<PaymentHistory> paymentHistories = new ArrayList<>();
+
+                for (User user : userList)
+                {
+                    PaymentHistory history = new PaymentHistory();
+                    history.setId(user.getId());
+                    history.setFirstname(user.getFirstname());
+                    history.setLastname(user.getLastname());
+                    history.setEmail(user.getEmail());
+
+                    List<Booking> bookingList = edelwishDao.getBookingDetailByUserId(user.getId());
+
+                    for (Booking booking : bookingList)
+                    {
+                        List<Payment> paymentList = edelwishDao.getPaymentDetailByBookingId(booking.getId());
+                        booking.setPaymentList(paymentList);
+                    }
+
+                    history.setBookingList(bookingList);
+                    paymentHistories.add(history);
+                }
+
+                response.setCode(ConstantPreference.RESPONSE_CODE_OK);
+                response.setMessage(ConstantPreference.RESPONSE_MESSAGE_OK);
+                response.setPaymentHistories(paymentHistories);
+            }
+            else
+            {
+                throw new NoContentException();
+            }
+        }
+        catch (NoContentException nce)
+        {
+            throw new NoContentException();
+        }
+        catch (Exception e)
+        {
+            throw new InternalServerErrorException(e.getMessage());
+        }
+
+        return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.OK);
     }
 
     public ResponseEntity<String> listPackage()
@@ -317,15 +396,14 @@ public class EdelwishService
 
                 for (WeddingPackage aPackage : packageList)
                 {
-                    List<DetailPackage> detailPackages = edelwishDao.getDetailPackage(aPackage.getDetailPackage());
-                    aPackage.setDetailPackage(null);
+                    List<DetailPackage> detailPackages = edelwishDao.getDetailPackage(aPackage.getId());
                     aPackage.setDetailPackages(detailPackages);
 
-                    List<DetailBuffet> detailBuffets = edelwishDao.getDetailBuffet(aPackage.getDetailBuffet());
-                    aPackage.setDetailBuffet(null);
+                    List<DetailBuffet> detailBuffets = edelwishDao.getDetailBuffet(aPackage.getBuffetId());
                     aPackage.setDetailBuffets(detailBuffets);
                 }
 
+                packageList.sort(Comparator.comparing(WeddingPackage::getId));
                 response.setWeddingPackages(packageList);
             }
             else
@@ -391,8 +469,7 @@ public class EdelwishService
 
                 for (Buffet buffet : buffets)
                 {
-                    List<DetailBuffet> detailBuffets = edelwishDao.getDetailBuffet(buffet.getDetailBuffet());
-                    buffet.setDetailBuffet(null);
+                    List<DetailBuffet> detailBuffets = edelwishDao.getDetailBuffet(buffet.getId());
                     buffet.setDetailBuffets(detailBuffets);
                 }
 
@@ -428,6 +505,109 @@ public class EdelwishService
                 response.setCode(ConstantPreference.RESPONSE_CODE_OK);
                 response.setMessage(ConstantPreference.RESPONSE_MESSAGE_OK);
                 response.setDetailBuffets(detailBuffets);
+            }
+            else
+            {
+                throw new NoContentException();
+            }
+        }
+        catch (NoContentException nce)
+        {
+            throw new NoContentException();
+        }
+        catch (Exception e)
+        {
+            throw new InternalServerErrorException(e.getMessage());
+        }
+
+        return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> updatePackageBuffet(Long id, Long buffetId)
+    {
+        Response response = new Response();
+
+        try
+        {
+            edelwishDao.updatePackageBuffet(id, buffetId);
+            response.setCode(ConstantPreference.RESPONSE_CODE_OK);
+            response.setMessage(ConstantPreference.RESPONSE_MESSAGE_OK);
+        }
+        catch (Exception e)
+        {
+            throw new InternalServerErrorException(e.getMessage());
+        }
+
+        return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> updatePackageDetail(Long id, int[] detailPackageIds)
+    {
+        Response response = new Response();
+
+        try
+        {
+            edelwishDao.updatePackageDetail(id, detailPackageIds);
+            response.setCode(ConstantPreference.RESPONSE_CODE_OK);
+            response.setMessage(ConstantPreference.RESPONSE_MESSAGE_OK);
+        }
+        catch (Exception e)
+        {
+            throw new InternalServerErrorException(e.getMessage());
+        }
+
+        return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> updatePackageDetailBuffet(Long id, int[] detailBuffetIds)
+    {
+        Response response = new Response();
+
+        try
+        {
+            edelwishDao.updatePackageDetailBuffet(id, detailBuffetIds);
+            response.setCode(ConstantPreference.RESPONSE_CODE_OK);
+            response.setMessage(ConstantPreference.RESPONSE_MESSAGE_OK);
+        }
+        catch (Exception e)
+        {
+            throw new InternalServerErrorException(e.getMessage());
+        }
+
+        return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> deletePackage(Long packageId)
+    {
+        Response response = new Response();
+
+        try
+        {
+            edelwishDao.deletePackage(packageId);
+            response.setCode(ConstantPreference.RESPONSE_CODE_OK);
+            response.setMessage(ConstantPreference.RESPONSE_MESSAGE_OK);
+        }
+        catch (Exception e)
+        {
+            throw new InternalServerErrorException(e.getMessage());
+        }
+
+        return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> packageBuilding(Long packageId)
+    {
+        Response response = new Response();
+
+        try
+        {
+            List<Building> buildings = edelwishDao.getBuildingByPackage(packageId);
+
+            if (!buildings.isEmpty())
+            {
+                response.setCode(ConstantPreference.RESPONSE_CODE_OK);
+                response.setMessage(ConstantPreference.RESPONSE_MESSAGE_OK);
+                response.setBuildingList(buildings);
             }
             else
             {
@@ -484,6 +664,25 @@ public class EdelwishService
         try
         {
             edelwishDao.addPackage(request);
+            response.setCode(ConstantPreference.RESPONSE_CODE_OK);
+            response.setMessage(ConstantPreference.RESPONSE_MESSAGE_OK);
+        }
+        catch (Exception e)
+        {
+            throw new InternalServerErrorException(e.getMessage());
+        }
+
+        return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<String> addPackageV2(Request request)
+    {
+        Response response = new Response();
+
+        try
+        {
+            long id = edelwishDao.addPackageV2(request);
+            edelwishDao.addDetailPackageV2(id, request.getDetailPackageIds());
             response.setCode(ConstantPreference.RESPONSE_CODE_OK);
             response.setMessage(ConstantPreference.RESPONSE_MESSAGE_OK);
         }

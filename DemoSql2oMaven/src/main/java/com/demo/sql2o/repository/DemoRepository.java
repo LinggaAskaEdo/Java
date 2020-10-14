@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
+import org.sql2o.Query;
 import org.sql2o.Sql2o;
 
 import java.math.BigInteger;
@@ -18,8 +19,8 @@ public class DemoRepository
 {
     private static final Logger logger = LogManager.getLogger();
 
-    private Sql2o sql2o;
-    private ElSql bundle;
+    private final Sql2o sql2o;
+    private final ElSql bundle;
 
     @Autowired
     public DemoRepository(Sql2o sql2o)
@@ -35,13 +36,13 @@ public class DemoRepository
 
         List<Student> result = null;
 
-        try (Connection connection = sql2o.open())
+        try (Connection connection = sql2o.open(); Query query = connection.createQuery(sql))
         {
-            result = connection.createQuery(sql).executeAndFetch(Student.class);
+            result = query.executeAndFetch(Student.class);
         }
         catch (Exception e)
         {
-            logger.error("Error when findAll: {}", e);
+            logger.error("Error when findAll: ", e);
         }
 
         return result;
@@ -54,13 +55,13 @@ public class DemoRepository
 
         Student result = null;
 
-        try (Connection connection = sql2o.open())
+        try (Connection connection = sql2o.open(); Query query = connection.createQuery(sql))
         {
-            result = connection.createQuery(sql).addParameter("id", id).executeAndFetchFirst(Student.class);
+            result = query.addParameter("id", id).executeAndFetchFirst(Student.class);
         }
         catch (Exception e)
         {
-            logger.error("Error when findById: {}", e);
+            logger.error("Error when findById: ", e);
         }
 
         return result;
@@ -71,13 +72,13 @@ public class DemoRepository
         String sql = bundle.getSql("DeleteStudentById");
         logger.info("DeleteStudentById: {}", sql);
 
-        try (Connection connection = sql2o.open())
+        try (Connection connection = sql2o.open(); Query query = connection.createQuery(sql))
         {
-            connection.createQuery(sql).addParameter("id", id).executeUpdate();
+            query.addParameter("id", id).executeUpdate();
         }
         catch (Exception e)
         {
-            logger.error("Error when deleteById: {}", e);
+            logger.error("Error when deleteById: ", e);
         }
     }
 
@@ -88,13 +89,13 @@ public class DemoRepository
 
         BigInteger result = null;
 
-        try (Connection connection = sql2o.open())
+        try (Connection connection = sql2o.open(); Query query = connection.createQuery(sql, true))
         {
-            result = (BigInteger) connection.createQuery(sql, true).bind(student).executeUpdate().getKey();
+            result = (BigInteger) query.bind(student).executeUpdate().getKey();
         }
         catch (Exception e)
         {
-            logger.error("Error when save: {}", e);
+            logger.error("Error when save: ", e);
         }
 
         return result;
@@ -105,13 +106,13 @@ public class DemoRepository
         String sql = bundle.getSql("UpdateStudent");
         logger.info("UpdateStudent: {}", sql);
 
-        try (Connection connection = sql2o.open())
+        try (Connection connection = sql2o.open(); Query query = connection.createQuery(sql))
         {
-            connection.createQuery(sql).bind(student).executeUpdate();
+            query.bind(student).executeUpdate();
         }
         catch (Exception e)
         {
-            logger.error("Error when update: {}", e);
+            logger.error("Error when update: ", e);
         }
     }
 }

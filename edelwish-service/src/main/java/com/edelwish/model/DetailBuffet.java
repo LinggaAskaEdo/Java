@@ -1,7 +1,5 @@
 package com.edelwish.model;
 
-import java.util.List;
-
 public class DetailBuffet
 {
     private Long id;

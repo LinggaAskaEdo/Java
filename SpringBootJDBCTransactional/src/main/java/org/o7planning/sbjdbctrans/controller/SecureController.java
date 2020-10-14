@@ -13,7 +13,7 @@ public class SecureController
 {
     private static final Logger logger = LoggerFactory.getLogger(SecureController.class);
 
-    private SecurityContextHolder contextHolder;
+    private final SecurityContextHolder contextHolder;
 
     @Autowired
     public SecureController(SecurityContextHolder contextHolder)
@@ -29,11 +29,4 @@ public class SecureController
         logger.info(contextHolder.getMobId());
         logger.info(contextHolder.getUserName());
     }
-
-//    @GetMapping(value = "/secure2")
-//    public void getResource3(@RequestHeader(value = "x-authenticated-userid") String xauth) throws JsonProcessingException
-//    {
-//        ObjectMapper mapper = new ObjectMapper();
-//        logger.info(mapper.readValue(xauth, ResourceHeaders.class).getUserName());
-//    }
 }

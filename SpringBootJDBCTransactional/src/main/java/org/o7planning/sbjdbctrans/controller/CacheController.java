@@ -13,7 +13,7 @@ import java.util.Objects;
 @RestController
 public class CacheController
 {
-    private CacheManager cacheManager;
+    private final CacheManager cacheManager;
 
     @Autowired
     public CacheController(CacheManager cacheManager)

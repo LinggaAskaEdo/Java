@@ -1,0 +1,14 @@
+@NAME(GetAccounts)
+    SELECT ID, FULL_NAME, BALANCE FROM BANK_ACCOUNT
+
+@NAME(GetAccountById)
+    SELECT ID, FULL_NAME, BALANCE FROM BANK_ACCOUNT WHERE ID = :id
+
+@NAME(UpdateBankAccount)
+    UPDATE BANK_ACCOUNT SET BALANCE = :amount WHERE ID = :id
+
+@NAME(InsertHistory)
+    INSERT INTO BANK_HISTORY (DATE, ID_ACCOUNT_SOURCE, ID_ACCOUNT_DEST, TOTAL) VALUES (:date, :idAccountSource, :idAccountDest, :total)
+
+@NAME(InsertAccount)
+    INSERT INTO BANK_ACCOUNT (FULL_NAME, BALANCE) VALUES (:fullName, :amount)

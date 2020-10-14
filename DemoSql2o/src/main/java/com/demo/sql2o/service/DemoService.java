@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class DemoService
 {
-    private DemoRepository repository;
+    private final DemoRepository repository;
 
     @Autowired
     public DemoService(DemoRepository repository)

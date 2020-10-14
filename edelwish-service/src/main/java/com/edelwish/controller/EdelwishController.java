@@ -73,7 +73,7 @@ public class EdelwishController
     public ResponseEntity<String> booking(@RequestBody Request request)
     {
         if (null != request.getUserId() && null != request.getAddress() && null != request.getPhoneNumber() && null != request.getEventDateTime()
-                && null != request.getWeddingCategory() && null != request.getWeddingPackage() && null != request.getBookingFee())
+                && null != request.getWeddingCategory() && null != request.getWeddingPackage() && null != request.getWeddingBuilding())
         {
             return service.booking(request);
         }
@@ -102,23 +102,29 @@ public class EdelwishController
         return service.getSchedule();
     }
 
-    @GetMapping(value = "/v1/list-payment", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> listPayment()
+    @GetMapping(value = "/v1/list-payment/{user-id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> listPayment(@PathVariable("user-id") Long userId)
     {
-        return service.listPayment();
+        return service.listPayment(userId);
     }
 
     @PostMapping(value = "/v1/payment", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> payment(@RequestBody Request request)
     {
-        if (null != request.getBookingNumber() && null != request.getPaymentTypeId() && null != request.getReceipt())
+        if (null != request.getBookingNumber() && null != request.getPaymentTypeId() && null != request.getTotal() && null != request.getReceipt())
         {
-            return service.payment(request.getBookingNumber(), request.getPaymentTypeId(), request.getReceipt());
+            return service.payment(request.getBookingNumber(), request.getPaymentTypeId(), request.getTotal(), request.getReceipt());
         }
         else
         {
             throw new BadRequestException(ConstantPreference.MISSING_OBJECT);
         }
+    }
+
+    @GetMapping(value = "/v1/history-payment", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> historyPayment()
+    {
+        return service.historyPayment();
     }
 
     @GetMapping(value = "/v1/list-package", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -151,6 +157,57 @@ public class EdelwishController
         return service.listDetailBuffetV2();
     }
 
+    @PutMapping(value = "/v2/package-buffet", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updatePackageBuffet(@RequestBody Request request)
+    {
+        if (null != request.getId() && null != request.getBuffetId())
+        {
+            return service.updatePackageBuffet(request.getId(), request.getBuffetId());
+        }
+        else
+        {
+            throw new BadRequestException(ConstantPreference.MISSING_OBJECT);
+        }
+    }
+
+    @PutMapping(value = "/v2/package-detail", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updatePackageDetail(@RequestBody Request request)
+    {
+        if (null != request.getId() && null != request.getDetailPackageIds())
+        {
+            return service.updatePackageDetail(request.getId(), request.getDetailPackageIds());
+        }
+        else
+        {
+            throw new BadRequestException(ConstantPreference.MISSING_OBJECT);
+        }
+    }
+
+    @PutMapping(value = "/v2/package-detail-buffet", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updatePackageDetailBuffet(@RequestBody Request request)
+    {
+        if (null != request.getId() && null != request.getDetailBuffetIds())
+        {
+            return service.updatePackageDetailBuffet(request.getId(), request.getDetailBuffetIds());
+        }
+        else
+        {
+            throw new BadRequestException(ConstantPreference.MISSING_OBJECT);
+        }
+    }
+
+    @DeleteMapping(value = "/v2/package/{package-id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> deletePackage(@PathVariable("package-id") Long packageId)
+    {
+        return service.deletePackage(packageId);
+    }
+
+    @GetMapping(value = "/v1/package-building/{package-id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> packageBuilding(@PathVariable("package-id") Long packageId)
+    {
+        return service.packageBuilding(packageId);
+    }
+
     @GetMapping(value = "/v1/gallery", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> gallery()
     {
@@ -163,6 +220,20 @@ public class EdelwishController
         if (null != request.getPackageName() && null != request.getPackagePrice() && null != request.getPackageDetail())
         {
             return service.addPackage(request);
+        }
+        else
+        {
+            throw new BadRequestException(ConstantPreference.MISSING_OBJECT);
+        }
+    }
+
+    @PostMapping(value = "/v2/add-package", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> addPackageV2(@RequestBody Request request)
+    {
+        if (null != request.getPackageName() && null != request.getPackagePrice() && null != request.getTotalBuffet()
+                && null != request.getBuffetId() && null != request.getDetailPackageIds() && null != request.getBonus())
+        {
+            return service.addPackageV2(request);
         }
         else
         {

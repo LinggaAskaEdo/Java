@@ -21,7 +21,7 @@ import java.util.List;
 @Transactional
 public class BankAccountDAO extends JdbcDaoSupport
 {
-    private ElSql bundle;
+    private final ElSql bundle;
 
     @Autowired
     public BankAccountDAO(DataSource dataSource)

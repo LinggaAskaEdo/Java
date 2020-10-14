@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class DBService
 {
-    private BankAccountDAO dao;
+    private final BankAccountDAO dao;
 
     @Autowired
     public DBService(BankAccountDAO dao)

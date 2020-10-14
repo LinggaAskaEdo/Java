@@ -1,14 +1,14 @@
 @NAME(GetAllStudent)
-    SELECT id, nim, name, passportNumber FROM student
+    SELECT ID, NIM, NAME, PASSPORTNUMBER FROM STUDENT
 
 @NAME(GetStudentById)
-    SELECT id, nim, name, passportNumber FROM student where id = :id
+    SELECT ID, NIM, NAME, PASSPORTNUMBER FROM STUDENT WHERE ID = :id
 
 @NAME(DeleteStudentById)
-    DELETE FROM student where id = :id
+    DELETE FROM STUDENT WHERE ID = :id
 
 @NAME(SaveStudent)
-    INSERT INTO student VALUES (id, :nim, :name, :passportNumber)
+    INSERT INTO STUDENT VALUES (id, :nim, :name, :passportNumber)
 
 @NAME(UpdateStudent)
-    UPDATE student set nim = :nim, name = :name, passportNumber = :passportNumber where id = :id
+    UPDATE STUDENT SET NIM = :nim, NAME = :name, PASSPORTNUMBER = :passportNumber WHERE ID = :id

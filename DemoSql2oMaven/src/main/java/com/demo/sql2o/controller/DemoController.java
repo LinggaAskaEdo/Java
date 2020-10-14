@@ -16,7 +16,7 @@ import java.util.Optional;
 @RestController
 public class DemoController
 {
-    private DemoService service;
+    private final DemoService service;
 
     @Autowired
     public DemoController(DemoService service)

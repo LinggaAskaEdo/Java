@@ -22,6 +22,8 @@ public class Response
     private List<DetailPackage> detailPackages;
     private List<DetailBuffet> detailBuffets;
     private List<Buffet> buffets;
+    private List<PaymentHistory> paymentHistories;
+    private List<Building> buildingList;
 
     public Response()
     {}
@@ -193,5 +195,25 @@ public class Response
     public void setBuffets(List<Buffet> buffets)
     {
         this.buffets = buffets;
+    }
+
+    public List<PaymentHistory> getPaymentHistories()
+    {
+        return paymentHistories;
+    }
+
+    public void setPaymentHistories(List<PaymentHistory> paymentHistories)
+    {
+        this.paymentHistories = paymentHistories;
+    }
+
+    public List<Building> getBuildingList()
+    {
+        return buildingList;
+    }
+
+    public void setBuildingList(List<Building> buildingList)
+    {
+        this.buildingList = buildingList;
     }
 }

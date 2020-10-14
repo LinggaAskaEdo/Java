@@ -11,6 +11,7 @@ targetCompatibility = 1.8
 repositories {
     mavenLocal()
     mavenCentral()
+    maven { url "https://repo1.maven.org/maven2/" }
     maven { url "http://repo.spring.io/libs-milestone" }
 }
 
@@ -70,6 +71,9 @@ dependencies {
 
     //FirstCsv
     compile files("libs/altamides-v3-first-csv.jar")
+
+    //IText
+    compile("com.itextpdf:itextpdf:5.5.13.2")
 
     //RabbitMQ
     compile("com.rabbitmq:amqp-client:3.0.4")

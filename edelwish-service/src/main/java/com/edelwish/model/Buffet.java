@@ -6,14 +6,12 @@ public class Buffet
 {
     private Long id;
     private String name;
-    private String detailBuffet;
     private List<DetailBuffet> detailBuffets;
 
-    public Buffet(Long id, String name, String detailBuffet)
+    public Buffet(Long id, String name)
     {
         this.id = id;
         this.name = name;
-        this.detailBuffet = detailBuffet;
     }
 
     public Long getId()
@@ -34,16 +32,6 @@ public class Buffet
     public void setName(String name)
     {
         this.name = name;
-    }
-
-    public String getDetailBuffet()
-    {
-        return detailBuffet;
-    }
-
-    public void setDetailBuffet(String detailBuffet)
-    {
-        this.detailBuffet = detailBuffet;
     }
 
     public List<DetailBuffet> getDetailBuffets()

@@ -9,6 +9,17 @@ public class User
     private String password;
     private Integer type;
 
+    public User()
+    {}
+
+    public User(Long id, String firstname, String lastname, String email)
+    {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+    }
+
     public Long getId()
     {
         return id;

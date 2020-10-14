@@ -1,0 +1,5 @@
+@NAME(SaveUniqueId)
+    INSERT INTO UNIQUE_ID VALUES (:id)
+
+@NAME(GetUniqueId)
+    SELECT COUNT(ID) FROM UNIQUE_ID WHERE ID = :id

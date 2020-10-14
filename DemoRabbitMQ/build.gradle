@@ -1,0 +1,35 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.0-SNAPSHOT'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+}
+
+group = 'com.demo.rabbitmq'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+configurations.all {
+	exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+	exclude group: "org.springframework.boot", module: "logback-classic"
+}
+
+dependencies {
+	//Spring Boot
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+	//Commons IO
+	implementation 'commons-io:commons-io:2.8.0'
+
+	//test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.mockito:mockito-all:1.10.19'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+}

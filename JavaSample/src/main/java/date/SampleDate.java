@@ -18,7 +18,7 @@ public class SampleDate
         //String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
         //System.out.println("Current Time: " + currentTime);
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyMMdd");
         LocalDateTime now = LocalDateTime.now();
         System.out.println(dtf.format(now));
     }

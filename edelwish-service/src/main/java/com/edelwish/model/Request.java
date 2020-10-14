@@ -15,15 +15,22 @@ public class Request
     private String eventDateTime;
     private Long weddingCategory;
     private Long weddingPackage;
+    private Long weddingBuilding;
     private Long bookingFee;
     private String bookingNumber;
     private Long paymentTypeId;
+    private Long total;
     private String receipt;
     private String bookingStatus;
     private String packageName;
     private String packagePrice;
     private String packageDetail;
     private String photoUrl;
+    private String totalBuffet;
+    private Long buffetId;
+    private String[] bonus;
+    private int[] detailPackageIds;
+    private int[] detailBuffetIds;
 
     public Long getId()
     {
@@ -155,6 +162,16 @@ public class Request
         this.weddingPackage = weddingPackage;
     }
 
+    public Long getWeddingBuilding()
+    {
+        return weddingBuilding;
+    }
+
+    public void setWeddingBuilding(Long weddingBuilding)
+    {
+        this.weddingBuilding = weddingBuilding;
+    }
+
     public Long getBookingFee()
     {
         return bookingFee;
@@ -183,6 +200,16 @@ public class Request
     public void setPaymentTypeId(Long paymentTypeId)
     {
         this.paymentTypeId = paymentTypeId;
+    }
+
+    public Long getTotal()
+    {
+        return total;
+    }
+
+    public void setTotal(Long total)
+    {
+        this.total = total;
     }
 
     public String getReceipt()
@@ -243,5 +270,55 @@ public class Request
     public void setPhotoUrl(String photoUrl)
     {
         this.photoUrl = photoUrl;
+    }
+
+    public String getTotalBuffet()
+    {
+        return totalBuffet;
+    }
+
+    public void setTotalBuffet(String totalBuffet)
+    {
+        this.totalBuffet = totalBuffet;
+    }
+
+    public Long getBuffetId()
+    {
+        return buffetId;
+    }
+
+    public void setBuffetId(Long buffetId)
+    {
+        this.buffetId = buffetId;
+    }
+
+    public String[] getBonus()
+    {
+        return bonus;
+    }
+
+    public void setBonus(String[] bonus)
+    {
+        this.bonus = bonus;
+    }
+
+    public int[] getDetailPackageIds()
+    {
+        return detailPackageIds;
+    }
+
+    public void setDetailPackageIds(int[] detailPackageIds)
+    {
+        this.detailPackageIds = detailPackageIds;
+    }
+
+    public int[] getDetailBuffetIds()
+    {
+        return detailBuffetIds;
+    }
+
+    public void setDetailBuffetIds(int[] detailBuffetIds)
+    {
+        this.detailBuffetIds = detailBuffetIds;
     }
 }

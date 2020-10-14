@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class StudentNotFoundException extends RuntimeException
 {
-    private String id;
+    private final String id;
 
     public StudentNotFoundException(String id)
     {

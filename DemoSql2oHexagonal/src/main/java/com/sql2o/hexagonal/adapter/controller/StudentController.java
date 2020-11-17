@@ -37,7 +37,7 @@ public class StudentController
     @PostMapping("/students")
     public Response createStudent(@RequestBody Request request)
     {
-        if (null != request.getNim() && null != request.getName() && null != request.getPassportNumber())
+        if (null != request.getNim() && null != request.getStudentName() && null != request.getPassportNumber())
             return studentUseCase.saveStudent(request);
         else
             throw new BadRequestException();
@@ -46,7 +46,7 @@ public class StudentController
     @PutMapping("/students/{id}")
     public Response updateStudent(@RequestBody Request request, @PathVariable long id)
     {
-        if (null != request.getNim() && null != request.getName() && null != request.getPassportNumber())
+        if (null != request.getNim() && null != request.getStudentName() && null != request.getPassportNumber())
             return studentUseCase.updateStudent(request, id);
         else
             throw new BadRequestException();

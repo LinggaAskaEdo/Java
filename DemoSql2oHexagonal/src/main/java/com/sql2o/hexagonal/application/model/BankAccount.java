@@ -1,10 +1,15 @@
 package com.sql2o.hexagonal.application.model;
 
-public class BankAccount
+import java.io.Serializable;
+
+public class BankAccount implements Serializable
 {
     private Long id;
     private String fullName;
     private Double balance;
+
+    public BankAccount()
+    {}
 
     public BankAccount(Long id, String fullName, double balance)
     {

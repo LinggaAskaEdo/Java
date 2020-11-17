@@ -2,10 +2,7 @@ package com.sql2o.hexagonal.adapter.listener;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sql2o.hexagonal.adapter.dao.StudentDao;
-import com.sql2o.hexagonal.application.model.Car;
-import com.sql2o.hexagonal.application.model.Document;
-import com.sql2o.hexagonal.application.model.Registration;
-import com.sql2o.hexagonal.application.model.Student;
+import com.sql2o.hexagonal.application.model.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -86,5 +83,23 @@ public class QueueListener
         }
 
         return new Registration(car.getId(), new Date(), "Ms. Rabbit", "Signature of the registration");
+    }
+
+    @RabbitListener(queues = "${test.queue}", concurrency = "3")
+    public void receivedMessageTest(Test test)
+    {
+        ObjectMapper mapper = new ObjectMapper();
+        MDC.put(REQUEST_ID, "test-" + RandomStringUtils.randomNumeric(5));
+
+        try
+        {
+            logger.debug("Received Message From TestQueue: {}", mapper.writeValueAsString(test));
+            logger.debug("id: {}", test.getId());
+            logger.debug("name: {}", test.getName());
+        }
+        catch (Exception e)
+        {
+            logger.error("Error when receivedMessageTest: ", e);
+        }
     }
 }

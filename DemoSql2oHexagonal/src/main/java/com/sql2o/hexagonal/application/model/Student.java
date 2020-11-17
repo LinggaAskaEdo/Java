@@ -2,19 +2,19 @@ package com.sql2o.hexagonal.application.model;
 
 public class Student
 {
-    private Long id;
+    private Long studentId;
     private String nim;
     private String name;
     private String passportNumber;
 
-    public Long getId()
+    public Long getStudentId()
     {
-        return id;
+        return studentId;
     }
 
-    public void setId(Long id)
+    public void setStudentId(Long studentId)
     {
-        this.id = id;
+        this.studentId = studentId;
     }
 
     public String getNim()
@@ -51,7 +51,7 @@ public class Student
     public String toString()
     {
         return "Student{" +
-                "id=" + id +
+                "id=" + studentId +
                 ", nim='" + nim + '\'' +
                 ", name='" + name + '\'' +
                 ", passportNumber='" + passportNumber + '\'' +

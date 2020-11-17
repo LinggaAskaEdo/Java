@@ -57,7 +57,7 @@ public class BankDao implements BankPort
     }
 
     @Override
-    @Cacheable(value = CacheConfiguration.BANK_CACHE, key = "#id")
+    @Cacheable(value = CacheConfiguration.BANK_CACHE, key = "#id", cacheManager = "redisCacheManager")
     public BankAccount findById(long id)
     {
         String sql = bundle.getSql("GetAccountById");

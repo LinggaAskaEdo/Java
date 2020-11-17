@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.math.BigInteger;
+import java.text.*;
 import java.util.*;
 
 @RestController
@@ -49,21 +49,38 @@ public class PdfController
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         String folderDate = dateFormat.format(date);
 
+//        final ICssApplier customImageCssApplier = new BlockCssApplier() {
+//            @Override
+//            public void apply(ProcessorContext context, IStylesContainer stylesContainer, ITagWorker tagWorker) {
+//                super.apply(context, stylesContainer, tagWorker);
+//                if (tagWorker.getElementResult() instanceof Image) {
+//                    Image img = (Image) tagWorker.getElementResult();
+//                    if (img.getImageWidth() > 500) {
+//                        img.setWidth(UnitValue.createPercentValue(100));
+//                    }
+//                }
+//            }
+//        };
+
         ConverterProperties converterProperties = new ConverterProperties();
         converterProperties.setBaseUri(BASE_URI);
+//        converterProperties.setCssApplierFactory()
 
-        String referenceNumber = RandomStringUtils.randomNumeric(10);
+        String referenceNumber = "PL1234567890";
 
         Map<String, Object> model = new HashMap<>();
+        model.put("creditorsName", "PT Home Credit Indonesia");
+        model.put("interestRate", "3.49");
+        model.put("transactionDateTime", "04 November 2020, 14:44:00");
         model.put("referenceNumber", referenceNumber);
         model.put("customerName", "Mast Jaya");
         model.put("NIK", "34350110989990");
         model.put("merchantName", "HYPERMART");
         model.put("category", "Kebutuhan Sehari-hari");
-        model.put("amount", "50000");
+        model.put("amount", generateThousandSeparator("50000"));
         model.put("tenor", "3");
         model.put("annualInterestRate", "3.49");
-        model.put("monthlyInstallmentAmount", "45000");
+        model.put("monthlyInstallmentAmount", generateThousandSeparator("45000"));
         model.put("dueDate", "28");
         model.put("date", "17 September 2020, 18:54:53");
 
@@ -96,5 +113,16 @@ public class PdfController
         }
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    private String generateThousandSeparator(String number)
+    {
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+
+        formatter.setDecimalFormatSymbols(symbols);
+
+        return formatter.format(new BigInteger(number));
     }
 }

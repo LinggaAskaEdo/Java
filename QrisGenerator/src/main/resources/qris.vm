@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html
+    lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:v="urn:schemas-microsoft-com:vml"
+    xmlns:o="urn:schemas-microsoft-com:office:office"
+>
+    <head>
+        <meta charset="utf-8" />
+        <!-- utf-8 works for most cases -->
+        <meta name="viewport" content="width=device-width" />
+        <!-- Forcing initial-scale shouldn't be necessary -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <!-- Use the latest (edge) version of IE rendering engine -->
+        <meta name="x-apple-disable-message-reformatting" />
+        <!-- Disable auto-scale in iOS 10 Mail entirely -->
+        <title></title>
+        <!-- The title tag shows in email notifications, like Android 4.4. -->
+        <style>
+            body {
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                font-size: 14px;
+                text-align: justify;
+                margin: 20px;
+            }
+
+            .background {
+                position: relative;
+                display: block;
+                margin: 0 auto;
+            }
+
+            .content {
+                width: 100%;
+                position: absolute;
+                top: 0;
+                margin: 200px auto;
+                text-align: center;
+            }
+
+            .title {
+                font-size: 20px;
+                font-weight: 600;
+                margin-bottom: 10px;
+            }
+
+            .nmid {
+                font-size: 18px;
+                font-weight: 400;
+                margin-bottom: 5px;
+            }
+
+            .image-qr {
+                width: 45%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div>
+            <img src="${background}" class="background" alt=""/>
+            <div class="content">
+                <div class="title">${title}</div>
+                <div class="nmid">NMID: ${nmid}</div>
+                <img class="image-qr" src="data:image/jpg;base64,${qris}" alt="qris"/>
+            </div>
+        </div>
+    </body>
+</html>

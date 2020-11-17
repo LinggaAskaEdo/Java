@@ -2,9 +2,11 @@ package com.sql2o.hexagonal.adapter.config;
 
 import com.sql2o.hexagonal.Application;
 import com.sql2o.hexagonal.adapter.dao.BankDao;
+import com.sql2o.hexagonal.adapter.dao.RedisDao;
 import com.sql2o.hexagonal.adapter.dao.StudentDao;
 import com.sql2o.hexagonal.adapter.ws.MovieREST;
 import com.sql2o.hexagonal.application.service.BankService;
+import com.sql2o.hexagonal.application.service.EmployeeService;
 import com.sql2o.hexagonal.application.service.MovieService;
 import com.sql2o.hexagonal.application.service.StudentService;
 import org.springframework.context.annotation.Bean;
@@ -31,5 +33,11 @@ public class BeanConfiguration
     MovieService movieService(MovieREST movieREST)
     {
         return new MovieService(movieREST);
+    }
+
+    @Bean
+    EmployeeService employeeService(RedisDao redisDao)
+    {
+        return new EmployeeService(redisDao);
     }
 }

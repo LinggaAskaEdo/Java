@@ -1,0 +1,77 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'java'
+}
+
+def jarBaseName = 'qris-generator'
+def distributionFolder = 'qris-generator'
+def configFiles = [ 'application.properties' ] as Set
+
+jar {
+    archivesBaseName = jarBaseName
+    exclude configFiles
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+    //SpringBoot
+    implementation('org.springframework.boot:spring-boot-starter-web') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
+
+    //Spring Context Support
+    implementation('org.springframework:spring-context-support:4.2.9.RELEASE')
+
+    //Excell
+    implementation('org.apache.poi:poi:4.1.2')
+    implementation('org.apache.poi:poi-ooxml:4.1.2')
+
+    //Velocity
+    implementation('org.apache.velocity:velocity:1.7')
+
+    //IText Core
+    implementation('com.itextpdf:itextpdf:5.5.13.2')
+
+    //PdfHTML
+    implementation('com.itextpdf:html2pdf:3.0.1')
+
+    //QR Code
+    implementation('com.google.zxing:core:3.4.1')
+    implementation('com.google.zxing:javase:3.4.1')
+
+    //Commons
+    implementation('commons-io:commons-io:2.5')
+
+    testImplementation('junit:junit:4.12')
+}
+
+task copyFilesToPackage {
+    doLast {
+        copy {
+            from 'build/libs/' + jarBaseName + '.jar'
+            into 'build/' + distributionFolder + '/lib'
+        }
+
+        copy {
+            from('src/main/resources') {
+                include configFiles
+            }
+            into 'build/' + distributionFolder
+        }
+    }
+}
+
+task zipPackage(type: Zip, dependsOn: 'copyFilesToPackage') {
+    from 'build/' + distributionFolder
+    archivesBaseName = distributionFolder
+}
+
+build.dependsOn zipPackage
+zipPackage.mustRunAfter check

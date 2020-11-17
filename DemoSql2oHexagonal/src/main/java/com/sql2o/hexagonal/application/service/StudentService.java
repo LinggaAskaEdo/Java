@@ -66,7 +66,12 @@ public class StudentService implements StudentUseCase
     {
         Response response = new Response();
 
-        BigInteger savedStudent = studentPort.save(request);
+        Student student = new Student();
+        student.setNim(request.getNim());
+        student.setName(request.getStudentName());
+        student.setPassportNumber(request.getPassportNumber());
+
+        BigInteger savedStudent = studentPort.save(student);
 
         if (savedStudent.compareTo(BigInteger.ZERO) > 0)
             response.setMessage(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedStudent).toUri().toString());
@@ -86,9 +91,13 @@ public class StudentService implements StudentUseCase
         if (!studentOptional.isPresent())
             throw new NotFoundException("id: " + id);
 
-        request.setId(id);
+        Student student = new Student();
+        student.setStudentId(id);
+        student.setNim(request.getNim());
+        student.setName(request.getStudentName());
+        student.setPassportNumber(request.getPassportNumber());
 
-        if (studentPort.update(request))
+        if (studentPort.update(student))
             response.setMessage("Successfully update: " + id);
         else
             throw new InternalServerErrorException("Failed update: " + id);

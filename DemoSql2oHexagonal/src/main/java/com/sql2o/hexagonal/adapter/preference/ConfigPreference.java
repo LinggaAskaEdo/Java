@@ -70,4 +70,13 @@ public class ConfigPreference
 
     @Value("${spring.rabbitmq.password}")
     public String rabbitmqPassword;
+
+    @Value("${redis.host}")
+    public String redisHost;
+
+    @Value("${redis.port}")
+    public int redisPort;
+
+    @Value("${redis.database}")
+    public int redisDatabase;
 }

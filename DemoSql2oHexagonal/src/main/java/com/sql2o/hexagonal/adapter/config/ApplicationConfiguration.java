@@ -51,6 +51,7 @@ public class ApplicationConfiguration
         resourceList.add(new ClassPathResource("executor.properties"));
         resourceList.add(new ClassPathResource("web-service.properties"));
         resourceList.add(new ClassPathResource("queue.properties"));
+        resourceList.add(new ClassPathResource("redis.properties"));
         resourceList.add(new FileSystemResource("/etc/myapp/overriding.properties"));
 
         placeholderConfigurer.setLocations(resourceList.toArray(new Resource[]{}));

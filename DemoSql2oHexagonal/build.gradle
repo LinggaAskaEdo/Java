@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.4.0-SNAPSHOT'
+	id 'org.springframework.boot' version '2.3.5.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
 }
@@ -34,6 +34,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 	//Spring Context Support
 	implementation 'org.springframework:spring-context-support:4.2.9.RELEASE'
@@ -62,11 +63,8 @@ dependencies {
 	//Jasypt
 	implementation 'org.jasypt:jasypt-spring4:1.9.3'
 
-	//Cache
-	implementation 'com.github.ben-manes.caffeine:caffeine:2.8.5'
-
 	//Guava
-	implementation 'com.google.guava:guava:29.0-jre'
+	implementation 'com.google.guava:guava:30.0-jre'
 
 	//Velocity
 	implementation 'org.apache.velocity:velocity:1.7'
@@ -75,7 +73,13 @@ dependencies {
 	implementation 'com.itextpdf:itextpdf:5.5.13.2'
 
 	//PdfHTML
-	implementation 'com.itextpdf:html2pdf:3.0.1'
+	implementation 'com.itextpdf:html2pdf:3.0.2'
+
+	//Jedis
+	implementation 'redis.clients:jedis:3.3.0'
+
+	//Gson
+	implementation 'com.google.code.gson:gson:2.8.6'
 
 	//test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

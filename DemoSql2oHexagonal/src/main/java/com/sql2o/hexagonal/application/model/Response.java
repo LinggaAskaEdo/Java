@@ -15,6 +15,7 @@ public class Response
     private BankAccount bankAccount;
     private List<BankAccount> bankAccounts;
     private MovieInfo movieInfo;
+    private Employee employee;
 
     public Response()
     {}
@@ -147,5 +148,15 @@ public class Response
     public void setMovieInfo(MovieInfo movieInfo)
     {
         this.movieInfo = movieInfo;
+    }
+
+    public Employee getEmployee()
+    {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee)
+    {
+        this.employee = employee;
     }
 }

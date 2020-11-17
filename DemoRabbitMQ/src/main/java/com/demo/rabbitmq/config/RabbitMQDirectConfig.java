@@ -15,19 +15,19 @@ public class RabbitMQDirectConfig
     @Bean
     Queue marketingQueue()
     {
-        return new Queue("marketingQueue", false);
+        return new Queue("marketingQueue", true);
     }
 
     @Bean
     Queue financeQueue()
     {
-        return new Queue("financeQueue", false);
+        return new Queue("financeQueue", true);
     }
 
     @Bean
     Queue adminQueue()
     {
-        return new Queue("adminQueue", false);
+        return new Queue("adminQueue", true);
     }
 
     @Bean
@@ -57,7 +57,7 @@ public class RabbitMQDirectConfig
     @Bean
     Queue carQueue()
     {
-        return new Queue("carQueue", false);
+        return new Queue("carQueue", true);
     }
 
     @Bean

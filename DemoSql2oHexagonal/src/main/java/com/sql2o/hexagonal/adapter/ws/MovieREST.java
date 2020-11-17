@@ -30,7 +30,7 @@ public class MovieREST implements MoviePort
     }
 
     @Override
-    @Cacheable(value = CacheConfiguration.MOVIE_CACHE, key = "#titleKey")
+    @Cacheable(value = CacheConfiguration.MOVIE_CACHE,key = "#titleKey", cacheManager = "redisCacheManager")
     public MovieInfo findMovieByTitle(String titleKey)
     {
         MovieInfo movieInfo = null;

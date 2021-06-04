@@ -49,27 +49,13 @@ public class PdfController
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         String folderDate = dateFormat.format(date);
 
-//        final ICssApplier customImageCssApplier = new BlockCssApplier() {
-//            @Override
-//            public void apply(ProcessorContext context, IStylesContainer stylesContainer, ITagWorker tagWorker) {
-//                super.apply(context, stylesContainer, tagWorker);
-//                if (tagWorker.getElementResult() instanceof Image) {
-//                    Image img = (Image) tagWorker.getElementResult();
-//                    if (img.getImageWidth() > 500) {
-//                        img.setWidth(UnitValue.createPercentValue(100));
-//                    }
-//                }
-//            }
-//        };
-
         ConverterProperties converterProperties = new ConverterProperties();
         converterProperties.setBaseUri(BASE_URI);
-//        converterProperties.setCssApplierFactory()
 
         String referenceNumber = "PL1234567890";
 
         Map<String, Object> model = new HashMap<>();
-        model.put("creditorsName", "PT Home Credit Indonesia");
+        model.put("creditorsName", "PT Home Credit Indonesia & BTPN");
         model.put("interestRate", "3.49");
         model.put("transactionDateTime", "04 November 2020, 14:44:00");
         model.put("referenceNumber", referenceNumber);
@@ -83,6 +69,7 @@ public class PdfController
         model.put("monthlyInstallmentAmount", generateThousandSeparator("45000"));
         model.put("dueDate", "28");
         model.put("date", "17 September 2020, 18:54:53");
+        model.put("insuranceStatus", true);
 
         File directory = new File(OUTPUT_PATH + File.separator + folderDate + File.separator + CONTRACT_NUMBER + RandomStringUtils.randomNumeric(1));
         String writeFilePath = directory.getAbsolutePath() + File.separator + "PerjanjianPembiayaanMultiguna_" + referenceNumber + ".pdf";

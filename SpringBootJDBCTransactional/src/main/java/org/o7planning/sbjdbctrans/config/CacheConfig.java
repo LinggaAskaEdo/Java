@@ -27,7 +27,7 @@ public class CacheConfig extends CachingConfigurerSupport
     public static final String CACHE_ACCOUNTS_DB = "accountsDB";
     public static final String CACHE_MOVIE_INFO = "movieInfo";
 
-    private ConfigPreference preference;
+    private final ConfigPreference preference;
 
     @Autowired
     public CacheConfig(ConfigPreference preference)

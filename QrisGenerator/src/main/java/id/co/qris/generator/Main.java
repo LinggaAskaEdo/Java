@@ -27,6 +27,8 @@ public class Main implements CommandLineRunner
     @Override
     public void run(String... args)
     {
+        System.out.println(args[0]);
+
         EventQueue.invokeLater(() ->
         {
             try

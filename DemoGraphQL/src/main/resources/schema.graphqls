@@ -1,0 +1,37 @@
+type CarBrand {
+    id: ID!
+    brandName: String!
+}
+
+type CarType {
+    id: ID!
+    typeName: String!
+    carBrand: CarBrand
+}
+
+type Response {
+    status: String!
+    message: String!
+    brandList: [CarBrand]!
+}
+
+# Root
+type Query {
+    findAllBrands: [CarBrand]!
+    getAllBrands: Response!
+    countBrands: Int!
+
+    findAllTypes: [CarType]!
+    countTypes: Int!
+}
+
+# Root
+type Mutation {
+    createBrand(brandName: String!): CarBrand
+    updateBrand(id: ID!, brandName: String!): CarBrand!
+    deleteBrand(id: ID!): Boolean
+
+    createType(typeName: String!, carBrand: ID!): CarType!
+    updateType(id: ID!, typeName: String!): CarType!
+    deleteType(id: ID!): Boolean
+}

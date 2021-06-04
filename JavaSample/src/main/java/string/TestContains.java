@@ -8,6 +8,8 @@ public class TestContains
     {
         String xxx = "JsT-nirmala-085715025257";
 
+        System.out.println(StringUtils.containsIgnoreCase("GUEST", "guest"));
+
         System.out.println(StringUtils.containsIgnoreCase(xxx, "jst"));
 
         System.out.println(funcCheck(xxx));

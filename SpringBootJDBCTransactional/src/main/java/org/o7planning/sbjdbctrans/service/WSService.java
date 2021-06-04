@@ -15,8 +15,8 @@ import org.springframework.util.concurrent.ListenableFuture;
 @Service
 public class WSService
 {
-    private MovieREST movieREST;
-    private BankAccountDAO accountDAO;
+    private final MovieREST movieREST;
+    private final BankAccountDAO accountDAO;
 
     @Autowired
     public WSService(MovieREST movieREST, BankAccountDAO accountDAO)

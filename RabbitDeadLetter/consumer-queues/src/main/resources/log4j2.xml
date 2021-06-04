@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <Property name="log-path">/Users/lingga.putra/Downloads/Logs/RabbitDeadLetter/</Property>
+    </Properties>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%T] [%X{requestId}] %level %logger{10} - %msg%n"/>
+        </Console>
+        <RollingFile name="consumer-queues" fileName="${log-path}/consumer-queues.log" filePattern="${log-path}/consumer-queues-%d{yyyy-MM-dd}-%i.old.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%T] [%X{requestId}] %level %logger{10} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10000 KB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.example.consumer.queues" level="DEBUG" additivity="false">
+            <AppenderRef ref="consumer-queues"/>
+        </Logger>
+    </Loggers>
+</Configuration>

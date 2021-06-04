@@ -1,0 +1,23 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.3.5.RELEASE)
+
+2020-11-22 23:31:27.001  INFO 80166 --- [           main] id.co.qris.generator.Main                : Starting Main on Lingga-MACC.local with PID 80166 (/Users/lingga.putra/Documents/Git/Java/QrisGenerator/build/libs/qris-generator.jar started by lingga.putra in /Users/lingga.putra/Documents/Git/Java/QrisGenerator)
+2020-11-22 23:31:27.004  INFO 80166 --- [           main] id.co.qris.generator.Main                : No active profile set, falling back to default profiles: default
+2020-11-22 23:31:27.649  INFO 80166 --- [           main] ptablePropertiesBeanFactoryPostProcessor : Post-processing PropertySource instances
+2020-11-22 23:31:27.677  INFO 80166 --- [           main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource configurationProperties [org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertySource] to AOP Proxy
+2020-11-22 23:31:27.679  INFO 80166 --- [           main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource commandLineArgs [org.springframework.core.env.SimpleCommandLinePropertySource] to EncryptableEnumerablePropertySourceWrapper
+2020-11-22 23:31:27.679  INFO 80166 --- [           main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource systemProperties [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2020-11-22 23:31:27.679  INFO 80166 --- [           main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource systemEnvironment [org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor$OriginAwareSystemEnvironmentPropertySource] to EncryptableSystemEnvironmentPropertySourceWrapper
+2020-11-22 23:31:27.679  INFO 80166 --- [           main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource random [org.springframework.boot.env.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2020-11-22 23:31:27.679  INFO 80166 --- [           main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource applicationConfig: [file:/Users/lingga.putra/Downloads/0/qris-generator/application.properties] [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2020-11-22 23:31:27.742  INFO 80166 --- [           main] c.u.j.filter.DefaultLazyPropertyFilter   : Property Filter custom Bean not found with name 'encryptablePropertyFilter'. Initializing Default Property Filter
+2020-11-22 23:31:27.765  INFO 80166 --- [           main] c.u.j.r.DefaultLazyPropertyResolver      : Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2020-11-22 23:31:27.770  INFO 80166 --- [           main] c.u.j.d.DefaultLazyPropertyDetector      : Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2020-11-22 23:31:39.833  INFO 80166 --- [           main] id.co.qris.generator.Main                : Started Main in 13.081 seconds (JVM running for 13.707)
+--spring.config.location=/Users/lingga.putra/Downloads/0/qris-generator/application.properties

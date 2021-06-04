@@ -1,8 +1,8 @@
 plugins {
     id 'java'
     id 'idea'
-    id 'org.springframework.boot' version '2.4.0-SNAPSHOT'
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'org.springframework.boot' version '2.4.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 def jarBaseName = 'demo-sql2o'

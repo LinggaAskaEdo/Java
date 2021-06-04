@@ -17,17 +17,17 @@ public class QrisService
         this.util = util;
     }
 
-    public boolean generateQris(String sourcePath, String destPath)
+    public boolean generateQris(String type, String sourcePath, String destPath, String size)
     {
         boolean result = false;
 
         try
         {
-            List<String> qrisDataList = util.getQrisData(sourcePath);
+            List<String> qrisDataList = util.getQrisData(type, sourcePath);
 
             if (!qrisDataList.isEmpty())
             {
-                result = util.generatePdf(qrisDataList, destPath);
+                result = util.generatePdf(qrisDataList, destPath, type, size);
             }
         }
         catch (Exception e)

@@ -1,0 +1,98 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'org.springframework.boot' version '2.4.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+def jarBaseName = 'demo-graphql'
+def distributionFolder = 'demo-graphql'
+def configFiles = ['application.properties', 'log4j2.xml'] as Set
+
+jar {
+    archivesBaseName = jarBaseName
+    exclude configFiles
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
+//    maven { url "https://clojars.org/repo" }
+}
+
+configurations.all {
+    exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+    exclude group: "org.springframework.boot", module: "logback-classic"
+}
+
+dependencies {
+    //Spring Boot
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+//    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+
+    //Jasypt
+//    implementation 'org.jasypt:jasypt-spring4:1.9.3'
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3'
+
+    //Hikari
+    implementation 'com.zaxxer:HikariCP:3.4.5'
+
+    //Gson
+    implementation 'com.google.code.gson:gson'
+
+    //Commons DBCP
+    implementation 'org.apache.commons:commons-dbcp2:2.7.0'
+
+    //MySql
+    implementation 'mysql:mysql-connector-java'
+
+    //Sql2o
+    implementation 'org.sql2o:sql2o:1.6.0'
+
+    //ElSql
+    implementation 'com.opengamma:elsql:1.3'
+
+    //GraphQL
+//    implementation 'io.leangen.graphql:graphql-spqr-spring-boot-starter:0.0.4'
+    implementation 'com.graphql-java:graphql-spring-boot-starter:5.0.2'
+    implementation 'com.graphql-java:graphql-java-tools:5.2.4'
+//    implementation 'org.graphqlize:graphqlize-java:0.1.0-alpha8'
+
+    //Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.18'
+    annotationProcessor 'org.projectlombok:lombok:1.18.18'
+
+    //Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mockito:mockito-all:1.10.19'
+    testImplementation 'org.assertj:assertj-core:3.19.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+task copyFilesToPackage {
+    doLast {
+        copy {
+            from 'build/libs/' + jarBaseName + '.jar'
+            into 'build/' + distributionFolder + '/lib'
+        }
+
+        copy {
+            from('src/main/resources') {
+                include configFiles
+            }
+            into 'build/' + distributionFolder
+        }
+    }
+}
+
+task zipPackage(type: Zip, dependsOn: 'copyFilesToPackage') {
+    from 'build/' + distributionFolder
+    archivesBaseName = distributionFolder
+}
+
+build.dependsOn zipPackage
+zipPackage.mustRunAfter check

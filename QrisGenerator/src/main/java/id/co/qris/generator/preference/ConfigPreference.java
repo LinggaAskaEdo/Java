@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConfigPreference
 {
+    @Value("${app.key}")
+    public String appKey;
+
     @Value("${base.path.template}")
     public String basePathTemplate;
 

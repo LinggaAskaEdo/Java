@@ -83,6 +83,10 @@ dependencies {
 
     //DOM
     compile("org.w3c:dom:2.3.0-jaxb-1.0.6")
+
+    //QR Code
+    compile("com.google.zxing:core:3.4.1")
+    compile("com.google.zxing:javase:3.4.1")
     
     //TestNG
     testCompile("org.testng:testng:6.10")

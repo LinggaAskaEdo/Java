@@ -27,7 +27,7 @@ public class DemoRepository
     public DemoRepository(Sql2o sql2o)
     {
         this.sql2o = sql2o;
-        this.bundle = ElSql.of(ElSqlConfig.ORACLE, DemoRepository.class);
+        this.bundle = ElSql.of(ElSqlConfig.MYSQL, DemoRepository.class);
     }
 
     public List<Student> findAll()

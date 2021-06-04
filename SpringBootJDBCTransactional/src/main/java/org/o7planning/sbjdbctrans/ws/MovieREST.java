@@ -15,8 +15,8 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class MovieREST
 {
-    private ConfigPreference preference;
-    private RestTemplate restTemplate;
+    private final ConfigPreference preference;
+    private final RestTemplate restTemplate;
 
     @Autowired
     public MovieREST(ConfigPreference preference, RestTemplate restTemplate)

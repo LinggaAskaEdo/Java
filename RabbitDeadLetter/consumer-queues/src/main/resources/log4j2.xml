@@ -16,7 +16,7 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="com.example.consumer.queues" level="DEBUG" additivity="false">
+        <Logger name="com.example" level="DEBUG" additivity="false">
             <AppenderRef ref="consumer-queues"/>
         </Logger>
     </Loggers>

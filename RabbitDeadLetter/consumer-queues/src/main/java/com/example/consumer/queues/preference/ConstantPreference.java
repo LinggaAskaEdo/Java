@@ -18,6 +18,5 @@ public class ConstantPreference
         {}
 
         public static final int ZERO = 0;
-        public static final int ONE = 1;
     }
 }

@@ -16,16 +16,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 public class PINController
 {
     private static final Logger logger = LogManager.getLogger();
 
-    private SecurityContextHolder contextHolder;
-    private AccountService accountService;
-    private PINService pinService;
+    private final SecurityContextHolder contextHolder;
+    private final AccountService accountService;
+    private final PINService pinService;
 
     @Autowired
     public PINController(SecurityContextHolder contextHolder, AccountService accountService, PINService pinService)
@@ -36,7 +34,7 @@ public class PINController
     }
 
     @Secured
-    @RequestMapping(value = "/generateSession", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/generateSession", produces = MediaType.APPLICATION_JSON_VALUE)
     public String generateSession(@RequestBody Request request)
     {
         Response response = new Response();
@@ -67,7 +65,7 @@ public class PINController
     }
 
     @Secured
-    @RequestMapping(value = "/setPin", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/setPin", produces = MediaType.APPLICATION_JSON_VALUE)
     public String setPin(@RequestBody Request request)
     {
         Response response = new Response();
@@ -98,7 +96,7 @@ public class PINController
         return new Gson().toJson(response);
     }
 
-    @RequestMapping(value = "/test/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/test/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> test(@PathVariable String userId) throws Exception
     {
         if (userId.equalsIgnoreCase("1"))

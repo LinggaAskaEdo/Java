@@ -32,11 +32,12 @@ public class ConsumerWorkQueue
 
         try
         {
-            int result = util.generateRandomNumber();
+//            int result = util.generateRandomNumber();
 
-            logger.debug("result: {}", result);
+//            logger.debug("result: {}", result);
 
-            if (paymentOrder.getAmount() < result)
+//            if (paymentOrder.getAmount() < result)
+            if (paymentOrder.getAmount() > 50)
             {
                 logger.debug("Process data: {}, retry: {}", strPayload, retry);
             }
@@ -49,7 +50,7 @@ public class ConsumerWorkQueue
         }
         catch (Exception e)
         {
-            logger.error("Error work queue: ", e);
+            logger.error("Error work queue", e);
             util.reRetryQueue(message);
         }
     }

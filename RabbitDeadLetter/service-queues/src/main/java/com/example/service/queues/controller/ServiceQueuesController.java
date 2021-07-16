@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.iban4j.Iban;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ public class ServiceQueuesController
     private final RabbitTemplate rabbitTemplate;
     private final Random random;
 
+    @Autowired
     public ServiceQueuesController(RabbitTemplate rabbitTemplate) throws NoSuchAlgorithmException
     {
         this.rabbitTemplate = rabbitTemplate;

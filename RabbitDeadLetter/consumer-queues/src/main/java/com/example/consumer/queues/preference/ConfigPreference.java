@@ -36,9 +36,6 @@ public class ConfigPreference
     @Value("${spring.rabbitmq.exchange-name}")
     public String rabbitExchangeName;
 
-    @Value("${payment-orders.test.queue}")
-    public String testQueue;
-
     @Value("${payment-orders.work.queue}")
     public String workQueue;
 
@@ -50,9 +47,6 @@ public class ConfigPreference
 
     @Value("${payment-orders.park.queue}")
     public String parkQueue;
-
-    @Value("${payment-orders.test.routing-key}")
-    public String testRoutingKey;
 
     @Value("${payment-orders.work.routing-key}")
     public String workRoutingKey;

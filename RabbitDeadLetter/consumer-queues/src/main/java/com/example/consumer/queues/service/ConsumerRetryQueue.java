@@ -44,13 +44,19 @@ public class ConsumerRetryQueue
                 }
                 else
                 {
+                    logger.debug("ReQueue data: {}, retry: {}", strPayload, retry);
+
                     util.reRetryQueue(message);
                 }
+            }
+            else
+            {
+                util.reRetryQueue(message);
             }
         }
         catch (Exception e)
         {
-            logger.error("Error retry queue: ", e);
+            logger.error("Error retry queue", e);
             util.reRetryQueue(message);
         }
     }

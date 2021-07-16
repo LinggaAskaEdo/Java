@@ -14,7 +14,6 @@ import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistrar;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -65,12 +64,14 @@ public class RabbitConfig implements RabbitListenerConfigurer
         factory.setConcurrentConsumers(5);
         factory.setMaxConcurrentConsumers(10);
 
-        RetryTemplate retryTemplate = new RetryTemplate();
         ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy();
         backOffPolicy.setInitialInterval(250);
         backOffPolicy.setMultiplier(2.0);
         backOffPolicy.setMaxInterval(5000);
+
+        RetryTemplate retryTemplate = new RetryTemplate();
         retryTemplate.setBackOffPolicy(backOffPolicy);
+
         factory.setRetryTemplate(retryTemplate);
 
         configurer.configure(factory, connectionFactory());
@@ -151,7 +152,6 @@ public class RabbitConfig implements RabbitListenerConfigurer
                 .durable(configPreference.retryQueue)
                 .withArgument(ConstantPreference.X_DEAD_LETTER_EXCHANGE, configPreference.rabbitExchangeName)
                 .withArgument(ConstantPreference.X_DEAD_LETTER_ROUTING_KEY, configPreference.waitRoutingKey)
-//                .withArgument(ConstantPreference.X_DEAD_LETTER_ROUTING_KEY, configPreference.parkRoutingKey)
                 .build();
     }
 

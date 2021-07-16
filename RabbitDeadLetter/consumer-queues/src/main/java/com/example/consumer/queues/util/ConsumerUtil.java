@@ -2,6 +2,8 @@ package com.example.consumer.queues.util;
 
 import com.example.consumer.queues.preference.ConfigPreference;
 import com.example.consumer.queues.preference.ConstantPreference;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,8 @@ import java.util.Random;
 @Component
 public class ConsumerUtil
 {
+    private static final Logger logger = LogManager.getLogger();
+
     private final ConfigPreference configPreference;
     private final RabbitTemplate rabbitTemplate;
     private final Random random;
@@ -34,12 +38,13 @@ public class ConsumerUtil
         return random.nextInt(high - low) + low;
     }
 
-    public int countRetry(Message message)
+    public void reRetryQueue(Message message)
     {
-        Map<String, Object> headers = message.getMessageProperties().getHeaders();
-        Integer retryCount = (Integer) headers.get(ConstantPreference.X_RETRIES_HEADER);
-
-        return Objects.isNull(retryCount) ? ConstantPreference.Number.ZERO : retryCount;
+        if (!this.reWaitingQueue(message))
+        {
+            logger.debug("Send to Park Queue: {}", new String(message.getBody()));
+            rabbitTemplate.send(configPreference.rabbitExchangeName, configPreference.parkRoutingKey, message);
+        }
     }
 
     private boolean reWaitingQueue(Message message)
@@ -59,14 +64,14 @@ public class ConsumerUtil
 
     public boolean isRetryAvailable(Message message)
     {
-        return this.countRetry(message) < configPreference.maxRetry;
+        return this.countRetry(message) <= configPreference.maxRetry;
     }
 
-    public void reRetryQueue(Message message)
+    public int countRetry(Message message)
     {
-        if (!this.reWaitingQueue(message))
-        {
-            rabbitTemplate.send(configPreference.rabbitExchangeName, configPreference.parkRoutingKey, message);
-        }
+        Map<String, Object> headers = message.getMessageProperties().getHeaders();
+        Integer retryCount = (Integer) headers.get(ConstantPreference.X_RETRIES_HEADER);
+
+        return Objects.isNull(retryCount) ? ConstantPreference.Number.ZERO : retryCount;
     }
 }
